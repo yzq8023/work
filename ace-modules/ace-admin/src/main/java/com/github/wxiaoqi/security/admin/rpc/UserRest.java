@@ -1,9 +1,12 @@
 package com.github.wxiaoqi.security.admin.rpc;
 
 import com.ace.cache.annotation.Cache;
+import com.github.wxiaoqi.security.admin.biz.UserBiz;
+import com.github.wxiaoqi.security.admin.entity.User;
 import com.github.wxiaoqi.security.admin.rpc.service.PermissionService;
 import com.github.wxiaoqi.security.api.vo.authority.PermissionInfo;
 import com.github.wxiaoqi.security.api.vo.user.UserInfo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +23,9 @@ import java.util.List;
 public class UserRest {
     @Autowired
     private PermissionService permissionService;
+
+    @Autowired
+    private UserBiz userBiz;
 
     @Cache(key="permission")
     @RequestMapping(value = "/permissions", method = RequestMethod.GET)
@@ -39,5 +45,13 @@ public class UserRest {
         return permissionService.validate(username,password);
     }
 
+    @RequestMapping(value = "/user/info", method = RequestMethod.POST)
+    public @ResponseBody UserInfo info(Integer userId){
+        User user = userBiz.getUserByUserId(userId);
+        UserInfo info = new UserInfo();
 
+        BeanUtils.copyProperties(user, info);
+        info.setId(user.getId().toString());
+        return info;
+    }
 }
