@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : WorkHub
+ Source Server         : v2
  Source Server Type    : MySQL
- Source Server Version : 50720
+ Source Server Version : 50721
  Source Host           : localhost:3306
  Source Schema         : ag_admin_v1
 
  Target Server Type    : MySQL
- Target Server Version : 50720
+ Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 15/03/2018 15:04:32
+ Date: 12/07/2018 10:41:19
 */
 
 SET NAMES utf8mb4;
@@ -21,36 +21,35 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- Table structure for base_element
 -- ----------------------------
 DROP TABLE IF EXISTS `base_element`;
-CREATE TABLE `base_element` (
+CREATE TABLE `base_element`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `code` varchar(255) DEFAULT NULL COMMENT '资源编码',
-  `type` varchar(255) DEFAULT NULL COMMENT '资源类型',
-  `name` varchar(255) DEFAULT NULL COMMENT '资源名称',
-  `uri` varchar(255) DEFAULT NULL COMMENT '资源路径',
-  `menu_id` varchar(255) DEFAULT NULL COMMENT '资源关联菜单',
-  `parent_id` varchar(255) DEFAULT NULL,
-  `path` varchar(2000) DEFAULT NULL COMMENT '资源树状检索路径',
-  `method` varchar(10) DEFAULT NULL COMMENT '资源请求类型',
-  `description` varchar(255) DEFAULT NULL COMMENT '描述',
-  `crt_time` datetime DEFAULT NULL,
-  `crt_user` varchar(255) DEFAULT NULL,
-  `crt_name` varchar(255) DEFAULT NULL,
-  `crt_host` varchar(255) DEFAULT NULL,
-  `attr1` varchar(255) DEFAULT NULL,
-  `attr2` varchar(255) DEFAULT NULL,
-  `attr3` varchar(255) DEFAULT NULL,
-  `attr4` varchar(255) DEFAULT NULL,
-  `attr5` varchar(255) DEFAULT NULL,
-  `attr6` varchar(255) DEFAULT NULL,
-  `attr7` varchar(255) DEFAULT NULL,
-  `attr8` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4;
+  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '资源编码',
+  `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '资源类型',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '资源名称',
+  `uri` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '资源路径',
+  `menu_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '资源关联菜单',
+  `parent_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `path` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '资源树状检索路径',
+  `method` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '资源请求类型',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `crt_time` datetime(0) NULL DEFAULT NULL,
+  `crt_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr4` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr5` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr6` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr7` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr8` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 56 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of base_element
 -- ----------------------------
-BEGIN;
 INSERT INTO `base_element` VALUES (3, 'userManager:btn_add', 'button', '新增', '/admin/user', '1', NULL, NULL, 'POST', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_element` VALUES (4, 'userManager:btn_edit', 'button', '编辑', '/admin/user', '1', NULL, NULL, 'PUT', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_element` VALUES (5, 'userManager:btn_del', 'button', '删除', '/admin/user', '1', NULL, NULL, 'DELETE', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -82,250 +81,364 @@ INSERT INTO `base_element` VALUES (43, 'serviceManager:btn_add', 'button', '新�
 INSERT INTO `base_element` VALUES (44, 'serviceManager:btn_edit', 'button', '编辑', '/admin/groupType', '30', NULL, NULL, 'PUT', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_element` VALUES (45, 'serviceManager:btn_del', 'button', '删除', '/admin/groupType', '30', NULL, NULL, 'DELETE', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_element` VALUES (46, 'serviceManager:btn_clientManager', 'button', '服务授权', '/auth/service/{*}/client', '30', NULL, NULL, 'POST', NULL, '2017-12-30 16:32:48', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-COMMIT;
+INSERT INTO `base_element` VALUES (47, 'orgManager:btn_add', 'button', '新增组织', '/admin/org', '39', NULL, NULL, 'POST', NULL, '2018-03-19 16:03:08', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_element` VALUES (48, 'orgManager:btn_edit', 'button', '编辑组织', '/admin/org', '39', NULL, NULL, 'PUT', NULL, '2018-03-19 16:03:38', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_element` VALUES (49, 'orgManager:btn_del', 'button', '删除组织', '/admin/org', '39', NULL, NULL, 'DELETE', NULL, '2018-03-19 16:04:11', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_element` VALUES (50, 'orgManager:view', 'uri', '查看组织', '/admin/org', '39', NULL, NULL, 'GET', NULL, '2018-03-19 16:04:34', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_element` VALUES (51, 'orgManager:btn_userManager', 'button', '分配用户', '/admin/org/{*}/user', '39', NULL, NULL, 'PUT', NULL, '2018-03-19 16:05:28', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_element` VALUES (52, 'allProjects:btn_add', 'button', '新增项目', '/project/project', '37', NULL, NULL, 'POST', NULL, '2018-03-23 18:19:55', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_element` VALUES (53, 'allProjects:btn_edit', 'button', '编辑项目', '/project/project', '37', NULL, NULL, 'PUT', NULL, '2018-03-23 19:26:59', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_element` VALUES (54, 'allProject:btn_del', 'button', '删除项目', '/project/project', '37', NULL, NULL, 'DELETE', NULL, '2018-03-23 19:28:14', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_element` VALUES (55, 'allProject:view', 'uri', '查看项目', '/project/project', '37', NULL, NULL, 'GET', NULL, '2018-03-23 19:29:48', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for base_group
 -- ----------------------------
 DROP TABLE IF EXISTS `base_group`;
-CREATE TABLE `base_group` (
+CREATE TABLE `base_group`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `code` varchar(255) DEFAULT NULL COMMENT '角色编码',
-  `name` varchar(255) DEFAULT NULL COMMENT '角色名称',
+  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '角色编码',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '角色名称',
   `parent_id` int(11) NOT NULL COMMENT '上级节点',
-  `path` varchar(2000) DEFAULT NULL COMMENT '树状关系',
-  `type` char(1) DEFAULT NULL COMMENT '类型',
+  `path` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '树状关系',
+  `type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '类型',
   `group_type` int(11) NOT NULL COMMENT '角色组类型',
-  `description` varchar(255) DEFAULT NULL,
-  `crt_time` datetime DEFAULT NULL,
-  `crt_user` varchar(255) DEFAULT NULL,
-  `crt_name` varchar(255) DEFAULT NULL,
-  `crt_host` varchar(255) DEFAULT NULL,
-  `upd_time` datetime DEFAULT NULL,
-  `upd_user` varchar(255) DEFAULT NULL,
-  `upd_name` varchar(255) DEFAULT NULL,
-  `upd_host` varchar(255) DEFAULT NULL,
-  `attr1` varchar(255) DEFAULT NULL,
-  `attr2` varchar(255) DEFAULT NULL,
-  `attr3` varchar(255) DEFAULT NULL,
-  `attr4` varchar(255) DEFAULT NULL,
-  `attr5` varchar(255) DEFAULT NULL,
-  `attr6` varchar(255) DEFAULT NULL,
-  `attr7` varchar(255) DEFAULT NULL,
-  `attr8` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_time` datetime(0) NULL DEFAULT NULL,
+  `crt_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `upd_time` datetime(0) NULL DEFAULT NULL,
+  `upd_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `upd_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `upd_host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr4` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr5` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr6` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr7` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr8` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of base_group
 -- ----------------------------
-BEGIN;
 INSERT INTO `base_group` VALUES (1, 'adminRole', '管理员', -1, '/adminRole', NULL, 1, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_group` VALUES (6, 'company', 'DK集团', -1, '/company', NULL, 2, '', NULL, NULL, NULL, NULL, '2018-03-15 11:07:03', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_group` VALUES (7, 'financeDepart', '研发部', 6, '/company/financeDepart', NULL, 2, '', NULL, NULL, NULL, NULL, '2018-03-15 11:07:32', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_group` VALUES (8, 'hrDepart', '人力资源部', 6, '/company/hrDepart', NULL, 2, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-COMMIT;
+INSERT INTO `base_group` VALUES (11, 'testRole', '测试', 1, '/adminRole/testRole', NULL, 1, NULL, '2018-03-19 18:01:49', '1', 'hollykunge', '127.0.0.1', '2018-03-19 18:01:49', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for base_group_leader
 -- ----------------------------
 DROP TABLE IF EXISTS `base_group_leader`;
-CREATE TABLE `base_group_leader` (
+CREATE TABLE `base_group_leader`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `group_id` varchar(255) DEFAULT NULL,
-  `user_id` varchar(255) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `crt_time` datetime DEFAULT NULL,
-  `crt_user` varchar(255) DEFAULT NULL,
-  `crt_name` varchar(255) DEFAULT NULL,
-  `crt_host` varchar(255) DEFAULT NULL,
-  `upd_time` datetime DEFAULT NULL,
-  `upd_user` varchar(255) DEFAULT NULL,
-  `upd_name` varchar(255) DEFAULT NULL,
-  `upd_host` varchar(255) DEFAULT NULL,
-  `attr1` varchar(255) DEFAULT NULL,
-  `attr2` varchar(255) DEFAULT NULL,
-  `attr3` varchar(255) DEFAULT NULL,
-  `attr4` varchar(255) DEFAULT NULL,
-  `attr5` varchar(255) DEFAULT NULL,
-  `attr6` varchar(255) DEFAULT NULL,
-  `attr7` varchar(255) DEFAULT NULL,
-  `attr8` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
+  `group_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `user_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_time` datetime(0) NULL DEFAULT NULL,
+  `crt_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `upd_time` datetime(0) NULL DEFAULT NULL,
+  `upd_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `upd_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `upd_host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr4` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr5` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr6` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr7` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr8` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of base_group_leader
 -- ----------------------------
-BEGIN;
 INSERT INTO `base_group_leader` VALUES (6, '9', '4', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_group_leader` VALUES (13, '1', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-COMMIT;
+INSERT INTO `base_group_leader` VALUES (16, '11', '6', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_group_leader` VALUES (17, '1', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for base_group_member
 -- ----------------------------
 DROP TABLE IF EXISTS `base_group_member`;
-CREATE TABLE `base_group_member` (
+CREATE TABLE `base_group_member`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `group_id` varchar(255) DEFAULT NULL,
-  `user_id` varchar(255) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `crt_time` datetime DEFAULT NULL,
-  `crt_user` varchar(255) DEFAULT NULL,
-  `crt_name` varchar(255) DEFAULT NULL,
-  `crt_host` varchar(255) DEFAULT NULL,
-  `upd_time` datetime DEFAULT NULL,
-  `upd_user` varchar(255) DEFAULT NULL,
-  `upd_name` varchar(255) DEFAULT NULL,
-  `upd_host` varchar(255) DEFAULT NULL,
-  `attr1` varchar(255) DEFAULT NULL,
-  `attr2` varchar(255) DEFAULT NULL,
-  `attr3` varchar(255) DEFAULT NULL,
-  `attr4` varchar(255) DEFAULT NULL,
-  `attr5` varchar(255) DEFAULT NULL,
-  `attr6` varchar(255) DEFAULT NULL,
-  `attr7` varchar(255) DEFAULT NULL,
-  `attr8` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
+  `group_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `user_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_time` datetime(0) NULL DEFAULT NULL,
+  `crt_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `upd_time` datetime(0) NULL DEFAULT NULL,
+  `upd_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `upd_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `upd_host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr4` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr5` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr6` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr7` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr8` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of base_group_member
 -- ----------------------------
-BEGIN;
 INSERT INTO `base_group_member` VALUES (2, '4', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_group_member` VALUES (9, '9', '4', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_group_member` VALUES (10, '1', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-COMMIT;
+INSERT INTO `base_group_member` VALUES (18, '1', '6', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_group_member` VALUES (19, '1', '8', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_group_member` VALUES (20, '1', '7', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_group_member` VALUES (21, '1', '13', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for base_group_type
 -- ----------------------------
 DROP TABLE IF EXISTS `base_group_type`;
-CREATE TABLE `base_group_type` (
+CREATE TABLE `base_group_type`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `code` varchar(255) DEFAULT NULL COMMENT '编码',
-  `name` varchar(255) DEFAULT NULL COMMENT '类型名称',
-  `description` varchar(255) DEFAULT NULL COMMENT '描述',
-  `crt_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `crt_user` varchar(255) DEFAULT NULL COMMENT '创建人ID',
-  `crt_name` varchar(255) DEFAULT NULL COMMENT '创建人',
-  `crt_host` varchar(255) DEFAULT NULL COMMENT '创建主机',
-  `upd_time` datetime DEFAULT NULL COMMENT '最后更新时间',
-  `upd_user` varchar(255) DEFAULT NULL COMMENT '最后更新人ID',
-  `upd_name` varchar(255) DEFAULT NULL COMMENT '最后更新人',
-  `upd_host` varchar(255) DEFAULT NULL COMMENT '最后更新主机',
-  `attr1` varchar(255) DEFAULT NULL,
-  `attr2` varchar(255) DEFAULT NULL,
-  `attr3` varchar(255) DEFAULT NULL,
-  `attr4` varchar(255) DEFAULT NULL,
-  `attr5` varchar(255) DEFAULT NULL,
-  `attr6` varchar(255) DEFAULT NULL,
-  `attr7` varchar(255) DEFAULT NULL,
-  `attr8` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '编码',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '类型名称',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `crt_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `crt_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人ID',
+  `crt_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建人',
+  `crt_host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建主机',
+  `upd_time` datetime(0) NULL DEFAULT NULL COMMENT '最后更新时间',
+  `upd_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '最后更新人ID',
+  `upd_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '最后更新人',
+  `upd_host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '最后更新主机',
+  `attr1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr4` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr5` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr6` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr7` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr8` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of base_group_type
 -- ----------------------------
-BEGIN;
 INSERT INTO `base_group_type` VALUES (1, 'role', '角色类型', 'role', NULL, NULL, NULL, NULL, '2018-03-15 11:08:07', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_group_type` VALUES (2, 'depart', '部门类型', NULL, NULL, NULL, NULL, NULL, '2017-08-25 17:52:43', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_group_type` VALUES (3, 'free', '自定义类型', 'sadf', NULL, NULL, NULL, NULL, '2017-08-26 08:22:25', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-COMMIT;
 
 -- ----------------------------
 -- Table structure for base_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `base_menu`;
-CREATE TABLE `base_menu` (
+CREATE TABLE `base_menu`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `code` varchar(255) DEFAULT NULL COMMENT '路径编码',
-  `title` varchar(255) DEFAULT NULL COMMENT '标题',
+  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '路径编码',
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '标题',
   `parent_id` int(11) NOT NULL COMMENT '父级节点',
-  `href` varchar(255) DEFAULT NULL COMMENT '资源路径',
-  `icon` varchar(255) DEFAULT NULL COMMENT '图标',
-  `type` char(10) DEFAULT NULL,
-  `order_num` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
-  `description` varchar(255) DEFAULT NULL COMMENT '描述',
-  `path` varchar(500) DEFAULT NULL COMMENT '菜单上下级关系',
-  `enabled` char(1) DEFAULT NULL COMMENT '启用禁用',
-  `crt_time` datetime DEFAULT NULL,
-  `crt_user` varchar(255) DEFAULT NULL,
-  `crt_name` varchar(255) DEFAULT NULL,
-  `crt_host` varchar(255) DEFAULT NULL,
-  `upd_time` datetime DEFAULT NULL,
-  `upd_user` varchar(255) DEFAULT NULL,
-  `upd_name` varchar(255) DEFAULT NULL,
-  `upd_host` varchar(255) DEFAULT NULL,
-  `attr1` varchar(255) DEFAULT NULL,
-  `attr2` varchar(255) DEFAULT NULL,
-  `attr3` varchar(255) DEFAULT NULL,
-  `attr4` varchar(255) DEFAULT NULL,
-  `attr5` varchar(255) DEFAULT NULL,
-  `attr6` varchar(255) DEFAULT NULL,
-  `attr7` varchar(255) DEFAULT NULL,
-  `attr8` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4;
+  `href` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '资源路径',
+  `icon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图标',
+  `type` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `order_num` int(11) NOT NULL DEFAULT 0 COMMENT '排序',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `path` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '菜单上下级关系',
+  `enabled` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '启用禁用',
+  `crt_time` datetime(0) NULL DEFAULT NULL,
+  `crt_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `upd_time` datetime(0) NULL DEFAULT NULL,
+  `upd_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `upd_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `upd_host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr4` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr5` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr6` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr7` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr8` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of base_menu
 -- ----------------------------
-BEGIN;
-INSERT INTO `base_menu` VALUES (1, 'userManager', '用户管理', 5, '/admin/user', 'fa-user', 'menu', 0, '', '/adminSys/baseManager/userManager', NULL, NULL, NULL, NULL, NULL, '2017-09-05 21:06:51', '1', 'hollykunge', '127.0.0.1', '_import(\'admin/user/index\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_menu` VALUES (5, 'baseManager', '基础配置管理', 13, '/admin', 'setting', 'dirt', 0, '', '/adminSys/baseManager', NULL, NULL, NULL, NULL, NULL, '2017-09-05 21:46:11', '1', 'hollykunge', '127.0.0.1', 'Layout', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_menu` VALUES (6, 'menuManager', '菜单管理', 5, '/admin/menu', 'category', 'menu', 0, '', '/adminSys/baseManager/menuManager', NULL, NULL, NULL, NULL, NULL, '2017-09-05 21:10:25', '1', 'hollykunge', '127.0.0.1', '_import(\'admin/menu/index\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_menu` VALUES (7, 'groupManager', '角色权限管理', 5, '/admin/group', 'group_fill', 'menu', 0, '', '/adminSys/baseManager/groupManager', NULL, NULL, NULL, NULL, NULL, '2017-09-05 21:11:34', '1', 'hollykunge', '127.0.0.1', 'import(\'admin/group/index\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_menu` VALUES (8, 'groupTypeManager', '角色类型管理', 5, '/admin/groupType', 'fa-users', 'menu', 0, '', '/adminSys/baseManager/groupTypeManager', NULL, NULL, NULL, NULL, NULL, '2017-09-05 21:12:28', '1', 'hollykunge', '127.0.0.1', '_import(\'admin/groupType/index\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_menu` VALUES (13, 'adminSys', '权限管理系统', -1, '/base', 'setting', 'dirt', 0, '', '/adminSys', NULL, NULL, NULL, NULL, NULL, '2017-09-28 12:09:22', '1', 'hollykunge', '127.0.0.1', 'Layout', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_menu` VALUES (21, 'dictManager', '数据字典', 5, '', 'fa fa-book', NULL, 0, '', '/adminSys/baseManager/dictManager', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_menu` VALUES (27, 'gateLogManager', '操作日志', 5, '/admin/gateLog', 'viewlist', 'menu', 0, '', '/adminSys/baseManager/gateLogManager', NULL, '2017-07-01 00:00:00', '1', 'admin', '0:0:0:0:0:0:0:1', '2017-09-05 22:32:55', '1', 'hollykunge', '127.0.0.1', '_import(\'admin/gateLog/index\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_menu` VALUES (29, 'authManager', '服务权限管理', 13, '/auth', 'service', NULL, 0, '服务权限管理', '/adminSys/authManager', NULL, '2017-12-26 19:54:45', '1', 'hollykunge', '127.0.0.1', '2017-12-26 19:55:18', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_menu` VALUES (30, 'serviceManager', '服务管理管理', 29, '/auth/service', 'client', NULL, 0, '服务管理', '/adminSys/authManager/serviceManager', NULL, '2017-12-26 19:56:06', '1', 'hollykunge', '127.0.0.1', '2018-03-14 16:21:38', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_menu` VALUES (31, 'monitorManager', '监控模块管理', 13, NULL, 'service', NULL, 0, NULL, '/adminSys/monitorManager', NULL, '2018-02-25 09:36:35', '1', 'hollykunge', '127.0.0.1', '2018-02-25 09:38:55', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_menu` VALUES (32, 'serviceEurekaManager', '服务注册中心', 31, NULL, 'client', NULL, 0, NULL, '/adminSys/monitorManager/serviceEurekaManager', NULL, '2018-02-25 09:37:04', '1', 'hollykunge', '127.0.0.1', '2018-02-25 09:37:41', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_menu` VALUES (33, 'serviceMonitorManager', '服务状态监控', 31, NULL, 'client', NULL, 0, NULL, '/adminSys/monitorManager/serviceEurekaManager', NULL, '2018-02-25 09:37:05', '1', 'hollykunge', '127.0.0.1', '2018-02-25 09:37:35', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_menu` VALUES (34, 'serviceZipkinManager', '服务链路监控', 31, NULL, 'client', NULL, 0, NULL, '/adminSys/monitorManager/serviceZipkinManager', NULL, '2018-02-25 09:38:05', '1', 'hollykunge', '127.0.0.1', '2018-02-25 09:38:05', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_menu` VALUES (35, 'projectSys', '项目管理', -1, '/base', 'setting', 'dirt', 0, NULL, '/adminSys/projectSys', NULL, '2018-03-05 14:25:27', '1', 'hollykunge', '127.0.0.1', '2018-03-13 16:31:25', '1', 'hollykunge', '127.0.0.1', 'Layout', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_menu` VALUES (37, 'allProjects', '全部项目', 35, NULL, NULL, NULL, 0, NULL, '/adminSys/projectSys/allProjects', NULL, '2018-03-15 11:25:54', '1', 'Mr.AG', '127.0.0.1', '2018-03-15 11:25:54', '1', 'Mr.AG', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_menu` VALUES (38, 'allTasks', '全部任务', 35, NULL, NULL, NULL, 0, NULL, '/adminSys/projectSys/allTasks', NULL, '2018-03-15 11:33:33', '1', 'Mr.AG', '127.0.0.1', '2018-03-15 11:33:33', '1', 'Mr.AG', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-COMMIT;
+INSERT INTO `base_menu` VALUES (1, 'userManager', '用户管理', 5, '/admin/user', 'user', 'menu', 0, '', '/adminSys/baseManager/userManager', NULL, NULL, NULL, NULL, NULL, '2018-04-23 17:27:02', '1', 'hollykunge', '127.0.0.1', '_import(\'admin/user/index\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (5, 'baseManager', '基础配置管理   ', 13, '/admin', 'sliders', 'dirt', 0, '', '/adminSys/baseManager', NULL, NULL, NULL, NULL, NULL, '2018-04-23 17:54:45', '1', 'hollykunge', '127.0.0.1', 'Layout', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (6, 'menuManager', '菜单管理', 5, '/admin/menu', 'navicon', 'menu', 0, '', '/adminSys/baseManager/menuManager', NULL, NULL, NULL, NULL, NULL, '2018-04-23 17:27:21', '1', 'hollykunge', '127.0.0.1', '_import(\'admin/menu/index\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (7, 'groupManager', '角色权限管理', 5, '/admin/group', 'toggle-on', 'menu', 0, '', '/adminSys/baseManager/groupManager', NULL, NULL, NULL, NULL, NULL, '2018-04-23 17:27:36', '1', 'hollykunge', '127.0.0.1', 'import(\'admin/group/index\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (8, 'groupTypeManager', '角色类型管理', 5, '/admin/groupType', 'vcard', 'menu', 0, '', '/adminSys/baseManager/groupTypeManager', NULL, NULL, NULL, NULL, NULL, '2018-04-23 17:35:31', '1', 'hollykunge', '127.0.0.1', '_import(\'admin/groupType/index\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (13, 'adminSys', '权限管理', -1, '/base', 'gears', 'dirt', 0, '', '/adminSys', NULL, NULL, NULL, NULL, NULL, '2018-04-23 17:54:05', '1', 'hollykunge', '127.0.0.1', 'Layout', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (21, 'dictManager', '数据字典', 5, '', 'graduation-cap', NULL, 0, '', '/adminSys/baseManager/dictManager', NULL, NULL, NULL, NULL, NULL, '2018-04-23 17:28:03', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (27, 'gateLogManager', '操作日志', 5, '/admin/gateLog', 'ioxhost', 'menu', 0, '', '/adminSys/baseManager/gateLogManager', NULL, '2017-07-01 00:00:00', '1', 'admin', '0:0:0:0:0:0:0:1', '2018-04-23 17:28:29', '1', 'hollykunge', '127.0.0.1', '_import(\'admin/gateLog/index\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (29, 'authManager', '服务权限管理   ', 13, '/auth', 'server', NULL, 0, '服务权限管理', '/adminSys/authManager', NULL, '2017-12-26 19:54:45', '1', 'hollykunge', '127.0.0.1', '2018-04-23 17:54:55', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (30, 'serviceManager', '服务权限管理', 29, '/auth/service', 'server', NULL, 0, '服务管理', '/adminSys/authManager/serviceManager', NULL, '2017-12-26 19:56:06', '1', 'hollykunge', '127.0.0.1', '2018-04-23 17:30:20', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (31, 'monitorManager', '监控模块管理   ', 13, NULL, 'cube', NULL, 0, NULL, '/adminSys/monitorManager', NULL, '2018-02-25 09:36:35', '1', 'hollykunge', '127.0.0.1', '2018-04-23 18:08:58', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (32, 'serviceEurekaManager', '服务注册中心', 31, NULL, 'handshake-o', NULL, 0, NULL, '/adminSys/monitorManager/serviceEurekaManager', NULL, '2018-02-25 09:37:04', '1', 'hollykunge', '127.0.0.1', '2018-04-23 17:32:25', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (33, 'serviceMonitorManager', '服务状态监控', 31, NULL, 'heartbeat', NULL, 0, NULL, '/adminSys/monitorManager/serviceEurekaManager', NULL, '2018-02-25 09:37:05', '1', 'hollykunge', '127.0.0.1', '2018-04-23 17:32:48', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (34, 'serviceZipkinManager', '服务链路监控', 31, NULL, 'share-alt', NULL, 0, NULL, '/adminSys/monitorManager/serviceZipkinManager', NULL, '2018-02-25 09:38:05', '1', 'hollykunge', '127.0.0.1', '2018-04-23 17:33:00', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (35, 'projectSys', '项目管理', -1, '/base', 'folder', 'dirt', 0, NULL, '/adminSys/projectSys', NULL, '2018-03-05 14:25:27', '1', 'hollykunge', '127.0.0.1', '2018-04-23 17:33:15', '1', 'hollykunge', '127.0.0.1', 'Layout', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (37, 'allProjects', '全部项目', 35, '/project/project', 'folder-open', 'menu', 0, NULL, '/adminSys/projectSys/allProjects', NULL, '2018-03-15 11:25:54', '1', 'Mr.AG', '127.0.0.1', '2018-04-23 17:33:36', '1', 'hollykunge', '127.0.0.1', '_import(\'project/project/index\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (38, 'allTasks', '全部任务', 35, NULL, 'tasks', NULL, 0, NULL, '/adminSys/projectSys/allTasks', NULL, '2018-03-15 11:33:33', '1', 'Mr.AG', '127.0.0.1', '2018-04-23 17:33:49', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (39, 'orgManager', '组织部门管理', 5, 'admin/org', 'window-restore', 'menu', 0, NULL, '/adminSys/baseManager/baseManager', NULL, '2018-03-19 15:58:05', '1', 'hollykunge', '127.0.0.1', '2018-04-23 17:28:53', '1', 'hollykunge', '127.0.0.1', '_import(\'admin/organize/index\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (41, 'teamManager', '团队管理', -1, '/base', 'users', 'menu', 0, NULL, '/teamManager', NULL, '2018-04-18 10:57:00', '1', 'hollykunge', '127.0.0.1', '2018-04-23 17:34:04', '1', 'hollykunge', '127.0.0.1', 'Layout', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (42, 'myTeams', '创建的团队', 41, NULL, 'user-plus', 'menu', 0, NULL, '/teamManager/myTeams', NULL, '2018-04-18 10:58:53', '1', 'hollykunge', '127.0.0.1', '2018-04-23 17:34:21', '1', 'hollykunge', '127.0.0.1', '_import(\'team/myTeams\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (43, 'joinedTeams', '参加的团队', 41, NULL, 'user-circle', 'menu', 0, NULL, '/teamManager/joinedTeams', NULL, '2018-04-18 11:00:19', '1', 'hollykunge', '127.0.0.1', '2018-04-23 17:34:42', '1', 'hollykunge', '127.0.0.1', '_import(\'team/joinedTeams\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+-- ----------------------------
+-- Table structure for base_org
+-- ----------------------------
+DROP TABLE IF EXISTS `base_org`;
+CREATE TABLE `base_org`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `org_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `org_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `parent_id` int(11) NULL DEFAULT NULL COMMENT '父节点',
+  `org_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '类型',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_time` datetime(0) NULL DEFAULT NULL,
+  `crt_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `upd_time` datetime(0) NULL DEFAULT NULL,
+  `upd_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `upd_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `upd_host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of base_org
+-- ----------------------------
+INSERT INTO `base_org` VALUES (1, '十一室', '211', 2, 'b', '信息技术中心', '2018-03-19 15:32:26', '1', 'hollykunge', '127.0.0.1', '2018-03-19 20:01:51', '6', '姬海南', '127.0.0.1', '', '', '');
+INSERT INTO `base_org` VALUES (2, '三室', '203', 2, 'b', '武器装备总体室', '2018-03-19 15:32:30', '1', 'hollykunge', '127.0.0.1', '2018-03-19 19:46:05', '6', '姬海南', '127.0.0.1', '', '', '');
+INSERT INTO `base_org` VALUES (3, '一室', '201', 2, 'b', '', '2018-03-19 15:32:34', '1', 'hollykunge', '127.0.0.1', '2018-03-19 15:33:06', '1', 'hollykunge', '127.0.0.1', '', '', '');
+INSERT INTO `base_org` VALUES (4, '二室', '202', 2, 'b', '', '2018-03-19 15:32:38', '1', 'hollykunge', '127.0.0.1', '2018-03-19 15:33:08', '1', 'hollykunge', '127.0.0.1', '', '', '');
+INSERT INTO `base_org` VALUES (6, '五室', '205', 2, 'b', '', '2018-03-19 15:32:40', '1', 'hollykunge', '127.0.0.1', '2018-03-19 15:33:11', '1', 'hollykunge', '127.0.0.1', '', '', '');
+INSERT INTO `base_org` VALUES (7, '六室', '206', 2, 'b', '', '2018-03-19 15:32:43', '1', 'hollykunge', '127.0.0.1', '2018-03-19 15:33:14', '1', 'hollykunge', '127.0.0.1', '', '', '');
+INSERT INTO `base_org` VALUES (8, '十室', '210', 2, 'b', NULL, '2018-03-19 20:08:33', '6', '姬海南', '127.0.0.1', '2018-03-19 20:08:33', '6', '姬海南', '127.0.0.1', NULL, NULL, NULL);
+INSERT INTO `base_org` VALUES (9, '321', '321', 1, 'b', NULL, '2018-03-28 16:19:43', '1', 'hollykunge', '127.0.0.1', '2018-03-28 16:19:43', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL);
+INSERT INTO `base_org` VALUES (10, '432', '432', 1, 'b', NULL, '2018-03-28 16:21:59', '1', 'hollykunge', '127.0.0.1', '2018-03-28 16:21:59', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL);
+
+-- ----------------------------
+-- Table structure for base_org_leader
+-- ----------------------------
+DROP TABLE IF EXISTS `base_org_leader`;
+CREATE TABLE `base_org_leader`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `org_id` int(255) NULL DEFAULT NULL,
+  `user_id` int(11) NULL DEFAULT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_time` datetime(0) NULL DEFAULT NULL,
+  `crt_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `upd_time` datetime(0) NULL DEFAULT NULL,
+  `upd_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `upd_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `upd_host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr4` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr5` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr6` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr7` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr8` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of base_org_leader
+-- ----------------------------
+INSERT INTO `base_org_leader` VALUES (3, 2, 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_org_leader` VALUES (4, 2, 8, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_org_leader` VALUES (11, 1, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_org_leader` VALUES (12, 1, 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+-- ----------------------------
+-- Table structure for base_org_member
+-- ----------------------------
+DROP TABLE IF EXISTS `base_org_member`;
+CREATE TABLE `base_org_member`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `org_id` int(11) NULL DEFAULT NULL,
+  `user_id` int(11) NULL DEFAULT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_time` datetime(0) NULL DEFAULT NULL,
+  `crt_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `upd_time` datetime(0) NULL DEFAULT NULL,
+  `upd_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `upd_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `upd_host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr4` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr5` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr6` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr7` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr8` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of base_org_member
+-- ----------------------------
+INSERT INTO `base_org_member` VALUES (3, 1, 11, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_org_member` VALUES (4, 1, 5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for base_resource_authority
 -- ----------------------------
 DROP TABLE IF EXISTS `base_resource_authority`;
-CREATE TABLE `base_resource_authority` (
+CREATE TABLE `base_resource_authority`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `authority_id` varchar(255) DEFAULT NULL COMMENT '角色ID',
-  `authority_type` varchar(255) DEFAULT NULL COMMENT '角色类型',
-  `resource_id` varchar(255) DEFAULT NULL COMMENT '资源ID',
-  `resource_type` varchar(255) DEFAULT NULL COMMENT '资源类型',
-  `parent_id` varchar(255) DEFAULT NULL,
-  `path` varchar(2000) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `crt_time` datetime DEFAULT NULL,
-  `crt_user` varchar(255) DEFAULT NULL,
-  `crt_name` varchar(255) DEFAULT NULL,
-  `crt_host` varchar(255) DEFAULT NULL,
-  `attr1` varchar(255) DEFAULT NULL,
-  `attr2` varchar(255) DEFAULT NULL,
-  `attr3` varchar(255) DEFAULT NULL,
-  `attr4` varchar(255) DEFAULT NULL,
-  `attr5` varchar(255) DEFAULT NULL,
-  `attr6` varchar(255) DEFAULT NULL,
-  `attr7` varchar(255) DEFAULT NULL,
-  `attr8` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1012 DEFAULT CHARSET=utf8mb4;
+  `authority_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '角色ID',
+  `authority_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '角色类型',
+  `resource_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '资源ID',
+  `resource_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '资源类型',
+  `parent_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `path` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_time` datetime(0) NULL DEFAULT NULL,
+  `crt_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr4` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr5` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr6` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr7` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr8` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1204 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of base_resource_authority
 -- ----------------------------
-BEGIN;
 INSERT INTO `base_resource_authority` VALUES (287, '1', 'group', '5', 'button', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_resource_authority` VALUES (288, '1', 'group', '9', 'button', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_resource_authority` VALUES (289, '1', 'group', '10', 'button', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -461,117 +574,265 @@ INSERT INTO `base_resource_authority` VALUES (856, '9', 'group', '20', 'menu', '
 INSERT INTO `base_resource_authority` VALUES (924, '1', 'group', '42', 'button', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_resource_authority` VALUES (945, '1', 'group', '45', 'button', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_resource_authority` VALUES (956, '1', 'group', '46', 'button', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (996, '1', 'group', '33', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (997, '1', 'group', '34', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (998, '1', 'group', '13', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (999, '1', 'group', '35', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1000, '1', 'group', '37', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1001, '1', 'group', '-1', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1002, '1', 'group', '27', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1003, '1', 'group', '29', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1004, '1', 'group', '1', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1005, '1', 'group', '5', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1006, '1', 'group', '6', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1007, '1', 'group', '7', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1008, '1', 'group', '8', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1009, '1', 'group', '30', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1010, '1', 'group', '31', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1011, '1', 'group', '32', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-COMMIT;
+INSERT INTO `base_resource_authority` VALUES (1087, '1', 'group', '47', 'button', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1088, '1', 'group', '48', 'button', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1089, '1', 'group', '49', 'button', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1090, '1', 'group', '50', 'button', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1091, '1', 'group', '51', 'button', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1130, '11', 'group', '1', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1131, '11', 'group', '13', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1132, '11', 'group', '-1', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1133, '11', 'group', '5', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1134, '11', 'group', '27', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1135, '11', 'group', '6', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1136, '11', 'group', '39', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1137, '11', 'group', '7', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1138, '11', 'group', '8', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1139, '11', 'group', '21', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1159, '1', 'group', '52', 'button', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1160, '1', 'group', '53', 'button', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1161, '1', 'group', '54', 'button', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1162, '1', 'group', '55', 'button', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1182, '1', 'group', '33', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1183, '1', 'group', '34', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1184, '1', 'group', '13', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1185, '1', 'group', '35', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1186, '1', 'group', '37', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1187, '1', 'group', '-1', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1188, '1', 'group', '27', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1189, '1', 'group', '38', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1190, '1', 'group', '39', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1191, '1', 'group', '29', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1192, '1', 'group', '1', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1193, '1', 'group', '5', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1194, '1', 'group', '6', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1195, '1', 'group', '7', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1196, '1', 'group', '8', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1197, '1', 'group', '30', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1198, '1', 'group', '41', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1199, '1', 'group', '31', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1200, '1', 'group', '42', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1201, '1', 'group', '21', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1202, '1', 'group', '32', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1203, '1', 'group', '43', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for base_user
 -- ----------------------------
 DROP TABLE IF EXISTS `base_user`;
-CREATE TABLE `base_user` (
+CREATE TABLE `base_user`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `birthday` varchar(255) DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `mobile_phone` varchar(255) DEFAULT NULL,
-  `tel_phone` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `sex` char(1) DEFAULT NULL,
-  `type` char(1) DEFAULT NULL,
-  `status` char(1) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `crt_time` datetime DEFAULT NULL,
-  `crt_user` varchar(255) DEFAULT NULL,
-  `crt_name` varchar(255) DEFAULT NULL,
-  `crt_host` varchar(255) DEFAULT NULL,
-  `upd_time` datetime DEFAULT NULL,
-  `upd_user` varchar(255) DEFAULT NULL,
-  `upd_name` varchar(255) DEFAULT NULL,
-  `upd_host` varchar(255) DEFAULT NULL,
-  `attr1` varchar(255) DEFAULT NULL,
-  `attr2` varchar(255) DEFAULT NULL,
-  `attr3` varchar(255) DEFAULT NULL,
-  `attr4` varchar(255) DEFAULT NULL,
-  `attr5` varchar(255) DEFAULT NULL,
-  `attr6` varchar(255) DEFAULT NULL,
-  `attr7` varchar(255) DEFAULT NULL,
-  `attr8` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `birthday` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `mobile_phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `tel_phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `sex` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_time` datetime(0) NULL DEFAULT NULL,
+  `crt_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `crt_host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `upd_time` datetime(0) NULL DEFAULT NULL,
+  `upd_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `upd_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `upd_host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr4` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr5` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr6` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr7` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attr8` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of base_user
 -- ----------------------------
-BEGIN;
 INSERT INTO `base_user` VALUES (1, 'admin', '$2a$12$S/yLlj9kzi5Dgsz97H4rAekxrPlk/10eXp1lUJcAVAx.2M9tOpWie', 'hollykunge', '', NULL, '', NULL, '', '男', NULL, NULL, '管理员', NULL, NULL, NULL, NULL, '2018-03-15 11:08:29', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-COMMIT;
+INSERT INTO `base_user` VALUES (5, '19881210', '$2a$12$k5RkyE9F0O51u4Ns9y0cZ.nzxBJ2UOdgq8bzk4tc5Fx7tdpmOJtaq', '19881210', '', '', '', '', '', '男', '', '', '', '2018-03-19 15:35:48', '1', 'hollykunge', '127.0.0.1', '2018-03-19 15:36:14', '1', 'hollykunge', '127.0.0.1', '', '', '', '', '', '', '', '');
+INSERT INTO `base_user` VALUES (6, 'jihainan', '$2a$12$CqGpCTW190s5fZaG7uyPUezl6RRk4SsITuYQnZlBEc2rTwWQE2S3C', '姬海南', '', '', '', '', '', '男', '', '', '管理员', '2018-03-19 15:35:57', '1', 'hollykunge', '127.0.0.1', '2018-03-19 15:36:18', '1', 'hollykunge', '127.0.0.1', '', '', '', '', '', '', '', '');
+INSERT INTO `base_user` VALUES (7, 'wangzhunzhong', '$2a$12$b8veMCpETW9VHyZqPxTo7OB3YodgNVzDi31nbvK3FDtm9NwZi3IN.', '王准忠', '', '', '', '', '', '男', '', '', '管理员', '2018-03-19 15:36:00', '6', '姬海南', '127.0.0.1', '2018-03-19 15:36:21', '6', '姬海南', '127.0.0.1', '', '', '', '', '', '', '', '');
+INSERT INTO `base_user` VALUES (8, 'jihang', '$2a$12$pihMUzpMVsCblOzUFr50gObNbEZqBdPgBMl.RQoiENF1befeyRlwC', '姬航', '', '', '', '', '', '男', '', '', '管理员', '2018-03-19 15:36:04', '6', '姬海南', '127.0.0.1', '2018-03-19 19:29:05', '1', 'hollykunge', '127.0.0.1', '', '', '', '', '', '', '', '');
+INSERT INTO `base_user` VALUES (10, 'test2', '$2a$12$QkOel.D8z6ZpNhY87q/Ctuyb0JXAAT0N5AeTWqbl.yPOfcaPpy/TO', '测试二', NULL, NULL, NULL, NULL, NULL, '男', NULL, NULL, NULL, '2018-03-19 16:24:29', '1', 'hollykunge', '127.0.0.1', '2018-03-19 16:24:29', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_user` VALUES (11, 'test3', '$2a$12$HkUTcpkOQWKufXIVzWXjYe7b8NrgkMk4pQy5BipMfDchyfk4y3EzK', '测试三', NULL, NULL, NULL, NULL, NULL, '男', NULL, NULL, NULL, '2018-03-19 16:26:30', '1', 'hollykunge', '127.0.0.1', '2018-03-19 16:26:30', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_user` VALUES (12, 'test4', '$2a$12$LCPnjCiyhIepoxSalsntbeKffPlgFyMjYLpJ2xOv7lTJm5zLewzNS', '测试四', NULL, NULL, NULL, NULL, NULL, '男', NULL, NULL, NULL, '2018-03-19 16:26:58', '1', 'hollykunge', '127.0.0.1', '2018-03-19 16:26:58', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_user` VALUES (13, 'test5', '$2a$12$MSA7uI7iH0j8eDTKepGr6eBStbGxUZYeoQ5wW2pBqYeS/ObnVZndO', '测试五', NULL, NULL, NULL, NULL, NULL, '男', NULL, NULL, NULL, '2018-03-19 16:27:17', '1', 'hollykunge', '127.0.0.1', '2018-03-19 16:27:17', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_user` VALUES (14, 'test6', '$2a$12$aY0Q10Q.FbreX.EOhmdrSuMZluPyPVlRf3KG8JvDXL0XArCOls7QG', '测试六', NULL, NULL, NULL, NULL, NULL, '男', NULL, NULL, NULL, '2018-03-19 16:27:44', '1', 'hollykunge', '127.0.0.1', '2018-03-19 16:27:44', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_user` VALUES (15, 'test8', '$2a$12$DdUf2jwqYRDgE16vrvP/9uX0/mh9awPDYOqtcJsG0gl6lUgNbKUPi', '测试八', NULL, NULL, NULL, NULL, NULL, '男', NULL, NULL, NULL, '2018-03-19 17:17:34', '1', 'hollykunge', '127.0.0.1', '2018-03-19 17:17:34', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_user` VALUES (16, '321', '$2a$12$clWcykpYL3sN2W8UAxiqFOivhEvvg0/uBTN3pSxcLSKopc2Ri30cW', '321', NULL, NULL, NULL, NULL, NULL, '男', NULL, NULL, NULL, '2018-03-28 16:18:47', '1', 'hollykunge', '127.0.0.1', '2018-03-28 16:18:47', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for gate_log
 -- ----------------------------
 DROP TABLE IF EXISTS `gate_log`;
-CREATE TABLE `gate_log` (
+CREATE TABLE `gate_log`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号',
-  `menu` varchar(255) DEFAULT NULL COMMENT '菜单',
-  `opt` varchar(255) DEFAULT NULL COMMENT '操作',
-  `uri` varchar(255) DEFAULT NULL COMMENT '资源路径',
-  `crt_time` datetime DEFAULT NULL COMMENT '操作时间',
-  `crt_user` varchar(255) DEFAULT NULL COMMENT '操作人ID',
-  `crt_name` varchar(255) DEFAULT NULL COMMENT '操作人',
-  `crt_host` varchar(255) DEFAULT NULL COMMENT '操作主机',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4;
+  `menu` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '菜单',
+  `opt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '操作',
+  `uri` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '资源路径',
+  `crt_time` datetime(0) NULL DEFAULT NULL COMMENT '操作时间',
+  `crt_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '操作人ID',
+  `crt_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '操作人',
+  `crt_host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '操作主机',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 196 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of gate_log
 -- ----------------------------
-BEGIN;
-INSERT INTO `gate_log` VALUES (1, '菜单管理', '新增', '/admin/menu', '2018-02-25 09:36:35', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (2, '菜单管理', '新增', '/admin/menu', '2018-02-25 09:37:04', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (3, '菜单管理', '新增', '/admin/menu', '2018-02-25 09:37:04', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (4, '菜单管理', '编辑', '/admin/menu', '2018-02-25 09:37:20', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (5, '菜单管理', '编辑', '/admin/menu', '2018-02-25 09:37:32', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (6, '菜单管理', '编辑', '/admin/menu', '2018-02-25 09:37:35', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (7, '菜单管理', '编辑', '/admin/menu', '2018-02-25 09:37:40', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (8, '菜单管理', '新增', '/admin/menu', '2018-02-25 09:38:04', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (9, '角色权限管理', '新增', '/admin/group', '2018-02-25 09:38:21', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (10, '菜单管理', '编辑', '/admin/menu', '2018-02-25 09:38:55', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (11, '菜单管理', '新增', '/admin/menu', '2018-03-05 14:25:26', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (12, '菜单管理', '编辑', '/admin/menu', '2018-03-13 16:31:25', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (13, '菜单管理', '编辑', '/admin/menu', '2018-03-14 16:21:37', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (14, '菜单管理', '新增', '/admin/menu', '2018-03-14 16:22:11', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (15, '菜单管理', '删除', '/admin/menu', '2018-03-14 16:22:35', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (16, '角色权限管理', '删除', '/admin/group', '2018-03-15 11:04:35', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (17, '角色权限管理', '删除', '/admin/group', '2018-03-15 11:04:40', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (18, '角色权限管理', '删除', '/admin/group', '2018-03-15 11:04:45', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (19, '用户管理', '删除', '/admin/user', '2018-03-15 11:05:27', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (20, '用户管理', '删除', '/admin/user', '2018-03-15 11:05:30', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (21, '用户管理', '编辑', '/admin/user', '2018-03-15 11:05:43', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (22, '角色权限管理', '新增', '/admin/group', '2018-03-15 11:06:32', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (23, '角色权限管理', '编辑', '/admin/group', '2018-03-15 11:07:02', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (24, '角色权限管理', '编辑', '/admin/group', '2018-03-15 11:07:31', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (25, '角色类型管理', '编辑', '/admin/groupType', '2018-03-15 11:08:06', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (26, '用户管理', '编辑', '/admin/user', '2018-03-15 11:08:28', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (27, '菜单管理', '新增', '/admin/menu', '2018-03-15 11:25:53', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (28, '角色权限管理', '新增', '/admin/group', '2018-03-15 11:26:18', '1', 'Mr.AG', '127.0.0.1');
-INSERT INTO `gate_log` VALUES (29, '菜单管理', '新增', '/admin/menu', '2018-03-15 11:33:33', '1', 'Mr.AG', '127.0.0.1');
-COMMIT;
+INSERT INTO `gate_log` VALUES (50, '角色权限管理', '新增', '/admin/group', '2018-03-19 17:15:23', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (51, '角色权限管理', '新增', '/admin/group', '2018-03-19 17:15:57', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (52, '角色权限管理', '新增', '/admin/group', '2018-03-19 17:15:59', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (53, '角色权限管理', '新增', '/admin/group', '2018-03-19 17:15:59', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (54, '角色权限管理', '新增', '/admin/group', '2018-03-19 17:16:00', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (55, '角色权限管理', '新增', '/admin/group', '2018-03-19 17:16:01', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (56, '角色权限管理', '新增', '/admin/group', '2018-03-19 17:16:02', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (57, '角色权限管理', '新增', '/admin/group', '2018-03-19 17:16:12', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (58, '用户管理', '新增', '/admin/user', '2018-03-19 17:17:32', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (59, '组织部门管理', '编辑组织', '/admin/org', '2018-03-19 17:41:33', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (60, '组织部门管理', '编辑组织', '/admin/org', '2018-03-19 17:46:10', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (61, '组织部门管理', '编辑组织', '/admin/org', '2018-03-19 17:48:19', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (62, '组织部门管理', '编辑组织', '/admin/org', '2018-03-19 17:49:11', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (63, '组织部门管理', '编辑组织', '/admin/org', '2018-03-19 17:51:36', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (64, '组织部门管理', '编辑组织', '/admin/org', '2018-03-19 17:55:16', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (65, '组织部门管理', '编辑组织', '/admin/org', '2018-03-19 17:56:53', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (66, '组织部门管理', '编辑组织', '/admin/org', '2018-03-19 17:58:26', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (67, '角色权限管理', '编辑', '/admin/group', '2018-03-19 17:59:07', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (68, '角色权限管理', '新增', '/admin/group', '2018-03-19 18:00:36', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (69, '角色权限管理', '删除', '/admin/group', '2018-03-19 18:00:45', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (70, '角色权限管理', '新增', '/admin/group', '2018-03-19 18:01:02', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (71, '角色权限管理', '新增', '/admin/group', '2018-03-19 18:01:28', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (72, '角色权限管理', '新增', '/admin/group', '2018-03-19 18:01:49', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (73, '角色权限管理', '新增', '/admin/group', '2018-03-19 18:02:15', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (74, '角色权限管理', '编辑', '/admin/group', '2018-03-19 18:02:51', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (75, '组织部门管理', '编辑组织', '/admin/org', '2018-03-19 18:09:54', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (76, '组织部门管理', '编辑组织', '/admin/org', '2018-03-19 19:11:49', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (77, '组织部门管理', '编辑组织', '/admin/org', '2018-03-19 19:12:34', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (78, '用户管理', '编辑', '/admin/user', '2018-03-19 19:29:04', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (79, '组织部门管理', '编辑组织', '/admin/org', '2018-03-19 19:41:29', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (80, '组织部门管理', '编辑组织', '/admin/org', '2018-03-19 19:41:45', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (81, '组织部门管理', '编辑组织', '/admin/org', '2018-03-19 19:46:04', '6', '姬海南', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (82, '组织部门管理', '编辑组织', '/admin/org', '2018-03-19 19:54:20', '6', '姬海南', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (83, '组织部门管理', '编辑组织', '/admin/org', '2018-03-19 19:54:32', '6', '姬海南', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (84, '组织部门管理', '编辑组织', '/admin/org', '2018-03-19 19:54:44', '6', '姬海南', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (85, '组织部门管理', '编辑组织', '/admin/org', '2018-03-19 20:01:51', '6', '姬海南', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (86, '组织部门管理', '新增组织', '/admin/org', '2018-03-19 20:08:33', '6', '姬海南', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (87, '组织部门管理', '编辑组织', '/admin/org', '2018-03-20 20:59:39', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (88, '组织部门管理', '编辑组织', '/admin/org', '2018-03-21 08:54:15', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (89, '组织部门管理', '编辑组织', '/admin/org', '2018-03-21 08:54:35', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (90, '菜单管理', '编辑', '/admin/menu', '2018-03-23 18:00:28', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (91, '菜单管理', '编辑', '/admin/menu', '2018-03-23 18:14:02', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (92, '菜单管理', '编辑', '/admin/menu', '2018-03-23 18:16:24', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (93, '菜单管理', '编辑', '/admin/menu', '2018-03-23 18:17:18', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (94, '菜单管理', '新增元素', '/admin/element', '2018-03-23 18:19:54', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (95, '菜单管理', '新增元素', '/admin/element', '2018-03-23 19:26:59', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (96, '菜单管理', '新增元素', '/admin/element', '2018-03-23 19:28:13', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (97, '菜单管理', '新增元素', '/admin/element', '2018-03-23 19:29:47', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (98, '角色权限管理', '新增', '/admin/group', '2018-03-23 19:30:41', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (99, '角色权限管理', '新增', '/admin/group', '2018-03-23 19:30:52', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (100, '角色权限管理', '新增', '/admin/group', '2018-03-23 19:30:53', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (101, '角色权限管理', '新增', '/admin/group', '2018-03-23 19:30:53', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (102, '角色权限管理', '新增', '/admin/group', '2018-03-23 19:30:54', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (103, '角色权限管理', '新增', '/admin/group', '2018-03-23 19:30:55', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (104, '菜单管理', '编辑', '/admin/menu', '2018-03-23 19:50:48', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (105, '全部项目', '编辑项目', '/project/project', '2018-03-26 20:37:26', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (106, '全部项目', '编辑项目', '/project/project', '2018-03-26 20:38:39', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (107, '全部项目', '编辑项目', '/project/project', '2018-03-26 20:38:46', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (108, '全部项目', '编辑项目', '/project/project', '2018-03-26 20:39:03', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (109, '全部项目', '编辑项目', '/project/project', '2018-03-26 20:39:11', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (110, '全部项目', '编辑项目', '/project/project', '2018-03-26 20:39:26', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (111, '全部项目', '新增项目', '/project/project', '2018-03-28 09:57:51', '6', '姬海南', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (112, '全部项目', '新增项目', '/project/project', '2018-03-28 09:58:44', '6', '姬海南', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (113, '全部项目', '新增项目', '/project/project', '2018-03-28 14:41:05', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (114, '全部项目', '新增项目', '/project/project', '2018-03-28 14:49:31', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (115, '全部项目', '新增项目', '/project/project', '2018-03-28 14:52:44', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (116, '全部项目', '新增项目', '/project/project', '2018-03-28 15:06:23', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (117, '全部项目', '新增项目', '/project/project', '2018-03-28 15:08:54', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (118, '全部项目', '新增项目', '/project/project', '2018-03-28 15:11:09', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (119, '全部项目', '新增项目', '/project/project', '2018-03-28 15:11:23', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (120, '全部项目', '新增项目', '/project/project', '2018-03-28 15:17:04', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (121, '全部项目', '新增项目', '/project/project', '2018-03-28 15:17:21', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (122, '全部项目', '新增项目', '/project/project', '2018-03-28 15:18:30', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (123, '全部项目', '新增项目', '/project/project', '2018-03-28 15:51:52', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (124, '全部项目', '新增项目', '/project/project', '2018-03-28 15:57:08', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (125, '全部项目', '新增项目', '/project/project', '2018-03-28 16:02:08', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (126, '全部项目', '新增项目', '/project/project', '2018-03-28 16:04:21', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (127, '全部项目', '新增项目', '/project/project', '2018-03-28 16:09:46', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (128, '用户管理', '新增', '/admin/user', '2018-03-28 16:18:45', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (129, '组织部门管理', '新增组织', '/admin/org', '2018-03-28 16:19:42', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (130, '组织部门管理', '新增组织', '/admin/org', '2018-03-28 16:21:35', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (131, '组织部门管理', '新增组织', '/admin/org', '2018-03-28 16:22:15', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (132, '全部项目', '新增项目', '/project/project', '2018-03-28 18:04:37', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (133, '全部项目', '新增项目', '/project/project', '2018-03-28 18:06:31', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (134, '全部项目', '新增项目', '/project/project', '2018-03-28 18:10:11', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (135, '全部项目', '新增项目', '/project/project', '2018-03-28 18:11:32', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (136, '全部项目', '新增项目', '/project/project', '2018-03-28 18:11:44', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (137, '全部项目', '新增项目', '/project/project', '2018-03-28 18:11:53', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (138, '全部项目', '新增项目', '/project/project', '2018-03-28 18:12:01', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (139, '全部项目', '新增项目', '/project/project', '2018-03-28 18:12:03', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (140, '全部项目', '新增项目', '/project/project', '2018-03-28 18:12:03', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (141, '全部项目', '新增项目', '/project/project', '2018-03-28 18:12:03', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (142, '全部项目', '新增项目', '/project/project', '2018-03-28 18:12:03', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (143, '全部项目', '新增项目', '/project/project', '2018-03-28 18:12:26', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (144, '全部项目', '新增项目', '/project/project', '2018-03-28 18:12:27', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (145, '全部项目', '新增项目', '/project/project', '2018-03-28 18:12:28', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (146, '全部项目', '新增项目', '/project/project', '2018-03-28 18:12:28', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (147, '全部项目', '新增项目', '/project/project', '2018-03-28 18:12:28', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (148, '全部项目', '新增项目', '/project/project', '2018-03-28 18:12:52', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (149, '全部项目', '新增项目', '/project/project', '2018-03-28 18:13:02', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (150, '全部项目', '新增项目', '/project/project', '2018-03-28 18:13:56', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (151, '全部项目', '新增项目', '/project/project', '2018-03-28 18:14:03', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (152, '全部项目', '新增项目', '/project/project', '2018-03-28 18:14:10', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (153, '全部项目', '新增项目', '/project/project', '2018-03-28 18:14:12', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (154, '全部项目', '新增项目', '/project/project', '2018-03-28 18:14:16', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (155, '全部项目', '新增项目', '/project/project', '2018-03-28 18:14:44', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (156, '全部项目', '新增项目', '/project/project', '2018-03-28 18:15:15', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (157, '菜单管理', '编辑', '/admin/menu', '2018-03-29 15:25:40', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (158, '菜单管理', '编辑', '/admin/menu', '2018-03-29 16:21:27', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (159, '全部项目', '新增项目', '/project/project', '2018-04-02 17:30:59', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (160, '全部项目', '新增项目', '/project/project', '2018-04-02 17:31:20', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (161, '全部项目', '新增项目', '/project/project', '2018-04-02 17:31:42', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (162, '全部项目', '新增项目', '/project/project', '2018-04-02 17:32:21', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (163, '全部项目', '新增项目', '/project/project', '2018-04-02 17:35:17', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (164, '全部项目', '新增项目', '/project/project', '2018-04-02 17:36:19', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (165, '全部项目', '新增项目', '/project/project', '2018-04-02 17:39:15', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (166, '全部项目', '新增项目', '/project/project', '2018-04-02 17:40:04', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (167, '全部项目', '新增项目', '/project/project', '2018-04-02 17:40:38', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (168, '全部项目', '新增项目', '/project/project', '2018-04-02 17:42:20', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (169, '全部项目', '新增项目', '/project/project', '2018-04-02 18:00:46', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (170, '全部项目', '新增项目', '/project/project', '2018-04-02 18:04:58', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (171, '全部项目', '新增项目', '/project/project', '2018-04-02 18:08:25', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (172, '全部项目', '新增项目', '/project/project', '2018-04-02 18:13:10', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (173, '全部项目', '新增项目', '/project/project', '2018-04-02 18:17:54', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (174, '全部项目', '新增项目', '/project/project', '2018-04-02 18:23:56', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (175, '全部项目', '新增项目', '/project/project', '2018-04-02 18:46:30', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (176, '全部项目', '新增项目', '/project/project', '2018-04-02 18:47:42', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (177, '全部项目', '新增项目', '/project/project', '2018-04-11 17:06:05', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (178, '全部项目', '新增项目', '/project/project', '2018-04-11 17:29:49', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (179, '全部项目', '新增项目', '/project/project', '2018-04-11 17:31:52', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (180, '全部项目', '新增项目', '/project/project', '2018-04-11 17:32:09', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (181, '全部项目', '新增项目', '/project/project', '2018-04-11 17:32:20', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (182, '全部项目', '新增项目', '/project/project', '2018-04-11 17:32:42', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (183, '全部项目', '新增项目', '/project/project', '2018-04-11 17:32:56', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (184, '全部项目', '新增项目', '/project/project', '2018-04-11 21:03:10', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (185, '全部项目', '新增项目', '/project/project', '2018-04-11 21:03:23', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (186, '全部项目', '新增项目', '/project/project', '2018-04-11 21:09:08', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (187, '全部项目', '新增项目', '/project/project', '2018-04-11 21:15:15', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (188, '全部项目', '新增项目', '/project/project', '2018-04-12 11:04:48', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (189, '全部项目', '新增项目', '/project/project', '2018-04-12 11:12:23', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (190, '全部项目', '新增项目', '/project/project', '2018-04-12 14:55:15', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (191, '全部项目', '新增项目', '/project/project', '2018-04-12 17:33:52', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (192, '用户管理', '删除', '/admin/user', '2018-04-13 13:39:21', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (193, '全部项目', '新增项目', '/project/project', '2018-04-13 14:18:01', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (194, '角色权限管理', '编辑', '/admin/group', '2018-04-20 14:39:04', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (195, '角色权限管理', '新增', '/admin/group', '2018-04-20 14:40:28', '1', 'hollykunge', '127.0.0.1');
 
 SET FOREIGN_KEY_CHECKS = 1;
