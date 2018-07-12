@@ -1,5 +1,7 @@
 package com.github.wxiaoqi.security.api.vo.user;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -15,16 +17,15 @@ public class UserInfo implements Serializable{
     public String password;
     public String name;
     private String description;
+    private Date updTime;
 
     public Date getUpdTime() {
         return updTime;
     }
-
+    @JsonDeserialize(using = Custom_Json_Date_Deserializer.class)
     public void setUpdTime(Date updTime) {
         this.updTime = updTime;
     }
-
-    private Date updTime;
 
     public String getId() {
         return id;

@@ -22,6 +22,10 @@ public class Query extends LinkedHashMap<String, Object> {
 
     private Integer projectId = null;
 
+    private String projectName = null;
+
+    private String taskName = null;
+
     public Query(Map<String, Object> params) {
         this.putAll(params);
         //分页参数
@@ -39,6 +43,12 @@ public class Query extends LinkedHashMap<String, Object> {
         }
         if (params.get(PageConstants.TASK_EXE_ID) != null) {
             this.taskExecutorId = Integer.parseInt(params.get(PageConstants.TASK_EXE_ID).toString());
+        }
+        if (params.get(PageConstants.TASK_NAME) != null) {
+            this.taskName = params.get(PageConstants.TASK_NAME).toString();
+        }
+        if (params.get(PageConstants.PROJECT_NAME) != null) {
+            this.projectName = params.get(PageConstants.PROJECT_NAME).toString();
         }
         this.remove(PageConstants.PAGE_NUM);
         this.remove(PageConstants.PAGE_LIMIT);
@@ -82,5 +92,21 @@ public class Query extends LinkedHashMap<String, Object> {
 
     public void setTaskExecutorId(Integer taskExecutorId) {
         this.taskExecutorId = taskExecutorId;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
     }
 }

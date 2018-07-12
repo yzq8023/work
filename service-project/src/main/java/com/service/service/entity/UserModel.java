@@ -15,6 +15,7 @@
  */
 package com.service.service.entity;
 
+import com.github.wxiaoqi.security.api.vo.user.UserInfo;
 import com.service.service.Constants;
 import com.service.service.Constants.*;
 import com.service.service.utils.ArrayUtils;
@@ -27,9 +28,9 @@ import java.security.Principal;
 import java.util.*;
 
 /**
- * UserModel is a serializable model class that represents a user and the user's
- * restricted repository memberships. Instances of UserModels are also used as
- * servlet user principals.
+ * UserModel是一个可序列化的模型类，它代表用户和用户
+ * 权限。usermodel的实例也被用作
+ * servlet主体。
  *
  * @author James Moger
  *
@@ -42,7 +43,9 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 
 	private static final SecureRandom RANDOM = new SecureRandom();
 
-	// field names are reflectively mapped in EditUser page
+	/**
+	 * 字段名称在EditUser页面中反射映射
+	 */
 	public String username;
 	public String password;
 	public String cookie;
@@ -58,13 +61,17 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 	public boolean canCreate;
 	public boolean excludeFromFederation;
 	public boolean disabled;
-	// retained for backwards-compatibility with RPC clients
+	/**
+	 * 与RPC客户端保持向后兼容
+	 */
 	@Deprecated
 	public final Set<String> repositories = new HashSet<String>();
 	public final Map<String, AccessPermission> permissions = new LinkedHashMap<String, AccessPermission>();
 	public final Set<TeamModel> teams = new TreeSet<TeamModel>();
 
-	// non-persisted fields
+	/**
+	 * 非持久性字段
+	 */
 	public boolean isAuthenticated;
 	public AccountType accountType;
 
@@ -91,8 +98,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 	}
 
 	/**
-	 * Returns a list of repository permissions for this user exclusive of
-	 * permissions inherited from team memberships.
+	 * 返回该用户的存储库权限列表，其中不包括从团队成员中继承的权限。
 	 *
 	 * @return the user's list of permissions
 	 */
@@ -137,8 +143,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 	}
 
 	/**
-	 * Returns true if the user has any type of specified access permission for
-	 * this repository.
+	 * 如果用户对这个存储库有任何类型的指定访问权限，则返回true。
 	 *
 	 * @param name
 	 * @return true if user has a specified access permission for the repository
@@ -163,8 +168,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 	}
 
 	/**
-	 * Returns true if the user has an explicitly specified access permission for
-	 * this repository.
+	 * 如果用户对这个存储库有明确指定的访问权限，则返回true。
 	 *
 	 * @param name
 	 * @return if the user has an explicitly specified access permission
@@ -175,8 +179,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 	}
 
 	/**
-	 * Returns true if the user's team memberships specify an access permission for
-	 * this repository.
+	 * 如果用户的团队成员指定了这个存储库的访问权限，则返回true。
 	 *
 	 * @param name
 	 * @return if the user's team memberships specifi an access permission
@@ -193,7 +196,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 	}
 
 	/**
-	 * Adds a repository permission to the team.
+	 * 为团队添加仓库权限
 	 * <p>
 	 * Role may be formatted as:
 	 * <ul>
@@ -463,8 +466,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 	}
 
 	/**
-	 * This returns true if the user has fork privileges or the user has fork
-	 * privileges because of a team membership.
+	 * 如果用户有fork特权，或者由于团队成员的身份，用户拥有fork特权，则返回true。
 	 *
 	 * @return true if the user can fork
 	 */
@@ -483,8 +485,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 	}
 
 	/**
-	 * This returns true if the user has admin privileges or the user has admin
-	 * privileges because of a team membership.
+	 * 如果用户具有管理员权限，或者由于团队成员的身份而具有管理员权限，则返回true。
 	 *
 	 * @return true if the user can admin
 	 */
@@ -503,8 +504,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 	}
 
 	/**
-	 * This returns true if the user has create privileges or the user has create
-	 * privileges because of a team membership.
+	 * 如果用户有创建特权，或者用户由于团队成员身份而具有创建特权，那么这将返回true。
 	 *
 	 * @return true if the user can admin
 	 */
@@ -523,7 +523,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 	}
 
 	/**
-	 * Returns true if the user is allowed to create the specified repository.
+	 * 如果允许用户创建指定的存储库，则返回true。
 	 *
 	 * @param repository
 	 * @return true if the user can create the repository
@@ -544,7 +544,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 	}
 
 	/**
-	 * Returns true if the user is allowed to administer the specified repository
+	 * 如果允许用户管理指定的存储库，则返回true
 	 *
 	 * @param repo
 	 * @return true if the user can administer the repository
@@ -622,7 +622,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 	}
 
 	/**
-	 * Returns true if the name/email pair match this user account.
+	 * 如果名称/电子邮件对匹配这个用户帐户，返回true。
 	 *
 	 * @param name
 	 * @param email
@@ -654,4 +654,5 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 	public String createCookie() {
 		return StringUtils.getSHA1(RANDOM.randomBytes(32));
 	}
+
 }
