@@ -136,7 +136,7 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity>{
     /**
      * 大小
      */
-    private Long size;
+    private String size;
 
     /**
      * 关注量
@@ -322,13 +322,15 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity>{
         this.taskId = taskId;
         this.taskName = taskName;
         this.updTime = updTime;
-        this.authorizationControl = authorizationControl;
-        this.accessRestriction = accessRestriction;
-        this.projectPath = projectPath;
-        this.crtUser = crtUser;
+        this.accessRestriction = Constants.AccessRestrictionType.NONE;
+        this.authorizationControl = Constants.AuthorizationControl.NAMED;
+        this.projectPath = StringUtils.getFirstPathElement(taskName);
+        this.isBare = true;
+//        this.crtUser = crtUser;
         this.taskDes = taskDes;
         this.owners = new ArrayList<String>();
         this.mergeType = Constants.MergeType.DEFAULT_MERGE_TYPE;
+        addOwner(crtUser);
     }
 
     /**
@@ -710,7 +712,7 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity>{
      *
      * @return size - 大小
      */
-    public Long getSize() {
+    public String getSize() {
         return size;
     }
 
@@ -719,7 +721,7 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity>{
      *
      * @param size 大小
      */
-    public void setSize(Long size) {
+    public void setSize(String size) {
         this.size = size;
     }
 

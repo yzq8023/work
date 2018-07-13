@@ -1123,7 +1123,7 @@ public class RepositoryManager implements IRepositoryManager {
 		}
 		long size = repositorySizeCache.getObject(model.getTaskName());
 		ByteFormat byteFormat = new ByteFormat();
-		model.setSize(Long.valueOf(byteFormat.format(size)));
+		model.setSize(byteFormat.format(size));
 		return size;
 	}
 
@@ -1290,18 +1290,22 @@ public class RepositoryManager implements IRepositoryManager {
 	public void updateRepositoryModel(String repositoryName, TaskEntity repository,
 			boolean isCreate) throws GitBlitException {
 
-		Repository r = null;
-		String projectPath = StringUtils.getFirstPathElement(repository.getTaskName());
-		if (!StringUtils.isEmpty(projectPath)) {
-            throw new GitBlitException(MessageFormat.format(
-                    "Can not create repository ''{0}'' because no project name.",
-                    repository.getTaskName()));
+		if (isCollectingGarbage(repositoryName)) {
+			throw new GitBlitException(MessageFormat.format("sorry, Gitblit is busy collecting garbage in {0}",
+					repositoryName));
 		}
-
+		Repository r = null;
+//		String projectPath = StringUtils.getFirstPathElement(repository.getTaskName());
+		String projectPath = repository.getTaskProjectName();
+		if (!StringUtils.isEmpty(projectPath)) {
+			if (projectPath.equalsIgnoreCase(settings.getString(Keys.web.repositoryRootGroupName, "main"))) {
+				// 带项目名称的仓库全称
+				repository.setTaskName(repository.getTaskName().substring(projectPath.length() + 1));
+			}
+		}
 		boolean isRename = false;
-		String aa = repository.getTaskName();
 		if (isCreate) {
-			// 确保创建的存储库名称以. git 结尾
+			// 确保创建的存储库名称以.git结尾
 			if (!repository.getTaskName().toLowerCase().endsWith(org.eclipse.jgit.lib.Constants.DOT_GIT_EXT)) {
 				repository.setTaskName(repository.getTaskName() + org.eclipse.jgit.lib.Constants.DOT_GIT_EXT);
 			}
@@ -1312,7 +1316,7 @@ public class RepositoryManager implements IRepositoryManager {
 			}
 			// create repository
 			logger.info("create repository " + repository.getTaskName());
-			String shared = "false";
+			String shared = settings.getString(Keys.git.createRepositoriesShared, "FALSE");
 			r = JGitUtils.createRepository(repositoriesFolder, repository.getTaskName(), shared);
 		} else {
 			// rename repository
@@ -1353,7 +1357,7 @@ public class RepositoryManager implements IRepositoryManager {
 							repositoryName, repository.getTaskName()));
 				}
 
-				// 重命名配置中的 fork origin
+				// rename fork origins in their configs
 				if (!ArrayUtils.isEmpty(repository.getForks())) {
 					for (String fork : repository.getForks()) {
 						Repository rf = getRepository(fork);
@@ -1371,7 +1375,7 @@ public class RepositoryManager implements IRepositoryManager {
 					}
 				}
 
-				// 更新此存储库的原始fork列表
+				// update this repository's origin's fork list
 				if (!StringUtils.isEmpty(repository.getOriginRepository())) {
 					String originKey = getRepositoryKey(repository.getOriginRepository());
 					TaskEntity origin = repositoryListCache.get(originKey);
@@ -1401,7 +1405,7 @@ public class RepositoryManager implements IRepositoryManager {
 				com.service.service.utils.FileUtils.writeContent(descFile, repository.getTaskDes());
 			}
 			else if (descFile.exists() && !descFile.isDirectory()) {
-				boolean del = descFile.delete();
+				descFile.delete();
 			}
 			// only update symbolic head if it changes
 			String currentRef = JGitUtils.getHEADRef(r);
