@@ -114,11 +114,11 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
         }
     }
 
-    public List<TaskEntity> getRepositories(Query query) {
+    public TableResultResponse<TaskEntity> getRepositories(Query query) {
         String userId = String.valueOf(query.getTaskExecutorId());
-        if (query == null) {
-            return getRepositoryModels(userId);
-        }
+//        if (query == null) {
+//            return getRepositoryModels(userId);
+//        }
 
         boolean hasParameter = false;
         String projectName = query.getProjectName();
@@ -128,11 +128,6 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
             }
         }
         String repositoryName = query.getTaskName();
-//        String set = WicketUtils.getSet(params);
-//        String regex = WicketUtils.getRegEx(params);
-//        String team = WicketUtils.getTeam(params);
-//        int daysBack = params.getInt("db", 0);
-//        int maxDaysBack = app().settings().getInteger(Keys.web.activityDurationMaximum, 30);
 
         List<TaskEntity> availableModels = getRepositoryModels(userId);
         Set<TaskEntity> models = new HashSet<TaskEntity>();
@@ -169,37 +164,17 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
             }
         }
 
-//        if (!StringUtils.isEmpty(team)) {
-//            // filter the repositories by the specified teams
-//            hasParameter = true;
-//            List<String> teams = StringUtils.getStringsFromValue(team, ",");
-//
-//            // need TeamModels first
-//            List<TeamModel> teamModels = new ArrayList<TeamModel>();
-//            for (String name : teams) {
-//                TeamModel teamModel = app().users().getTeamModel(name);
-//                if (teamModel != null) {
-//                    teamModels.add(teamModel);
-//                }
-//            }
-//
-//            // brute-force our way through finding the matching models
-//            for (TaskEntity repositoryModel : availableModels) {
-//                for (TeamModel teamModel : teamModels) {
-//                    if (teamModel.hasRepositoryPermission(repositoryModel.name)) {
-//                        models.add(repositoryModel);
-//                    }
-//                }
-//            }
-//        }
-
         if (!hasParameter) {
             models.addAll(availableModels);
         }
 
+        Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
         List<TaskEntity> list = new ArrayList<TaskEntity>(models);
-        Collections.sort(list);
-        return list;
+        return new TableResultResponse<>(result.getTotal(), list);
+//
+//        List<TaskEntity> list = new ArrayList<TaskEntity>(models);
+//        Collections.sort(list);
+//        return list;
     }
 
     protected List<TaskEntity> getRepositoryModels(String userId) {

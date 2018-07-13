@@ -40,12 +40,11 @@ public class TaskController extends BaseController<TaskBiz, TaskEntity> {
     @ResponseBody
     public TableResultResponse<TaskEntity> list(@RequestParam Map<String, Object> params) {
         Query query = new Query(params);
-        List<TaskEntity> repositories = taskBiz.getRepositories(query);
-        return baseBiz.selectTaskById(query);
+        return taskBiz.getRepositories(query);
     }
 
     @Override
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.POST)
     @ResponseBody
     public ObjectRestResponse<TaskEntity> add(@RequestBody TaskEntity entity) {
         taskBiz.createTask(entity, getCurrentUserName());
