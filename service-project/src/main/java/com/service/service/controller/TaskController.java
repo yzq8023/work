@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,6 +40,7 @@ public class TaskController extends BaseController<TaskBiz, TaskEntity> {
     @ResponseBody
     public TableResultResponse<TaskEntity> list(@RequestParam Map<String, Object> params) {
         Query query = new Query(params);
+        List<TaskEntity> repositories = taskBiz.getRepositories(query);
         return baseBiz.selectTaskById(query);
     }
 

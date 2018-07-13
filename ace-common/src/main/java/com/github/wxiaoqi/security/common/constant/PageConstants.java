@@ -32,4 +32,12 @@ public class PageConstants {
      * 项目ID
      */
     public final static String PROJECT_ID = "projectId";
+    /**
+     * 项目名称
+     */
+    public final static String PROJECT_NAME = "projectName";
+    /**
+     * 任务名称
+     */
+    public final static String TASK_NAME = "taskName";
 }

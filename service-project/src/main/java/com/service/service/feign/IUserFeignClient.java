@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(value = "ace-admin",configuration = FeignConfiguration.class)
 public interface IUserFeignClient {
-    @RequestMapping(value = "/api/user/info", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/user/info", method = RequestMethod.POST)
     public UserInfo info(@RequestParam("userId") Integer userId);
 }

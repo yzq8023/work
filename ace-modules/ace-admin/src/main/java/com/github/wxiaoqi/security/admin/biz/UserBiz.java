@@ -5,6 +5,7 @@ import com.ace.cache.annotation.CacheClear;
 import com.github.wxiaoqi.security.admin.entity.User;
 import com.github.wxiaoqi.security.admin.mapper.MenuMapper;
 import com.github.wxiaoqi.security.admin.mapper.UserMapper;
+import com.github.wxiaoqi.security.api.vo.user.UserInfo;
 import com.github.wxiaoqi.security.auth.client.jwt.UserAuthUtil;
 import com.github.wxiaoqi.security.common.biz.BaseBiz;
 import com.github.wxiaoqi.security.common.constant.UserConstant;
@@ -53,4 +54,15 @@ public class UserBiz extends BaseBiz<UserMapper,User> {
     }
 
 
+    /**
+     * 根据用户名获取用户信息
+     * @param userId
+     * @return
+     */
+    @Cache(key="user{1}")
+    public User getUserByUserId(Integer userId){
+        User user = new User();
+        user.setId(userId);
+        return mapper.selectOne(user);
+    }
 }
