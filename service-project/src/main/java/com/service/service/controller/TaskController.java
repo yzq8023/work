@@ -28,7 +28,6 @@ public class TaskController extends BaseController<TaskBiz, TaskEntity> {
         this.taskBiz = taskBiz;
     }
 
-
     @RequestMapping(value = "/{tid}/task", method = RequestMethod.PUT)
     @ResponseBody
     public ObjectRestResponse modifyTaskTeams(@PathVariable Integer tid, String teams){
