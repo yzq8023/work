@@ -20,7 +20,6 @@ import com.service.service.Keys;
 import com.service.service.entity.TaskEntity;
 import com.service.service.git.ReceiveCommandEvent;
 import com.service.service.managers.IRepositoryManager;
-import com.service.service.entity.RepositoryModel;
 import com.service.service.entity.UserModel;
 import com.service.service.tickets.BranchTicketService;
 import com.service.service.utils.JGitUtils;
@@ -68,8 +67,8 @@ public class MirrorService implements Runnable {
 
 		this.settings = settings;
 		this.repositoryManager = repositoryManager;
-		this.gitblitUser = new UserModel("gitblit");
-		this.gitblitUser.displayName = "Gitblit";
+		this.gitblitUser = new UserModel("workhub");
+		this.gitblitUser.setDisplayName("WorkHub");
 	}
 
 	public boolean isReady() {

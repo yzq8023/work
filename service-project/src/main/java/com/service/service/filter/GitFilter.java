@@ -25,7 +25,6 @@ import com.service.service.feign.IUserFeignClient;
 import com.service.service.managers.IAuthenticationManager;
 import com.service.service.managers.IRepositoryManager;
 import com.service.service.managers.IRuntimeManager;
-import com.service.service.entity.RepositoryModel;
 import com.service.service.entity.UserModel;
 import com.service.service.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -234,7 +233,7 @@ public class GitFilter extends AccessRestrictionFilter {
             } else {
                 // user is unauthorized to clone this repository
                 logger.warn(MessageFormat.format("user {0} is not authorized to clone {1}",
-                        user.username, repository));
+                        user.getUserId(), repository));
                 return false;
             }
         }
@@ -282,9 +281,9 @@ public class GitFilter extends AccessRestrictionFilter {
                 // create repository
                 TaskEntity taskEntity = new TaskEntity();
                 taskEntity.setTaskName(repository);
-                taskEntity.setCrtUser(user.username);
+                taskEntity.setCrtUser(user.getUserId());
                 taskEntity.setProjectPath(StringUtils.getFirstPathElement(repository));
-                if (taskEntity.isUsersPersonalRepository(user.username)) {
+                if (taskEntity.isUsersPersonalRepository(user.getUserId())) {
                     // 个人资料库, 默认为用户专用
                     taskEntity.setAuthorizationControl(AuthorizationControl.NAMED);
                     taskEntity.setAccessRestriction(AccessRestrictionType.VIEW);
@@ -297,13 +296,13 @@ public class GitFilter extends AccessRestrictionFilter {
                 // create the repository
                 try {
                     repositoryManager.updateRepositoryModel(taskEntity.getTaskName(), taskEntity, true);
-                    logger.info(MessageFormat.format("{0} created {1} ON-PUSH", user.username, taskEntity.getTaskName()));
+                    logger.info(MessageFormat.format("{0} created {1} ON-PUSH", user.getUserId(), taskEntity.getTaskName()));
                     return repositoryManager.getRepositoryModel(taskEntity.getTaskName());
                 } catch (GitBlitException e) {
                     e.printStackTrace();
                 }
             } else {
-                logger.warn(MessageFormat.format("{0} is not permitted to create repository {1} ON-PUSH!", user.username, repository));
+                logger.warn(MessageFormat.format("{0} is not permitted to create repository {1} ON-PUSH!", user.getUserId(), repository));
             }
         }
 

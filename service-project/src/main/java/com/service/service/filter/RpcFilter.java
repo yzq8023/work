@@ -110,7 +110,7 @@ public class RpcFilter extends AuthenticationFilter {
                 }
                 // valid user, but not for requested access. send 403.
                 logger.warn(MessageFormat.format("RPC: {0} forbidden to access {1}",
-                        user.username, fullUrl));
+                        user.getUserId(), fullUrl));
                 httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
                 return;
             }

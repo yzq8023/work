@@ -5,34 +5,35 @@
     <!--
       WARNING - @mbggenerated
     -->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="birthday" jdbcType="VARCHAR" property="birthday" />
-    <result column="address" jdbcType="VARCHAR" property="address" />
-    <result column="mobile_phone" jdbcType="VARCHAR" property="mobilePhone" />
-    <result column="tel_phone" jdbcType="VARCHAR" property="telPhone" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="sex" jdbcType="CHAR" property="sex" />
-    <result column="type" jdbcType="CHAR" property="type" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="crt_time" jdbcType="DATE" property="crtTime" />
-    <result column="crt_user" jdbcType="VARCHAR" property="crtUser" />
-    <result column="crt_name" jdbcType="VARCHAR" property="crtName" />
-    <result column="crt_host" jdbcType="VARCHAR" property="crtHost" />
-    <result column="upd_time" jdbcType="DATE" property="updTime" />
-    <result column="upd_user" jdbcType="VARCHAR" property="updUser" />
-    <result column="upd_name" jdbcType="VARCHAR" property="updName" />
-    <result column="upd_host" jdbcType="VARCHAR" property="updHost" />
-    <result column="attr1" jdbcType="VARCHAR" property="attr1" />
-    <result column="attr2" jdbcType="VARCHAR" property="attr2" />
-    <result column="attr3" jdbcType="VARCHAR" property="attr3" />
-    <result column="attr4" jdbcType="VARCHAR" property="attr4" />
-    <result column="attr5" jdbcType="VARCHAR" property="attr5" />
-    <result column="attr6" jdbcType="VARCHAR" property="attr6" />
-    <result column="attr7" jdbcType="VARCHAR" property="attr7" />
-    <result column="attr8" jdbcType="VARCHAR" property="attr8" />
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="mobile_phone" property="mobilePhone" jdbcType="VARCHAR" />
+    <result column="tel_phone" property="telPhone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="CHAR" />
+    <result column="type" property="type" jdbcType="CHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="crt_time" property="crtTime" jdbcType="TIMESTAMP" />
+    <result column="crt_user" property="crtUser" jdbcType="VARCHAR" />
+    <result column="crt_name" property="crtName" jdbcType="VARCHAR" />
+    <result column="crt_host" property="crtHost" jdbcType="VARCHAR" />
+    <result column="upd_time" property="updTime" jdbcType="TIMESTAMP" />
+    <result column="upd_user" property="updUser" jdbcType="VARCHAR" />
+    <result column="upd_name" property="updName" jdbcType="VARCHAR" />
+    <result column="upd_host" property="updHost" jdbcType="VARCHAR" />
+    <result column="attr4" property="attr4" jdbcType="VARCHAR" />
+    <result column="attr5" property="attr5" jdbcType="VARCHAR" />
+    <result column="attr6" property="attr6" jdbcType="VARCHAR" />
+    <result column="attr7" property="attr7" jdbcType="VARCHAR" />
+    <result column="attr8" property="attr8" jdbcType="VARCHAR" />
+    <result column="can_admin" property="canAdmin" jdbcType="LONGVARBINARY" />
+    <result column="can_fork" property="canFork" jdbcType="LONGVARBINARY" />
+    <result column="can_create" property="canCreate" jdbcType="LONGVARBINARY" />
   </resultMap>
   
   <select id="selectMemberByGroupId" resultMap="BaseResultMap">

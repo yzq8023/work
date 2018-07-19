@@ -19,7 +19,6 @@ import com.service.service.IStoredSettings;
 import com.service.service.Keys;
 import com.service.service.entity.TaskEntity;
 import com.service.service.managers.IRepositoryManager;
-import com.service.service.entity.RepositoryModel;
 import com.service.service.utils.FileUtils;
 import org.eclipse.jgit.api.GarbageCollectCommand;
 import org.eclipse.jgit.api.Git;

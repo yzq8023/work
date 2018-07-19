@@ -15,14 +15,20 @@
  */
 package com.service.service;
 
+import com.github.wxiaoqi.security.api.vo.user.UserInfo;
+import com.github.wxiaoqi.security.common.biz.BaseBiz;
 import com.service.service.Constants.AccessPermission;
 import com.service.service.Constants.AccountType;
 import com.service.service.Constants.Role;
 import com.service.service.Constants.Transport;
+import com.service.service.biz.TeamBiz;
+import com.service.service.entity.MapUserTask;
 import com.service.service.entity.TeamModel;
 import com.service.service.entity.UserModel;
 import com.service.service.entity.UserRepositoryPreferences;
+import com.service.service.feign.IUserFeignClient;
 import com.service.service.managers.IRuntimeManager;
+import com.service.service.mapper.MapUserTaskMapper;
 import com.service.service.utils.ArrayUtils;
 import com.service.service.utils.DeepCopier;
 import com.service.service.utils.StringUtils;
@@ -31,6 +37,9 @@ import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,22 +47,23 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static com.service.service.Constants.AccountType.LOCAL;
+
 /**
- * ConfigUserService is Gitblit's default user service implementation since
- * version 0.8.0.
  *
- * Users and their repository memberships are stored in a git-style config file
- * which is cached and dynamically reloaded when modified. This file is
- * plain-text, human-readable, and may be edited with a text editor.
  *
- * Additionally, this format allows for expansion of the user model without
- * bringing in the complexity of a database.
+ * 用户和他们的存储库成员被存储在一个配置文件中，
+ * 该文件在修改时被缓存并动态重新加载。
+ * 这个文件是纯文本的，是可读的，
+ * 并且可以用文本编辑器编辑。
+ *
+ * 此外，这种格式允许在不引入数据库复杂性的情况下扩展用户模型。
  *
  * @author James Moger
  *
  */
-public class
-ConfigUserService implements IUserService {
+@Service
+public class ConfigUserService extends BaseBiz<MapUserTaskMapper, MapUserTask> implements IUserService {
 
 	private static final String TEAM = "team";
 
@@ -99,7 +109,7 @@ ConfigUserService implements IUserService {
 
 	private static final String DISABLED = "disabled";
 
-	private final File realmFile;
+
 
 	private final Logger logger = LoggerFactory.getLogger(ConfigUserService.class);
 
@@ -107,18 +117,27 @@ ConfigUserService implements IUserService {
 
 	private final Map<String, UserModel> cookies = new ConcurrentHashMap<String, UserModel>();
 
-	private final Map<String, TeamModel> teams = new ConcurrentHashMap<String, TeamModel>();
+	private Map<String, TeamModel> teams = new ConcurrentHashMap<String, TeamModel>();
 
 	private volatile long lastModified;
 
 	private volatile boolean forceReload;
 
-	public ConfigUserService(File realmFile) {
-		this.realmFile = realmFile;
+	private IUserFeignClient feignClient;
+
+	private TeamBiz teamBiz;
+
+	@Autowired
+	public ConfigUserService(IUserFeignClient feignClient,
+							 TeamBiz teamBiz) {
+		this.feignClient = feignClient;
+		this.teamBiz = teamBiz;
 	}
 
+	public ConfigUserService() {
+	}
 	/**
-	 * Setup the user service.
+	 * 设置用户服务。
 	 *
 	 * @param runtimeManager
 	 * @since 1.4.0
@@ -128,25 +147,25 @@ ConfigUserService implements IUserService {
 	}
 
 	/**
-	 * Returns the cookie value for the specified user.
+	 * 返回指定用户的cookie值。
 	 *
 	 * @param model
 	 * @return cookie value
 	 */
 	@Override
 	public synchronized String getCookie(UserModel model) {
-		if (!StringUtils.isEmpty(model.cookie)) {
-			return model.cookie;
+		if (!StringUtils.isEmpty(model.getCookie())) {
+			return model.getCookie();
 		}
-		UserModel storedModel = getUserModel(model.username);
+		UserModel storedModel = getUserModel(model.getUserId());
 		if (storedModel == null) {
 			return null;
 		}
-		return storedModel.cookie;
+		return storedModel.getCookie();
 	}
 
 	/**
-	 * Gets the user object for the specified cookie.
+	 * 获取指定cookie的用户对象。
 	 *
 	 * @param cookie
 	 * @return a user object or null
@@ -172,7 +191,7 @@ ConfigUserService implements IUserService {
 	}
 
 	/**
-	 * Retrieve the user object for the specified username.
+	 * 检索指定用户名的用户对象。
 	 *
 	 * @param username
 	 * @return a user object or null
@@ -190,7 +209,7 @@ ConfigUserService implements IUserService {
 	}
 
 	/**
-	 * Retrieve the user object for the specified userId.
+	 * 为指定的userId检索user对象。
 	 *
 	 * @param userId
 	 * @return a user object or null
@@ -208,18 +227,18 @@ ConfigUserService implements IUserService {
 	}
 
 	/**
-	 * Updates/writes a complete user object.
+	 * 更新/写一个完整的用户对象。
 	 *
 	 * @param model
 	 * @return true if update is successful
 	 */
 	@Override
 	public synchronized boolean updateUserModel(UserModel model) {
-		return updateUserModel(model.username, model);
+		return updateUserModel(model.getUserId(), model);
 	}
 
 	/**
-	 * Updates/writes all specified user objects.
+	 * 更新/写入所有指定的用户对象。
 	 *
 	 * @param models a list of user models
 	 * @return true if update is successful
@@ -230,39 +249,38 @@ ConfigUserService implements IUserService {
 		try {
 			read();
 			for (UserModel model : models) {
-				UserModel originalUser = users.remove(model.username.toLowerCase());
-				users.put(model.username.toLowerCase(), model);
+				UserModel originalUser = users.remove(model.getUserId().toLowerCase());
+				users.put(model.getUserId().toLowerCase(), model);
 				// null check on "final" teams because JSON-sourced UserModel
 				// can have a null teams object
-				if (model.teams != null) {
+				if (model.getTeams() != null) {
 					Set<TeamModel> userTeams = new HashSet<TeamModel>();
-					for (TeamModel team : model.teams) {
-						TeamModel t = teams.get(team.name.toLowerCase());
+					for (TeamModel team : model.getTeams()) {
+						TeamModel t = teams.get(team.getId());
 						if (t == null) {
 							// new team
 							t = team;
-							teams.put(team.name.toLowerCase(), t);
+							teams.put(String.valueOf(team.getId()), t);
 						}
 						// do not clobber existing team definition
 						// maybe because this is a federated user
-						t.addUser(model.username);
+						t.addUser(model.getUserId());
 						userTeams.add(t);
 					}
 					// replace Team-Models in users by new ones.
-					model.teams.clear();
-					model.teams.addAll(userTeams);
+					model.getTeams().clear();
+					model.getTeams().addAll(userTeams);
 
 					// check for implicit team removal
 					if (originalUser != null) {
-						for (TeamModel team : originalUser.teams) {
-							if (!model.isTeamMember(team.name)) {
-								team.removeUser(model.username);
+						for (TeamModel team : originalUser.getTeams()) {
+							if (!model.isTeamMember(String.valueOf(team.getId()))) {
+								team.removeUser(model.getUserId());
 							}
 						}
 					}
 				}
 			}
-			write();
 			return true;
 		} catch (Throwable t) {
 			logger.error(MessageFormat.format("Failed to update user {0} models!", models.size()),
@@ -272,84 +290,84 @@ ConfigUserService implements IUserService {
 	}
 
 	/**
-	 * Updates/writes and replaces a complete user object keyed by username.
-	 * This method allows for renaming a user.
+	 * 更新/写入并替换由用户名键入的完整用户对象。这种方法允许重命名用户。
 	 *
-	 * @param username
+	 * @param userId
 	 *            the old username
 	 * @param model
 	 *            the user object to use for username
 	 * @return true if update is successful
 	 */
 	@Override
-	public synchronized boolean updateUserModel(String username, UserModel model) {
+	public synchronized boolean updateUserModel(String userId, UserModel model) {
 		UserModel originalUser = null;
 		try {
 			if (!model.isLocalAccount()) {
-				// do not persist password
-				model.password = Constants.EXTERNAL_ACCOUNT;
+				// 不保存密码
+				model.setPassword(Constants.EXTERNAL_ACCOUNT);
 			}
 			read();
-			originalUser = users.remove(username.toLowerCase());
+			originalUser = users.remove(userId);
+
 			if (originalUser != null) {
-				cookies.remove(originalUser.cookie);
+				//在缓存中删除相应用户
+				cookies.remove(originalUser.getCookie());
 			}
-			users.put(model.username.toLowerCase(), model);
+			users.put(model.getUserId(), model);
 			// null check on "final" teams because JSON-sourced UserModel
 			// can have a null teams object
-			if (model.teams != null) {
-				for (TeamModel team : model.teams) {
-					TeamModel t = teams.get(team.name.toLowerCase());
+			if (model.getTeams() != null) {
+				for (TeamModel team : model.getTeams()) {
+					TeamModel t = teams.get(team.getId());
 					if (t == null) {
 						// new team
-						team.addUser(username);
-						teams.put(team.name.toLowerCase(), team);
+						team.addUser(userId);
+						teams.put(String.valueOf(team.getId()), team);
 					} else {
 						// do not clobber existing team definition
 						// maybe because this is a federated user
-						t.removeUser(username);
-						t.addUser(model.username);
+						t.removeUser(userId);
+						t.addUser(model.getUserId());
 					}
 				}
 
 				// check for implicit team removal
 				if (originalUser != null) {
-					for (TeamModel team : originalUser.teams) {
-						if (!model.isTeamMember(team.name)) {
-							team.removeUser(username);
+					for (TeamModel team : originalUser.getTeams()) {
+						if (!model.isTeamMember(String.valueOf(team.getId()))) {
+							team.removeUser(userId);
 						}
 					}
 				}
 			}
-			write();
 			return true;
 		} catch (Throwable t) {
 			if (originalUser != null) {
 				// restore original user
-				users.put(originalUser.username.toLowerCase(), originalUser);
+				users.put(originalUser.getUserId().toLowerCase(), originalUser);
 			} else {
 				// drop attempted add
-				users.remove(model.username.toLowerCase());
+				users.remove(model.getUserId().toLowerCase());
 			}
-			logger.error(MessageFormat.format("Failed to update user model {0}!", model.username),
+			logger.error(MessageFormat.format("Failed to update user model {0}!", model.getUserId()),
 					t);
 		}
 		return false;
 	}
 
 	/**
-	 * Deletes the user object from the user service.
+	 * 从用户服务中删除用户对象。
 	 *
 	 * @param model
 	 * @return true if successful
 	 */
 	@Override
 	public synchronized boolean deleteUserModel(UserModel model) {
-		return deleteUser(model.username);
+		return deleteUser(model.getUserId());
 	}
 
 	/**
-	 * Delete the user object with the specified username
+	 * 使用指定的用户名删除用户对象
 	 *
 	 * @param username
 	 * @return true if successful
@@ -365,18 +383,17 @@ ConfigUserService implements IUserService {
 				return false;
 			}
 			// remove user from team
-			for (TeamModel team : model.teams) {
-				TeamModel t = teams.get(team.name);
+			for (TeamModel team : model.getTeams()) {
+				TeamModel t = teams.get(team.getId());
 				if (t == null) {
 					// new team
 					team.removeUser(username);
-					teams.put(team.name.toLowerCase(), team);
+					teams.put(String.valueOf(team.getId()), team);
 				} else {
 					// existing team
 					t.removeUser(username);
 				}
 			}
-			write();
 			return true;
 		} catch (Throwable t) {
 			logger.error(MessageFormat.format("Failed to delete user {0}!", username), t);
@@ -385,7 +402,7 @@ ConfigUserService implements IUserService {
 	}
 
 	/**
-	 * Returns the list of all teams available to the login service.
+	 * 返回登录服务可用的所有团队的列表。
 	 *
 	 * @return list of all teams
 	 * @since 0.8.0
@@ -399,7 +416,7 @@ ConfigUserService implements IUserService {
 	}
 
 	/**
-	 * Returns the list of all teams available to the login service.
+	 * 返回登录服务可用的所有团队的列表。
 	 *
 	 * @return list of all teams
 	 * @since 0.8.0
@@ -414,8 +431,7 @@ ConfigUserService implements IUserService {
 	}
 
 	/**
-	 * Returns the list of all users who are allowed to bypass the access
-	 * restriction placed on the specified repository.
+	 * 返回所有允许绕过指定存储库上的访问限制的用户的列表。
 	 *
 	 * @param role
 	 *            the repository name
@@ -429,7 +445,7 @@ ConfigUserService implements IUserService {
 			for (Map.Entry<String, TeamModel> entry : teams.entrySet()) {
 				TeamModel model = entry.getValue();
 				if (model.hasRepositoryPermission(role)) {
-					list.add(model.name);
+					list.add(String.valueOf(model.getId()));
 				}
 			}
 		} catch (Throwable t) {
@@ -440,7 +456,7 @@ ConfigUserService implements IUserService {
 	}
 
 	/**
-	 * Retrieve the team object for the specified team name.
+	 * 检索团队对象以获得指定的团队名称。
 	 *
 	 * @param teamname
 	 * @return a team object or null
@@ -459,7 +475,7 @@ ConfigUserService implements IUserService {
 	}
 
 	/**
-	 * Updates/writes a complete team object.
+	 * 更新/写一个完整的团队对象。
 	 *
 	 * @param model
 	 * @return true if update is successful
@@ -467,7 +483,7 @@ ConfigUserService implements IUserService {
 	 */
 	@Override
 	public synchronized boolean updateTeamModel(TeamModel model) {
-		return updateTeamModel(model.name, model);
+		return updateTeamModel(String.valueOf(model.getId()), model);
 	}
 
 	/**
@@ -482,9 +498,8 @@ ConfigUserService implements IUserService {
 		try {
 			read();
 			for (TeamModel team : models) {
-				teams.put(team.name.toLowerCase(), team);
+				teams.put(String.valueOf(team.getId()), team);
 			}
-			write();
 			return true;
 		} catch (Throwable t) {
 			logger.error(MessageFormat.format("Failed to update team {0} models!", models.size()), t);
@@ -509,18 +524,17 @@ ConfigUserService implements IUserService {
 		try {
 			read();
 			original = teams.remove(teamname.toLowerCase());
-			teams.put(model.name.toLowerCase(), model);
-			write();
+			teams.put(String.valueOf(model.getId()), model);
 			return true;
 		} catch (Throwable t) {
 			if (original != null) {
 				// restore original team
-				teams.put(original.name.toLowerCase(), original);
+				teams.put(String.valueOf(original.getId()), original);
 			} else {
 				// drop attempted add
-				teams.remove(model.name.toLowerCase());
+				teams.remove(model.getId());
 			}
-			logger.error(MessageFormat.format("Failed to update team model {0}!", model.name), t);
+			logger.error(MessageFormat.format("Failed to update team model {0}!", model.getId()), t);
 		}
 		return false;
 	}
@@ -534,7 +548,7 @@ ConfigUserService implements IUserService {
 	 */
 	@Override
 	public synchronized boolean deleteTeamModel(TeamModel model) {
-		return deleteTeam(model.name);
+		return deleteTeam(String.valueOf(model.getId()));
 	}
 
 	/**
@@ -550,7 +564,6 @@ ConfigUserService implements IUserService {
 			// Read realm file
 			read();
 			teams.remove(teamname.toLowerCase());
-			write();
 			return true;
 		} catch (Throwable t) {
 			logger.error(MessageFormat.format("Failed to delete team {0}!", teamname), t);
@@ -572,7 +585,7 @@ ConfigUserService implements IUserService {
 	}
 
 	/**
-	 * Returns the list of all users available to the login service.
+	 * 返回登录服务可用的所有用户列表。
 	 *
 	 * @return list of all usernames
 	 */
@@ -586,8 +599,7 @@ ConfigUserService implements IUserService {
 	}
 
 	/**
-	 * Returns the list of all users who are allowed to bypass the access
-	 * restriction placed on the specified repository.
+	 * 返回所有允许绕过指定存储库上的访问限制的用户的列表。
 	 *
 	 * @param role
 	 *            the repository name
@@ -601,7 +613,7 @@ ConfigUserService implements IUserService {
 			for (Map.Entry<String, UserModel> entry : users.entrySet()) {
 				UserModel model = entry.getValue();
 				if (model.hasRepositoryPermission(role)) {
-					list.add(model.username);
+					list.add(model.getUserId());
 				}
 			}
 		} catch (Throwable t) {
@@ -612,8 +624,7 @@ ConfigUserService implements IUserService {
 	}
 
 	/**
-	 * Renames a repository role.
-	 *
+	 * 重命名一个存储库的作用。
 	 * @param oldRole
 	 * @param newRole
 	 * @return true if successful
@@ -637,8 +648,6 @@ ConfigUserService implements IUserService {
 					model.setRepositoryPermission(newRole, permission);
 				}
 			}
-			// persist changes
-			write();
 			return true;
 		} catch (Throwable t) {
 			logger.error(
@@ -648,7 +657,7 @@ ConfigUserService implements IUserService {
 	}
 
 	/**
-	 * Removes a repository role from all users.
+	 * 从所有用户中删除存储库角色。
 	 *
 	 * @param role
 	 * @return true if successful
@@ -667,9 +676,6 @@ ConfigUserService implements IUserService {
 			for (TeamModel team : teams.values()) {
 				team.removeRepositoryPermission(role);
 			}
-
-			// persist changes
-			write();
 			return true;
 		} catch (Throwable t) {
 			logger.error(MessageFormat.format("Failed to delete role {0}!", role), t);
@@ -678,313 +684,62 @@ ConfigUserService implements IUserService {
 	}
 
 	/**
-	 * Writes the properties file.
-	 *
-	 * @throws IOException
-	 */
-	private synchronized void write() throws IOException {
-		// Write a temporary copy of the users file
-		File realmFileCopy = new File(realmFile.getAbsolutePath() + ".tmp");
-
-		StoredConfig config = new FileBasedConfig(realmFileCopy, FS.detect());
-
-		// write users
-		for (UserModel model : users.values()) {
-			if (!StringUtils.isEmpty(model.password)) {
-				config.setString(USER, model.username, PASSWORD, model.password);
-			}
-			if (!StringUtils.isEmpty(model.cookie)) {
-				config.setString(USER, model.username, COOKIE, model.cookie);
-			}
-			if (!StringUtils.isEmpty(model.displayName)) {
-				config.setString(USER, model.username, DISPLAYNAME, model.displayName);
-			}
-			if (!StringUtils.isEmpty(model.emailAddress)) {
-				config.setString(USER, model.username, EMAILADDRESS, model.emailAddress);
-			}
-			if (model.accountType != null) {
-				config.setString(USER, model.username, ACCOUNTTYPE, model.accountType.name());
-			}
-			if (!StringUtils.isEmpty(model.organizationalUnit)) {
-				config.setString(USER, model.username, ORGANIZATIONALUNIT, model.organizationalUnit);
-			}
-			if (!StringUtils.isEmpty(model.organization)) {
-				config.setString(USER, model.username, ORGANIZATION, model.organization);
-			}
-			if (!StringUtils.isEmpty(model.locality)) {
-				config.setString(USER, model.username, LOCALITY, model.locality);
-			}
-			if (!StringUtils.isEmpty(model.stateProvince)) {
-				config.setString(USER, model.username, STATEPROVINCE, model.stateProvince);
-			}
-			if (!StringUtils.isEmpty(model.countryCode)) {
-				config.setString(USER, model.username, COUNTRYCODE, model.countryCode);
-			}
-			if (model.disabled) {
-				config.setBoolean(USER, model.username, DISABLED, true);
-			}
-			if (model.getPreferences() != null) {
-				Locale locale = model.getPreferences().getLocale();
-				if (locale != null) {
-					String val;
-					if (StringUtils.isEmpty(locale.getCountry())) {
-						val = locale.getLanguage();
-					} else {
-						val = locale.getLanguage() + "_" + locale.getCountry();
-					}
-					config.setString(USER, model.username, LOCALE, val);
-				}
-
-				config.setBoolean(USER, model.username, EMAILONMYTICKETCHANGES, model.getPreferences().isEmailMeOnMyTicketChanges());
-
-				if (model.getPreferences().getTransport() != null) {
-					config.setString(USER, model.username, TRANSPORT, model.getPreferences().getTransport().name());
-				}
-			}
-
-			// user roles
-			List<String> roles = new ArrayList<String>();
-			if (model.canAdmin) {
-				roles.add(Role.ADMIN.getRole());
-			}
-			if (model.canFork) {
-				roles.add(Role.FORK.getRole());
-			}
-			if (model.canCreate) {
-				roles.add(Role.CREATE.getRole());
-			}
-			if (model.excludeFromFederation) {
-				roles.add(Role.NOT_FEDERATED.getRole());
-			}
-			if (roles.size() == 0) {
-				// we do this to ensure that user record with no password
-				// is written.  otherwise, StoredConfig optimizes that account
-				// away. :(
-				roles.add(Role.NONE.getRole());
-			}
-			config.setStringList(USER, model.username, ROLE, roles);
-
-			// discrete repository permissions
-			if (model.permissions != null && !model.canAdmin) {
-				List<String> permissions = new ArrayList<String>();
-				for (Map.Entry<String, AccessPermission> entry : model.permissions.entrySet()) {
-					if (entry.getValue().exceeds(AccessPermission.NONE)) {
-						permissions.add(entry.getValue().asRole(entry.getKey()));
-					}
-				}
-				config.setStringList(USER, model.username, REPOSITORY, permissions);
-			}
-
-			// user preferences
-			if (model.getPreferences() != null) {
-				List<String> starred =  model.getPreferences().getStarredRepositories();
-				if (starred.size() > 0) {
-					config.setStringList(USER, model.username, STARRED, starred);
-				}
-			}
-		}
-
-		// write teams
-		for (TeamModel model : teams.values()) {
-			// team roles
-			List<String> roles = new ArrayList<String>();
-			if (model.canAdmin) {
-				roles.add(Role.ADMIN.getRole());
-			}
-			if (model.canFork) {
-				roles.add(Role.FORK.getRole());
-			}
-			if (model.canCreate) {
-				roles.add(Role.CREATE.getRole());
-			}
-			if (roles.size() == 0) {
-				// we do this to ensure that team record is written.
-				// Otherwise, StoredConfig might optimizes that record away.
-				roles.add(Role.NONE.getRole());
-			}
-			config.setStringList(TEAM, model.name, ROLE, roles);
-			if (model.accountType != null) {
-				config.setString(TEAM, model.name, ACCOUNTTYPE, model.accountType.name());
-			}
-
-			if (!model.canAdmin) {
-				// write team permission for non-admin teams
-				if (model.permissions == null) {
-					// null check on "final" repositories because JSON-sourced TeamModel
-					// can have a null repositories object
-					if (!ArrayUtils.isEmpty(model.repositories)) {
-						config.setStringList(TEAM, model.name, REPOSITORY, new ArrayList<String>(
-								model.repositories));
-					}
-				} else {
-					// discrete repository permissions
-					List<String> permissions = new ArrayList<String>();
-					for (Map.Entry<String, AccessPermission> entry : model.permissions.entrySet()) {
-						if (entry.getValue().exceeds(AccessPermission.NONE)) {
-							// code:repository (e.g. RW+:~james/myrepo.git
-							permissions.add(entry.getValue().asRole(entry.getKey()));
-						}
-					}
-					config.setStringList(TEAM, model.name, REPOSITORY, permissions);
-				}
-			}
-
-			// null check on "final" users because JSON-sourced TeamModel
-			// can have a null users object
-			if (!ArrayUtils.isEmpty(model.users)) {
-				config.setStringList(TEAM, model.name, USER, new ArrayList<String>(model.users));
-			}
-
-			// null check on "final" mailing lists because JSON-sourced
-			// TeamModel can have a null users object
-			if (!ArrayUtils.isEmpty(model.mailingLists)) {
-				config.setStringList(TEAM, model.name, MAILINGLIST, new ArrayList<String>(
-						model.mailingLists));
-			}
-
-			// null check on "final" preReceiveScripts because JSON-sourced
-			// TeamModel can have a null preReceiveScripts object
-			if (!ArrayUtils.isEmpty(model.preReceiveScripts)) {
-				config.setStringList(TEAM, model.name, PRERECEIVE, model.preReceiveScripts);
-			}
-
-			// null check on "final" postReceiveScripts because JSON-sourced
-			// TeamModel can have a null postReceiveScripts object
-			if (!ArrayUtils.isEmpty(model.postReceiveScripts)) {
-				config.setStringList(TEAM, model.name, POSTRECEIVE, model.postReceiveScripts);
-			}
-		}
-
-		config.save();
-		// manually set the forceReload flag because not all JVMs support real
-		// millisecond resolution of lastModified. (issue-55)
-		forceReload = true;
-
-		// If the write is successful, delete the current file and rename
-		// the temporary copy to the original filename.
-		if (realmFileCopy.exists() && realmFileCopy.length() > 0) {
-			if (realmFile.exists()) {
-				if (!realmFile.delete()) {
-					throw new IOException(MessageFormat.format("Failed to delete {0}!",
-							realmFile.getAbsolutePath()));
-				}
-			}
-			if (!realmFileCopy.renameTo(realmFile)) {
-				throw new IOException(MessageFormat.format("Failed to rename {0} to {1}!",
-						realmFileCopy.getAbsolutePath(), realmFile.getAbsolutePath()));
-			}
-		} else {
-			throw new IOException(MessageFormat.format("Failed to save {0}!",
-					realmFileCopy.getAbsolutePath()));
-		}
-	}
-
-	/**
-	 * Reads the realm file and rebuilds the in-memory lookup tables.
+	 * 读取ace-admin服务中的用户并重新构建内存中的查找表。
 	 */
 	protected synchronized void read() {
-		if (realmFile.exists() && (forceReload || (realmFile.lastModified() != lastModified))) {
+		if (forceReload) {
 			forceReload = false;
-			lastModified = realmFile.lastModified();
 			users.clear();
 			cookies.clear();
 			teams.clear();
 
 			try {
-				StoredConfig config = new FileBasedConfig(realmFile, FS.detect());
-				config.load();
-				Set<String> usernames = config.getSubsections(USER);
-				for (String username : usernames) {
-					UserModel user = new UserModel(username.toLowerCase());
-					user.password = config.getString(USER, username, PASSWORD);
-					user.displayName = config.getString(USER, username, DISPLAYNAME);
-					user.emailAddress = config.getString(USER, username, EMAILADDRESS);
-					user.accountType = AccountType.fromString(config.getString(USER, username, ACCOUNTTYPE));
-					user.disabled = config.getBoolean(USER, username, DISABLED, false);
-					user.organizationalUnit = config.getString(USER, username, ORGANIZATIONALUNIT);
-					user.organization = config.getString(USER, username, ORGANIZATION);
-					user.locality = config.getString(USER, username, LOCALITY);
-					user.stateProvince = config.getString(USER, username, STATEPROVINCE);
-					user.countryCode = config.getString(USER, username, COUNTRYCODE);
-					user.cookie = config.getString(USER, username, COOKIE);
-					if (StringUtils.isEmpty(user.cookie) && !StringUtils.isEmpty(user.password)) {
-						user.cookie = user.createCookie();
+				List<UserInfo> userInfos = feignClient.all();
+				for (UserInfo userInfo : userInfos) {
+					UserModel user = new UserModel(userInfo.getId());
+					user.setPassword(userInfo.getPassword());
+					user.setDisplayName(userInfo.getName());
+					user.setEmailAddress("hollykunge@163.com");
+					user.setAccountType(LOCAL);
+					user.setDisabled(false);
+					user.setOrganizationalUnit(null);
+					user.setOrganization(null);
+					user.setLocality(null);
+					user.setStateProvince(null);
+					user.setCountryCode(null);
+					user.setCookie(null);
+					if (StringUtils.isEmpty(user.getCookie()) && !StringUtils.isEmpty(user.getPassword())) {
+						user.setCookie(user.createCookie());
 					}
 
 					// preferences
-					user.getPreferences().setLocale(config.getString(USER, username, LOCALE));
-					user.getPreferences().setEmailMeOnMyTicketChanges(config.getBoolean(USER, username, EMAILONMYTICKETCHANGES, true));
-					user.getPreferences().setTransport(Transport.fromString(config.getString(USER, username, TRANSPORT)));
+					user.getPreferences().setLocale(userInfo.getId());
+					user.getPreferences().setTransport(Transport.fromString(userInfo.getId()));
 
-					// user roles
-					Set<String> roles = new HashSet<String>(Arrays.asList(config.getStringList(
-							USER, username, ROLE)));
-					user.canAdmin = roles.contains(Role.ADMIN.getRole());
-					user.canFork = roles.contains(Role.FORK.getRole());
-					user.canCreate = roles.contains(Role.CREATE.getRole());
-					user.excludeFromFederation = roles.contains(Role.NOT_FEDERATED.getRole());
+					user.setCanAdmin(userInfo.isCanAdmin());
+					user.setCanFork(userInfo.isCanFork());
+					user.setCanCreate(userInfo.isCanCreate());
+
 
 					// repository memberships
-					if (!user.canAdmin) {
-						// non-admin, read permissions
-						Set<String> repositories = new HashSet<String>(Arrays.asList(config
-								.getStringList(USER, username, REPOSITORY)));
+					if (!user.isCanAdmin()) {
+						// 非admin, 直接读取数据库获取用户仓库
+						Set<String> repositories = new HashSet<String>(mapper.getUserIds());
 						for (String repository : repositories) {
 							user.addRepositoryPermission(repository);
 						}
 					}
 
-					// starred repositories
-					Set<String> starred = new HashSet<String>(Arrays.asList(config
-							.getStringList(USER, username, STARRED)));
-					for (String repository : starred) {
-						UserRepositoryPreferences prefs = user.getPreferences().getRepositoryPreferences(repository);
-						prefs.starred = true;
-					}
-
 					// update cache
-					users.put(user.username, user);
-					if (!StringUtils.isEmpty(user.cookie)) {
-						cookies.put(user.cookie, user);
+					users.put(user.getUserId(), user);
+					if (!StringUtils.isEmpty(user.getCookie())) {
+						cookies.put(user.getCookie(), user);
 					}
 				}
 
-				// load the teams
-				Set<String> teamnames = config.getSubsections(TEAM);
-				for (String teamname : teamnames) {
-					TeamModel team = new TeamModel(teamname);
-					Set<String> roles = new HashSet<String>(Arrays.asList(config.getStringList(
-							TEAM, teamname, ROLE)));
-					team.canAdmin = roles.contains(Role.ADMIN.getRole());
-					team.canFork = roles.contains(Role.FORK.getRole());
-					team.canCreate = roles.contains(Role.CREATE.getRole());
-					team.accountType = AccountType.fromString(config.getString(TEAM, teamname, ACCOUNTTYPE));
-
-					if (!team.canAdmin) {
-						// non-admin team, read permissions
-						team.addRepositoryPermissions(Arrays.asList(config.getStringList(TEAM, teamname,
-								REPOSITORY)));
-					}
-					team.addUsers(Arrays.asList(config.getStringList(TEAM, teamname, USER)));
-					team.addMailingLists(Arrays.asList(config.getStringList(TEAM, teamname,
-							MAILINGLIST)));
-					team.preReceiveScripts.addAll(Arrays.asList(config.getStringList(TEAM,
-							teamname, PRERECEIVE)));
-					team.postReceiveScripts.addAll(Arrays.asList(config.getStringList(TEAM,
-							teamname, POSTRECEIVE)));
-
-					teams.put(team.name.toLowerCase(), team);
-
-					// set the teams on the users
-					for (String user : team.users) {
-						UserModel model = users.get(user);
-						if (model != null) {
-							model.teams.add(team);
-						}
-					}
-				}
+				this.teams = teamBiz.loadTeams();
 			} catch (Exception e) {
-				logger.error(MessageFormat.format("Failed to read {0}", realmFile), e);
+				logger.error(MessageFormat.format("Failed to load {0}", users), e);
 			}
 		}
 	}
@@ -995,6 +750,6 @@ ConfigUserService implements IUserService {
 
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + "(" + realmFile.getAbsolutePath() + ")";
+		return getClass().getSimpleName() + "()";
 	}
 }

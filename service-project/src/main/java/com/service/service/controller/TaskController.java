@@ -4,6 +4,7 @@ import com.github.wxiaoqi.security.common.msg.ObjectRestResponse;
 import com.github.wxiaoqi.security.common.msg.TableResultResponse;
 import com.github.wxiaoqi.security.common.rest.BaseController;
 import com.github.wxiaoqi.security.common.util.Query;
+import com.service.service.biz.MapUserTaskBiz;
 import com.service.service.biz.TaskBiz;
 import com.service.service.entity.TaskEntity;
 import io.swagger.annotations.Api;
@@ -22,18 +23,29 @@ import java.util.Map;
 public class TaskController extends BaseController<TaskBiz, TaskEntity> {
 
     TaskBiz taskBiz;
+    MapUserTaskBiz mapUserTaskBiz;
 
     @Autowired
-    public TaskController(TaskBiz taskBiz) {
+    public TaskController(TaskBiz taskBiz,
+                          MapUserTaskBiz mapUserTaskBiz) {
         this.taskBiz = taskBiz;
+        this.mapUserTaskBiz = mapUserTaskBiz;
     }
 
     @RequestMapping(value = "/{tid}/task", method = RequestMethod.PUT)
     @ResponseBody
-    public ObjectRestResponse modifyTaskTeams(@PathVariable Integer tid, String teams){
-        baseBiz.modifyTaskTeams(tid, teams);
+    public ObjectRestResponse modifyTeamsInTask(@PathVariable Integer tid, String teams){
+        taskBiz.modifyTeamsInTask(tid, teams);
         return new ObjectRestResponse().rel(true);
     }
+
+    @RequestMapping(value = "/{tid}/task", method = RequestMethod.PUT)
+    @ResponseBody
+    public ObjectRestResponse modifyUsersInTask(@PathVariable Integer tid, String userIds){
+        mapUserTaskBiz.updateUsersInTask(tid, userIds);
+        return new ObjectRestResponse().rel(true);
+    }
+
     @Override
     @RequestMapping(value = "/page", method = RequestMethod.GET)
     @ResponseBody
@@ -46,8 +58,9 @@ public class TaskController extends BaseController<TaskBiz, TaskEntity> {
     @RequestMapping(value = "", method = RequestMethod.POST)
     @ResponseBody
     public ObjectRestResponse<TaskEntity> add(@RequestBody TaskEntity entity) {
-        taskBiz.createTask(entity, getCurrentUserName());
-        baseBiz.insertSelective(entity);
+        if (taskBiz.createTask(entity, getCurrentUserId())){
+            baseBiz.insertSelective(entity);
+        }
         return new ObjectRestResponse<TaskEntity>();
     }
 }

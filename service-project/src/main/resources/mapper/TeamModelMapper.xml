@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.service.service.mapper.TeamModelMapper">
+    <resultMap id="BaseResultMap" type="com.service.service.entity.TeamModel">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="lower_name" property="lowerName" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="num_task" property="numTask" jdbcType="INTEGER"/>
+        <result column="num_members" property="numMembers" jdbcType="INTEGER"/>
+        <result column="crt_time" property="crtTime" jdbcType="TIMESTAMP"/>
+        <result column="crt_user" property="crtUser" jdbcType="VARCHAR"/>
+        <result column="crt_name" property="crtName" jdbcType="VARCHAR"/>
+        <result column="crt_host" property="crtHost" jdbcType="VARCHAR"/>
+        <result column="upd_time" property="updTime" jdbcType="TIMESTAMP"/>
+        <result column="upd_user" property="updUser" jdbcType="VARCHAR"/>
+        <result column="upd_name" property="updName" jdbcType="VARCHAR"/>
+        <result column="upd_host" property="updHost" jdbcType="VARCHAR"/>
+        <result column="can_admin" property="canAdmin" jdbcType="BIT"/>
+        <result column="can_fork" property="canFork" jdbcType="BIT"/>
+        <result column="can_create" property="canCreate" jdbcType="BIT"/>
+    </resultMap>
+    <insert id="insertTeamUsersById">
+      insert into team_user (
+      team_id,user_id
+      )
+      values(
+      #{teamId},#{userId}
+      )
+  </insert>
+    <insert id="insertTeamsByUserId">
+      insert into team_user (
+      user_id,team_id
+      )
+      values(
+      #{userId},#{teamId}
+      )
+  </insert>
+    <delete id="deleteTeamUsersById">
+    delete from team_user where team_id = #{teamId}
+  </delete>
+    <delete id="deleteTeamsByUserId">
+    delete from team_user where user_id = #{userId}
+  </delete>
+    <select id="selectTeamByUserId" resultMap="BaseResultMap">
+        select t.* from team t left join team_user tu on t.id = tu.team_id where tu.user_id = #{userId}
+    </select>
+    <select id="getTeamPermissions" resultMap="BaseResultMap">
+        select sum(permission) from team_repo tr group by team_id where tr.team_id = #{teamId}
+    </select>
+    <select id="getUserIdsByTeamId" resultMap="BaseResultMap">
+        select sum(user_id) from team_user tu group by team_id where tu.team_id = #{teamId}
+    </select>
+</mapper>

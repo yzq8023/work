@@ -224,7 +224,7 @@ public class RepositoryManager implements IRepositoryManager {
 	 */
 	@Override
 	public List<RegistrantAccessPermission> getUserAccessPermissions(UserModel user) {
-		if (StringUtils.isEmpty(user.username)) {
+		if (StringUtils.isEmpty(user.getUserId())) {
 			// new user
 			return new ArrayList<RegistrantAccessPermission>();
 		}
@@ -245,7 +245,7 @@ public class RepositoryManager implements IRepositoryManager {
 		// TODO: 重新考虑所有权为用户属性
 		// 手动指定个人存储库所有权
 		for (TaskEntity rm : repositoryListCache.values()) {
-			if (rm.isUsersPersonalRepository(user.username) || rm.isOwner(user.username)) {
+			if (rm.isUsersPersonalRepository(user.getUserId()) || rm.isOwner(user.getUserId())) {
 				RegistrantAccessPermission rp = new RegistrantAccessPermission(rm.getTaskName(), AccessPermission.REWIND,
 						PermissionType.OWNER, RegistrantType.REPOSITORY, null, false);
 				// 用户可能是其继承的存储库的所有者
@@ -624,7 +624,7 @@ public class RepositoryManager implements IRepositoryManager {
 		}
 		long duration = System.currentTimeMillis() - methodStart;
 		logger.info(MessageFormat.format("{0} repository models loaded for {1} in {2} msecs",
-				repositories.size(), user == null ? "anonymous" : user.username, duration));
+				repositories.size(), user == null ? "anonymous" : user.getUserId(), duration));
 		return repositories;
 	}
 
@@ -1295,8 +1295,8 @@ public class RepositoryManager implements IRepositoryManager {
 					repositoryName));
 		}
 		Repository r = null;
-//		String projectPath = StringUtils.getFirstPathElement(repository.getTaskName());
-		String projectPath = repository.getTaskProjectName();
+		String projectPath = StringUtils.getFirstPathElement(repositoryName);
+//		String projectPath = repository.getTaskProjectName();
 		if (!StringUtils.isEmpty(projectPath)) {
 			if (projectPath.equalsIgnoreCase(settings.getString(Keys.web.repositoryRootGroupName, "main"))) {
 				// 带项目名称的仓库全称
@@ -1684,16 +1684,6 @@ public class RepositoryManager implements IRepositoryManager {
 				scripts.add(script);
 			}
 		}
-
-		// Team Scripts
-		if (repository != null) {
-			for (String teamname : userManager.getTeamNamesForRepositoryRole(repository.getTaskName())) {
-				TeamModel team = userManager.getTeamModel(teamname);
-				if (!ArrayUtils.isEmpty(team.preReceiveScripts)) {
-					scripts.addAll(team.preReceiveScripts);
-				}
-			}
-		}
 		return new ArrayList<String>(scripts);
 	}
 
@@ -1737,15 +1727,7 @@ public class RepositoryManager implements IRepositoryManager {
 				scripts.add(script);
 			}
 		}
-		// Team Scripts
-		if (repository != null) {
-			for (String teamname : userManager.getTeamNamesForRepositoryRole(repository.getTaskName())) {
-				TeamModel team = userManager.getTeamModel(teamname);
-				if (!ArrayUtils.isEmpty(team.postReceiveScripts)) {
-					scripts.addAll(team.postReceiveScripts);
-				}
-			}
-		}
+
 		return new ArrayList<String>(scripts);
 	}
 

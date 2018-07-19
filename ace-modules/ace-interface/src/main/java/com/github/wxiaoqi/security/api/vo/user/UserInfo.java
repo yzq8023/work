@@ -12,12 +12,15 @@ import java.util.Date;
  * @create 2017-06-21 8:12
  */
 public class UserInfo implements Serializable{
-    public String id;
-    public String username;
-    public String password;
-    public String name;
+    private String id;
+    private String username;
+    private String password;
+    private String name;
     private String description;
     private Date updTime;
+    private boolean canAdmin;
+    private boolean canFork;
+    private boolean canCreate;
 
     public Date getUpdTime() {
         return updTime;
@@ -65,5 +68,29 @@ public class UserInfo implements Serializable{
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isCanAdmin() {
+        return canAdmin;
+    }
+
+    public void setCanAdmin(boolean canAdmin) {
+        this.canAdmin = canAdmin;
+    }
+
+    public boolean isCanFork() {
+        return canFork;
+    }
+
+    public void setCanFork(boolean canFork) {
+        this.canFork = canFork;
+    }
+
+    public boolean isCanCreate() {
+        return canCreate;
+    }
+
+    public void setCanCreate(boolean canCreate) {
+        this.canCreate = canCreate;
     }
 }

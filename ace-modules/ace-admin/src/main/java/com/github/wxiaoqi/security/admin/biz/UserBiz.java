@@ -14,6 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * ${DESCRIPTION}
  *
@@ -64,5 +66,14 @@ public class UserBiz extends BaseBiz<UserMapper,User> {
         User user = new User();
         user.setId(userId);
         return mapper.selectOne(user);
+    }
+
+    /**
+     * 获取所有用户信息
+     * @return
+     */
+    @Cache(key="user")
+    public List<User> getUsers(){
+        return mapper.selectAll();
     }
 }

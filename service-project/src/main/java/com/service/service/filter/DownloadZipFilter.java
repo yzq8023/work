@@ -1,7 +1,6 @@
 package com.service.service.filter;
 
 import com.service.service.Constants;
-import com.service.service.entity.RepositoryModel;
 import com.service.service.entity.TaskEntity;
 import com.service.service.entity.UserModel;
 import com.service.service.managers.IAuthenticationManager;
