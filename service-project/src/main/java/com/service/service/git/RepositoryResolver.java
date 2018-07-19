@@ -15,7 +15,6 @@
  */
 package com.service.service.git;
 
-import com.service.service.entity.RepositoryModel;
 import com.service.service.entity.TaskEntity;
 import com.service.service.entity.UserModel;
 import com.service.service.managers.IWorkHub;
@@ -102,13 +101,13 @@ public class RepositoryResolver<X> extends FileResolver<X> {
 		if (user.canClone(model)) {
 			// user can access this git repo
 			logger.debug(MessageFormat.format("{0}:// access of {1} by {2} from {3} PERMITTED",
-					scheme, repositoryName, user.username, origin));
+					scheme, repositoryName, user.getUserId(), origin));
 			return true;
 		}
 
 		// user can not access this git repo
 		logger.warn(MessageFormat.format("{0}:// access of {1} by {2} from {3} DENIED",
-				scheme, repositoryName, user.username, origin));
+				scheme, repositoryName, user.getUserId(), origin));
 		return false;
 	}
 }

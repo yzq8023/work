@@ -161,7 +161,7 @@ public abstract class AuthenticationFilter implements Filter {
 
 		@Override
 		public String getRemoteUser() {
-			return user.username;
+			return user.getUserId();
 		}
 
 		@Override

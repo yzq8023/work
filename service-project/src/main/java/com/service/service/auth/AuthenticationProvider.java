@@ -77,8 +77,8 @@ public abstract class AuthenticationProvider {
 
 	protected void setCookie(UserModel user) {
 		// create a user cookie
-		if (StringUtils.isEmpty(user.cookie)) {
-			user.cookie = user.createCookie();
+		if (StringUtils.isEmpty(user.getCookie())) {
+			user.setCookie(user.createCookie());
 		}
 	}
 
@@ -99,7 +99,7 @@ public abstract class AuthenticationProvider {
 	}
 
 	protected void updateTeam(TeamModel teamModel) {
-		final TeamModel teamLocalDB = userManager.getTeamModel(teamModel.name);
+		final TeamModel teamLocalDB = userManager.getTeamModel(String.valueOf(teamModel.getId()));
 
 		// Establish the checksum of the current version of the team
 		final BigInteger teamCurrentCheck = DeepCopier.checksum(teamModel);
@@ -151,7 +151,6 @@ public abstract class AuthenticationProvider {
 	/**
 	 * Returns true if the user's display name can be changed.
 	 *
-	 * @param user
 	 * @return true if the authentication provider supports display name changes
 	 */
 	public abstract boolean supportsDisplayNameChanges();
@@ -159,7 +158,6 @@ public abstract class AuthenticationProvider {
 	/**
 	 * Returns true if the user's email address can be changed.
 	 *
-	 * @param user
 	 * @return true if the authentication provider supports email address changes
 	 */
 	public abstract boolean supportsEmailAddressChanges();
@@ -167,7 +165,6 @@ public abstract class AuthenticationProvider {
 	/**
 	 * Returns true if the user's team memberships can be changed.
 	 *
-	 * @param user
 	 * @return true if the authentication provider supports team membership changes
 	 */
 	public abstract boolean supportsTeamMembershipChanges();
@@ -184,7 +181,6 @@ public abstract class AuthenticationProvider {
 	/**
 	 * Returns true if the team's role can be changed.
 	 *
-	 * @param user
 	 * @param role
 	 * @return true if the team's role can be changed
 	 */

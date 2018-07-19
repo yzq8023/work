@@ -20,7 +20,6 @@ import com.service.service.Keys;
 import com.service.service.entity.TaskEntity;
 import com.service.service.extensions.TicketHook;
 import com.service.service.managers.*;
-import com.service.service.entity.RepositoryModel;
 import com.service.service.entity.TicketModel;
 import com.service.service.entity.TicketModel.*;
 import com.service.service.tickets.TicketIndexer.Lucene;

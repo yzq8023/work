@@ -18,6 +18,10 @@ package com.service.service.entity;
 import com.service.service.Constants.*;
 import com.service.service.utils.StringUtils;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.*;
 
@@ -28,32 +32,252 @@ import java.util.*;
  * @author James Moger
  *
  */
+@Table(name = "team")
 public class TeamModel implements Serializable, Comparable<TeamModel> {
 
 	private static final long serialVersionUID = 1L;
 
-	// field names are reflectively mapped in EditTeam page
-	public String name;
-	public boolean canAdmin;
-	public boolean canFork;
-	public boolean canCreate;
-	public AccountType accountType;
-	public final Set<String> users = new HashSet<String>();
-	// retained for backwards-compatibility with RPC clients
+	@Id
+	private Integer id;
+	private String name;
+	@Column(name = "lower_name")
+	private String lowerName;
+
+	@Column(name = "num_task")
+	private Integer numTask;
+
+	@Column(name = "num_members")
+	private Integer numMembers;
+
+	@Column(name = "crt_time")
+	private Date crtTime;
+
+	@Column(name = "crt_user")
+	private String crtUser;
+
+	@Column(name = "crt_name")
+	private String crtName;
+
+	@Column(name = "crt_host")
+	private String crtHost;
+
+	@Column(name = "upd_time")
+	private Date updTime;
+
+	@Column(name = "upd_user")
+	private String updUser;
+
+	@Column(name = "upd_name")
+	private String updName;
+
+	@Column(name = "upd_host")
+	private String updHost;
+
+	private String description;
+
+	@Column(name = "can_admin")
+	private boolean canAdmin;
+
+	@Column(name = "can_fork")
+	private boolean canFork;
+
+	@Column(name = "can_create")
+	private boolean canCreate;
+	@Transient
+	private AccountType accountType;
+	@Transient
+	private final Set<String> users = new HashSet<String>();
+	/**
+	 * 与RPC客户端保持向后兼容
+	 */
 	@Deprecated
-	public final Set<String> repositories = new HashSet<String>();
-	public final Map<String, AccessPermission> permissions = new LinkedHashMap<String, AccessPermission>();
-	public final Set<String> mailingLists = new HashSet<String>();
-	public final List<String> preReceiveScripts = new ArrayList<String>();
-	public final List<String> postReceiveScripts = new ArrayList<String>();
+	@Transient
+	private final Set<String> repositories = new HashSet<String>();
+	@Transient
+	private final Map<String, AccessPermission> permissions = new LinkedHashMap<String, AccessPermission>();
+	@Transient
+	private final Set<String> mailingLists = new HashSet<String>();
+	@Transient
+	private final List<String> preReceiveScripts = new ArrayList<String>();
+	@Transient
+	private final List<String> postReceiveScripts = new ArrayList<String>();
 
 	public TeamModel(String name) {
 		this.name = name;
 		this.accountType = AccountType.LOCAL;
 	}
 
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getLowerName() {
+		return lowerName;
+	}
+
+	public void setLowerName(String lowerName) {
+		this.lowerName = lowerName;
+	}
+
+	public Integer getNumTask() {
+		return numTask;
+	}
+
+	public void setNumTask(Integer numTask) {
+		this.numTask = numTask;
+	}
+
+	public Integer getNumMembers() {
+		return numMembers;
+	}
+
+	public void setNumMembers(Integer numMembers) {
+		this.numMembers = numMembers;
+	}
+
+	public Date getCrtTime() {
+		return crtTime;
+	}
+
+	public void setCrtTime(Date crtTime) {
+		this.crtTime = crtTime;
+	}
+
+	public String getCrtUser() {
+		return crtUser;
+	}
+
+	public void setCrtUser(String crtUser) {
+		this.crtUser = crtUser;
+	}
+
+	public String getCrtName() {
+		return crtName;
+	}
+
+	public void setCrtName(String crtName) {
+		this.crtName = crtName;
+	}
+
+	public String getCrtHost() {
+		return crtHost;
+	}
+
+	public void setCrtHost(String crtHost) {
+		this.crtHost = crtHost;
+	}
+
+	public Date getUpdTime() {
+		return updTime;
+	}
+
+	public void setUpdTime(Date updTime) {
+		this.updTime = updTime;
+	}
+
+	public String getUpdUser() {
+		return updUser;
+	}
+
+	public void setUpdUser(String updUser) {
+		this.updUser = updUser;
+	}
+
+	public String getUpdName() {
+		return updName;
+	}
+
+	public void setUpdName(String updName) {
+		this.updName = updName;
+	}
+
+	public String getUpdHost() {
+		return updHost;
+	}
+
+	public void setUpdHost(String updHost) {
+		this.updHost = updHost;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public boolean isCanAdmin() {
+		return canAdmin;
+	}
+
+	public void setCanAdmin(boolean canAdmin) {
+		this.canAdmin = canAdmin;
+	}
+
+	public boolean isCanFork() {
+		return canFork;
+	}
+
+	public void setCanFork(boolean canFork) {
+		this.canFork = canFork;
+	}
+
+	public boolean isCanCreate() {
+		return canCreate;
+	}
+
+	public void setCanCreate(boolean canCreate) {
+		this.canCreate = canCreate;
+	}
+
+	public AccountType getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(AccountType accountType) {
+		this.accountType = accountType;
+	}
+
+	public Set<String> getUsers() {
+		return users;
+	}
+
+	public Set<String> getRepositories() {
+		return repositories;
+	}
+
+	public Map<String, AccessPermission> getPermissions() {
+		return permissions;
+	}
+
+	public Set<String> getMailingLists() {
+		return mailingLists;
+	}
+
+	public List<String> getPreReceiveScripts() {
+		return preReceiveScripts;
+	}
+
+	public List<String> getPostReceiveScripts() {
+		return postReceiveScripts;
+	}
+
 	/**
-	 * Returns a list of repository permissions for this team.
+	 * 返回本团队的存储库权限列表。
 	 *
 	 * @return the team's list of permissions
 	 */
@@ -80,8 +304,7 @@ public class TeamModel implements Serializable, Comparable<TeamModel> {
 	}
 
 	/**
-	 * Returns true if the team has any type of specified access permission for
-	 * this repository.
+	 * 如果团队对这个存储库有任何类型的指定访问权限，则返回true。
 	 *
 	 * @param name
 	 * @return true if team has a specified access permission for the repository
@@ -106,8 +329,7 @@ public class TeamModel implements Serializable, Comparable<TeamModel> {
 	}
 
 	/**
-	 * Returns true if the team has an explicitly specified access permission for
-	 * this repository.
+	 * 如果团队对这个存储库有明确指定的访问权限，则返回true。
 	 *
 	 * @param name
 	 * @return if the team has an explicitly specified access permission
@@ -118,7 +340,7 @@ public class TeamModel implements Serializable, Comparable<TeamModel> {
 	}
 
 	/**
-	 * Adds a repository permission to the team.
+	 * 向团队添加一个存储库权限。
 	 * <p>
 	 * Role may be formatted as:
 	 * <ul>
@@ -299,13 +521,13 @@ public class TeamModel implements Serializable, Comparable<TeamModel> {
 		return users.contains(name.toLowerCase());
 	}
 
-	public void addUser(String name) {
-		users.add(name.toLowerCase());
+	public void addUser(String id) {
+		users.add(id);
 	}
 
-	public void addUsers(Collection<String> names) {
-		for (String name:names) {
-			users.add(name.toLowerCase());
+	public void addUsers(Collection<String> ids) {
+		for (String id:ids) {
+			users.add(id);
 		}
 	}
 

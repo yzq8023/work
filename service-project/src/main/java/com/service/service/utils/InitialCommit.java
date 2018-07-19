@@ -2,7 +2,6 @@ package com.service.service.utils;
 
 import com.service.service.Constants;
 import com.service.service.Keys;
-import com.service.service.entity.RepositoryModel;
 import com.service.service.entity.TaskEntity;
 import com.service.service.entity.UserModel;
 import com.service.service.managers.IRepositoryManager;
@@ -34,7 +33,7 @@ public class InitialCommit {
         ObjectInserter odi = db.newObjectInserter();
 
         try {
-            String email = Optional.ofNullable(user.emailAddress).orElse(user.username + "@" + "workhub");
+            String email = Optional.ofNullable(user.getEmailAddress()).orElse(user.getUserId() + "@" + "workhub");
             PersonIdent author = new PersonIdent(user.getDisplayName(), email);
 
             DirCache newIndex = DirCache.newInCore();

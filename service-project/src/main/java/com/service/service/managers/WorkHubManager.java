@@ -170,25 +170,25 @@ public class WorkHubManager implements IWorkHub {
 
     @Override
     public void reviseUser(String username, UserModel user) throws GitBlitException {
-        if (!username.equalsIgnoreCase(user.username)) {
-            if (userManager.getUserModel(user.username) != null) {
+        if (!username.equalsIgnoreCase(user.getUserId())) {
+            if (userManager.getUserModel(user.getUserId()) != null) {
                 throw new GitBlitException(MessageFormat.format(
                         "Failed to rename ''{0}'' because ''{1}'' already exists.", username,
-                        user.username));
+                        user.getUserId()));
             }
 
             // rename repositories and owner fields for all repositories
             for (TaskEntity model : repositoryManager.getRepositoryModels(user)) {
                 if (model.isUsersPersonalRepository(username)) {
                     // personal repository
-                    model.addOwner(user.username);
+                    model.addOwner(user.getUserId());
                     String oldRepositoryName = model.getTaskName();
                     model.setTaskName(user.getPersonalPath() + model.getTaskName().substring(model.getProjectPath().length()));
                     model.setProjectPath(user.getPersonalPath());
                     repositoryManager.updateRepositoryModel(oldRepositoryName, model, false);
                 } else if (model.isOwner(username)) {
                     // common/shared repo
-                    model.addOwner(user.username);
+                    model.addOwner(user.getUserId());
                     repositoryManager.updateRepositoryModel(model.getTaskName(), model, false);
                 }
             }
@@ -207,11 +207,11 @@ public class WorkHubManager implements IWorkHub {
 
     @Override
     public void reviseTeam(String teamname, TeamModel team) throws GitBlitException {
-        if (!teamname.equalsIgnoreCase(team.name)) {
-            if (userManager.getTeamModel(team.name) != null) {
+        if (!teamname.equals(team.getId())) {
+            if (userManager.getTeamModel(String.valueOf(team.getId())) != null) {
                 throw new GitBlitException(MessageFormat.format(
                         "Failed to rename ''{0}'' because ''{1}'' already exists.", teamname,
-                        team.name));
+                        team.getId()));
             }
         }
         if (!userManager.updateTeamModel(teamname, team)) {
@@ -267,7 +267,7 @@ public class WorkHubManager implements IWorkHub {
         // create a Gitblit repository model for the clone
         TaskEntity cloneModel = repository.cloneAs(cloneName);
         // owner has REWIND/RW+ permissions
-        cloneModel.addOwner(user.username);
+        cloneModel.addOwner(user.getUserId());
 
         // ensure initial access restriction of the fork
         // is not lower than the source repository  (issue-495/ticket-167)
@@ -284,7 +284,7 @@ public class WorkHubManager implements IWorkHub {
                 if (originOwner != null && !originOwner.canClone(cloneModel)) {
                     // origin owner can't yet clone fork, grant explicit clone access
                     originOwner.setRepositoryPermission(cloneName, Constants.AccessPermission.CLONE);
-                    reviseUser(originOwner.username, originOwner);
+                    reviseUser(originOwner.getUserId(), originOwner);
                 }
             }
         }
@@ -293,7 +293,7 @@ public class WorkHubManager implements IWorkHub {
         List<String> users = repositoryManager.getRepositoryUsers(repository);
         List<UserModel> cloneUsers = new ArrayList<UserModel>();
         for (String name : users) {
-            if (!name.equalsIgnoreCase(user.username)) {
+            if (!name.equalsIgnoreCase(user.getUserId())) {
                 UserModel cloneUser = userManager.getUserModel(name);
                 if (cloneUser.canClone(repository) && !cloneUser.canClone(cloneModel)) {
                     // origin user can't yet clone fork, grant explicit clone access

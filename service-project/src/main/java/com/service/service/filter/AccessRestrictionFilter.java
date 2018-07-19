@@ -19,7 +19,6 @@ import com.service.service.entity.TaskEntity;
 import com.service.service.managers.IAuthenticationManager;
 import com.service.service.managers.IRepositoryManager;
 import com.service.service.managers.IRuntimeManager;
-import com.service.service.entity.RepositoryModel;
 import com.service.service.entity.UserModel;
 import com.service.service.utils.StringUtils;
 
@@ -250,7 +249,7 @@ public abstract class AccessRestrictionFilter extends AuthenticationFilter {
 					// authenticated request permitted.
 					// pass processing to the restricted servlet.
 					newSession(authenticatedRequest, httpResponse);
-					logger.info(MessageFormat.format("ARF: authenticated {0} to {1} ({2})", user.username,
+					logger.info(MessageFormat.format("ARF: authenticated {0} to {1} ({2})", user.getUserId(),
 							fullUrl, HttpServletResponse.SC_CONTINUE));
 					chain.doFilter(authenticatedRequest, httpResponse);
 					return;
@@ -258,7 +257,7 @@ public abstract class AccessRestrictionFilter extends AuthenticationFilter {
 				// valid user, but not for requested access. send 403.
 				if (runtimeManager.isDebugMode()) {
 					logger.info(MessageFormat.format("ARF: {0} forbidden to access {1}",
-							user.username, fullUrl));
+							user.getUserId(), fullUrl));
 				}
 				httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
 				return;

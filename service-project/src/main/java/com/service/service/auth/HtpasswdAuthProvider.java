@@ -90,7 +90,6 @@ public class HtpasswdAuthProvider extends UsernamePasswordAuthenticationProvider
      * In addition the setup tries to read and parse the htpasswd file to be used
      * for authentication.
      *
-     * @param settings
      * @since 0.7.0
      */
     @Override
@@ -198,8 +197,8 @@ public class HtpasswdAuthProvider extends UsernamePasswordAuthenticationProvider
                 setCookie(user);
 
                 // Set user attributes, hide password from backing user service.
-                user.password = Constants.EXTERNAL_ACCOUNT;
-                user.accountType = getAccountType();
+                user.setPassword(Constants.EXTERNAL_ACCOUNT);
+                user.setAccountType(getAccountType());
 
                 // Push the looked up values to backing file
                	updateUser(user);

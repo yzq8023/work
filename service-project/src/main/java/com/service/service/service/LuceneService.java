@@ -22,7 +22,6 @@ import com.service.service.entity.TaskEntity;
 import com.service.service.managers.IRepositoryManager;
 import com.service.service.entity.PathModel.PathChangeModel;
 import com.service.service.entity.RefModel;
-import com.service.service.entity.RepositoryModel;
 import com.service.service.entity.SearchResult;
 import com.service.service.utils.ArrayUtils;
 import com.service.service.utils.JGitUtils;

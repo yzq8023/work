@@ -10,7 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * ${DESCRIPTION}
@@ -53,5 +53,13 @@ public class UserRest {
         BeanUtils.copyProperties(user, info);
         info.setId(user.getId().toString());
         return info;
+    }
+
+    @RequestMapping(value = "/user/all", method = RequestMethod.POST)
+    public @ResponseBody List<UserInfo> all(){
+        List<User> users = userBiz.getUsers();
+        List<UserInfo> infos = new ArrayList<UserInfo>();
+        BeanUtils.copyProperties(users, infos);
+        return infos;
     }
 }

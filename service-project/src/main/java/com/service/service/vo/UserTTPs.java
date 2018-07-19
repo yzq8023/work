@@ -1,7 +1,7 @@
 package com.service.service.vo;
 
 import com.service.service.entity.TaskEntity;
-import com.service.service.entity.TeamEntity;
+import com.service.service.entity.TeamModel;
 
 import java.util.List;
 
@@ -13,22 +13,22 @@ import java.util.List;
  */
 public class UserTTPs {
 
-    List<TeamEntity> teamEntities;
+    List<TeamModel> teamEntities;
     List<TaskEntity> userInfos;
 
     public UserTTPs(){
     }
 
-    public UserTTPs(List<TeamEntity> teamEntities, List<TaskEntity> userInfos){
+    public UserTTPs(List<TeamModel> teamEntities, List<TaskEntity> userInfos){
         this.teamEntities = teamEntities;
         this.userInfos = userInfos;
     }
 
-    public List<TeamEntity> getTeamEntities() {
+    public List<TeamModel> getTeamEntities() {
         return teamEntities;
     }
 
-    public void setTeamEntities(List<TeamEntity> teamEntities) {
+    public void setTeamEntities(List<TeamModel> teamEntities) {
         this.teamEntities = teamEntities;
     }
 

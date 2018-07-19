@@ -1,7 +1,7 @@
 package com.service.service.vo;
 
 import com.service.service.entity.TaskEntity;
-import com.service.service.entity.TeamEntity;
+import com.service.service.entity.TeamModel;
 
 import java.util.List;
 /**
@@ -13,12 +13,12 @@ import java.util.List;
 public class ProjectTTs {
 
     List<TaskEntity> taskEntities;
-    List<TeamEntity> teamEntities;
+    List<TeamModel> teamEntities;
 
     public ProjectTTs() {
     }
 
-    public ProjectTTs(List<TaskEntity> taskEntities, List<TeamEntity> teamEntities) {
+    public ProjectTTs(List<TaskEntity> taskEntities, List<TeamModel> teamEntities) {
         this.taskEntities = taskEntities;
         this.teamEntities = teamEntities;
     }
@@ -31,11 +31,11 @@ public class ProjectTTs {
         this.taskEntities = taskEntities;
     }
 
-    public List<TeamEntity> getTeamEntities() {
+    public List<TeamModel> getTeamEntities() {
         return teamEntities;
     }
 
-    public void setTeamEntities(List<TeamEntity> teamEntities) {
+    public void setTeamEntities(List<TeamModel> teamEntities) {
         this.teamEntities = teamEntities;
     }
 }

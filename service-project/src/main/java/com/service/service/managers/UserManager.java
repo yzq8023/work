@@ -38,549 +38,514 @@ import java.util.*;
  * 用户管理器管理用户和团队的持久性和检索。
  *
  * @author James Moger
- *
  */
 @Component
 public class UserManager implements IUserManager {
 
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	private final IStoredSettings settings;
+    private final IStoredSettings settings;
 
-	private final IRuntimeManager runtimeManager;
+    private final IRuntimeManager runtimeManager;
 
-	private final IPluginManager pluginManager;
+    private final IPluginManager pluginManager;
 
-	private final Map<String, String> legacyBackingServices;
+    private final Map<String, String> legacyBackingServices;
 
-	private IUserService userService;
+    private IUserService userService;
 
-	private IUserFeignClient userFeignClient;
+    private IUserFeignClient userFeignClient;
 
-	@Autowired
-	public UserManager(IRuntimeManager runtimeManager, IPluginManager pluginManager) {
-		this.settings = runtimeManager.getSettings();
-		this.runtimeManager = runtimeManager;
-		this.pluginManager = pluginManager;
+    @Autowired
+    public UserManager(IRuntimeManager runtimeManager, IPluginManager pluginManager, IUserFeignClient userFeignClient) {
+        this.settings = runtimeManager.getSettings();
+        this.runtimeManager = runtimeManager;
+        this.pluginManager = pluginManager;
+        this.userFeignClient = userFeignClient;
 
-		// map of legacy realm backing user services
-		legacyBackingServices = new HashMap<String, String>();
-		legacyBackingServices.put("com.gitblit.HtpasswdUserService", "realm.htpasswd.backingUserService");
-		legacyBackingServices.put("com.gitblit.LdapUserService", "realm.ldap.backingUserService");
-		legacyBackingServices.put("com.gitblit.PAMUserService", "realm.pam.backingUserService");
-		legacyBackingServices.put("com.gitblit.RedmineUserService", "realm.redmine.backingUserService");
-		legacyBackingServices.put("com.gitblit.SalesforceUserService", "realm.salesforce.backingUserService");
-		legacyBackingServices.put("com.gitblit.WindowsUserService", "realm.windows.backingUserService");
-	}
+        // 遗留领域支持用户服务的映射
+        legacyBackingServices = new HashMap<String, String>();
+        legacyBackingServices.put("com.gitblit.HtpasswdUserService", "realm.htpasswd.backingUserService");
+        legacyBackingServices.put("com.gitblit.LdapUserService", "realm.ldap.backingUserService");
+        legacyBackingServices.put("com.gitblit.PAMUserService", "realm.pam.backingUserService");
+        legacyBackingServices.put("com.gitblit.RedmineUserService", "realm.redmine.backingUserService");
+        legacyBackingServices.put("com.gitblit.SalesforceUserService", "realm.salesforce.backingUserService");
+        legacyBackingServices.put("com.gitblit.WindowsUserService", "realm.windows.backingUserService");
+    }
 
-	/**
-	 * 设置用户服务。用户服务对 * 本地 * 用户进行身份验证, 并负责持续和检索所有用户和所有团队。
-	 *
-	 * @param userService
-	 */
-	public void setUserService(IUserService userService) {
-		this.userService = userService;
-		this.userService.setup(runtimeManager);
-		logger.info(userService.toString());
-	}
+    /**
+     * 设置用户服务。用户服务对 * 本地 * 用户进行身份验证, 并负责持续和检索所有用户和所有团队。
+     *
+     * @param userService
+     */
+    public void setUserService(IUserService userService) {
+        this.userService = userService;
+        logger.info(userService.toString());
+    }
 
-	@Override
-	public void setup(IRuntimeManager runtimeManager) {
-		// NOOP
-	}
+    @Override
+    public void setup(IRuntimeManager runtimeManager) {
+        // NOOP
+    }
 
-	@Override
-	public UserManager start() {
-		if (this.userService == null) {
-			String realm = settings.getString(Keys.realm.userService, "${baseFolder}/users.conf");
-			IUserService service = null;
-			if (legacyBackingServices.containsKey(realm)) {
-				// create the user service from the legacy config
-				String realmKey = legacyBackingServices.get(realm);
-				logger.warn("");
-				logger.warn(Constants.BORDER2);
-				logger.warn(" Key '{}' is obsolete!", realmKey);
-				logger.warn(" Please set '{}={}'", Keys.realm.userService, settings.getString(realmKey, "${baseFolder}/users.conf"));
-				logger.warn(Constants.BORDER2);
-				logger.warn("");
-				File realmFile = runtimeManager.getFileOrFolder(realmKey, "${baseFolder}/users.conf");
-				service = createUserService(realmFile);
-			} else {
-				// 文件路径或自定义用户服务
-				try {
-					// 查看此 "文件" 是否为自定义用户服务类
-					Class<?> realmClass = Class.forName(realm);
-					service = (IUserService) realmClass.newInstance();
-				} catch (ClassNotFoundException t) {
-					// 典型文件路径配置
-					File realmFile = runtimeManager.getFileOrFolder(Keys.realm.userService, "${baseFolder}/users.conf");
-					service = createUserService(realmFile);
-				} catch (InstantiationException | IllegalAccessException e) {
-					logger.error("failed to instantiate user service {}: {}. Trying once again with IRuntimeManager constructor", realm, e.getMessage());
-					//try once again with IRuntimeManager constructor. This adds support for subclasses of ConfigUserService and other custom IUserServices
-					service = createIRuntimeManagerAwareUserService(realm);
-				}
-			}
-			setUserService(service);
-		}
-		return this;
-	}
+    @Override
+    public UserManager start() {
+        if (this.userService == null) {
+//			String realm = settings.getString(Keys.realm.userService, "${baseFolder}/users.conf");
+            IUserService service = null;
+            // 典型文件路径配置
+            File realmFile = runtimeManager.getFileOrFolder(Keys.realm.userService, "${baseFolder}/users.conf");
+            service = createUserService(realmFile);
+            setUserService(service);
+        }
+        return this;
+    }
 
-	/**
-	 * Tries to create an {@link IUserService} with {@link #runtimeManager} as a constructor parameter
-	 *
-	 * @param realm the class name of the {@link IUserService} to be instantiated
-	 * @return the {@link IUserService} or {@code null} if instantiation fails
-	 */
-	private IUserService createIRuntimeManagerAwareUserService(String realm) {
-		try {
-		    Constructor<?> constructor = Class.forName(realm).getConstructor(IRuntimeManager.class);
-		    return (IUserService) constructor.newInstance(runtimeManager);
-		} catch (NoSuchMethodException | SecurityException | ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-		    logger.error("failed to instantiate user service {}: {}", realm, e.getMessage());
-			return null;
-		}
-	}
+    /**
+     * 创建 {@link IUserService} 通过 {@link #runtimeManager} 作为构造器成员
+     *
+     * @param realm the class name of the {@link IUserService} to be instantiated
+     * @return the {@link IUserService} or {@code null} if instantiation fails
+     */
+    private IUserService createIRuntimeManagerAwareUserService(String realm) {
+        try {
+            Constructor<?> constructor = Class.forName(realm).getConstructor(IRuntimeManager.class);
+            return (IUserService) constructor.newInstance(runtimeManager);
+        } catch (NoSuchMethodException | SecurityException | ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            logger.error("failed to instantiate user service {}: {}", realm, e.getMessage());
+            return null;
+        }
+    }
 
-	protected IUserService createUserService(File realmFile) {
-		IUserService service = null;
-		if (realmFile.getName().toLowerCase().endsWith(".conf")) {
-			// config-based realm file
-			service = new ConfigUserService(realmFile);
-		}
+    protected IUserService createUserService(File realmFile) {
+        IUserService service = null;
+        service = new ConfigUserService();
+        return service;
+    }
 
-		assert service != null;
+    @Override
+    public UserManager stop() {
+        return this;
+    }
 
-		if (!realmFile.exists()) {
-			// Create the Administrator account for a new realm file
-			try {
-				realmFile.createNewFile();
-			} catch (IOException x) {
-				logger.error(MessageFormat.format("COULD NOT CREATE REALM FILE {0}!", realmFile), x);
-			}
-			UserModel admin = new UserModel("admin");
-			admin.password = "admin";
-			admin.canAdmin = true;
-			admin.excludeFromFederation = true;
-			service.updateUserModel(admin);
-		}
+    /**
+     * 如果用户名代表一个内部帐户，返回true
+     *
+     * @param username
+     * @return true if the specified username represents an internal account
+     */
+    @Override
+    public boolean isInternalAccount(String username) {
+        return !StringUtils.isEmpty(username)
+                && (username.equalsIgnoreCase(Constants.FEDERATION_USER)
+                || username.equalsIgnoreCase(UserModel.ANONYMOUS.getUsername()));
+    }
 
-		return service;
-	}
+    /**
+     * 返回指定用户的cookie值。
+     *
+     * @param model
+     * @return cookie value
+     */
+    @Override
+    public String getCookie(UserModel model) {
+        return userService.getCookie(model);
+    }
 
-	@Override
-	public UserManager stop() {
-		return this;
-	}
+    /**
+     * 检索指定cookie的用户对象。
+     *
+     * @param cookie
+     * @return a user object or null
+     */
+    @Override
+    public UserModel getUserModel(char[] cookie) {
+        UserModel user = userService.getUserModel(cookie);
+        return user;
+    }
 
-	/**
-	 * Returns true if the username represents an internal account
-	 *
-	 * @param username
-	 * @return true if the specified username represents an internal account
-	 */
-	@Override
-	public boolean isInternalAccount(String username) {
-		return !StringUtils.isEmpty(username)
-				&& (username.equalsIgnoreCase(Constants.FEDERATION_USER)
-						|| username.equalsIgnoreCase(UserModel.ANONYMOUS.username));
-	}
+    /**
+     * 检索指定用户名的用户对象。
+     *
+     * @param username
+     * @return a user object or null
+     */
+    @Override
+    public UserModel getUserModel(String username) {
+        if (StringUtils.isEmpty(username)) {
+            return null;
+        }
+        String usernameDecoded = StringUtils.decodeUsername(username);
+        UserModel user = userService.getUserModel(usernameDecoded);
+        return user;
+    }
 
-	/**
-	 * Returns the cookie value for the specified user.
-	 *
-	 * @param model
-	 * @return cookie value
-	 */
-	@Override
-	public String getCookie(UserModel model) {
-		return userService.getCookie(model);
-	}
+    /**
+     * 检索指定用户名的用户对象。
+     *
+     * @param userId
+     * @return a user object or null
+     */
+    @Override
+    public UserModel getUserModel(Integer userId) {
+        if (StringUtils.isEmpty(String.valueOf(userId))) {
+            return null;
+        }
+        UserInfo userInfo = userFeignClient.info(userId);
+        UserModel user = userSwitch(userInfo);
+        return user;
+    }
 
-	/**
-	 * Retrieve the user object for the specified cookie.
-	 *
-	 * @param cookie
-	 * @return a user object or null
-	 */
-	@Override
-	public UserModel getUserModel(char[] cookie) {
-		UserModel user = userService.getUserModel(cookie);
-		return user;
-	}
+    public UserModel userSwitch(UserInfo userInfo) {
+        UserModel userModel = new UserModel(userInfo.getUsername());
+        userModel.setUserId(userInfo.getUsername());
+        userModel.setPassword(userInfo.getPassword());
+        userModel.setCookie(null);
+        userModel.setUsername(null);
+        userModel.setEmailAddress(null);
+        userModel.setOrganizationalUnit(null);
+        userModel.setOrganization(null);
+        userModel.setLocality(null);
+        userModel.setStateProvince(null);
+        userModel.setCountryCode(null);
+        userModel.setCanAdmin(true);
+        userModel.setCanFork(true);
+        userModel.setCanCreate(true);
+        userModel.setExcludeFromFederation(false);
+        userModel.setDisabled(false);
+        return userModel;
+    }
 
-	/**
-	 * 检索指定用户名的用户对象。
-	 *
-	 * @param username
-	 * @return a user object or null
-	 */
-	@Override
-	public UserModel getUserModel(String username) {
-		if (StringUtils.isEmpty(username)) {
-			return null;
-		}
-		String usernameDecoded = StringUtils.decodeUsername(username);
-		UserModel user = userService.getUserModel(usernameDecoded);
-		return user;
-	}
+    /**
+     * 更新/写一个完整的用户对象。
+     *
+     * @param model
+     * @return true if update is successful
+     */
+    @Override
+    public boolean updateUserModel(UserModel model) {
+        final boolean isCreate = null == userService.getUserModel(model.getUsername());
+        if (userService.updateUserModel(model)) {
+            if (isCreate) {
+                callCreateUserListeners(model);
+            }
+            return true;
+        }
+        return false;
+    }
 
-	/**
-	 * 检索指定用户名的用户对象。
-	 *
-	 * @param userId
-	 * @return a user object or null
-	 */
-	@Override
-	public UserModel getUserModel(Integer userId) {
-		if (StringUtils.isEmpty(String.valueOf(userId))) {
-			return null;
-		}
-		String usernameDecoded = StringUtils.decodeUsername(String.valueOf(userId));
-		UserInfo userInfo = userFeignClient.info(userId);
-		UserModel user = userService.getUserModel(usernameDecoded);
-		return user;
-	}
+    /**
+     * 更新/写入所有指定的用户对象。
+     *
+     * @param models a list of user models
+     * @return true if update is successful
+     * @since 1.2.0
+     */
+    @Override
+    public boolean updateUserModels(Collection<UserModel> models) {
+        return userService.updateUserModels(models);
+    }
 
-	/**
-	 * Updates/writes a complete user object.
-	 *
-	 * @param model
-	 * @return true if update is successful
-	 */
-	@Override
-	public boolean updateUserModel(UserModel model) {
-		final boolean isCreate = null == userService.getUserModel(model.username);
-		if (userService.updateUserModel(model)) {
-			if (isCreate) {
-				callCreateUserListeners(model);
-			}
-			return true;
-		}
-		return false;
-	}
+    /**
+     * 添加/更新由用户名键入的用户对象。这种方法允许重命名用户。
+     *
+     * @param username the old username
+     * @param model    the user object to use for username
+     * @return true if update is successful
+     */
+    @Override
+    public boolean updateUserModel(String username, UserModel model) {
+        final boolean isCreate = null == userService.getUserModel(username);
+        if (userService.updateUserModel(username, model)) {
+            if (isCreate) {
+                callCreateUserListeners(model);
+            }
+            return true;
+        }
+        return false;
+    }
 
-	/**
-	 * Updates/writes all specified user objects.
-	 *
-	 * @param models a list of user models
-	 * @return true if update is successful
-	 * @since 1.2.0
-	 */
-	@Override
-	public boolean updateUserModels(Collection<UserModel> models) {
-		return userService.updateUserModels(models);
-	}
+    /**
+     * 从用户服务中删除用户对象。
+     *
+     * @param model
+     * @return true if successful
+     */
+    @Override
+    public boolean deleteUserModel(UserModel model) {
+        if (userService.deleteUserModel(model)) {
+            callDeleteUserListeners(model);
+            return true;
+        }
+        return false;
+    }
 
-	/**
-	 * Adds/updates a user object keyed by username. This method allows for
-	 * renaming a user.
-	 *
-	 * @param username
-	 *            the old username
-	 * @param model
-	 *            the user object to use for username
-	 * @return true if update is successful
-	 */
-	@Override
-	public boolean updateUserModel(String username, UserModel model) {
-		final boolean isCreate = null == userService.getUserModel(username);
-		if (userService.updateUserModel(username, model)) {
-			if (isCreate) {
-				callCreateUserListeners(model);
-			}
-			return true;
-		}
-		return false;
-	}
+    /**
+     * 使用指定的用户名删除用户对象
+     *
+     * @param username
+     * @return true if successful
+     */
+    @Override
+    public boolean deleteUser(String username) {
+        if (StringUtils.isEmpty(username)) {
+            return false;
+        }
+        String usernameDecoded = StringUtils.decodeUsername(username);
+        UserModel user = getUserModel(usernameDecoded);
+        if (userService.deleteUser(usernameDecoded)) {
+            callDeleteUserListeners(user);
+            return true;
+        }
+        return false;
+    }
 
-	/**
-	 * Deletes the user object from the user service.
-	 *
-	 * @param model
-	 * @return true if successful
-	 */
-	@Override
-	public boolean deleteUserModel(UserModel model) {
-		if (userService.deleteUserModel(model)) {
-			callDeleteUserListeners(model);
-			return true;
-		}
-		return false;
-	}
+    /**
+     * 返回登录服务可用的所有用户列表。
+     *
+     * @return list of all usernames
+     */
+    @Override
+    public List<String> getAllUsernames() {
+        List<String> names = new ArrayList<String>(userService.getAllUsernames());
+        return names;
+    }
 
-	/**
-	 * Delete the user object with the specified username
-	 *
-	 * @param username
-	 * @return true if successful
-	 */
-	@Override
-	public boolean deleteUser(String username) {
-		if (StringUtils.isEmpty(username)) {
-			return false;
-		}
-		String usernameDecoded = StringUtils.decodeUsername(username);
-		UserModel user = getUserModel(usernameDecoded);
-		if (userService.deleteUser(usernameDecoded)) {
-			callDeleteUserListeners(user);
-			return true;
-		}
-		return false;
-	}
+    /**
+     * 返回登录服务可用的所有用户列表。
+     *
+     * @return list of all users
+     * @since 0.8.0
+     */
+    @Override
+    public List<UserModel> getAllUsers() {
+        List<UserModel> users = userService.getAllUsers();
+        return users;
+    }
 
-	/**
-	 * Returns the list of all users available to the login service.
-	 *
-	 * @return list of all usernames
-	 */
-	@Override
-	public List<String> getAllUsernames() {
-		List<String> names = new ArrayList<String>(userService.getAllUsernames());
-		return names;
-	}
+    /**
+     * 返回登录服务可用的所有团队的列表。
+     *
+     * @return list of all teams
+     * @since 0.8.0
+     */
+    @Override
+    public List<String> getAllTeamNames() {
+        List<String> teams = userService.getAllTeamNames();
+        return teams;
+    }
 
-	/**
-	 * Returns the list of all users available to the login service.
-	 *
-	 * @return list of all users
-	 * @since 0.8.0
-	 */
-	@Override
-	public List<UserModel> getAllUsers() {
-		List<UserModel> users = userService.getAllUsers();
-		return users;
-	}
+    /**
+     * 返回登录服务可用的所有团队的列表。
+     *
+     * @return list of all teams
+     * @since 0.8.0
+     */
+    @Override
+    public List<TeamModel> getAllTeams() {
+        List<TeamModel> teams = userService.getAllTeams();
+        return teams;
+    }
 
-	/**
-	 * Returns the list of all teams available to the login service.
-	 *
-	 * @return list of all teams
-	 * @since 0.8.0
-	 */
-	@Override
-	public List<String> getAllTeamNames() {
-		List<String> teams = userService.getAllTeamNames();
-		return teams;
-	}
+    /**
+     * 返回所有被允许绕过指定存储库上的访问限制的团队的列表。
+     *
+     * @param role the repository name
+     * @return list of all teams that can bypass the access restriction
+     * @since 0.8.0
+     */
+    @Override
+    public List<String> getTeamNamesForRepositoryRole(String role) {
+        List<String> teams = userService.getTeamNamesForRepositoryRole(role);
+        return teams;
+    }
 
-	/**
-	 * Returns the list of all teams available to the login service.
-	 *
-	 * @return list of all teams
-	 * @since 0.8.0
-	 */
-	@Override
-	public List<TeamModel> getAllTeams() {
-		List<TeamModel> teams = userService.getAllTeams();
-		return teams;
-	}
+    /**
+     * 检索团队对象以获得指定的团队名称。
+     *
+     * @param teamname
+     * @return a team object or null
+     * @since 0.8.0
+     */
+    @Override
+    public TeamModel getTeamModel(String teamname) {
+        TeamModel team = userService.getTeamModel(teamname);
+        return team;
+    }
 
-	/**
-	 * Returns the list of all teams who are allowed to bypass the access
-	 * restriction placed on the specified repository.
-	 *
-	 * @param role
-	 *            the repository name
-	 * @return list of all teams that can bypass the access restriction
-	 * @since 0.8.0
-	 */
-	@Override
-	public List<String> getTeamNamesForRepositoryRole(String role) {
-		List<String> teams = userService.getTeamNamesForRepositoryRole(role);
-		return teams;
-	}
+    /**
+     * 更新/写一个完整的团队对象。
+     *
+     * @param model
+     * @return true if update is successful
+     * @since 0.8.0
+     */
+    @Override
+    public boolean updateTeamModel(TeamModel model) {
+        final boolean isCreate = null == userService.getTeamModel(String.valueOf(model.getId()));
+        if (userService.updateTeamModel(model)) {
+            if (isCreate) {
+                callCreateTeamListeners(model);
+            }
+            return true;
+        }
+        return false;
+    }
 
-	/**
-	 * Retrieve the team object for the specified team name.
-	 *
-	 * @param teamname
-	 * @return a team object or null
-	 * @since 0.8.0
-	 */
-	@Override
-	public TeamModel getTeamModel(String teamname) {
-		TeamModel team = userService.getTeamModel(teamname);
-		return team;
-	}
+    /**
+     * 更新/写入所有指定的团队对象。
+     *
+     * @param models a list of team models
+     * @return true if update is successful
+     * @since 1.2.0
+     */
+    @Override
+    public boolean updateTeamModels(Collection<TeamModel> models) {
+        return userService.updateTeamModels(models);
+    }
 
-	/**
-	 * Updates/writes a complete team object.
-	 *
-	 * @param model
-	 * @return true if update is successful
-	 * @since 0.8.0
-	 */
-	@Override
-	public boolean updateTeamModel(TeamModel model) {
-		final boolean isCreate = null == userService.getTeamModel(model.name);
-		if (userService.updateTeamModel(model)) {
-			if (isCreate) {
-				callCreateTeamListeners(model);
-			}
-			return true;
-		}
-		return false;
-	}
+    /**
+     * 更新/写入和替换一个由teamname键入的完整的团队对象。这种方法允许重命名一个团队。
+     *
+     * @param teamname the old teamname
+     * @param model    the team object to use for teamname
+     * @return true if update is successful
+     * @since 0.8.0
+     */
+    @Override
+    public boolean updateTeamModel(String teamname, TeamModel model) {
+        final boolean isCreate = null == userService.getTeamModel(teamname);
+        if (userService.updateTeamModel(teamname, model)) {
+            if (isCreate) {
+                callCreateTeamListeners(model);
+            }
+            return true;
+        }
+        return false;
+    }
 
-	/**
-	 * Updates/writes all specified team objects.
-	 *
-	 * @param models a list of team models
-	 * @return true if update is successful
-	 * @since 1.2.0
-	 */
-	@Override
-	public boolean updateTeamModels(Collection<TeamModel> models) {
-		return userService.updateTeamModels(models);
-	}
+    /**
+     * 从用户服务中删除团队对象。
+     *
+     * @param model
+     * @return true if successful
+     * @since 0.8.0
+     */
+    @Override
+    public boolean deleteTeamModel(TeamModel model) {
+        if (userService.deleteTeamModel(model)) {
+            callDeleteTeamListeners(model);
+            return true;
+        }
+        return false;
+    }
 
-	/**
-	 * Updates/writes and replaces a complete team object keyed by teamname.
-	 * This method allows for renaming a team.
-	 *
-	 * @param teamname
-	 *            the old teamname
-	 * @param model
-	 *            the team object to use for teamname
-	 * @return true if update is successful
-	 * @since 0.8.0
-	 */
-	@Override
-	public boolean updateTeamModel(String teamname, TeamModel model) {
-		final boolean isCreate = null == userService.getTeamModel(teamname);
-		if (userService.updateTeamModel(teamname, model)) {
-			if (isCreate) {
-				callCreateTeamListeners(model);
-			}
-			return true;
-		}
-		return false;
-	}
+    /**
+     * 用指定的teamname删除team object
+     *
+     * @param teamname
+     * @return true if successful
+     * @since 0.8.0
+     */
+    @Override
+    public boolean deleteTeam(String teamname) {
+        TeamModel team = userService.getTeamModel(teamname);
+        if (userService.deleteTeam(teamname)) {
+            callDeleteTeamListeners(team);
+            return true;
+        }
+        return false;
+    }
 
-	/**
-	 * Deletes the team object from the user service.
-	 *
-	 * @param model
-	 * @return true if successful
-	 * @since 0.8.0
-	 */
-	@Override
-	public boolean deleteTeamModel(TeamModel model) {
-		if (userService.deleteTeamModel(model)) {
-			callDeleteTeamListeners(model);
-			return true;
-		}
-		return false;
-	}
+    /**
+     * 返回所有允许绕过指定存储库上的访问限制的用户的列表。
+     *
+     * @param role the repository name
+     * @return list of all usernames that can bypass the access restriction
+     * @since 0.8.0
+     */
+    @Override
+    public List<String> getUsernamesForRepositoryRole(String role) {
+        return userService.getUsernamesForRepositoryRole(role);
+    }
 
-	/**
-	 * Delete the team object with the specified teamname
-	 *
-	 * @param teamname
-	 * @return true if successful
-	 * @since 0.8.0
-	 */
-	@Override
-	public boolean deleteTeam(String teamname) {
-		TeamModel team = userService.getTeamModel(teamname);
-		if (userService.deleteTeam(teamname)) {
-			callDeleteTeamListeners(team);
-			return true;
-		}
-		return false;
-	}
+    /**
+     * 重命名一个存储库的作用。
+     *
+     * @param oldRole
+     * @param newRole
+     * @return true if successful
+     */
+    @Override
+    public boolean renameRepositoryRole(String oldRole, String newRole) {
+        return userService.renameRepositoryRole(oldRole, newRole);
+    }
 
-	/**
-	 * Returns the list of all users who are allowed to bypass the access
-	 * restriction placed on the specified repository.
-	 *
-	 * @param role
-	 *            the repository name
-	 * @return list of all usernames that can bypass the access restriction
-	 * @since 0.8.0
-	 */
-	@Override
-	public List<String> getUsernamesForRepositoryRole(String role) {
-		return userService.getUsernamesForRepositoryRole(role);
-	}
+    /**
+     * 从所有用户中删除存储库角色。
+     *
+     * @param role
+     * @return true if successful
+     */
+    @Override
+    public boolean deleteRepositoryRole(String role) {
+        return userService.deleteRepositoryRole(role);
+    }
 
-	/**
-	 * Renames a repository role.
-	 *
-	 * @param oldRole
-	 * @param newRole
-	 * @return true if successful
-	 */
-	@Override
-	public boolean renameRepositoryRole(String oldRole, String newRole) {
-		return userService.renameRepositoryRole(oldRole, newRole);
-	}
+    protected void callCreateUserListeners(UserModel user) {
+        if (pluginManager == null || user == null) {
+            return;
+        }
 
-	/**
-	 * Removes a repository role from all users.
-	 *
-	 * @param role
-	 * @return true if successful
-	 */
-	@Override
-	public boolean deleteRepositoryRole(String role) {
-		return userService.deleteRepositoryRole(role);
-	}
+        for (UserTeamLifeCycleListener listener : pluginManager.getExtensions(UserTeamLifeCycleListener.class)) {
+            try {
+                listener.onCreation(user);
+            } catch (Throwable t) {
+                logger.error(String.format("failed to call plugin.onCreation%s", user.getUsername()), t);
+            }
+        }
+    }
 
-	protected void callCreateUserListeners(UserModel user) {
-		if (pluginManager == null || user == null) {
-			return;
-		}
+    protected void callCreateTeamListeners(TeamModel team) {
+        if (pluginManager == null || team == null) {
+            return;
+        }
 
-		for (UserTeamLifeCycleListener listener : pluginManager.getExtensions(UserTeamLifeCycleListener.class)) {
-			try {
-				listener.onCreation(user);
-			} catch (Throwable t) {
-				logger.error(String.format("failed to call plugin.onCreation%s", user.username), t);
-			}
-		}
-	}
+        for (UserTeamLifeCycleListener listener : pluginManager.getExtensions(UserTeamLifeCycleListener.class)) {
+            try {
+                listener.onCreation(team);
+            } catch (Throwable t) {
+                logger.error(String.format("failed to call plugin.onCreation %s", team.getId()), t);
+            }
+        }
+    }
 
-	protected void callCreateTeamListeners(TeamModel team) {
-		if (pluginManager == null || team == null) {
-			return;
-		}
+    protected void callDeleteUserListeners(UserModel user) {
+        if (pluginManager == null || user == null) {
+            return;
+        }
 
-		for (UserTeamLifeCycleListener listener : pluginManager.getExtensions(UserTeamLifeCycleListener.class)) {
-			try {
-				listener.onCreation(team);
-			} catch (Throwable t) {
-				logger.error(String.format("failed to call plugin.onCreation %s", team.name), t);
-			}
-		}
-	}
+        for (UserTeamLifeCycleListener listener : pluginManager.getExtensions(UserTeamLifeCycleListener.class)) {
+            try {
+                listener.onDeletion(user);
+            } catch (Throwable t) {
+                logger.error(String.format("failed to call plugin.onDeletion %s", user.getUsername()), t);
+            }
+        }
+    }
 
-	protected void callDeleteUserListeners(UserModel user) {
-		if (pluginManager == null || user == null) {
-			return;
-		}
+    protected void callDeleteTeamListeners(TeamModel team) {
+        if (pluginManager == null || team == null) {
+            return;
+        }
 
-		for (UserTeamLifeCycleListener listener : pluginManager.getExtensions(UserTeamLifeCycleListener.class)) {
-			try {
-				listener.onDeletion(user);
-			} catch (Throwable t) {
-				logger.error(String.format("failed to call plugin.onDeletion %s", user.username), t);
-			}
-		}
-	}
+        for (UserTeamLifeCycleListener listener : pluginManager.getExtensions(UserTeamLifeCycleListener.class)) {
+            try {
+                listener.onDeletion(team);
+            } catch (Throwable t) {
+                logger.error(String.format("failed to call plugin.onDeletion %s", team.getId()), t);
+            }
+        }
+    }
 
-	protected void callDeleteTeamListeners(TeamModel team) {
-		if (pluginManager == null || team == null) {
-			return;
-		}
-
-		for (UserTeamLifeCycleListener listener : pluginManager.getExtensions(UserTeamLifeCycleListener.class)) {
-			try {
-				listener.onDeletion(team);
-			} catch (Throwable t) {
-				logger.error(String.format("failed to call plugin.onDeletion %s", team.name), t);
-			}
-		}
-	}
 }

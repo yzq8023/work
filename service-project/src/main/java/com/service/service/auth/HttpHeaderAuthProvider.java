@@ -77,7 +77,7 @@ public class HttpHeaderAuthProvider extends AuthenticationProvider {
 								if (null == team) {
 									// Create teams here so they can marked with the correct AccountType
 									team = new TeamModel(teamName);
-									team.accountType = AccountType.HTTPHEADER;
+									team.setAccountType( AccountType.HTTPHEADER);
 									updateTeam(team);
 								}
 								userTeams.add(team);
@@ -90,18 +90,17 @@ public class HttpHeaderAuthProvider extends AuthenticationProvider {
 				if (user != null) {
 					// If team header is provided in request, reset all team memberships, even if resetting to empty set
 					if (!StringUtils.isEmpty(teamHeaderName)) {
-						user.teams.clear();
-						user.teams.addAll(userTeams);
+						user.getTeams().clear();
+						user.getTeams().addAll(userTeams);
 					}
 					updateUser(user);
 					return user;
 				} else if (settings.getBoolean(Keys.realm.httpheader.autoCreateAccounts, false)) {
 					// auto-create user from HTTP header
 					user = new UserModel(headerUserName.toLowerCase());
-					user.displayName = headerUserName;
-					user.password = Constants.EXTERNAL_ACCOUNT;
-					user.accountType = AccountType.HTTPHEADER;
-					user.teams.addAll(userTeams);
+					user.setDisplayName(headerUserName);
+					user.setPassword(Constants.EXTERNAL_ACCOUNT);
+					user.setAccountType(AccountType.HTTPHEADER);
 					updateUser(user);
 					return user;
 				}
