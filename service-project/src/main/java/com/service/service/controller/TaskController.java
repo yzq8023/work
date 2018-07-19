@@ -32,14 +32,14 @@ public class TaskController extends BaseController<TaskBiz, TaskEntity> {
         this.mapUserTaskBiz = mapUserTaskBiz;
     }
 
-    @RequestMapping(value = "/{tid}/task", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{tid}/teams", method = RequestMethod.PUT)
     @ResponseBody
     public ObjectRestResponse modifyTeamsInTask(@PathVariable Integer tid, String teams){
         taskBiz.modifyTeamsInTask(tid, teams);
         return new ObjectRestResponse().rel(true);
     }
 
-    @RequestMapping(value = "/{tid}/task", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{tid}/users", method = RequestMethod.PUT)
     @ResponseBody
     public ObjectRestResponse modifyUsersInTask(@PathVariable Integer tid, String userIds){
         mapUserTaskBiz.updateUsersInTask(tid, userIds);
