@@ -21,7 +21,6 @@ import com.service.service.IStoredSettings;
 import com.service.service.Keys;
 import com.service.service.entity.TaskEntity;
 import com.service.service.extensions.ReceiveHook;
-import com.service.service.entity.RepositoryModel;
 import com.service.service.entity.TicketModel;
 import com.service.service.entity.TicketModel.Change;
 import com.service.service.entity.TicketModel.Field;
@@ -199,17 +198,17 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 		if (!canPush(commands)) {
 			// user does not have push permissions
 			for (ReceiveCommand cmd : commands) {
-				sendRejection(cmd, "User \"{0}\" does not have push permissions for \"{1}\"!", user.username, repository.getTaskName());
+				sendRejection(cmd, "User \"{0}\" does not have push permissions for \"{1}\"!", user.getUserId(), repository.getTaskName());
 			}
 			return;
 		}
 
 		if (repository.getAccessRestriction().atLeast(AccessRestrictionType.PUSH) && repository.isVerifyCommitter()) {
 			// enforce committer verification
-			if (StringUtils.isEmpty(user.emailAddress)) {
+			if (StringUtils.isEmpty(user.getEmailAddress())) {
 				// reject the push because the pushing account does not have an email address
 				for (ReceiveCommand cmd : commands) {
-					sendRejection(cmd, "Sorry, the account \"{0}\" does not have an email address set for committer verification!", user.username);
+					sendRejection(cmd, "Sorry, the account \"{0}\" does not have an email address set for committer verification!", user.getUserId());
 				}
 				return;
 			}
@@ -246,7 +245,7 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 						if (!user.is(committer.getName(), committer.getEmailAddress())) {
 							// verification failed
 							String reason = MessageFormat.format("{0} by {1} <{2}> was not committed by {3} ({4}) <{5}>",
-									commit.getId().name(), committer.getName(), StringUtils.isEmpty(committer.getEmailAddress()) ? "?":committer.getEmailAddress(), user.getDisplayName(), user.username, user.emailAddress);
+									commit.getId().name(), committer.getName(), StringUtils.isEmpty(committer.getEmailAddress()) ? "?":committer.getEmailAddress(), user.getDisplayName(), user.getUserId(), user.getEmailAddress());
 							LOGGER.warn(reason);
 							cmd.setResult(Result.REJECTED_OTHER_REASON, reason);
 							allRejected &= true;
@@ -281,9 +280,9 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 			} else if (ref.equals(BranchTicketService.BRANCH)) {
 				// ensure pushing user is an administrator OR an owner
 				// i.e. prevent ticket tampering
-				boolean permitted = user.canAdmin() || repository.isOwner(user.username);
+				boolean permitted = user.canAdmin() || repository.isOwner(user.getUserId());
 				if (!permitted) {
-					sendRejection(cmd, "{0} is not permitted to push to {1}", user.username, ref);
+					sendRejection(cmd, "{0} is not permitted to push to {1}", user.getUserId(), ref);
 				}
 			} else if (ref.startsWith(Constants.R_FOR)) {
 				// prevent accidental push to refs/for
@@ -372,18 +371,18 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 				// add some logging for important ref changes
 				switch (cmd.getType()) {
 				case DELETE:
-					LOGGER.info(MessageFormat.format("{0} DELETED {1} in {2} ({3})", user.username, cmd.getRefName(), repository.getTaskName(), cmd.getOldId().name()));
+					LOGGER.info(MessageFormat.format("{0} DELETED {1} in {2} ({3})", user.getUserId(), cmd.getRefName(), repository.getTaskName(), cmd.getOldId().name()));
 					isRefCreationOrDeletion = true;
 					break;
 				case CREATE:
-					LOGGER.info(MessageFormat.format("{0} CREATED {1} in {2}", user.username, cmd.getRefName(), repository.getTaskName()));
+					LOGGER.info(MessageFormat.format("{0} CREATED {1} in {2}", user.getUserId(), cmd.getRefName(), repository.getTaskName()));
 					isRefCreationOrDeletion = true;
 					break;
 				case UPDATE:
-					LOGGER.info(MessageFormat.format("{0} UPDATED {1} in {2} (from {3} to {4})", user.username, cmd.getRefName(), repository.getTaskName(), cmd.getOldId().name(), cmd.getNewId().name()));
+					LOGGER.info(MessageFormat.format("{0} UPDATED {1} in {2} (from {3} to {4})", user.getUserId(), cmd.getRefName(), repository.getTaskName(), cmd.getOldId().name(), cmd.getNewId().name()));
 					break;
 				case UPDATE_NONFASTFORWARD:
-					LOGGER.info(MessageFormat.format("{0} UPDATED NON-FAST-FORWARD {1} in {2} (from {3} to {4})", user.username, cmd.getRefName(), repository.getTaskName(), cmd.getOldId().name(), cmd.getNewId().name()));
+					LOGGER.info(MessageFormat.format("{0} UPDATED NON-FAST-FORWARD {1} in {2} (from {3} to {4})", user.getUserId(), cmd.getRefName(), repository.getTaskName(), cmd.getOldId().name(), cmd.getNewId().name()));
 					break;
 				default:
 					break;
@@ -407,7 +406,7 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 		}
 
 		// tag each pushed branch tip
-		String emailAddress = user.emailAddress == null ? getRefLogIdent().getEmailAddress() : user.emailAddress;
+		String emailAddress = user.getEmailAddress() == null ? getRefLogIdent().getEmailAddress() : user.getEmailAddress();
 		PersonIdent userIdent = new PersonIdent(user.getDisplayName(), emailAddress);
 
 		for (ReceiveCommand cmd : commands) {
@@ -525,7 +524,7 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 							for (TicketLink link : deletedRefs) {
 								link.isDelete = true;
 							}
-							Change deletion = new Change(user.username);
+							Change deletion = new Change(user.getUserId());
 							deletion.pendingLinks = deletedRefs;
 							ticketService.updateTicket(repository, 0, deletion);
 							
@@ -567,7 +566,7 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 									for (TicketLink link : deletedRefs) {
 										link.isDelete = true;
 									}
-									Change deletion = new Change(user.username);
+									Change deletion = new Change(user.getUserId());
 									deletion.pendingLinks = deletedRefs;
 									ticketService.updateTicket(repository, 0, deletion);
 								}
@@ -607,7 +606,7 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 			text = MessageFormat.format(why, objects);
 		}
 		cmd.setResult(Result.REJECTED_OTHER_REASON, text);
-		LOGGER.error(text + " (" + user.username + ")");
+		LOGGER.error(text + " (" + user.getUserId() + ")");
 	}
 
 	public void sendHeader(String msg, Object... objects) {
@@ -628,7 +627,7 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 			super.sendMessage(prefix + text);
 		}
 		if (!StringUtils.isEmpty(msg)) {
-			LOGGER.info(text + " (" + user.username + ")");
+			LOGGER.info(text + " (" + user.getUserId() + ")");
 		}
 	}
 
@@ -642,7 +641,7 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 			super.sendError(text);
 		}
 		if (!StringUtils.isEmpty(msg)) {
-			LOGGER.error(text + " (" + user.username + ")");
+			LOGGER.error(text + " (" + user.getUserId() + ")");
 		}
 	}
 
@@ -697,7 +696,7 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 						case Commit: {
 							//A commit can reference a ticket in any branch even if the ticket is closed.
 							//This allows developers to identify and communicate related issues
-							change = new Change(user.username);
+							change = new Change(user.getUserId());
 							change.referenceCommit(commitSha);
 						} break;
 						
@@ -707,12 +706,12 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 								continue;
 							}
 							
-							change = new Change(user.username);
+							change = new Change(user.getUserId());
 							change.setField(Field.status, Status.Fixed);
 							
 							if (StringUtils.isEmpty(ticket.responsible)) {
 								// unassigned tickets are assigned to the closer
-								change.setField(Field.responsible, user.username);
+								change.setField(Field.responsible, user.getUserId());
 							}
 						}
 						

@@ -30,6 +30,8 @@ public class User {
 
     private String type;
 
+    private String status;
+
     private String description;
 
     @Column(name = "crt_time")
@@ -56,12 +58,6 @@ public class User {
     @Column(name = "upd_host")
     private String updHost;
 
-    private String attr1;
-
-    private String attr2;
-
-    private String attr3;
-
     private String attr4;
 
     private String attr5;
@@ -71,6 +67,15 @@ public class User {
     private String attr7;
 
     private String attr8;
+
+    @Column(name = "can_admin")
+    private byte[] canAdmin;
+
+    @Column(name = "can_fork")
+    private byte[] canFork;
+
+    @Column(name = "can_create")
+    private byte[] canCreate;
 
     /**
      * @return id
@@ -227,6 +232,20 @@ public class User {
     }
 
     /**
+     * @return status
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status
+     */
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    /**
      * @return description
      */
     public String getDescription() {
@@ -353,48 +372,6 @@ public class User {
     }
 
     /**
-     * @return attr1
-     */
-    public String getAttr1() {
-        return attr1;
-    }
-
-    /**
-     * @param attr1
-     */
-    public void setAttr1(String attr1) {
-        this.attr1 = attr1;
-    }
-
-    /**
-     * @return attr2
-     */
-    public String getAttr2() {
-        return attr2;
-    }
-
-    /**
-     * @param attr2
-     */
-    public void setAttr2(String attr2) {
-        this.attr2 = attr2;
-    }
-
-    /**
-     * @return attr3
-     */
-    public String getAttr3() {
-        return attr3;
-    }
-
-    /**
-     * @param attr3
-     */
-    public void setAttr3(String attr3) {
-        this.attr3 = attr3;
-    }
-
-    /**
      * @return attr4
      */
     public String getAttr4() {
@@ -462,5 +439,47 @@ public class User {
      */
     public void setAttr8(String attr8) {
         this.attr8 = attr8;
+    }
+
+    /**
+     * @return can_admin
+     */
+    public byte[] getCanAdmin() {
+        return canAdmin;
+    }
+
+    /**
+     * @param canAdmin
+     */
+    public void setCanAdmin(byte[] canAdmin) {
+        this.canAdmin = canAdmin;
+    }
+
+    /**
+     * @return can_fork
+     */
+    public byte[] getCanFork() {
+        return canFork;
+    }
+
+    /**
+     * @param canFork
+     */
+    public void setCanFork(byte[] canFork) {
+        this.canFork = canFork;
+    }
+
+    /**
+     * @return can_create
+     */
+    public byte[] getCanCreate() {
+        return canCreate;
+    }
+
+    /**
+     * @param canCreate
+     */
+    public void setCanCreate(byte[] canCreate) {
+        this.canCreate = canCreate;
     }
 }

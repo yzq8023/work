@@ -2,7 +2,6 @@ package com.service.service.filter;
 
 import com.service.service.Constants;
 import com.service.service.entity.ProjectModel;
-import com.service.service.entity.RepositoryModel;
 import com.service.service.entity.TaskEntity;
 import com.service.service.entity.UserModel;
 import com.service.service.managers.IAuthenticationManager;
@@ -135,7 +134,7 @@ public class SyndicationFilter extends AuthenticationFilter {
                     // valid user, but not for requested access. send 403.
                     if (runtimeManager.isDebugMode()) {
                         logger.info(MessageFormat.format("ARF: {0} forbidden to access {1}",
-                                user.username, fullUrl));
+                                user.getUserId(), fullUrl));
                     }
                     httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
                     return;

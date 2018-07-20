@@ -23,6 +23,7 @@ import com.service.service.utils.ModelUtils;
 import com.service.service.utils.SecureRandom;
 import com.service.service.utils.StringUtils;
 
+import javax.persistence.Entity;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.*;
@@ -32,7 +33,7 @@ import java.util.*;
  * 权限。usermodel的实例也被用作
  * servlet主体。
  *
- * @author James Moger
+ * @author hollykunge
  *
  */
 public class UserModel implements Principal, Serializable, Comparable<UserModel> {
@@ -46,36 +47,37 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 	/**
 	 * 字段名称在EditUser页面中反射映射
 	 */
-	public String username;
-	public String password;
-	public String cookie;
-	public String displayName;
-	public String emailAddress;
-	public String organizationalUnit;
-	public String organization;
-	public String locality;
-	public String stateProvince;
-	public String countryCode;
-	public boolean canAdmin;
-	public boolean canFork;
-	public boolean canCreate;
-	public boolean excludeFromFederation;
-	public boolean disabled;
+	private String userId;
+	private String username;
+	private String password;
+	private String cookie;
+	private String displayName;
+	private String emailAddress;
+	private String organizationalUnit;
+	private String organization;
+	private String locality;
+	private String stateProvince;
+	private String countryCode;
+	private boolean canAdmin;
+	private boolean canFork;
+	private boolean canCreate;
+	private boolean excludeFromFederation;
+	private boolean disabled;
 	/**
 	 * 与RPC客户端保持向后兼容
 	 */
 	@Deprecated
-	public final Set<String> repositories = new HashSet<String>();
-	public final Map<String, AccessPermission> permissions = new LinkedHashMap<String, AccessPermission>();
-	public final Set<TeamModel> teams = new TreeSet<TeamModel>();
+	private final Set<String> repositories = new HashSet<String>();
+	private final Map<String, AccessPermission> permissions = new LinkedHashMap<String, AccessPermission>();
+	private final Set<TeamModel> teams = new TreeSet<TeamModel>();
 
 	/**
 	 * 非持久性字段
 	 */
-	public boolean isAuthenticated;
-	public AccountType accountType;
+	private boolean isAuthenticated;
+	private AccountType accountType;
 
-	public UserPreferences userPreferences;
+	private UserPreferences userPreferences;
 
 	public UserModel(String username) {
 		this.username = username;
@@ -89,6 +91,163 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 		this.isAuthenticated = false;
 		this.accountType = AccountType.LOCAL;
 		this.userPreferences = new UserPreferences(this.username);
+	}
+
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getCookie() {
+		return cookie;
+	}
+
+	public void setCookie(String cookie) {
+		this.cookie = cookie;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
+	public String getEmailAddress() {
+		return emailAddress;
+	}
+
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
+	}
+
+	public String getOrganizationalUnit() {
+		return organizationalUnit;
+	}
+
+	public void setOrganizationalUnit(String organizationalUnit) {
+		this.organizationalUnit = organizationalUnit;
+	}
+
+	public String getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(String organization) {
+		this.organization = organization;
+	}
+
+	public String getLocality() {
+		return locality;
+	}
+
+	public void setLocality(String locality) {
+		this.locality = locality;
+	}
+
+	public String getStateProvince() {
+		return stateProvince;
+	}
+
+	public void setStateProvince(String stateProvince) {
+		this.stateProvince = stateProvince;
+	}
+
+	public String getCountryCode() {
+		return countryCode;
+	}
+
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
+	}
+
+	public boolean isCanAdmin() {
+		return canAdmin;
+	}
+
+	public void setCanAdmin(boolean canAdmin) {
+		this.canAdmin = canAdmin;
+	}
+
+	public boolean isCanFork() {
+		return canFork;
+	}
+
+	public void setCanFork(boolean canFork) {
+		this.canFork = canFork;
+	}
+
+	public boolean isCanCreate() {
+		return canCreate;
+	}
+
+	public void setCanCreate(boolean canCreate) {
+		this.canCreate = canCreate;
+	}
+
+	public boolean isExcludeFromFederation() {
+		return excludeFromFederation;
+	}
+
+	public void setExcludeFromFederation(boolean excludeFromFederation) {
+		this.excludeFromFederation = excludeFromFederation;
+	}
+
+	public boolean isDisabled() {
+		return disabled;
+	}
+
+	public void setDisabled(boolean disabled) {
+		this.disabled = disabled;
+	}
+
+	public Set<String> getRepositories() {
+		return repositories;
+	}
+
+	public Map<String, AccessPermission> getPermissions() {
+		return permissions;
+	}
+
+	public Set<TeamModel> getTeams() {
+		return teams;
+	}
+
+	public void setAuthenticated(boolean authenticated) {
+		isAuthenticated = authenticated;
+	}
+
+	public AccountType getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(AccountType accountType) {
+		this.accountType = accountType;
+	}
+
+	public UserPreferences getUserPreferences() {
+		return userPreferences;
+	}
+
+	public void setUserPreferences(UserPreferences userPreferences) {
+		this.userPreferences = userPreferences;
 	}
 
 	public boolean isLocalAccount() {
@@ -134,7 +293,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 				// we can not change an inherited team permission, though we can override
 				teamPermission.registrantType = RegistrantType.REPOSITORY;
 				teamPermission.permissionType = PermissionType.TEAM;
-				teamPermission.source = team.name;
+				teamPermission.source = String.valueOf(team.getId());
 				teamPermission.mutable = false;
 				set.add(teamPermission);
 			}
@@ -235,7 +394,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 		ap.permission = AccessPermission.NONE;
 		ap.mutable = false;
 
-		// determine maximum permission for the repository
+		// 确定存储库的最大权限
 		final AccessPermission maxPermission =
 				(repository.isFrozen() || !repository.isBare() || repository.isMirror()) ?
 						AccessPermission.CLONE : AccessPermission.REWIND;
@@ -262,8 +421,8 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 			if (!canAdmin) {
 				// administator permission from team membership
 				for (TeamModel team : teams) {
-					if (team.canAdmin) {
-						ap.source = team.name;
+					if (team.isCanAdmin()) {
+						ap.source = String.valueOf(team.getId());
 						break;
 					}
 				}
@@ -333,7 +492,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 			if (p.permission.atMost(maxPermission) && p.permission.exceeds(ap.permission) && PermissionType.ANONYMOUS != p.permissionType) {
 				// use highest team permission that is not an implicit permission
 				ap.permission = p.permission;
-				ap.source = team.name;
+				ap.source = String.valueOf(team.getId());
 				ap.permissionType = PermissionType.TEAM;
 			}
 		}
@@ -432,11 +591,11 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 		return canClone(repository);
 	}
 
-	public boolean canDelete(RepositoryModel model) {
+	public boolean canDelete(TaskEntity model) {
 		return canAdmin() || model.isUsersPersonalRepository(username);
 	}
 
-	public boolean canEdit(RepositoryModel model) {
+	public boolean canEdit(TaskEntity model) {
 		return canAdmin() || model.isUsersPersonalRepository(username) || model.isOwner(username);
 	}
 
@@ -476,7 +635,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 		}
 		if (!ArrayUtils.isEmpty(teams)) {
 			for (TeamModel team : teams) {
-				if (team.canFork) {
+				if (team.isCanFork()) {
 					return true;
 				}
 			}
@@ -495,7 +654,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 		}
 		if (!ArrayUtils.isEmpty(teams)) {
 			for (TeamModel team : teams) {
-				if (team.canAdmin) {
+				if (team.isCanAdmin()) {
 					return true;
 				}
 			}
@@ -514,7 +673,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 		}
 		if (!ArrayUtils.isEmpty(teams)) {
 			for (TeamModel team : teams) {
-				if (team.canCreate) {
+				if (team.isCanCreate()) {
 					return true;
 				}
 			}
@@ -559,7 +718,8 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 
 	public boolean isTeamMember(String teamname) {
 		for (TeamModel team : teams) {
-			if (team.name.equalsIgnoreCase(teamname)) {
+			//TODO 在比较不同类型数据时可能会有问题
+			if (team.getId().equals(teamname)) {
 				return true;
 			}
 		}
@@ -571,7 +731,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 			return null;
 		}
 		for (TeamModel team : teams) {
-			if (team.name.equalsIgnoreCase(teamname)) {
+			if (team.getId().equals(teamname)) {
 				return team;
 			}
 		}

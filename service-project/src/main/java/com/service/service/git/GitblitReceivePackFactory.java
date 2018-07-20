@@ -18,7 +18,6 @@ package com.service.service.git;
 import com.service.service.Constants.Transport;
 import com.service.service.IStoredSettings;
 import com.service.service.Keys;
-import com.service.service.entity.RepositoryModel;
 import com.service.service.entity.TaskEntity;
 import com.service.service.entity.UserModel;
 import com.service.service.managers.IWorkHub;
@@ -126,7 +125,7 @@ public class GitblitReceivePackFactory<X> implements ReceivePackFactory<X> {
 		rp = new GitblitReceivePack(gitblit, db, repository, user);
 
 		rp.setGitblitUrl(url);
-		rp.setRefLogIdent(new PersonIdent(user.username, user.username + "@" + origin));
+		rp.setRefLogIdent(new PersonIdent(user.getUserId(), user.getUserId() + "@" + origin));
 		rp.setTimeout(timeout);
 
 		return rp;

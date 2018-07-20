@@ -11,7 +11,6 @@ import com.service.service.Constants;
 import com.service.service.IStoredSettings;
 import com.service.service.Keys;
 import com.service.service.entity.ProjectModel;
-import com.service.service.entity.RepositoryModel;
 import com.service.service.entity.TaskEntity;
 import com.service.service.entity.UserModel;
 import com.service.service.exception.GitBlitException;
@@ -34,6 +33,7 @@ import java.util.regex.Pattern;
 /**
  * 业务逻辑类
  * 描述：实现在增删改中对事务的管理和回滚，所有需要实现事物的方法均要放到这里
+ *
  * @author dk
  */
 @Service
@@ -67,7 +67,7 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
      * @param teams  队伍
      */
     @CacheClear(pre = "permission")
-    public void modifyTaskTeams(Integer taskId, String teams) {
+    public void modifyTeamsInTask(Integer taskId, String teams) {
         mapper.deleteTaskTeamsById(taskId);
         if (!StringUtils.isEmpty(teams)) {
             String[] team = teams.split(",");
@@ -80,7 +80,7 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
     /**
      * 根据用户id,项目id查看所分配的任务分页
      *
-     * @param query     dao接口
+     * @param query dao接口
      * @return 任务
      */
     @CacheClear(pre = "permission")
@@ -95,22 +95,22 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
      *
      * @param taskEntity 任务实体
      */
-    public TaskEntity createTask(TaskEntity taskEntity, String userId) {
+    public boolean createTask(TaskEntity taskEntity, String userId) {
         try {
-
             //transfer
             taskEntity.setCrtUser(userId);
             taskEntity.setHead(Constants.R_MASTER);
             taskEntity.setMergeTo(Constants.MASTER);
             //update
+            taskEntity.setTaskName(taskEntity.getTaskProjectName() + "/" + taskEntity.getTaskName());
             workHub.updateRepositoryModel(taskEntity.getTaskName(), taskEntity, true);
 
             InitialCommit initialCommit = new InitialCommit();
             UserModel user = userManager.getUserModel(Integer.valueOf(userId));
             boolean isSuccess = initialCommit.initialCommit(taskEntity, user);
-            return taskEntity;
+            return true;
         } catch (GitBlitException e) {
-            return null;
+            return false;
         }
     }
 
@@ -188,23 +188,23 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
         return repositoryModels;
     }
 
-    public UserModel userSwitch(UserInfo userInfo){
+    public UserModel userSwitch(UserInfo userInfo) {
         UserModel userModel = new UserModel(userInfo.getUsername());
-        userModel.username = userInfo.getUsername();
-        userModel.password = userInfo.getPassword();
-        userModel.cookie = null;
-        userModel.displayName = null;
-        userModel.emailAddress = "hollykunge@163.com";
-        userModel.organizationalUnit = null;
-        userModel.organization = null;
-        userModel.locality = null;
-        userModel.stateProvince = null;
-        userModel.countryCode = "+86";
-        userModel.canAdmin = true;
-        userModel.canFork = true;
-        userModel.canCreate = true;
-        userModel.excludeFromFederation = false;
-        userModel.disabled = false;
+        userModel.setUserId(userInfo.getUsername());
+        userModel.setPassword(userInfo.getPassword());
+        userModel.setCookie(null);
+        userModel.setUsername(null);
+        userModel.setEmailAddress(null);
+        userModel.setOrganizationalUnit(null);
+        userModel.setOrganization(null);
+        userModel.setLocality(null);
+        userModel.setStateProvince(null);
+        userModel.setCountryCode(null);
+        userModel.setCanAdmin(true);
+        userModel.setCanFork(true);
+        userModel.setCanCreate(true);
+        userModel.setExcludeFromFederation(false);
+        userModel.setDisabled(false);
         return userModel;
     }
 }

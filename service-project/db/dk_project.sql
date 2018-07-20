@@ -11,7 +11,7 @@
  Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 12/07/2018 10:41:36
+ Date: 19/07/2018 15:49:02
 */
 
 SET NAMES utf8mb4;
@@ -120,6 +120,20 @@ CREATE TABLE `label`  (
   `num_closed_issues` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `IDX_label_repo_id`(`repo_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for map_user_task
+-- ----------------------------
+DROP TABLE IF EXISTS `map_user_task`;
+CREATE TABLE `map_user_task`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NULL DEFAULT NULL,
+  `task_id` int(11) NULL DEFAULT NULL,
+  `user_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `task_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `permission` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -248,7 +262,6 @@ INSERT INTO `task` VALUES (14, NULL, 'wrerwer', 1, NULL, '34234', NULL, '2018-04
 DROP TABLE IF EXISTS `team`;
 CREATE TABLE `team`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `project_id` int(11) NULL DEFAULT NULL COMMENT '项目id',
   `lower_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注名称',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '名称',
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
@@ -262,8 +275,10 @@ CREATE TABLE `team`  (
   `upd_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `upd_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `upd_host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `IDX_team_org_id`(`project_id`) USING BTREE
+  `can_admin` tinyblob NULL,
+  `can_fork` tinyblob NULL,
+  `can_create` tinyblob NULL,
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -272,9 +287,11 @@ CREATE TABLE `team`  (
 DROP TABLE IF EXISTS `team_repo`;
 CREATE TABLE `team_repo`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `project_id` int(11) NULL DEFAULT NULL,
   `task_id` int(11) NULL DEFAULT NULL,
+  `task_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `team_id` int(11) NULL DEFAULT NULL,
+  `team_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `permission` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '读写权限',
   `crt_time` datetime(0) NULL DEFAULT NULL,
   `crt_user` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `crt_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,

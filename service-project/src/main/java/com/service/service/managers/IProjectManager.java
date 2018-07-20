@@ -16,7 +16,6 @@
 package com.service.service.managers;
 
 import com.service.service.entity.ProjectModel;
-import com.service.service.entity.RepositoryModel;
 import com.service.service.entity.TaskEntity;
 import com.service.service.entity.UserModel;
 

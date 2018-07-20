@@ -1,7 +1,7 @@
 package com.service.service.vo;
 
 import com.github.wxiaoqi.security.api.vo.user.UserInfo;
-import com.service.service.entity.TeamEntity;
+import com.service.service.entity.TeamModel;
 
 import java.util.List;
 /**
@@ -12,23 +12,23 @@ import java.util.List;
  */
 public class TaskTUs {
 
-    List<TeamEntity> teamEntities;
+    List<TeamModel> teamEntities;
     List<UserInfo> userInfos;
 
     public TaskTUs(){
 
     }
 
-    public TaskTUs(List<TeamEntity> teamEntities, List<UserInfo> userInfos){
+    public TaskTUs(List<TeamModel> teamEntities, List<UserInfo> userInfos){
         this.teamEntities = teamEntities;
         this.userInfos = userInfos;
     }
 
-    public List<TeamEntity> getTeamEntities() {
+    public List<TeamModel> getTeamEntities() {
         return teamEntities;
     }
 
-    public void setTeamEntities(List<TeamEntity> teamEntities) {
+    public void setTeamEntities(List<TeamModel> teamEntities) {
         this.teamEntities = teamEntities;
     }
 

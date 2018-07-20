@@ -152,15 +152,14 @@ public class HttpUtils {
 	/**
 	 * Creates a UserModel from a certificate
 	 * @param cert
-	 * @param usernameOids if unspecified CN is used as the username
 	 * @return
 	 */
 	public static UserModel getUserModelFromCertificate(X509Certificate cert, String... usernameOIDs) {
 		X509Metadata metadata = X509Utils.getMetadata(cert);
 
 		UserModel user = new UserModel(metadata.commonName);
-		user.emailAddress = metadata.emailAddress;
-		user.isAuthenticated = false;
+		user.setEmailAddress(metadata.emailAddress);
+		user.setAuthenticated(false);
 
 		if (usernameOIDs == null || usernameOIDs.length == 0) {
 			// use default usename<->CN mapping
@@ -175,7 +174,7 @@ public class HttpUtils {
 				an.append(val).append(' ');
 			}
 		}
-		user.username = an.toString().trim();
+		user.setUserId(an.toString().trim());
 		return user;
 	}
 

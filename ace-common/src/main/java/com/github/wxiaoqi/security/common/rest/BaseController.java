@@ -73,4 +73,8 @@ public class BaseController<Biz extends BaseBiz, Entity> {
     public String getCurrentUserName() {
         return BaseContextHandler.getUsername();
     }
+
+    public String getCurrentUserId() {
+        return BaseContextHandler.getUserID();
+    }
 }

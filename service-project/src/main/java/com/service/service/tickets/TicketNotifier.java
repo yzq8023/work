@@ -526,14 +526,14 @@ public class TicketNotifier {
 		Set<String> toAddresses = new TreeSet<String>();
 		for (String name : tos) {
 			UserModel user = userManager.getUserModel(name);
-			if (user != null && !user.disabled) {
-				if (!StringUtils.isEmpty(user.emailAddress)) {
+			if (user != null && !user.isDisabled()) {
+				if (!StringUtils.isEmpty(user.getEmailAddress())) {
 					if (user.canView(repository)) {
-						toAddresses.add(user.emailAddress);
+						toAddresses.add(user.getEmailAddress());
 					} else {
 						LoggerFactory.getLogger(getClass()).warn(
 								MessageFormat.format("ticket {0}-{1,number,0}: {2} can not receive notification",
-										repository.getTaskName(), ticket.number, user.username));
+										repository.getTaskName(), ticket.number, user.getUserId()));
 					}
 				}
 			}
@@ -568,14 +568,14 @@ public class TicketNotifier {
 		Set<String> ccAddresses = new TreeSet<String>();
 		for (String name : ccs) {
 			UserModel user = userManager.getUserModel(name);
-			if (user != null && !user.disabled) {
-				if (!StringUtils.isEmpty(user.emailAddress)) {
+			if (user != null && !user.isDisabled()) {
+				if (!StringUtils.isEmpty(user.getEmailAddress())) {
 					if (user.canView(repository)) {
-						ccAddresses.add(user.emailAddress);
+						ccAddresses.add(user.getEmailAddress());
 					} else {
 						LoggerFactory.getLogger(getClass()).warn(
 								MessageFormat.format("ticket {0}-{1,number,0}: {2} can not receive notification",
-										repository.getTaskName(), ticket.number, user.username));
+										repository.getTaskName(), ticket.number, user.getUserId()));
 					}
 				}
 			}
@@ -590,8 +590,8 @@ public class TicketNotifier {
 		// respect the author's email preference
 		UserModel lastAuthor = userManager.getUserModel(lastChange.author);
 		if (lastAuthor != null && !lastAuthor.getPreferences().isEmailMeOnMyTicketChanges()) {
-			toAddresses.remove(lastAuthor.emailAddress);
-			ccAddresses.remove(lastAuthor.emailAddress);
+			toAddresses.remove(lastAuthor.getEmailAddress());
+			ccAddresses.remove(lastAuthor.getEmailAddress());
 		}
 
 		mailing.setRecipients(toAddresses);

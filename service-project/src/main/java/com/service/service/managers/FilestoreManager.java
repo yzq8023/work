@@ -24,7 +24,6 @@ import com.service.service.IStoredSettings;
 import com.service.service.Keys;
 import com.service.service.entity.FilestoreModel;
 import com.service.service.entity.FilestoreModel.Status;
-import com.service.service.entity.RepositoryModel;
 import com.service.service.entity.TaskEntity;
 import com.service.service.entity.UserModel;
 import com.service.service.utils.ArrayUtils;

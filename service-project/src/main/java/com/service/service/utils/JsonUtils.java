@@ -16,11 +16,11 @@
 package com.service.service.utils;
 
 import com.service.service.Constants.AccessPermission;
+import com.service.service.entity.TaskEntity;
 import com.service.service.exception.GitBlitException.ForbiddenException;
 import com.service.service.exception.GitBlitException.NotAllowedException;
 import com.service.service.exception.GitBlitException.UnauthorizedException;
 import com.service.service.exception.GitBlitException.UnknownRequestException;
-import com.service.service.entity.RepositoryModel;
 import com.service.service.entity.UserModel;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
@@ -42,7 +42,7 @@ import java.util.*;
  */
 public class JsonUtils {
 
-	public static final Type REPOSITORIES_TYPE = new TypeToken<Map<String, RepositoryModel>>() {
+	public static final Type REPOSITORIES_TYPE = new TypeToken<Map<String, TaskEntity>>() {
 	}.getType();
 
 	public static final Type USERS_TYPE = new TypeToken<Collection<UserModel>>() {
