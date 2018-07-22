@@ -6,6 +6,7 @@ import com.github.wxiaoqi.security.common.rest.BaseController;
 import com.github.wxiaoqi.security.common.util.Query;
 import com.service.service.biz.MapUserTaskBiz;
 import com.service.service.biz.TaskBiz;
+import com.service.service.entity.PathModel;
 import com.service.service.entity.TaskEntity;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,12 +47,19 @@ public class TaskController extends BaseController<TaskBiz, TaskEntity> {
         return new ObjectRestResponse().rel(true);
     }
 
-    @Override
-    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    @RequestMapping(value = "/joined", method = RequestMethod.GET)
     @ResponseBody
-    public TableResultResponse<TaskEntity> list(@RequestParam Map<String, Object> params) {
+    public TableResultResponse<TaskEntity> joined(@RequestParam Map<String, Object> params) {
         Query query = new Query(params);
-        return taskBiz.getRepositories(query);
+        return taskBiz.getJoinedTask(query);
+    }
+
+
+    @RequestMapping(value = "/project/joined", method = RequestMethod.GET)
+    @ResponseBody
+    public TableResultResponse<TaskEntity> pjoined(@RequestParam Map<String, Object> params) {
+        Query query = new Query(params);
+        return taskBiz.getJoinedTaskFromProject(query);
     }
 
     @Override
@@ -62,6 +70,13 @@ public class TaskController extends BaseController<TaskBiz, TaskEntity> {
             baseBiz.insertSelective(entity);
         }
         return new ObjectRestResponse<TaskEntity>();
+    }
+
+    @RequestMapping(value = "/repository", method = RequestMethod.GET)
+    @ResponseBody
+    public List<PathModel> repository(@RequestParam Map<String, Object> params) {
+        Query query = new Query(params);
+        return taskBiz.getRepository(query);
     }
 }
 

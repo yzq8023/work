@@ -49,15 +49,14 @@ public class ProjectBiz extends BaseBiz<ProjectEntityMapper, ProjectEntity> {
     }
 
     /**
-     * 根据用户id获取项目分页
+     * 根据用户id获取map_user_project中的项目
      *
      * @param query
      * @@return  TableResultResponse
      */
-    @CacheClear(pre = "permission")
-    public TableResultResponse<ProjectEntity> selectProjectByUserId(Query query) {
+    public TableResultResponse<ProjectEntity> getJoinedProject(Query query) {
         Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
-        List<ProjectEntity> list = mapper.selectProjectByUserId(query.getCrtUser());
+        List<ProjectEntity> list = mapper.selectProjectByUserId(query.getCurrentUserId());
         return new TableResultResponse<ProjectEntity>(result.getTotal(), list);
     }
 }

@@ -23,7 +23,6 @@ import com.service.service.utils.ModelUtils;
 import com.service.service.utils.SecureRandom;
 import com.service.service.utils.StringUtils;
 
-import javax.persistence.Entity;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.*;
@@ -86,7 +85,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 		this.userPreferences = new UserPreferences(this.username);
 	}
 
-	private UserModel() {
+	public UserModel() {
 		this.username = "$anonymous";
 		this.isAuthenticated = false;
 		this.accountType = AccountType.LOCAL;
