@@ -27,10 +27,10 @@ public class ProjectController extends BaseController<ProjectBiz, ProjectEntity>
         return new ObjectRestResponse().rel(true);
     }
 
-    @RequestMapping(value = "/page/joinpro", method = RequestMethod.GET)
+    @RequestMapping(value = "/joined", method = RequestMethod.GET)
     @ResponseBody
-    public TableResultResponse<ProjectEntity> page(@RequestParam Map<String, Object> params) {
+    public TableResultResponse<ProjectEntity> joined(@RequestParam Map<String, Object> params) {
         Query query = new Query(params);
-        return baseBiz.selectProjectByUserId(query);
+        return baseBiz.getJoinedProject(query);
     }
 }
