@@ -16,15 +16,13 @@ public class Query extends LinkedHashMap<String, Object> {
     private int page = 1;
     private int limit = 10;
 
-    private Integer crtUser = null;
+    private Integer currentUserId = null;
 
-    private Integer taskExecutorId = null;
+    private Integer teamId = null;
 
     private Integer projectId = null;
 
-    private String projectName = null;
-
-    private String taskName = null;
+    private Integer taskId = null;
 
     public Query(Map<String, Object> params) {
         this.putAll(params);
@@ -35,20 +33,17 @@ public class Query extends LinkedHashMap<String, Object> {
         if (params.get(PageConstants.PAGE_LIMIT) != null) {
             this.limit = Integer.parseInt(params.get("limit").toString());
         }
-        if (params.get(PageConstants.TASK_EXE_ID) != null) {
-            this.crtUser = Integer.parseInt(params.get(PageConstants.TASK_EXE_ID).toString());
+        if (params.get(PageConstants.CURRENT_USER_ID) != null) {
+            this.currentUserId = Integer.parseInt(params.get(PageConstants.CURRENT_USER_ID).toString());
+        }
+        if (params.get(PageConstants.TEAM_ID) != null) {
+            this.teamId = Integer.parseInt(params.get(PageConstants.TEAM_ID).toString());
         }
         if (params.get(PageConstants.PROJECT_ID) != null) {
             this.projectId = Integer.parseInt(params.get(PageConstants.PROJECT_ID).toString());
         }
-        if (params.get(PageConstants.TASK_EXE_ID) != null) {
-            this.taskExecutorId = Integer.parseInt(params.get(PageConstants.TASK_EXE_ID).toString());
-        }
-        if (params.get(PageConstants.TASK_NAME) != null) {
-            this.taskName = params.get(PageConstants.TASK_NAME).toString();
-        }
-        if (params.get(PageConstants.PROJECT_NAME) != null) {
-            this.projectName = params.get(PageConstants.PROJECT_NAME).toString();
+        if (params.get(PageConstants.TASK_ID) != null) {
+            this.taskId = Integer.parseInt(params.get(PageConstants.TASK_ID).toString());
         }
         this.remove(PageConstants.PAGE_NUM);
         this.remove(PageConstants.PAGE_LIMIT);
@@ -70,12 +65,20 @@ public class Query extends LinkedHashMap<String, Object> {
         this.limit = limit;
     }
 
-    public Integer getCrtUser() {
-        return crtUser;
+    public Integer getCurrentUserId() {
+        return currentUserId;
     }
 
-    public void setCrtUser(Integer crtUser) {
-        this.crtUser = crtUser;
+    public void setCurrentUserId(Integer currentUserId) {
+        this.currentUserId = currentUserId;
+    }
+
+    public Integer getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(Integer teamId) {
+        this.teamId = teamId;
     }
 
     public Integer getProjectId() {
@@ -86,27 +89,11 @@ public class Query extends LinkedHashMap<String, Object> {
         this.projectId = projectId;
     }
 
-    public Integer getTaskExecutorId() {
-        return taskExecutorId;
+    public Integer getTaskId() {
+        return taskId;
     }
 
-    public void setTaskExecutorId(Integer taskExecutorId) {
-        this.taskExecutorId = taskExecutorId;
-    }
-
-    public String getProjectName() {
-        return projectName;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public String getTaskName() {
-        return taskName;
-    }
-
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
+    public void setTaskId(Integer taskId) {
+        this.taskId = taskId;
     }
 }

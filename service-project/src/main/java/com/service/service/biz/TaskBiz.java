@@ -7,12 +7,11 @@ import com.github.wxiaoqi.security.api.vo.user.UserInfo;
 import com.github.wxiaoqi.security.common.biz.BaseBiz;
 import com.github.wxiaoqi.security.common.msg.TableResultResponse;
 import com.github.wxiaoqi.security.common.util.Query;
+import com.google.common.base.Optional;
 import com.service.service.Constants;
 import com.service.service.IStoredSettings;
 import com.service.service.Keys;
-import com.service.service.entity.ProjectModel;
-import com.service.service.entity.TaskEntity;
-import com.service.service.entity.UserModel;
+import com.service.service.entity.*;
 import com.service.service.exception.GitBlitException;
 import com.service.service.feign.IUserFeignClient;
 import com.service.service.managers.IRepositoryManager;
@@ -20,15 +19,27 @@ import com.service.service.managers.IRuntimeManager;
 import com.service.service.managers.IUserManager;
 import com.service.service.managers.IWorkHub;
 import com.service.service.mapper.TaskEntityMapper;
-import com.service.service.utils.InitialCommit;
+import com.service.service.utils.JGitUtils;
 import com.service.service.utils.ModelUtils;
 import com.service.service.utils.StringUtils;
+import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheBuilder;
+import org.eclipse.jgit.dircache.DirCacheEntry;
+import org.eclipse.jgit.lib.*;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.regex.Pattern;
+
+import static org.apache.log4j.helpers.LogLog.error;
 
 /**
  * 业务逻辑类
@@ -46,6 +57,8 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
     private IUserFeignClient userFeignClient;
     private IRepositoryManager repositoryManager;
     List<TaskEntity> repositoryModels = new ArrayList<TaskEntity>();
+
+    private Map<String, SubmoduleModel> submodules;
 
     @Autowired
     public TaskBiz(IUserManager userManager,
@@ -78,18 +91,26 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
     }
 
     /**
-     * 根据用户id,项目id查看所分配的任务分页
+     * 在当前项目中获取已参与的任务
      *
      * @param query dao接口
      * @return 任务
      */
-    @CacheClear(pre = "permission")
-    public TableResultResponse<TaskEntity> selectTaskById(Query query) {
+    public TableResultResponse<TaskEntity> getJoinedTaskFromProject(Query query) {
         Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
-        List<TaskEntity> list = mapper.selectTaskById(query.getTaskExecutorId(), query.getProjectId());
+        List<TaskEntity> list = mapper.selectTaskByPIdAndUId(query.getCurrentUserId(), query.getProjectId());
         return new TableResultResponse<>(result.getTotal(), list);
     }
 
+    /**
+     * 根据用户id查找map_user_task
+     * 获取所有用户参与的任务
+     */
+    public TableResultResponse<TaskEntity> getJoinedTask(Query query) {
+        Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
+        List<TaskEntity> list = mapper.selectJoinedTaskById(query.getCurrentUserId());
+        return new TableResultResponse<>(result.getTotal(), list);
+    }
     /**
      * 根据用户及名称创建任务
      *
@@ -97,31 +118,34 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
      */
     public boolean createTask(TaskEntity taskEntity, String userId) {
         try {
-            //transfer
+            //传递
             taskEntity.setCrtUser(userId);
             taskEntity.setHead(Constants.R_MASTER);
             taskEntity.setMergeTo(Constants.MASTER);
-            //update
+            //更新
             taskEntity.setTaskName(taskEntity.getTaskProjectName() + "/" + taskEntity.getTaskName());
+            //初始化
             workHub.updateRepositoryModel(taskEntity.getTaskName(), taskEntity, true);
-
-            InitialCommit initialCommit = new InitialCommit();
-            UserModel user = userManager.getUserModel(Integer.valueOf(userId));
-            boolean isSuccess = initialCommit.initialCommit(taskEntity, user);
+            // 创建初始提交
+//            initialCommit(taskEntity, addReadme, gitignore, useGitFlow);
             return true;
         } catch (GitBlitException e) {
+            error(e.getMessage());
             return false;
         }
     }
 
+    //TODO 采用数据库方式读取repository，如果有问题建议使用原始方式
+    /**
     public TableResultResponse<TaskEntity> getRepositories(Query query) {
-        String userId = String.valueOf(query.getTaskExecutorId());
+        String userId = String.valueOf(query.getCurrentUserId());
 //        if (query == null) {
 //            return getRepositoryModels(userId);
 //        }
 
         boolean hasParameter = false;
-        String projectName = query.getProjectName();
+//        String projectName = query.getProjectName();
+        String projectName = "协同设计平台";
         if (StringUtils.isEmpty(projectName)) {
             if (!StringUtils.isEmpty(userId)) {
                 projectName = ModelUtils.getPersonalPath(userId);
@@ -188,7 +212,8 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
         return repositoryModels;
     }
 
-    public UserModel userSwitch(UserInfo userInfo) {
+
+    private UserModel userSwitch(UserInfo userInfo) {
         UserModel userModel = new UserModel(userInfo.getUsername());
         userModel.setUserId(userInfo.getUsername());
         userModel.setPassword(userInfo.getPassword());
@@ -206,6 +231,33 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
         userModel.setExcludeFromFederation(false);
         userModel.setDisabled(false);
         return userModel;
+    }
+**/
+    public List<PathModel> getRepository(Query query){
+        String taskName = userFeignClient.info(query.getCurrentUserId()).getUsername();
+        Repository r = workHub.getRepository(taskName);
+        RevCommit commit = getCommit(r, null);
+        List<PathModel> paths = JGitUtils.getFilesInPath2(r, null, commit);
+        return paths;
+    }
+
+    protected RevCommit getCommit(Repository r, String objectId) {
+        RevCommit commit = JGitUtils.getCommit(r, objectId);
+        if (commit == null) {
+            error("commit出现错误");
+        }
+        getSubmodules(commit, r);
+        return commit;
+    }
+
+    protected Map<String, SubmoduleModel> getSubmodules(RevCommit commit, Repository r) {
+        if (submodules == null) {
+            submodules = new HashMap<String, SubmoduleModel>();
+            for (SubmoduleModel model : JGitUtils.getSubmodules(r, commit.getTree())) {
+                submodules.put(model.path, model);
+            }
+        }
+        return submodules;
     }
 }
 

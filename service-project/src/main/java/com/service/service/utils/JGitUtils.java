@@ -875,11 +875,9 @@ public class JGitUtils {
 	}
 
 	/**
-	 * Returns the list of files in the specified folder at the specified
-	 * commit. If the repository does not exist or is empty, an empty list is
-	 * returned.
+	 * 在指定的提交中返回指定文件夹中的文件列表。如果存储库不存在或者是空的，就会返回一个空列表。
 	 *
-	 * This is modified version that implements path compression feature.
+	 * 这是实现路径压缩特性的修改版本。
 	 *
 	 * @param repository
 	 * @param path

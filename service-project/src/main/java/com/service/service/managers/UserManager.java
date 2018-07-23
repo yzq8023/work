@@ -56,6 +56,8 @@ public class UserManager implements IUserManager {
 
     private IUserFeignClient userFeignClient;
 
+    UserModel userModel = new UserModel();
+
     @Autowired
     public UserManager(IRuntimeManager runtimeManager, IPluginManager pluginManager, IUserFeignClient userFeignClient) {
         this.settings = runtimeManager.getSettings();
@@ -197,11 +199,10 @@ public class UserManager implements IUserManager {
     }
 
     public UserModel userSwitch(UserInfo userInfo) {
-        UserModel userModel = new UserModel(userInfo.getUsername());
-        userModel.setUserId(userInfo.getUsername());
+        userModel.setUserId(userInfo.getId());
         userModel.setPassword(userInfo.getPassword());
         userModel.setCookie(null);
-        userModel.setUsername(null);
+        userModel.setUsername(userInfo.getUsername());
         userModel.setEmailAddress(null);
         userModel.setOrganizationalUnit(null);
         userModel.setOrganization(null);

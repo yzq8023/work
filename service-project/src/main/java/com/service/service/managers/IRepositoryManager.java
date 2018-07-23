@@ -470,4 +470,6 @@ public interface IRepositoryManager extends IManager {
  	 * @since 1.4.0
 	 */
 	boolean isIdle(Repository repository);
+
+
 }
