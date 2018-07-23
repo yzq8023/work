@@ -79,7 +79,6 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
      * @param taskId 任务id
      * @param teams  队伍
      */
-    @CacheClear(pre = "permission")
     public void modifyTeamsInTask(Integer taskId, String teams) {
         mapper.deleteTaskTeamsById(taskId);
         if (!StringUtils.isEmpty(teams)) {
@@ -233,6 +232,7 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
         return userModel;
     }
 **/
+
     public List<PathModel> getRepository(Query query){
         String taskName = userFeignClient.info(query.getCurrentUserId()).getUsername();
         Repository r = workHub.getRepository(taskName);
