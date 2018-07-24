@@ -11,7 +11,7 @@
  Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 22/07/2018 22:57:39
+ Date: 24/07/2018 14:16:43
 */
 
 SET NAMES utf8mb4;
@@ -234,7 +234,7 @@ CREATE TABLE `task`  (
   `upd_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `upd_host` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `default_branch` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '默认分支',
-  `size` bigint(20) NULL DEFAULT NULL COMMENT '大小',
+  `size` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '大小',
   `num_watches` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '关注量',
   `num_stars` int(11) NULL DEFAULT NULL COMMENT '标星量',
   `num_forks` int(11) NULL DEFAULT NULL COMMENT '分支任务数',
