@@ -72,7 +72,7 @@ public class TeamBiz extends BaseBiz<TeamModelMapper, TeamModel> {
 
     public TableResultResponse<TeamModel> selectTeamByUserId(Query query) {
         Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
-        List<TeamModel> list = mapper.selectTeamByUserId(query.getCrtUser());
+        List<TeamModel> list = mapper.selectTeamByUserId(query.getCurrentUserId());
         return new TableResultResponse<TeamModel>(result.getTotal(), list);
     }
 

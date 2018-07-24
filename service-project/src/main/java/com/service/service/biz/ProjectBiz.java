@@ -31,22 +31,6 @@ public class ProjectBiz extends BaseBiz<ProjectEntityMapper, ProjectEntity> {
 
     @Autowired
     ProjectEntityMapper mapper;
-    /**
-     * 更改项目关联团队
-     *
-     * @param projectId
-     * @param teams
-     */
-    @CacheClear(pre = "permission")
-    public void modifiyProTeam(Integer projectId, String teams) {
-        mapper.deleteProTeamsById(projectId);
-        if (!StringUtils.isEmpty(teams)) {
-            String[] team = teams.split(",");
-            for (String t : team) {
-                mapper.insertProTeamsById(projectId, Integer.parseInt(t));
-            }
-        }
-    }
 
     /**
      * 根据用户id获取map_user_project中的项目
