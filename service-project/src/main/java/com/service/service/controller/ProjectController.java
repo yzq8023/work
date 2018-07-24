@@ -20,12 +20,6 @@ import java.util.Map;
 @Api("项目管理")
 public class ProjectController extends BaseController<ProjectBiz, ProjectEntity> {
 
-    @RequestMapping(value = "/{id}/project", method = RequestMethod.PUT)
-    @ResponseBody
-    public ObjectRestResponse modifiyProTeams(@PathVariable Integer id, String teams){
-        baseBiz.modifiyProTeam(id, teams);
-        return new ObjectRestResponse().rel(true);
-    }
 
     @RequestMapping(value = "/joined", method = RequestMethod.GET)
     @ResponseBody
