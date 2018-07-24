@@ -54,7 +54,6 @@ public class TaskController extends BaseController<TaskBiz, TaskEntity> {
         return taskBiz.getJoinedTask(query);
     }
 
-
     @RequestMapping(value = "/project/joined", method = RequestMethod.GET)
     @ResponseBody
     public TableResultResponse<TaskEntity> pjoined(@RequestParam Map<String, Object> params) {
