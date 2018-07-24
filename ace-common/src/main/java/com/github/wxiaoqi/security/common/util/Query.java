@@ -18,6 +18,8 @@ public class Query extends LinkedHashMap<String, Object> {
 
     private Integer currentUserId = null;
 
+    private Integer crtUser = null;
+
     private Integer teamId = null;
 
     private Integer projectId = null;
@@ -34,7 +36,7 @@ public class Query extends LinkedHashMap<String, Object> {
             this.limit = Integer.parseInt(params.get("limit").toString());
         }
         if (params.get(PageConstants.CURRENT_USER_ID) != null) {
-            this.currentUserId = Integer.parseInt(params.get(PageConstants.CURRENT_USER_ID).toString());
+            this.crtUser = Integer.parseInt(params.get(PageConstants.CURRENT_USER_ID).toString());
         }
         if (params.get(PageConstants.TEAM_ID) != null) {
             this.teamId = Integer.parseInt(params.get(PageConstants.TEAM_ID).toString());
@@ -45,8 +47,12 @@ public class Query extends LinkedHashMap<String, Object> {
         if (params.get(PageConstants.TASK_ID) != null) {
             this.taskId = Integer.parseInt(params.get(PageConstants.TASK_ID).toString());
         }
+//        if (params.get(PageConstants.CRT_USER) != null) {
+//            this.crtUser = Integer.parseInt(params.get(PageConstants.CRT_USER).toString());
+//        }
         this.remove(PageConstants.PAGE_NUM);
         this.remove(PageConstants.PAGE_LIMIT);
+        this.remove(PageConstants.CURRENT_USER_ID);
     }
 
     public int getPage() {
@@ -65,13 +71,13 @@ public class Query extends LinkedHashMap<String, Object> {
         this.limit = limit;
     }
 
-    public Integer getCurrentUserId() {
-        return currentUserId;
-    }
-
-    public void setCurrentUserId(Integer currentUserId) {
-        this.currentUserId = currentUserId;
-    }
+//    public Integer getCurrentUserId() {
+//        return currentUserId;
+//    }
+//
+//    public void setCurrentUserId(Integer currentUserId) {
+//        this.currentUserId = currentUserId;
+//    }
 
     public Integer getTeamId() {
         return teamId;
@@ -95,5 +101,13 @@ public class Query extends LinkedHashMap<String, Object> {
 
     public void setTaskId(Integer taskId) {
         this.taskId = taskId;
+    }
+
+    public Integer getCrtUser() {
+        return crtUser;
+    }
+
+    public void setCrtUser(Integer crtUser) {
+        this.crtUser = crtUser;
     }
 }

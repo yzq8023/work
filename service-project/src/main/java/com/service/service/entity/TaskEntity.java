@@ -14,10 +14,7 @@ import java.io.Serializable;
 import java.util.*;
 
 @Table(name = "task")
-public class TaskEntity implements Serializable, Comparable<TaskEntity>{
-
-    private static final long serialVersionUID = 1L;
-
+public class TaskEntity implements Serializable, Comparable<TaskEntity> {
     @Id
     @Column(name = "task_id")
     private Integer taskId;
@@ -216,61 +213,46 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity>{
     @Column(name = "fork_id")
     private Integer forkId;
 
+    private String head;
+
+    @Column(name = "merge_to")
+    private String mergeTo;
+
+    /**
+     * 项目路径
+     */
+    @Column(name = "project_path")
+    private String projectPath;
+
+    /**
+     * 访问限制
+     */
+    @Column(name = "access_restriction")
+    private Constants.AccessRestrictionType accessRestriction;
+
+    @Column(name = "authorization_control")
+    private Constants.AuthorizationControl authorizationControl;
+
     /**
      * 是否子任务
      */
     @Column(name = "task_is_leaf")
     private byte[] taskIsLeaf;
 
-    /**
-     * HEAD
-     */
-    @Column(name = "head")
-    private String head;
-
-    /**
-     * HEAD
-     */
-    @Column(name = "merge_to")
-    private String mergeTo;
-
-    /**
-     * project_path
-     */
-    @Column(name = "project_path")
-    private String projectPath;
-
-    /**
-     * authorization_control
-     */
-    @Column(name = "authorization_control")
-    private Constants.AuthorizationControl authorizationControl;
-
-    /**
-     * access_restriction
-     */
-    @Column(name = "access_restriction")
-    private Constants.AccessRestrictionType accessRestriction;
-
     @Transient
     private List<String> owners;
-
     @Transient
     private Constants.MergeType mergeType;
-
     @Transient
     private String originRepository;
-
     @Transient
     private int maxActivityCommits;
-
     @Transient
     private boolean isBare;
     @Transient
     private boolean isMirror;
     @Transient
     private boolean isFrozen;
-
     @Transient
     private boolean allowForks;
     @Transient
@@ -289,12 +271,10 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity>{
     private String incrementalPushTagPrefix;
     @Transient
     private boolean verifyCommitter;
-
     @Transient
     private List<String> availableRefs;
     @Transient
     private List<String> indexedBranches;
-
     @Transient
     private String origin;
     @Transient
@@ -309,6 +289,7 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity>{
     private boolean skipSummaryMetrics;
     @Transient
     private String frequency;
+
 
     public TaskEntity() {
         this(0, "", new Date(0), "", "");
@@ -467,6 +448,24 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity>{
      */
     public void setTaskProcess(Integer taskProcess) {
         this.taskProcess = taskProcess;
+    }
+
+    /**
+     * 获取所属项目名称
+     *
+     * @return task_project_name - 所属项目名称
+     */
+    public String getTaskProjectName() {
+        return taskProjectName;
+    }
+
+    /**
+     * 设置所属项目名称
+     *
+     * @param taskProjectName 所属项目名称
+     */
+    public void setTaskProjectName(String taskProjectName) {
+        this.taskProjectName = taskProjectName;
     }
 
     /**
@@ -960,6 +959,84 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity>{
     }
 
     /**
+     * @return head
+     */
+    public String getHead() {
+        return head;
+    }
+
+    /**
+     * @param head
+     */
+    public void setHead(String head) {
+        this.head = head;
+    }
+
+    /**
+     * @return merge_to
+     */
+    public String getMergeTo() {
+        return mergeTo;
+    }
+
+    /**
+     * @param mergeTo
+     */
+    public void setMergeTo(String mergeTo) {
+        this.mergeTo = mergeTo;
+    }
+
+    /**
+     * 获取项目路径
+     *
+     * @return project_path - 项目路径
+     */
+    public String getProjectPath() {
+        return projectPath;
+    }
+
+    /**
+     * 设置项目路径
+     *
+     * @param projectPath 项目路径
+     */
+    public void setProjectPath(String projectPath) {
+        this.projectPath = projectPath;
+    }
+
+    /**
+     * 获取访问限制
+     *
+     * @return access_restriction - 访问限制
+     */
+    public Constants.AccessRestrictionType getAccessRestriction() {
+        return accessRestriction;
+    }
+
+    /**
+     * 设置访问限制
+     *
+     * @param accessRestriction 访问限制
+     */
+    public void setAccessRestriction(Constants.AccessRestrictionType accessRestriction) {
+        this.accessRestriction = accessRestriction;
+    }
+
+    /**
+     * @return authorization_control
+     */
+    public Constants.AuthorizationControl getAuthorizationControl() {
+        return authorizationControl;
+    }
+
+    /**
+     * @param authorizationControl
+     */
+    public void setAuthorizationControl(Constants.AuthorizationControl authorizationControl) {
+        this.authorizationControl = authorizationControl;
+    }
+
+    /**
      * 获取是否子任务
      *
      * @return task_is_leaf - 是否子任务
@@ -977,13 +1054,6 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity>{
         this.taskIsLeaf = taskIsLeaf;
     }
 
-    public String getTaskProjectName() {
-        return taskProjectName;
-    }
-
-    public void setTaskProjectName(String taskProjectName) {
-        this.taskProjectName = taskProjectName;
-    }
 
     public Boolean getFork() {
         return isFork;
@@ -991,45 +1061,6 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity>{
 
     public void setFork(Boolean fork) {
         isFork = fork;
-    }
-    public String getHead() {
-        return head;
-    }
-
-    public void setHead(String head) {
-        this.head = head;
-    }
-
-    public String getMergeTo() {
-        return mergeTo;
-    }
-
-    public void setMergeTo(String mergeTo) {
-        this.mergeTo = mergeTo;
-    }
-
-    public String getProjectPath() {
-        return projectPath;
-    }
-
-    public void setProjectPath(String projectPath) {
-        this.projectPath = projectPath;
-    }
-
-    public Constants.AccessRestrictionType getAccessRestriction() {
-        return accessRestriction;
-    }
-
-    public void setAccessRestriction(Constants.AccessRestrictionType accessRestriction) {
-        this.accessRestriction = accessRestriction;
-    }
-
-    public Constants.AuthorizationControl getAuthorizationControl() {
-        return authorizationControl;
-    }
-
-    public void setAuthorizationControl(Constants.AuthorizationControl authorizationControl) {
-        this.authorizationControl = authorizationControl;
     }
 
     public List<String> getOwners() {
@@ -1064,126 +1095,6 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity>{
         this.maxActivityCommits = maxActivityCommits;
     }
 
-    public Set<String> getForks() {
-        return forks;
-    }
-
-    public void setForks(Set<String> forks) {
-        this.forks = forks;
-    }
-    @Override
-    public int hashCode() {
-        return taskId.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof TaskEntity) {
-            return taskId.equals(((TaskEntity) o).taskId);
-        }
-        return false;
-    }
-
-    @Override
-    public String toString() {
-        if (taskName == null) {
-            taskName = StringUtils.stripDotGit(String.valueOf(taskId));
-        }
-        return taskName;
-    }
-
-    @Override
-    public int compareTo(@NotNull TaskEntity o) {
-        return StringUtils.compareRepositoryNames(String.valueOf(taskId), String.valueOf(o.taskId));
-    }
-
-    public boolean isFork() {
-        return !StringUtils.isEmpty(originRepository);
-    }
-
-    public boolean isOwner(String userId) {
-        if (StringUtils.isEmpty(userId) || ArrayUtils.isEmpty(owners)) {
-            return isUsersPersonalRepository(userId);
-        }
-        return owners.contains(userId.toLowerCase()) || isUsersPersonalRepository(userId);
-    }
-
-    public boolean isPersonalRepository() {
-        return !StringUtils.isEmpty(projectPath) && ModelUtils.isPersonalRepository(projectPath);
-    }
-
-    public boolean isUsersPersonalRepository(String userId) {
-        return !StringUtils.isEmpty(projectPath) && ModelUtils.isUsersPersonalRepository(userId, projectPath);
-    }
-
-    public boolean allowAnonymousView() {
-        return !accessRestriction.atLeast(Constants.AccessRestrictionType.VIEW);
-    }
-
-    public boolean isShowActivity() {
-        return maxActivityCommits > -1;
-    }
-
-    public TaskEntity cloneAs(String cloneName) {
-        TaskEntity clone = new TaskEntity();
-        clone.originRepository = taskName;
-        clone.taskName = cloneName;
-        clone.projectPath = StringUtils.getFirstPathElement(cloneName);
-        clone.isBare = true;
-        clone.taskDes = taskDes;
-        clone.accessRestriction = Constants.AccessRestrictionType.PUSH;
-        clone.authorizationControl = Constants.AuthorizationControl.NAMED;
-//        clone.showRemoteBranches = false;
-        clone.allowForks = false;
-        clone.acceptNewPatchsets = false;
-        clone.acceptNewTickets = false;
-        return clone;
-    }
-
-    public void addOwner(String userId) {
-        if (!StringUtils.isEmpty(userId)) {
-            String name = userId.toLowerCase();
-            // a set would be more efficient, but this complicates JSON
-            // deserialization so we enforce uniqueness with an arraylist
-            if (!owners.contains(name)) {
-                owners.add(name);
-            }
-        }
-    }
-
-    public String getRID() {
-        return StringUtils.getSHA1(taskName);
-    }
-
-    public void removeOwner(String userId) {
-        if (!StringUtils.isEmpty(userId)) {
-            owners.remove(userId.toLowerCase());
-        }
-    }
-
-    public void addOwners(Collection<String> userIds) {
-        if (!ArrayUtils.isEmpty(userIds)) {
-            for (String username : userIds) {
-                addOwner(username);
-            }
-        }
-    }
-
-    public void removeOwners(Collection<String> userIds) {
-        if (!ArrayUtils.isEmpty(owners)) {
-            for (String username : userIds) {
-                removeOwner(username);
-            }
-        }
-    }
-
-    public void addFork(String repository) {
-        if (forks == null) {
-            forks = new TreeSet<String>();
-        }
-        forks.add(repository);
-    }
-
     public boolean isBare() {
         return isBare;
     }
@@ -1214,6 +1125,14 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity>{
 
     public void setAllowForks(boolean allowForks) {
         this.allowForks = allowForks;
+    }
+
+    public Set<String> getForks() {
+        return forks;
+    }
+
+    public void setForks(Set<String> forks) {
+        this.forks = forks;
     }
 
     public boolean isHasCommits() {
@@ -1342,5 +1261,119 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity>{
 
     public void setFrequency(String frequency) {
         this.frequency = frequency;
+    }
+
+
+
+    @Override
+    public int hashCode() {
+        return taskId.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof TaskEntity) {
+            return taskId.equals(((TaskEntity) o).taskId);
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        if (taskName == null) {
+            taskName = StringUtils.stripDotGit(String.valueOf(taskId));
+        }
+        return taskName;
+    }
+
+    @Override
+    public int compareTo(@NotNull TaskEntity o) {
+        return StringUtils.compareRepositoryNames(String.valueOf(taskId), String.valueOf(o.taskId));
+    }
+
+    public boolean isFork() {
+        return !StringUtils.isEmpty(originRepository);
+    }
+
+    public boolean isOwner(String userId) {
+        if (StringUtils.isEmpty(userId) || ArrayUtils.isEmpty(owners)) {
+            return isUsersPersonalRepository(userId);
+        }
+        return owners.contains(userId.toLowerCase()) || isUsersPersonalRepository(userId);
+    }
+
+    public boolean isPersonalRepository() {
+        return !StringUtils.isEmpty(projectPath) && ModelUtils.isPersonalRepository(projectPath);
+    }
+
+    public boolean isUsersPersonalRepository(String userId) {
+        return !StringUtils.isEmpty(projectPath) && ModelUtils.isUsersPersonalRepository(userId, projectPath);
+    }
+
+    public boolean allowAnonymousView() {
+        return !accessRestriction.atLeast(Constants.AccessRestrictionType.VIEW);
+    }
+
+    public boolean isShowActivity() {
+        return maxActivityCommits > -1;
+    }
+    public TaskEntity cloneAs(String cloneName) {
+        TaskEntity clone = new TaskEntity();
+        clone.originRepository = taskName;
+        clone.taskName = cloneName;
+        clone.projectPath = StringUtils.getFirstPathElement(cloneName);
+        clone.isBare = true;
+        clone.taskDes = taskDes;
+        clone.accessRestriction = Constants.AccessRestrictionType.PUSH;
+        clone.authorizationControl = Constants.AuthorizationControl.NAMED;
+//        clone.showRemoteBranches = false;
+        clone.allowForks = false;
+        clone.acceptNewPatchsets = false;
+        clone.acceptNewTickets = false;
+        return clone;
+    }
+
+    public void addOwner(String userId) {
+        if (!StringUtils.isEmpty(userId)) {
+            String name = userId.toLowerCase();
+            // a set would be more efficient, but this complicates JSON
+            // deserialization so we enforce uniqueness with an arraylist
+            if (!owners.contains(name)) {
+                owners.add(name);
+            }
+        }
+    }
+
+    public String getRID() {
+        return StringUtils.getSHA1(taskName);
+    }
+
+    public void removeOwner(String userId) {
+        if (!StringUtils.isEmpty(userId)) {
+            owners.remove(userId.toLowerCase());
+        }
+    }
+
+    public void addOwners(Collection<String> userIds) {
+        if (!ArrayUtils.isEmpty(userIds)) {
+            for (String username : userIds) {
+                addOwner(username);
+            }
+        }
+    }
+
+    public void removeOwners(Collection<String> userIds) {
+        if (!ArrayUtils.isEmpty(owners)) {
+            for (String username : userIds) {
+                removeOwner(username);
+            }
+        }
+    }
+
+    public void addFork(String repository) {
+        if (forks == null) {
+            forks = new TreeSet<String>();
+        }
+        forks.add(repository);
     }
 }

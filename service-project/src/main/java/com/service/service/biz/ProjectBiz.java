@@ -33,6 +33,22 @@ public class ProjectBiz extends BaseBiz<ProjectEntityMapper, ProjectEntity> {
     ProjectEntityMapper mapper;
 
     /**
+     * 更改项目关联团队
+     *
+     * @param projectId
+     * @param teams
+     */
+    public void modifiyProTeam(Integer projectId, String teams) {
+        mapper.deleteProTeamsById(projectId);
+        if (!StringUtils.isEmpty(teams)) {
+            String[] team = teams.split(",");
+            for (String t : team) {
+                mapper.insertProTeamsById(projectId, Integer.parseInt(t));
+            }
+        }
+    }
+
+    /**
      * 根据用户id获取map_user_project中的项目
      *
      * @param query
@@ -40,7 +56,7 @@ public class ProjectBiz extends BaseBiz<ProjectEntityMapper, ProjectEntity> {
      */
     public TableResultResponse<ProjectEntity> getJoinedProject(Query query) {
         Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
-        List<ProjectEntity> list = mapper.selectProjectByUserId(query.getCurrentUserId());
+        List<ProjectEntity> list = mapper.selectProjectByUserId(query.getCrtUser());
         return new TableResultResponse<ProjectEntity>(result.getTotal(), list);
     }
 }
