@@ -53,7 +53,7 @@ public abstract class AuthenticationProvider {
 	}
 
 	/**
-	 * Returns the file object for the specified configuration key.
+	 * 返回指定配置钥匙的文件对象。
 	 *
 	 * @return the file
 	 */

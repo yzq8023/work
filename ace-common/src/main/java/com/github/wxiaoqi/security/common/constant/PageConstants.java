@@ -28,4 +28,6 @@ public class PageConstants {
      * 任务ID
      */
     public final static String TASK_ID = "taskId";
+
+    public final static String CRT_USER = "crtUser";
 }
