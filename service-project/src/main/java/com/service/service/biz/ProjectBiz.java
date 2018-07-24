@@ -37,7 +37,6 @@ public class ProjectBiz extends BaseBiz<ProjectEntityMapper, ProjectEntity> {
      * @param projectId
      * @param teams
      */
-    @CacheClear(pre = "permission")
     public void modifiyProTeam(Integer projectId, String teams) {
         mapper.deleteProTeamsById(projectId);
         if (!StringUtils.isEmpty(teams)) {
@@ -56,7 +55,7 @@ public class ProjectBiz extends BaseBiz<ProjectEntityMapper, ProjectEntity> {
      */
     public TableResultResponse<ProjectEntity> getJoinedProject(Query query) {
         Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
-        List<ProjectEntity> list = mapper.selectProjectByUserId(query.getCurrentUserId());
+        List<ProjectEntity> list = mapper.selectProjectByUserId(query.getCrtUser());
         return new TableResultResponse<ProjectEntity>(result.getTotal(), list);
     }
 }

@@ -203,7 +203,7 @@ public abstract class AccessRestrictionFilter extends AuthenticationFilter {
 			}
 
 			if (model == null) {
-				// repository not found. send 404.
+				// 仓库没有找到，返回404。
 				logger.info(MessageFormat.format("ARF: {0} ({1})", fullUrl,
 						HttpServletResponse.SC_NOT_FOUND));
 				httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -211,7 +211,7 @@ public abstract class AccessRestrictionFilter extends AuthenticationFilter {
 			}
 		}
 
-		// Confirm that the action may be executed on the repository
+		// 确认操作可能在存储库上执行
 		if (!isActionAllowed(model, urlRequestType, httpRequest.getMethod())) {
 			logger.info(MessageFormat.format("ARF: action {0} on {1} forbidden ({2})",
 					urlRequestType, model, HttpServletResponse.SC_FORBIDDEN));
@@ -219,24 +219,22 @@ public abstract class AccessRestrictionFilter extends AuthenticationFilter {
 			return;
 		}
 
-		// Wrap the HttpServletRequest with the AccessRestrictionRequest which
-		// overrides the servlet container user principal methods.
+		// 用access限制性请求包装HttpServletRequest，它覆盖servlet容器用户主体方法。
 		// JGit requires either:
 		//
 		// 1. servlet container authenticated user
 		// 2. http.receivepack = true in each repository's config
 		//
-		// Gitblit must conditionally authenticate users per-repository so just
-		// enabling http.receivepack is insufficient.
+		// Gitblit必须有条件地对每个存储库进行身份验证，以便启用http.receivepack是不够的。
 		AuthenticatedRequest authenticatedRequest = new AuthenticatedRequest(httpRequest);
 		if (user != null) {
 			authenticatedRequest.setUser(user);
 		}
 
-		// BASIC authentication challenge and response processing
+		// 基本身份验证和响应处理
 		if (!StringUtils.isEmpty(urlRequestType) && requiresAuthentication(model, urlRequestType,  httpRequest.getMethod())) {
 			if (user == null) {
-				// challenge client to provide credentials. send 401.
+				// 对客户端凭证产生质疑，发送401
 				if (runtimeManager.isDebugMode()) {
 					logger.info(MessageFormat.format("ARF: CHALLENGE {0}", fullUrl));
 				}
@@ -244,17 +242,17 @@ public abstract class AccessRestrictionFilter extends AuthenticationFilter {
 				httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 				return;
 			} else {
-				// check user access for request
+				// 检查用户访问请求
 				if (user.canAdmin() || canAccess(model, user, urlRequestType)) {
-					// authenticated request permitted.
-					// pass processing to the restricted servlet.
+					// 身份验证请求允许。
+					// 将处理传递给受限的servlet。
 					newSession(authenticatedRequest, httpResponse);
 					logger.info(MessageFormat.format("ARF: authenticated {0} to {1} ({2})", user.getUserId(),
 							fullUrl, HttpServletResponse.SC_CONTINUE));
 					chain.doFilter(authenticatedRequest, httpResponse);
 					return;
 				}
-				// valid user, but not for requested access. send 403.
+				// 有效用户，但不是请求访问。送403。
 				if (runtimeManager.isDebugMode()) {
 					logger.info(MessageFormat.format("ARF: {0} forbidden to access {1}",
 							user.getUserId(), fullUrl));
@@ -268,8 +266,8 @@ public abstract class AccessRestrictionFilter extends AuthenticationFilter {
 			logger.info(MessageFormat.format("ARF: {0} ({1}) unauthenticated", fullUrl,
 					HttpServletResponse.SC_CONTINUE));
 		}
-		// unauthenticated request permitted.
-		// pass processing to the restricted servlet.
+		// 未经身份验证的请求允许。
+		// 将处理传递给受限的servlet。
 		chain.doFilter(authenticatedRequest, httpResponse);
 	}
 	

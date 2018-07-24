@@ -97,7 +97,7 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
      */
     public TableResultResponse<TaskEntity> getJoinedTaskFromProject(Query query) {
         Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
-        List<TaskEntity> list = mapper.selectTaskByPIdAndUId(query.getCurrentUserId(), query.getProjectId());
+        List<TaskEntity> list = mapper.selectTaskByPIdAndUId(query.getCrtUser(), query.getProjectId());
         return new TableResultResponse<>(result.getTotal(), list);
     }
 
@@ -107,7 +107,7 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
      */
     public TableResultResponse<TaskEntity> getJoinedTask(Query query) {
         Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
-        List<TaskEntity> list = mapper.selectJoinedTaskById(query.getCurrentUserId());
+        List<TaskEntity> list = mapper.selectJoinedTaskById(query.getCrtUser());
         return new TableResultResponse<>(result.getTotal(), list);
     }
     /**
@@ -234,7 +234,7 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
 **/
 
     public List<PathModel> getRepository(Query query){
-        String taskName = userFeignClient.info(query.getCurrentUserId()).getUsername();
+        String taskName = userFeignClient.info(query.getCrtUser()).getUsername();
         Repository r = workHub.getRepository(taskName);
         RevCommit commit = getCommit(r, null);
         List<PathModel> paths = JGitUtils.getFilesInPath2(r, null, commit);
