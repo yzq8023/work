@@ -15,7 +15,6 @@
  */
 package com.service.service.extensions;
 
-import com.service.service.entity.RepositoryModel;
 import com.service.service.entity.TaskEntity;
 import ro.fortsoft.pf4j.ExtensionPoint;
 
