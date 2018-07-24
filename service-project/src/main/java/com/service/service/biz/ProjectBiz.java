@@ -31,6 +31,7 @@ public class ProjectBiz extends BaseBiz<ProjectEntityMapper, ProjectEntity> {
 
     @Autowired
     ProjectEntityMapper mapper;
+
     /**
      * 更改项目关联团队
      *

@@ -32,25 +32,14 @@
         <result column="upd_host" property="updHost" jdbcType="VARCHAR"/>
     </resultMap>
     <select id="selectProjectByUserId" resultMap="BaseResultMap">
-    select distinct p.* from project p
-    left join team_project tp on p.project_id = tp.project_id where tp.team_id in (
-    select t.id from team t
-    left join team_user tu on t.id = tu.team_id where tu.user_id = #{userId})
+    select p.* from project p
+    left join map_user_project mup
+    on mup.project_id = p.project_id
+    where mup.user_id = #{userId}
     </select>
     <select id="selectTaskByProjectId" resultMap="BaseResultMap">
     select p.* from project p
     left join  task t
-    on t.task_project_id = project_id where p.project_id = #{projectId}
+    on t.task_project_id = p.project_id where p.project_id = #{projectId}
   </select>
-    <insert id="insertProTeamsById">
-      insert into team_project (
-      project_id,team_id
-      )
-      values(
-      #{projectId},#{teamId}
-      )
-  </insert>
-    <delete id="deleteProTeamsById">
-    delete from team_project where project_id = #{projectId}
-  </delete>
 </mapper>

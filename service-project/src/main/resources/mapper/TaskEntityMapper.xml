@@ -51,7 +51,7 @@
     <result column="task_is_leaf" property="taskIsLeaf" jdbcType="BINARY" />
   </resultMap>
   <insert id="insertTaskTeamsById">
-      insert into team_task (
+      insert into team_repo (
       task_id,team_id
       )
       values(
@@ -59,16 +59,19 @@
       )
   </insert>
   <delete id="deleteTaskTeamsById">
-    delete from team_task where task_id = #{taskId}
+    delete from team_repo where task_id = #{taskId}
   </delete>
-  <select id="selectTaskByPIdAndUId">
+  <select id="selectTaskByPIdAndUId" resultMap="BaseResultMap">
     select ts.* from task ts where ts.task_id
-    in (select tt.task_id from team_task tt left join team_user tu
+    in (select tt.task_id from team_repo tt left join team_user tu
     on tt.team_id = tu.team_id where tu.user_id = {userId})
     and ts.task_project_id = {projectId}
   </select>
-  <select id="selectJoinedTaskById">
-
+  <select id="selectJoinedTaskById" resultMap="BaseResultMap">
+    select t.* from task t
+    left join map_user_task mut
+    on t.task_id = mut.task_id
+    where mut.user_id = #{userId}
   </select>
 
 </mapper>
