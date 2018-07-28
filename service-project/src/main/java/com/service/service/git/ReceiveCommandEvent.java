@@ -15,7 +15,6 @@
  */
 package com.service.service.git;
 
-import com.service.service.entity.RepositoryModel;
 import com.service.service.entity.TaskEntity;
 import org.eclipse.jgit.events.RefsChangedEvent;
 import org.eclipse.jgit.transport.ReceiveCommand;
