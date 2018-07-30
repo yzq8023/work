@@ -66,6 +66,7 @@ public class PluginManager implements IPluginManager, PluginStateListener {
 	@Autowired
 	public PluginManager(IRuntimeManager runtimeManager) {
 		this.runtimeManager = runtimeManager;
+		this.start();
 	}
 
 	@Override

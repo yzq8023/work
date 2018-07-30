@@ -51,9 +51,10 @@ public class NotificationManager implements INotificationManager {
 	private final MailService mailService;
 
 	@Autowired
-	public NotificationManager(IStoredSettings settings) {
-		this.settings = settings;
+	public NotificationManager(IRuntimeManager runtimeManager) {
+		this.settings = runtimeManager.getSettings();
 		this.mailService = new MailService(settings);
+		this.start();
 	}
 
 	@Override

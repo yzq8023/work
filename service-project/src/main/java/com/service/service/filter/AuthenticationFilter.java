@@ -78,7 +78,7 @@ public abstract class AuthenticationFilter implements Filter {
                                   final FilterChain chain) throws IOException, ServletException;
 
 	/**
-	 * Allow the filter to require a client certificate to continue processing.
+	 * 允许过滤器要求客户端证书继续处理。
 	 *
 	 * @return true, if a client certificate is required
 	 */
@@ -140,7 +140,7 @@ public abstract class AuthenticationFilter implements Filter {
 	}
 
 	/**
-	 * Wraps a standard HttpServletRequest and overrides user principal methods.
+	 * 包装一个标准的HttpServletRequest，覆盖用户主体方法。
 	 */
 	public static class AuthenticatedRequest extends HttpServletRequestWrapper {
 
@@ -169,9 +169,8 @@ public abstract class AuthenticationFilter implements Filter {
 			if (role.equals(Role.ADMIN.getRole())) {
 				return user.canAdmin();
 			}
-			// Gitblit does not currently use actual roles in the traditional
-			// servlet container sense.  That is the reason this is marked
-			// deprecated, but I may want to revisit this.
+			// Gitblit目前没有在传统的servlet容器感知中使用实际的角色。
+			// 这就是这个被标记为弃用的原因，但我可能想要重新讨论这个问题。
 			return user.hasRepositoryPermission(role);
 		}
 

@@ -108,6 +108,7 @@ public class RepositoryManager implements IRepositoryManager {
 		this.runtimeManager = runtimeManager;
 		this.pluginManager = pluginManager;
 		this.userManager = userManager;
+		this.start();
 	}
 
 	@Override

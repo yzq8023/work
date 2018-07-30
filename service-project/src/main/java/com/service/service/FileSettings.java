@@ -35,7 +35,7 @@ import java.util.Properties;
  * @author James Moger
  *
  */
-@Component
+
 public class FileSettings extends IStoredSettings {
 
     protected File propertiesFile;
@@ -60,9 +60,7 @@ public class FileSettings extends IStoredSettings {
     }
 
     /**
-     * Merges the provided settings into this instance.  This will also
-     * set the target file for this instance IFF it is unset AND the merge
-     * source is also a FileSettings.  This is a little sneaky.
+     * 将提供的设置合并到此实例中。这也将为这个实例设置目标文件,它是unset,而合并源也是一个FileSettings.
      */
     @Override
     public void merge(IStoredSettings settings) {
@@ -187,7 +185,7 @@ public class FileSettings extends IStoredSettings {
     }
 
     /**
-     * Updates the specified settings in the settings file.
+     * 在设置文件中更新指定的设置。
      */
     @Override
     public synchronized boolean saveSettings(Map<String, String> settings) {

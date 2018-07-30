@@ -56,7 +56,7 @@ public class ProjectBiz extends BaseBiz<ProjectEntityMapper, ProjectEntity> {
      */
     public TableResultResponse<ProjectEntity> getJoinedProject(Query query) {
         Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
-        List<ProjectEntity> list = mapper.selectProjectByUserId(query.getCrtUser());
+        List<ProjectEntity> list = mapper.selectProjectByUserId(query.getCurrentUserId());
         return new TableResultResponse<ProjectEntity>(result.getTotal(), list);
     }
 }

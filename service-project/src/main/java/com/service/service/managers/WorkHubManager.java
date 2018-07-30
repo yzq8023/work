@@ -47,8 +47,7 @@ public class WorkHubManager implements IWorkHub {
     protected final IPluginManager pluginManager;
 
     @Autowired
-    public WorkHubManager(IStoredSettings storedSettings,
-                          IRuntimeManager runtimeManager,
+    public WorkHubManager(IRuntimeManager runtimeManager,
                           INotificationManager notificationManager,
                           IUserManager userManager,
                           IAuthenticationManager authenticationManager,
@@ -56,7 +55,7 @@ public class WorkHubManager implements IWorkHub {
                           IProjectManager projectManager,
                           IFilestoreManager filestoreManager,
                           IPluginManager pluginManager) {
-        this.settings = storedSettings;
+        this.settings = runtimeManager.getSettings();
         this.runtimeManager = runtimeManager;
         this.notificationManager = notificationManager;
         this.userManager = userManager;
@@ -65,6 +64,7 @@ public class WorkHubManager implements IWorkHub {
         this.projectManager = projectManager;
         this.filestoreManager = filestoreManager;
         this.pluginManager = pluginManager;
+        this.start();
     }
 
 
