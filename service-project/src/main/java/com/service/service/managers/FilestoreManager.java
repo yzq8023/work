@@ -62,9 +62,9 @@ import java.util.regex.Pattern;
 public class FilestoreManager implements IFilestoreManager {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
-    @Autowired
+
 	private final IRuntimeManager runtimeManager;
-	@Autowired
+
 	private final IRepositoryManager repositoryManager;
 
 	private final IStoredSettings settings;

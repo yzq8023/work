@@ -28,7 +28,7 @@ import static com.service.service.Constants.ALL;
  * @author Laurens Vrijnsen
  *
  */
-@WebFilter(urlPatterns = {ALL})
+@WebFilter(urlPatterns = ALL)
 @Order(2)
 public class EnforceAuthenticationFilter implements Filter {
 
