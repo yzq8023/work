@@ -6,6 +6,8 @@ import com.github.wxiaoqi.security.common.constant.PageConstants;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static com.github.wxiaoqi.security.common.constant.PageConstants.CRT_USER;
+
 /**
  * 查询参数
  *
@@ -47,12 +49,13 @@ public class Query extends LinkedHashMap<String, Object> {
         if (params.get(PageConstants.TASK_ID) != null) {
             this.taskId = Integer.parseInt(params.get(PageConstants.TASK_ID).toString());
         }
-//        if (params.get(PageConstants.CRT_USER) != null) {
-//            this.crtUser = Integer.parseInt(params.get(PageConstants.CRT_USER).toString());
-//        }
+        if (params.get(CRT_USER) != null) {
+            this.crtUser = Integer.parseInt(params.get(CRT_USER).toString());
+        }
         this.remove(PageConstants.PAGE_NUM);
         this.remove(PageConstants.PAGE_LIMIT);
         this.remove(PageConstants.CURRENT_USER_ID);
+        this.put(CRT_USER, this.crtUser);
     }
 
     public int getPage() {
