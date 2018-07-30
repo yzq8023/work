@@ -24,7 +24,7 @@ import static com.service.service.Constants.ALL;
  * @author David Ostrovsky
  * @since 1.6.0
  */
-@WebFilter(urlPatterns = "/*")
+@WebFilter(urlPatterns = ALL)
 @Order(1)
 public class ProxyFilter implements Filter {
 	private final IRuntimeManager runtimeManager;

@@ -64,8 +64,8 @@
   <select id="selectTaskByPIdAndUId" resultMap="BaseResultMap">
     select ts.* from task ts where ts.task_id
     in (select tt.task_id from team_repo tt left join team_user tu
-    on tt.team_id = tu.team_id where tu.user_id = {userId})
-    and ts.task_project_id = {projectId}
+    on tt.team_id = tu.team_id where tu.user_id = #{userId})
+    and ts.task_project_id = #{projectId}
   </select>
   <select id="selectJoinedTaskById" resultMap="BaseResultMap">
     select t.* from task t

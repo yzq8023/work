@@ -39,6 +39,7 @@ import org.eclipse.jgit.util.FileUtils;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -99,6 +100,7 @@ public class RepositoryManager implements IRepositoryManager {
 
 	private MirrorService mirrorExecutor;
 
+	@Autowired
 	public RepositoryManager(
 			IRuntimeManager runtimeManager,
 			IPluginManager pluginManager,
@@ -934,8 +936,7 @@ public class RepositoryManager implements IRepositoryManager {
 	@Override
 	public boolean hasRepository(String repositoryName, boolean caseSensitiveCheck) {
 		if (!caseSensitiveCheck && settings.getBoolean(Keys.git.cacheRepositoryList, true)) {
-			// if we are caching use the cache to determine availability
-			// otherwise we end up adding a phantom repository to the cache
+			// 如果我们缓存使用缓存来确定可用性，否则我们最终会在缓存中添加一个幻影存储库
 			String key = getRepositoryKey(repositoryName);
 			return repositoryListCache.containsKey(key);
 		}

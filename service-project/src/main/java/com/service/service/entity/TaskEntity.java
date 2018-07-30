@@ -225,20 +225,18 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity> {
     private String projectPath;
 
     /**
-     * 访问限制
-     */
-    @Column(name = "access_restriction")
-    private Constants.AccessRestrictionType accessRestriction;
-
-    @Column(name = "authorization_control")
-    private Constants.AuthorizationControl authorizationControl;
-
-    /**
      * 是否子任务
      */
     @Column(name = "task_is_leaf")
     private byte[] taskIsLeaf;
 
+    /**
+     * 访问限制
+     */
+    @Transient
+    private Constants.AccessRestrictionType accessRestriction;
+    @Transient
+    private Constants.AuthorizationControl authorizationControl;
     @Transient
     private List<String> owners;
     @Transient
