@@ -63,12 +63,12 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
     @Autowired
     public TaskBiz(IUserManager userManager,
                    IWorkHub workHub,
-                   IStoredSettings settings,
+                   IRuntimeManager runtimeManager,
                    IUserFeignClient userFeignClient,
                    IRepositoryManager repositoryManager) {
         this.userManager = userManager;
         this.workHub = workHub;
-        this.settings = settings;
+        this.settings = runtimeManager.getSettings();
         this.userFeignClient = userFeignClient;
         this.repositoryManager = repositoryManager;
     }
@@ -97,7 +97,7 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
      */
     public TableResultResponse<TaskEntity> getJoinedTaskFromProject(Query query) {
         Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
-        List<TaskEntity> list = mapper.selectTaskByPIdAndUId(query.getCrtUser(), query.getProjectId());
+        List<TaskEntity> list = mapper.selectTaskByPIdAndUId(query.getCurrentUserId(), query.getProjectId());
         return new TableResultResponse<>(result.getTotal(), list);
     }
 
@@ -107,7 +107,7 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
      */
     public TableResultResponse<TaskEntity> getJoinedTask(Query query) {
         Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
-        List<TaskEntity> list = mapper.selectJoinedTaskById(query.getCrtUser());
+        List<TaskEntity> list = mapper.selectJoinedTaskById(query.getCurrentUserId());
         return new TableResultResponse<>(result.getTotal(), list);
     }
     /**

@@ -18,6 +18,7 @@ package com.service.service;
 import com.service.service.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -27,6 +28,7 @@ import java.util.*;
  * @author James Moger
  *
  */
+
 public abstract class IStoredSettings {
 
 	protected final Logger logger;

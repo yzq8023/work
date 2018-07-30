@@ -1291,7 +1291,7 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity> {
         return StringUtils.compareRepositoryNames(String.valueOf(taskId), String.valueOf(o.taskId));
     }
 
-    public boolean isFork() {
+    public boolean typeOfFork() {
         return !StringUtils.isEmpty(originRepository);
     }
 
@@ -1317,6 +1317,7 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity> {
     public boolean isShowActivity() {
         return maxActivityCommits > -1;
     }
+
     public TaskEntity cloneAs(String cloneName) {
         TaskEntity clone = new TaskEntity();
         clone.originRepository = taskName;

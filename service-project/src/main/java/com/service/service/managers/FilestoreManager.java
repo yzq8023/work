@@ -87,6 +87,7 @@ public class FilestoreManager implements IFilestoreManager {
 		this.runtimeManager = runtimeManager;
 		this.repositoryManager = repositoryManager;
 		this.settings = runtimeManager.getSettings();
+		this.start();
 	}
 
 	@Override

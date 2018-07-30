@@ -38,11 +38,10 @@ public class RpcFilter extends AuthenticationFilter {
 
     @Autowired
     protected RpcFilter(
-            IStoredSettings settings,
             IRuntimeManager runtimeManager,
             IAuthenticationManager authenticationManager) {
         super(authenticationManager);
-        this.settings = settings;
+        this.settings = runtimeManager.getSettings();
         this.runtimeManager = runtimeManager;
     }
 

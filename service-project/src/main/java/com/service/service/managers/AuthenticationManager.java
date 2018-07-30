@@ -93,6 +93,7 @@ public class AuthenticationManager implements IAuthenticationManager {
 		legacyRedirects.put("com.gitblit.RedmineUserService", "redmine");
 		legacyRedirects.put("com.gitblit.SalesforceUserService", "salesforce");
 		legacyRedirects.put("com.gitblit.WindowsUserService", "windows");
+		this.start();
 	}
 
 	@Override
@@ -186,7 +187,7 @@ public class AuthenticationManager implements IAuthenticationManager {
 	@Override
 	public UserModel authenticate(HttpServletRequest httpRequest, boolean requiresCertificate) {
 
-		// 请检查此请求是否已经过身份验证, 并信任, 而不是重新处理
+		// 请检查此请求是否已经过身份验证
 		String reqAuthUser = (String) httpRequest.getAttribute(Constants.ATTRIB_AUTHUSER);
 		if (!StringUtils.isEmpty(reqAuthUser)) {
 			logger.debug("Called servlet authenticate when request is already authenticated.");

@@ -23,7 +23,7 @@ import java.security.NoSuchAlgorithmException;
 public class DeepCopier {
 
 	/**
-	 * Utility method to calculate the checksum of an object.
+	 * 计算一个对象的校验和的实用方法。
 	 * @param sourceObject The object from which to establish the checksum.
 	 * @return The checksum
 	 * @throws IOException

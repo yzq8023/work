@@ -45,7 +45,7 @@ import static com.service.service.Constants.R_PATH;
  * 它确保了 Git 客户端对推送、克隆或查看受限存储库的请求得到了验证和授权。
  */
 @WebFilter(urlPatterns = {R_PATH, GIT_PATH})
-@Order(1)
+@Order(3)
 public class GitFilter extends AccessRestrictionFilter {
 
     protected static final String gitReceivePack = "/git-receive-pack";
@@ -63,14 +63,13 @@ public class GitFilter extends AccessRestrictionFilter {
 
     @Autowired
     public GitFilter(
-            IStoredSettings settings,
             IRuntimeManager runtimeManager,
             IAuthenticationManager authenticationManager,
             IRepositoryManager repositoryManager) {
 
         super(runtimeManager, authenticationManager, repositoryManager);
 
-        this.settings = settings;
+        this.settings = runtimeManager.getSettings();
     }
 
     /**

@@ -25,30 +25,34 @@ import org.eclipse.jgit.transport.resolver.FileResolver;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.MessageFormat;
 
 /**
- * Resolves repositories and grants export access.
+ * 解决存储库并授予出口访问权。
  *
  * @author James Moger
  *
  */
+@Component
 public class RepositoryResolver<X> extends FileResolver<X> {
 
 	private final Logger logger = LoggerFactory.getLogger(RepositoryResolver.class);
 
 	private final IWorkHub gitblit;
 
+	@Autowired
 	public RepositoryResolver(IWorkHub gitblit) {
 		super(gitblit.getRepositoriesFolder(), true);
 		this.gitblit = gitblit;
 	}
 
 	/**
-	 * Open the repository and inject the repository name into the settings.
+	 * 打开存储库并将存储库名称注入到设置中。
 	 */
 	@Override
 	public Repository open(final X req, final String name)
@@ -71,7 +75,7 @@ public class RepositoryResolver<X> extends FileResolver<X> {
 	}
 
 	/**
-	 * Check if this repository can be served by the requested client connection.
+	 * 检查这个存储库是否可以由所请求的客户端连接来服务。
 	 */
 	@Override
 	protected boolean isExportOk(X req, String repositoryName, Repository db) throws IOException {

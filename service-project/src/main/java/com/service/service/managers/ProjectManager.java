@@ -74,6 +74,7 @@ public class ProjectManager implements IProjectManager {
 		this.runtimeManager = runtimeManager;
 		this.userManager = userManager;
 		this.repositoryManager = repositoryManager;
+		this.start();
 	}
 
 	@Override
