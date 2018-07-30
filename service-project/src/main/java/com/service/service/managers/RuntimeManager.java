@@ -15,9 +15,7 @@
  */
 package com.service.service.managers;
 
-import com.service.service.Constants;
-import com.service.service.IStoredSettings;
-import com.service.service.Keys;
+import com.service.service.*;
 import com.service.service.entity.ServerSettings;
 import com.service.service.entity.ServerStatus;
 import com.service.service.entity.SettingModel;
@@ -26,6 +24,9 @@ import com.service.service.utils.XssFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -38,199 +39,203 @@ import java.util.TimeZone;
 @Component
 public class RuntimeManager implements IRuntimeManager {
 
-	private  final Logger logger = LoggerFactory.getLogger(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
-	private final IStoredSettings settings;
+    private final IStoredSettings settings;
 
-	private final XssFilter xssFilter;
+    private final XssFilter xssFilter;
 
-	private final ServerStatus serverStatus;
+    private final ServerStatus serverStatus;
 
-	private final ServerSettings settingsModel;
+    private final ServerSettings settingsModel;
 
-	private File baseFolder;
+    private File baseFolder;
 
-	private TimeZone timezone;
+    private TimeZone timezone;
 
     @Autowired
-	public RuntimeManager(IStoredSettings settings, XssFilter xssFilter) {
-		this(settings, xssFilter, null);
-	}
+    public RuntimeManager(XssFilter xssFilter) {
+        this(xssFilter, null);
+    }
 
-	public RuntimeManager(IStoredSettings settings, XssFilter xssFilter, File baseFolder) {
-		this.settings = settings;
-		this.settingsModel = new ServerSettings();
-		this.serverStatus = new ServerStatus();
-		this.xssFilter = xssFilter;
-		this.baseFolder = baseFolder == null ? new File("") : baseFolder;
-	}
-	@Override
-	public RuntimeManager start() {
-		logger.info("Basefolder  : " + baseFolder.getAbsolutePath());
-		logger.info("Settings    : " + settings.toString());
-		logTimezone("JVM timezone: ", TimeZone.getDefault());
-		logTimezone("App timezone: ", getTimezone());
-		logger.info("JVM locale  : " + Locale.getDefault());
-		logger.info("App locale  : " +  (getLocale() == null ? "<client>" : getLocale()));
-		return this;
-	}
 
-	@Override
-	public RuntimeManager stop() {
-		return this;
-	}
+    public RuntimeManager(XssFilter xssFilter, File baseFolder) {
+        String folder = "data";
+        Params.baseFolder = folder;
+        Params params = new Params();
+        this.settings = params.FILESETTINGS;
+        this.settingsModel = new ServerSettings();
+        this.serverStatus = new ServerStatus();
+        this.xssFilter = xssFilter;
+        this.baseFolder = baseFolder == null ? new File("") : baseFolder;
+        this.start();
+    }
 
-	@Override
-	public File getBaseFolder() {
-		return baseFolder;
-	}
+    @Override
+    public RuntimeManager start() {
+        logger.info("Basefolder  : " + baseFolder.getAbsolutePath());
+        logger.info("Settings    : " + settings.toString());
+        logTimezone("JVM timezone: ", TimeZone.getDefault());
+        logTimezone("App timezone: ", getTimezone());
+        logger.info("JVM locale  : " + Locale.getDefault());
+        logger.info("App locale  : " + (getLocale() == null ? "<client>" : getLocale()));
+        return this;
+    }
 
-	@Override
-	public void setBaseFolder(File folder) {
-		this.baseFolder = folder;
-	}
+    @Override
+    public RuntimeManager stop() {
+        return this;
+    }
 
-	/**
-	 * Returns the boot date of the Gitblit server.
-	 *
-	 * @return the boot date of Gitblit
-	 */
-	@Override
-	public Date getBootDate() {
-		return serverStatus.bootDate;
-	}
+    @Override
+    public File getBaseFolder() {
+        return baseFolder;
+    }
 
-	@Override
-	public ServerSettings getSettingsModel() {
-		// ensure that the current values are updated in the setting models
-		for (String key : settings.getAllKeys(null)) {
-			SettingModel setting = settingsModel.get(key);
-			if (setting == null) {
-				// unreferenced setting, create a setting model
-				setting = new SettingModel();
-				setting.name = key;
-				settingsModel.add(setting);
-			}
-			setting.currentValue = settings.getString(key, "");
-		}
+    @Override
+    public void setBaseFolder(File folder) {
+        this.baseFolder = folder;
+    }
+
+    /**
+     * 返回Gitblit服务器的启动日期。
+     *
+     * @return the boot date of Gitblit
+     */
+    @Override
+    public Date getBootDate() {
+        return serverStatus.bootDate;
+    }
+
+    @Override
+    public ServerSettings getSettingsModel() {
+        // 确保在设置模型中更新当前值
+        for (String key : settings.getAllKeys(null)) {
+            SettingModel setting = settingsModel.get(key);
+            if (setting == null) {
+                // 未引用设置,创建设置模型
+                setting = new SettingModel();
+                setting.name = key;
+                settingsModel.add(setting);
+            }
+            setting.currentValue = settings.getString(key, "");
+        }
 //		settingsModel.pushScripts = getAllScripts();
-		return settingsModel;
-	}
+        return settingsModel;
+    }
 
-	/**
-	 * Returns the preferred timezone for the Gitblit instance.
-	 *
-	 * @return a timezone
-	 */
-	@Override
-	public TimeZone getTimezone() {
-		if (timezone == null) {
-			String tzid = settings.getString(Keys.web.timezone, null);
-			if (StringUtils.isEmpty(tzid)) {
-				timezone = TimeZone.getDefault();
-				return timezone;
-			}
-			timezone = TimeZone.getTimeZone(tzid);
-		}
-		return timezone;
-	}
+    /**
+     * 返回Gitblit实例的首选时区。
+     *
+     * @return a timezone
+     */
+    @Override
+    public TimeZone getTimezone() {
+        if (timezone == null) {
+            String tzid = settings.getString(Keys.web.timezone, null);
+            if (StringUtils.isEmpty(tzid)) {
+                timezone = TimeZone.getDefault();
+                return timezone;
+            }
+            timezone = TimeZone.getTimeZone(tzid);
+        }
+        return timezone;
+    }
 
-	private void logTimezone(String type, TimeZone zone) {
-		SimpleDateFormat df = new SimpleDateFormat("z Z");
-		df.setTimeZone(zone);
-		String offset = df.format(new Date());
-		logger.info("{}{} ({})", new Object [] { type, zone.getID(), offset });
-	}
+    private void logTimezone(String type, TimeZone zone) {
+        SimpleDateFormat df = new SimpleDateFormat("z Z");
+        df.setTimeZone(zone);
+        String offset = df.format(new Date());
+        logger.info("{}{} ({})", new Object[]{type, zone.getID(), offset});
+    }
 
-	@Override
-	public Locale getLocale() {
-		String lc = settings.getString(Keys.web.forceDefaultLocale, null);
-		if (!StringUtils.isEmpty(lc)) {
-			int underscore = lc.indexOf('_');
-			if (underscore > 0) {
-				String lang = lc.substring(0, underscore);
-				String cc = lc.substring(underscore + 1);
-				return new Locale(lang, cc);
-			} else {
-				return new Locale(lc);
-			}
-		}
-		return null;
-	}
+    @Override
+    public Locale getLocale() {
+        String lc = settings.getString(Keys.web.forceDefaultLocale, null);
+        if (!StringUtils.isEmpty(lc)) {
+            int underscore = lc.indexOf('_');
+            if (underscore > 0) {
+                String lang = lc.substring(0, underscore);
+                String cc = lc.substring(underscore + 1);
+                return new Locale(lang, cc);
+            } else {
+                return new Locale(lc);
+            }
+        }
+        return null;
+    }
 
-	/**
-	 * Is Gitblit running in debug mode?
-	 *
-	 * @return true if Gitblit is running in debug mode
-	 */
-	@Override
-	public boolean isDebugMode() {
-		return settings.getBoolean(Keys.web.debugMode, false);
-	}
+    /**
+     * 在调试模式下运行的是Gitblit吗?
+     *
+     * @return true if Gitblit is running in debug mode
+     */
+    @Override
+    public boolean isDebugMode() {
+        return settings.getBoolean(Keys.web.debugMode, false);
+    }
 
-	/**
-	 * Returns the file object for the specified configuration key.
-	 *
-	 * @return the file
-	 */
-	@Override
-	public File getFileOrFolder(String key, String defaultFileOrFolder) {
-		String fileOrFolder = settings.getString(key, defaultFileOrFolder);
-		return getFileOrFolder(fileOrFolder);
-	}
+    /**
+     * 返回指定配置键的文件对象。
+     *
+     * @return the file
+     */
+    @Override
+    public File getFileOrFolder(String key, String defaultFileOrFolder) {
+        String fileOrFolder = settings.getString(key, defaultFileOrFolder);
+        return getFileOrFolder(fileOrFolder);
+    }
 
-	/**
-	 * Returns the file object which may have it's base-path determined by
-	 * environment variables for running on a cloud hosting service. All Gitblit
-	 * file or folder retrievals are (at least initially) funneled through this
-	 * method so it is the correct point to globally override/alter filesystem
-	 * access based on environment or some other indicator.
-	 *
-	 * @return the file
-	 */
-	@Override
-	public File getFileOrFolder(String fileOrFolder) {
-		return com.service.service.utils.FileUtils.resolveParameter(Constants.baseFolder$,
-				baseFolder, fileOrFolder);
-	}
+    /**
+     * 返回该文件对象,该对象可能具有在云托管服务上运行的环境变量决定的基础路径。
+     * Gitblit文件或文件夹检索(至少最初是最初)通过此方法通通,因此它是全局覆盖/更改文件系统的正确点
+     * 基于环境或其他指标的访问。
+     *
+     * @return the file
+     */
+    @Override
+    public File getFileOrFolder(String fileOrFolder) {
+        return com.service.service.utils.FileUtils.resolveParameter(Constants.baseFolder$,
+                baseFolder, fileOrFolder);
+    }
 
-	/**
-	 * Returns the runtime settings.
-	 *
-	 * @return runtime settings
-	 */
-	@Override
-	public IStoredSettings getSettings() {
-		return settings;
-	}
+    /**
+     * 返回runtime设置。
+     *
+     * @return runtime settings
+     */
+    @Override
+    public IStoredSettings getSettings() {
+        return settings;
+    }
 
-	/**
-	 * Updates the runtime settings.
-	 *
-	 * @param updatedSettings
-	 * @return true if the update succeeded
-	 */
-	@Override
-	public boolean updateSettings(Map<String, String> updatedSettings) {
-		return settings.saveSettings(updatedSettings);
-	}
+    /**
+     * 更新runtime设置。
+     *
+     * @param updatedSettings
+     * @return true if the update succeeded
+     */
+    @Override
+    public boolean updateSettings(Map<String, String> updatedSettings) {
+        return settings.saveSettings(updatedSettings);
+    }
 
-	@Override
-	public ServerStatus getStatus() {
-		// update heap memory status
-		serverStatus.heapAllocated = Runtime.getRuntime().totalMemory();
-		serverStatus.heapFree = Runtime.getRuntime().freeMemory();
-		return serverStatus;
-	}
+    @Override
+    public ServerStatus getStatus() {
+        // update heap memory status
+        serverStatus.heapAllocated = Runtime.getRuntime().totalMemory();
+        serverStatus.heapFree = Runtime.getRuntime().freeMemory();
+        return serverStatus;
+    }
 
-	/**
-	 * Returns the XSS filter.
-	 *
-	 * @return the XSS filter
-	 */
-	@Override
-	public XssFilter getXssFilter() {
-		return xssFilter;
-	}
+    /**
+     * 返回XSS过滤器。
+     *
+     * @return the XSS filter
+     */
+    @Override
+    public XssFilter getXssFilter() {
+        return xssFilter;
+    }
 
 }

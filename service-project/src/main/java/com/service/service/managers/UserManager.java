@@ -73,6 +73,7 @@ public class UserManager implements IUserManager {
         legacyBackingServices.put("com.gitblit.RedmineUserService", "realm.redmine.backingUserService");
         legacyBackingServices.put("com.gitblit.SalesforceUserService", "realm.salesforce.backingUserService");
         legacyBackingServices.put("com.gitblit.WindowsUserService", "realm.windows.backingUserService");
+        this.start();
     }
 
     /**

@@ -171,12 +171,6 @@ public abstract class AccessRestrictionFilter extends AuthenticationFilter {
 			return;
 		}
 
-		if (repositoryManager.isCollectingGarbage(repository)) {
-			logger.info(MessageFormat.format("ARF: Rejecting request for {0}, busy collecting garbage!", repository));
-			httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN);
-			return;
-		}
-
 		// 确定请求 URL 是否受到限制
 		String fullSuffix = fullUrl.substring(repository.length());
 		String urlRequestType = getUrlRequestAction(fullSuffix);
@@ -188,7 +182,7 @@ public abstract class AccessRestrictionFilter extends AuthenticationFilter {
 		if (model == null) {
 			if (isCreationAllowed(urlRequestType)) {
 				if (user == null) {
-					// 挑战客户提供创建凭据。发送401。
+					// 客户提供创建凭据。发送401。
 					if (runtimeManager.isDebugMode()) {
 						logger.info(MessageFormat.format("ARF: CREATE CHALLENGE {0}", fullUrl));
 					}

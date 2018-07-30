@@ -36,7 +36,7 @@ public class Query extends LinkedHashMap<String, Object> {
             this.limit = Integer.parseInt(params.get("limit").toString());
         }
         if (params.get(PageConstants.CURRENT_USER_ID) != null) {
-            this.crtUser = Integer.parseInt(params.get(PageConstants.CURRENT_USER_ID).toString());
+            this.currentUserId = Integer.parseInt(params.get(PageConstants.CURRENT_USER_ID).toString());
         }
         if (params.get(PageConstants.TEAM_ID) != null) {
             this.teamId = Integer.parseInt(params.get(PageConstants.TEAM_ID).toString());
@@ -47,9 +47,9 @@ public class Query extends LinkedHashMap<String, Object> {
         if (params.get(PageConstants.TASK_ID) != null) {
             this.taskId = Integer.parseInt(params.get(PageConstants.TASK_ID).toString());
         }
-//        if (params.get(PageConstants.CRT_USER) != null) {
-//            this.crtUser = Integer.parseInt(params.get(PageConstants.CRT_USER).toString());
-//        }
+        if (params.get(PageConstants.CRT_USER) != null) {
+            this.crtUser = Integer.parseInt(params.get(PageConstants.CRT_USER).toString());
+        }
         this.remove(PageConstants.PAGE_NUM);
         this.remove(PageConstants.PAGE_LIMIT);
         this.remove(PageConstants.CURRENT_USER_ID);
@@ -71,13 +71,13 @@ public class Query extends LinkedHashMap<String, Object> {
         this.limit = limit;
     }
 
-//    public Integer getCurrentUserId() {
-//        return currentUserId;
-//    }
-//
-//    public void setCurrentUserId(Integer currentUserId) {
-//        this.currentUserId = currentUserId;
-//    }
+    public Integer getCurrentUserId() {
+        return currentUserId;
+    }
+
+    public void setCurrentUserId(Integer currentUserId) {
+        this.currentUserId = currentUserId;
+    }
 
     public Integer getTeamId() {
         return teamId;
