@@ -28,16 +28,15 @@ import static com.service.service.Constants.RPC_PATH;
  *       过滤器从 url 中提取 rpc 请求类型, 并确定请求的操作是否需要基本身份验证。
  *       如果需要身份验证并且没有凭据存储在 "授权" 标头中, 则会发出基本的身份验证质询。
  */
-@WebFilter(RPC_PATH)
-@Order(6)
-public class RpcFilter extends AuthenticationFilter {
+//@WebFilter(RPC_PATH)
+public class FRpcFilter extends AuthenticationFilter {
 
     private IStoredSettings settings;
 
     private IRuntimeManager runtimeManager;
 
     @Autowired
-    protected RpcFilter(
+    protected FRpcFilter(
             IRuntimeManager runtimeManager,
             IAuthenticationManager authenticationManager) {
         super(authenticationManager);

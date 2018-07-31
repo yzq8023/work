@@ -19,12 +19,11 @@ import static com.service.service.Constants.ZIP_PATH;
  * @des: DownloadZipFilter 是一个 AccessRestrictionFilter,
  *       它确保查看受限存储库的 zip 请求具有适当的身份验证凭据并得到授权。
  */
-@WebFilter(ZIP_PATH)
-@Order(7)
-public class DownloadZipFilter extends AccessRestrictionFilter {
+//@WebFilter(ZIP_PATH)
+public class GDownloadZipFilter extends AccessRestrictionFilter {
 
     @Autowired
-    protected DownloadZipFilter(IRuntimeManager runtimeManager,
+    protected GDownloadZipFilter(IRuntimeManager runtimeManager,
                                 IAuthenticationManager authenticationManager,
                                 IRepositoryManager repositoryManager) {
         super(runtimeManager, authenticationManager, repositoryManager);
