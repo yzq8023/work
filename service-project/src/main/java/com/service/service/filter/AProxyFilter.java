@@ -5,10 +5,15 @@ import com.service.service.managers.IPluginManager;
 import com.service.service.managers.IRuntimeManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import ro.fortsoft.pf4j.PluginWrapper;
 
-import javax.servlet.*;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,8 +30,7 @@ import static com.service.service.Constants.ALL;
  * @since 1.6.0
  */
 @WebFilter(urlPatterns = ALL)
-@Order(1)
-public class ProxyFilter implements Filter {
+public class AProxyFilter implements Filter {
 	private final IRuntimeManager runtimeManager;
 
 	private final IPluginManager pluginManager;
@@ -34,7 +38,7 @@ public class ProxyFilter implements Filter {
 	private final List<HttpRequestFilter> filters;
 
 	@Autowired
-	public ProxyFilter(
+	public AProxyFilter(
 			IRuntimeManager runtimeManager,
 			IPluginManager pluginManager) {
 

@@ -6,6 +6,8 @@ import com.github.wxiaoqi.security.common.constant.PageConstants;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static com.github.wxiaoqi.security.common.constant.PageConstants.CRT_USER;
+
 /**
  * 查询参数
  *
@@ -15,8 +17,6 @@ public class Query extends LinkedHashMap<String, Object> {
     private static final long serialVersionUID = 1L;
     private int page = 1;
     private int limit = 10;
-
-    private Integer currentUserId = null;
 
     private Integer crtUser = null;
 
@@ -35,9 +35,6 @@ public class Query extends LinkedHashMap<String, Object> {
         if (params.get(PageConstants.PAGE_LIMIT) != null) {
             this.limit = Integer.parseInt(params.get("limit").toString());
         }
-        if (params.get(PageConstants.CURRENT_USER_ID) != null) {
-            this.currentUserId = Integer.parseInt(params.get(PageConstants.CURRENT_USER_ID).toString());
-        }
         if (params.get(PageConstants.TEAM_ID) != null) {
             this.teamId = Integer.parseInt(params.get(PageConstants.TEAM_ID).toString());
         }
@@ -47,12 +44,11 @@ public class Query extends LinkedHashMap<String, Object> {
         if (params.get(PageConstants.TASK_ID) != null) {
             this.taskId = Integer.parseInt(params.get(PageConstants.TASK_ID).toString());
         }
-        if (params.get(PageConstants.CRT_USER) != null) {
-            this.crtUser = Integer.parseInt(params.get(PageConstants.CRT_USER).toString());
+        if (params.get(CRT_USER) != null) {
+            this.crtUser = Integer.parseInt(params.get(CRT_USER).toString());
         }
         this.remove(PageConstants.PAGE_NUM);
         this.remove(PageConstants.PAGE_LIMIT);
-        this.remove(PageConstants.CURRENT_USER_ID);
     }
 
     public int getPage() {
@@ -69,14 +65,6 @@ public class Query extends LinkedHashMap<String, Object> {
 
     public void setLimit(int limit) {
         this.limit = limit;
-    }
-
-    public Integer getCurrentUserId() {
-        return currentUserId;
-    }
-
-    public void setCurrentUserId(Integer currentUserId) {
-        this.currentUserId = currentUserId;
     }
 
     public Integer getTeamId() {

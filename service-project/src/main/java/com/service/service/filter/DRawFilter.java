@@ -19,12 +19,11 @@ import static com.service.service.Constants.RAW_PATH;
  * @date: 2018/7/6
  * @des: RawFilter 是一个 AccessRestrictionFilter, 它确保对受视图限制的存储库的 http 分支请求进行身份验证和授权。
  */
-@WebFilter(RAW_PATH)
-@Order(4)
-public class RawFilter extends AccessRestrictionFilter {
+//@WebFilter(RAW_PATH)
+public class DRawFilter extends AccessRestrictionFilter {
 
     @Autowired
-    public RawFilter(
+    public DRawFilter(
             IRuntimeManager runtimeManager,
             IAuthenticationManager authenticationManager,
             IRepositoryManager repositoryManager) {

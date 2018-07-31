@@ -97,7 +97,7 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
      */
     public TableResultResponse<TaskEntity> getJoinedTaskFromProject(Query query) {
         Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
-        List<TaskEntity> list = mapper.selectTaskByPIdAndUId(query.getCurrentUserId(), query.getProjectId());
+        List<TaskEntity> list = mapper.selectTaskByPIdAndUId(query.getCrtUser(), query.getProjectId());
         return new TableResultResponse<>(result.getTotal(), list);
     }
 
@@ -107,7 +107,7 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
      */
     public TableResultResponse<TaskEntity> getJoinedTask(Query query) {
         Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
-        List<TaskEntity> list = mapper.selectJoinedTaskById(query.getCurrentUserId());
+        List<TaskEntity> list = mapper.selectJoinedTaskById(query.getCrtUser());
         return new TableResultResponse<>(result.getTotal(), list);
     }
     /**
