@@ -18,8 +18,6 @@ public class Query extends LinkedHashMap<String, Object> {
     private int page = 1;
     private int limit = 10;
 
-    private Integer currentUserId = null;
-
     private Integer crtUser = null;
 
     private Integer teamId = null;
@@ -37,9 +35,6 @@ public class Query extends LinkedHashMap<String, Object> {
         if (params.get(PageConstants.PAGE_LIMIT) != null) {
             this.limit = Integer.parseInt(params.get("limit").toString());
         }
-        if (params.get(PageConstants.CURRENT_USER_ID) != null) {
-            this.crtUser = Integer.parseInt(params.get(PageConstants.CURRENT_USER_ID).toString());
-        }
         if (params.get(PageConstants.TEAM_ID) != null) {
             this.teamId = Integer.parseInt(params.get(PageConstants.TEAM_ID).toString());
         }
@@ -54,8 +49,6 @@ public class Query extends LinkedHashMap<String, Object> {
         }
         this.remove(PageConstants.PAGE_NUM);
         this.remove(PageConstants.PAGE_LIMIT);
-        this.remove(PageConstants.CURRENT_USER_ID);
-        this.put(CRT_USER, this.crtUser);
     }
 
     public int getPage() {
@@ -73,14 +66,6 @@ public class Query extends LinkedHashMap<String, Object> {
     public void setLimit(int limit) {
         this.limit = limit;
     }
-
-//    public Integer getCurrentUserId() {
-//        return currentUserId;
-//    }
-//
-//    public void setCurrentUserId(Integer currentUserId) {
-//        this.currentUserId = currentUserId;
-//    }
 
     public Integer getTeamId() {
         return teamId;

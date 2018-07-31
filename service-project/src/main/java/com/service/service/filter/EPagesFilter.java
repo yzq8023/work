@@ -15,13 +15,12 @@ import static com.service.service.Constants.PAGES;
  * @date: 2018/7/6
  * @des:
  */
-@WebFilter(PAGES)
-@Order(5)
-public class PagesFilter extends RawFilter {
+//@WebFilter(PAGES)
+public class EPagesFilter extends DRawFilter {
     @Autowired
-    public PagesFilter(IRuntimeManager runtimeManager,
-                       IAuthenticationManager authenticationManager,
-                       IRepositoryManager repositoryManager) {
+    public EPagesFilter(IRuntimeManager runtimeManager,
+                        IAuthenticationManager authenticationManager,
+                        IRepositoryManager repositoryManager) {
         super(runtimeManager, authenticationManager, repositoryManager);
     }
 }

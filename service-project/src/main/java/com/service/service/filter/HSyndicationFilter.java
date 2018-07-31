@@ -30,16 +30,15 @@ import static com.service.service.Constants.SYNDICATION_PATH;
  *       它确保对项目或受视图限制的存储库的馈送请求具有正确的身份验证凭据,
  *       并被请求的提要授权。
  */
-@WebFilter(SYNDICATION_PATH)
-@Order(8)
-public class SyndicationFilter extends AuthenticationFilter {
+//@WebFilter(SYNDICATION_PATH)
+public class HSyndicationFilter extends AuthenticationFilter {
 
     private IRuntimeManager runtimeManager;
     private IRepositoryManager repositoryManager;
     private IProjectManager projectManager;
 
     @Autowired
-    public SyndicationFilter(
+    public HSyndicationFilter(
             IRuntimeManager runtimeManager,
             IAuthenticationManager authenticationManager,
             IRepositoryManager repositoryManager,
