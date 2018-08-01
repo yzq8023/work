@@ -136,106 +136,14 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
 
     //TODO 采用数据库方式读取repository，如果有问题建议使用原始方式
     /**
-    public TableResultResponse<TaskEntity> getRepositories(Query query) {
-        String userId = String.valueOf(query.getCurrentUserId());
-//        if (query == null) {
-//            return getRepositoryModels(userId);
-//        }
-
-        boolean hasParameter = false;
-//        String projectName = query.getProjectName();
-        String projectName = "协同设计平台";
-        if (StringUtils.isEmpty(projectName)) {
-            if (!StringUtils.isEmpty(userId)) {
-                projectName = ModelUtils.getPersonalPath(userId);
-            }
-        }
-        String repositoryName = query.getTaskName();
-
-        List<TaskEntity> availableModels = getRepositoryModels(userId);
-        Set<TaskEntity> models = new HashSet<TaskEntity>();
-
-        if (!StringUtils.isEmpty(repositoryName)) {
-            // try named repository
-            hasParameter = true;
-            for (TaskEntity model : availableModels) {
-                if (model.getTaskName().equalsIgnoreCase(repositoryName)) {
-                    models.add(model);
-                    break;
-                }
-            }
-        }
-
-        if (!StringUtils.isEmpty(projectName)) {
-            // try named project
-            hasParameter = true;
-            if (projectName.equalsIgnoreCase(settings.getString(Keys.web.repositoryRootGroupName, "main"))) {
-                // root project/group
-                for (TaskEntity model : availableModels) {
-                    if (model.getTaskName().indexOf('/') == -1) {
-                        models.add(model);
-                    }
-                }
-            } else {
-                // named project/group
-                String group = projectName.toLowerCase() + "/";
-                for (TaskEntity model : availableModels) {
-                    if (model.getTaskName().toLowerCase().startsWith(group)) {
-                        models.add(model);
-                    }
-                }
-            }
-        }
-
-        if (!hasParameter) {
-            models.addAll(availableModels);
-        }
-
-        Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
-        List<TaskEntity> list = new ArrayList<TaskEntity>(models);
-        return new TableResultResponse<>(result.getTotal(), list);
-//
-//        List<TaskEntity> list = new ArrayList<TaskEntity>(models);
-//        Collections.sort(list);
-//        return list;
-    }
-
-    protected List<TaskEntity> getRepositoryModels(String userId) {
-        if (repositoryModels.isEmpty()) {
-            UserInfo userInfo = userFeignClient.info(Integer.valueOf(userId));
-            final UserModel user = userSwitch(userInfo);
-            List<TaskEntity> repositories = repositoryManager.getRepositoryModels(user);
-            repositoryModels.addAll(repositories);
-            Collections.sort(repositoryModels);
-        }
-        return repositoryModels;
-    }
-
-
-    private UserModel userSwitch(UserInfo userInfo) {
-        UserModel userModel = new UserModel(userInfo.getUsername());
-        userModel.setUserId(userInfo.getUsername());
-        userModel.setPassword(userInfo.getPassword());
-        userModel.setCookie(null);
-        userModel.setUsername(null);
-        userModel.setEmailAddress(null);
-        userModel.setOrganizationalUnit(null);
-        userModel.setOrganization(null);
-        userModel.setLocality(null);
-        userModel.setStateProvince(null);
-        userModel.setCountryCode(null);
-        userModel.setCanAdmin(true);
-        userModel.setCanFork(true);
-        userModel.setCanCreate(true);
-        userModel.setExcludeFromFederation(false);
-        userModel.setDisabled(false);
-        return userModel;
-    }
-**/
-
+     * 获取任务仓库内文件路径
+     *
+     * @param query
+     */
     public List<PathModel> getRepository(Query query){
-        String taskName = userFeignClient.info(query.getCrtUser()).getUsername();
-        Repository r = workHub.getRepository(taskName);
+        Integer taskId = query.getTaskId();
+        TaskEntity taskEntity = this.selectById(taskId);
+        Repository r = workHub.getRepository(taskEntity.getTaskName());
         RevCommit commit = getCommit(r, null);
         List<PathModel> paths = JGitUtils.getFilesInPath2(r, null, commit);
         return paths;
@@ -259,5 +167,7 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
         }
         return submodules;
     }
+
+
 }
 

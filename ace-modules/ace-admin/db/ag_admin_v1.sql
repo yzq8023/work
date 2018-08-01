@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : v2
+ Source Server         : workhub
  Source Server Type    : MySQL
  Source Server Version : 50721
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 22/07/2018 22:57:52
+ Date: 01/08/2018 17:11:24
 */
 
 SET NAMES utf8mb4;
@@ -45,7 +45,7 @@ CREATE TABLE `base_element`  (
   `attr7` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `attr8` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 56 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 60 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of base_element
@@ -90,6 +90,10 @@ INSERT INTO `base_element` VALUES (52, 'allProjects:btn_add', 'button', '新增�
 INSERT INTO `base_element` VALUES (53, 'allProjects:btn_edit', 'button', '编辑项目', '/project/project', '37', NULL, NULL, 'PUT', NULL, '2018-03-23 19:26:59', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_element` VALUES (54, 'allProject:btn_del', 'button', '删除项目', '/project/project', '37', NULL, NULL, 'DELETE', NULL, '2018-03-23 19:28:14', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_element` VALUES (55, 'allProject:view', 'uri', '查看项目', '/project/project', '37', NULL, NULL, 'GET', NULL, '2018-03-23 19:29:48', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_element` VALUES (56, ' allTasks:btn_add 	', 'button', '添加任务', '/project/task', '38', NULL, NULL, 'POST', NULL, '2018-08-01 16:26:54', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_element` VALUES (57, 'allTasks:btn_edit', 'button', '修改任务', '/project/task', '38', NULL, NULL, 'PUT', NULL, '2018-08-01 16:28:38', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_element` VALUES (58, 'allTasks:btn_del', 'button', '删除任务', '/project/task', '38', NULL, NULL, 'DELETE', NULL, '2018-08-01 16:29:58', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_element` VALUES (59, 'allTasks:btn_view', 'uri', '查看任务', '/project/task', '38', NULL, NULL, 'GET', NULL, '2018-08-01 16:30:57', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for base_group
@@ -130,7 +134,6 @@ INSERT INTO `base_group` VALUES (1, 'adminRole', '管理员', -1, '/adminRole', 
 INSERT INTO `base_group` VALUES (6, 'company', 'DK集团', -1, '/company', NULL, 2, '', NULL, NULL, NULL, NULL, '2018-03-15 11:07:03', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_group` VALUES (7, 'financeDepart', '研发部', 6, '/company/financeDepart', NULL, 2, '', NULL, NULL, NULL, NULL, '2018-03-15 11:07:32', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_group` VALUES (8, 'hrDepart', '人力资源部', 6, '/company/hrDepart', NULL, 2, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_group` VALUES (11, 'testRole', '测试', 1, '/adminRole/testRole', NULL, 1, NULL, '2018-03-19 18:01:49', '1', 'hollykunge', '127.0.0.1', '2018-03-19 18:01:49', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_group` VALUES (12, 'testUser', '测试用户', -1, '/testUser', NULL, 1, NULL, '2018-07-22 01:35:55', '1', 'hollykunge', '127.0.0.1', '2018-07-22 01:35:55', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
@@ -274,7 +277,7 @@ CREATE TABLE `base_menu`  (
   `attr7` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `attr8` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 46 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 51 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of base_menu
@@ -282,8 +285,8 @@ CREATE TABLE `base_menu`  (
 INSERT INTO `base_menu` VALUES (1, 'userManager', '用户管理', 5, '/admin/user', 'user', 'menu', 0, '', '/adminSys/baseManager/userManager', NULL, NULL, NULL, NULL, NULL, '2018-04-23 17:27:02', '1', 'hollykunge', '127.0.0.1', '_import(\'admin/user/index\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_menu` VALUES (5, 'baseManager', '基础配置管理   ', 13, '/admin', 'sliders', 'dirt', 0, '', '/adminSys/baseManager', NULL, NULL, NULL, NULL, NULL, '2018-04-23 17:54:45', '1', 'hollykunge', '127.0.0.1', 'Layout', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_menu` VALUES (6, 'menuManager', '菜单管理', 5, '/admin/menu', 'navicon', 'menu', 0, '', '/adminSys/baseManager/menuManager', NULL, NULL, NULL, NULL, NULL, '2018-04-23 17:27:21', '1', 'hollykunge', '127.0.0.1', '_import(\'admin/menu/index\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_menu` VALUES (7, 'groupManager', '角色权限管理', 5, '/admin/group', 'toggle-on', 'menu', 0, '', '/adminSys/baseManager/groupManager', NULL, NULL, NULL, NULL, NULL, '2018-04-23 17:27:36', '1', 'hollykunge', '127.0.0.1', 'import(\'admin/group/index\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_menu` VALUES (8, 'groupTypeManager', '角色类型管理', 5, '/admin/groupType', 'vcard', 'menu', 0, '', '/adminSys/baseManager/groupTypeManager', NULL, NULL, NULL, NULL, NULL, '2018-04-23 17:35:31', '1', 'hollykunge', '127.0.0.1', '_import(\'admin/groupType/index\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (7, 'groupManager', '角色权限', 5, '/admin/group', 'toggle-on', 'menu', 0, '', '/adminSys/baseManager/groupManager', NULL, NULL, NULL, NULL, NULL, '2018-04-23 17:27:36', '1', 'hollykunge', '127.0.0.1', 'import(\'admin/group/index\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (8, 'groupTypeManager', '角色类型', 5, '/admin/groupType', 'vcard', 'menu', 0, '', '/adminSys/baseManager/groupTypeManager', NULL, NULL, NULL, NULL, NULL, '2018-04-23 17:35:31', '1', 'hollykunge', '127.0.0.1', '_import(\'admin/groupType/index\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_menu` VALUES (13, 'adminSys', '权限管理', -1, '/base', 'gears', 'dirt', 0, '', '/adminSys', NULL, NULL, NULL, NULL, NULL, '2018-04-23 17:54:05', '1', 'hollykunge', '127.0.0.1', 'Layout', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_menu` VALUES (21, 'dictManager', '数据字典', 5, '', 'graduation-cap', NULL, 0, '', '/adminSys/baseManager/dictManager', NULL, NULL, NULL, NULL, NULL, '2018-04-23 17:28:03', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_menu` VALUES (27, 'gateLogManager', '操作日志', 5, '/admin/gateLog', 'ioxhost', 'menu', 0, '', '/adminSys/baseManager/gateLogManager', NULL, '2017-07-01 00:00:00', '1', 'admin', '0:0:0:0:0:0:0:1', '2018-04-23 17:28:29', '1', 'hollykunge', '127.0.0.1', '_import(\'admin/gateLog/index\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -294,14 +297,18 @@ INSERT INTO `base_menu` VALUES (32, 'serviceEurekaManager', '服务注册中心'
 INSERT INTO `base_menu` VALUES (33, 'serviceMonitorManager', '服务状态监控', 31, NULL, 'heartbeat', NULL, 0, NULL, '/adminSys/monitorManager/serviceEurekaManager', NULL, '2018-02-25 09:37:05', '1', 'hollykunge', '127.0.0.1', '2018-04-23 17:32:48', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_menu` VALUES (34, 'serviceZipkinManager', '服务链路监控', 31, NULL, 'share-alt', NULL, 0, NULL, '/adminSys/monitorManager/serviceZipkinManager', NULL, '2018-02-25 09:38:05', '1', 'hollykunge', '127.0.0.1', '2018-04-23 17:33:00', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_menu` VALUES (35, 'projectSys', '项目管理', -1, '/base', 'folder', 'dirt', 0, NULL, '/adminSys/projectSys', NULL, '2018-03-05 14:25:27', '1', 'hollykunge', '127.0.0.1', '2018-04-23 17:33:15', '1', 'hollykunge', '127.0.0.1', 'Layout', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_menu` VALUES (37, 'allProjects', '全部项目', 35, '/project/project', 'folder-open', 'menu', 0, NULL, '/adminSys/projectSys/allProjects', NULL, '2018-03-15 11:25:54', '1', 'Mr.AG', '127.0.0.1', '2018-04-23 17:33:36', '1', 'hollykunge', '127.0.0.1', '_import(\'project/project/index\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_menu` VALUES (38, 'allTasks', '全部任务', 35, NULL, 'tasks', NULL, 0, NULL, '/adminSys/projectSys/allTasks', NULL, '2018-03-15 11:33:33', '1', 'Mr.AG', '127.0.0.1', '2018-04-23 17:33:49', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_menu` VALUES (39, 'orgManager', '组织部门管理', 5, 'admin/org', 'window-restore', 'menu', 0, NULL, '/adminSys/baseManager/baseManager', NULL, '2018-03-19 15:58:05', '1', 'hollykunge', '127.0.0.1', '2018-04-23 17:28:53', '1', 'hollykunge', '127.0.0.1', '_import(\'admin/organize/index\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_menu` VALUES (41, 'teamManager', '团队管理', -1, '/base', 'users', 'menu', 0, NULL, '/teamManager', NULL, '2018-04-18 10:57:00', '1', 'hollykunge', '127.0.0.1', '2018-04-23 17:34:04', '1', 'hollykunge', '127.0.0.1', 'Layout', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_menu` VALUES (42, 'myTeams', '创建的团队', 41, NULL, 'user-plus', 'menu', 0, NULL, '/teamManager/myTeams', NULL, '2018-04-18 10:58:53', '1', 'hollykunge', '127.0.0.1', '2018-04-23 17:34:21', '1', 'hollykunge', '127.0.0.1', '_import(\'team/myTeams\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_menu` VALUES (43, 'joinedTeams', '参加的团队', 41, NULL, 'user-circle', 'menu', 0, NULL, '/teamManager/joinedTeams', NULL, '2018-04-18 11:00:19', '1', 'hollykunge', '127.0.0.1', '2018-04-23 17:34:42', '1', 'hollykunge', '127.0.0.1', '_import(\'team/joinedTeams\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (37, 'allProjects', '全部项目', 35, '/project/project', 'folder-open', 'menu', 0, NULL, '/adminSys/projectSys/allProjects', NULL, '2018-03-15 11:25:54', '1', 'hollykunge', '127.0.0.1', '2018-04-23 17:33:36', '1', 'hollykunge', '127.0.0.1', '_import(\'project/project/index\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (38, 'allTasks', '全部任务', 41, '/project/task', 'list', 'menu', 0, NULL, '/adminSys/taskSys/allTasks', NULL, '2018-03-15 11:33:33', '1', 'hollykunge', '127.0.0.1', '2018-08-01 16:24:40', '1', 'hollykunge', '127.0.0.1', '_import(\'', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (39, 'orgManager', '组织管理', 5, 'admin/org', 'window-restore', 'menu', 0, NULL, '/adminSys/baseManager/baseManager', NULL, '2018-03-19 15:58:05', '1', 'hollykunge', '127.0.0.1', '2018-04-23 17:28:53', '1', 'hollykunge', '127.0.0.1', '_import(\'admin/organize/index\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (41, 'taskSys', '我的任务', -1, '/base', 'list', 'dirt', 0, '', '/adminSys/taskSys', '', '2018-03-05 14:25:27', '1', 'hollykunge', '127.0.0.1', '2018-07-25 08:59:45', '1', 'hollykunge', '127.0.0.1', 'Layout', '', '', '', '', '', '', '');
+INSERT INTO `base_menu` VALUES (42, 'allTeams', '全部团队', 46, '', 'th', 'menu', 0, '', '/teamManager/allTeams', '', '2018-04-18 10:58:53', '1', 'hollykunge', '127.0.0.1', '2018-04-23 17:34:21', '1', 'hollykunge', '127.0.0.1', '_import(\'team/myTeams\')', '', '', '', '', '', '', '');
 INSERT INTO `base_menu` VALUES (44, 'myProjects', '我创建的', 35, '/project/project', 'pencil-square', 'menu', 0, '我创建的项目', '/adminSys/projectSys/myProjects', '', '2018-07-22 00:25:21', '1', 'hollykunge', '127.0.0.1', '2018-07-22 00:25:47', '1', 'hollykunge', '127.0.0.1', '_import(\'project/project/index\')', '', '', '', '', '', '', '');
-INSERT INTO `base_menu` VALUES (45, 'joinedProject', '我参加的', 35, '/project/project', 'share-alt-square', 'menu', 0, '我参加的项目', '/adminSys/projectSys/joinedProject', '', '2018-07-22 00:25:21', '1', 'hollykunge', '127.0.0.1', '2018-07-22 00:25:47', '1', 'hollykunge', '127.0.0.1', '_import(\'project/project/index\')', '', '', '', '', '', '', '');
+INSERT INTO `base_menu` VALUES (45, 'joinedProjects', '我参加的', 35, '/project/project', 'share-alt-square', 'menu', 0, '我参加的项目', '/adminSys/projectSys/joinedProjects', '', '2018-07-22 00:25:21', '1', 'hollykunge', '127.0.0.1', '2018-07-23 10:08:22', '1', 'hollykunge', '127.0.0.1', '_import(\'project/project/index\')', '', '', '', '', '', '', '');
+INSERT INTO `base_menu` VALUES (46, 'teamManager', '团队管理', -1, '/base', 'users', 'dirt', 0, NULL, '/teamManager', NULL, '2018-04-18 10:57:00', '1', 'hollykunge', '127.0.0.1', '2018-04-23 17:34:04', '1', 'hollykunge', '127.0.0.1', 'Layout', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (47, 'myTasks', '我创建的', 41, '/project/task', 'pencil-square', 'menu', 0, '我创建的任务', '/adminSys/taskSys/myTasks', '', '2018-07-22 00:25:21', '1', 'hollykunge', '127.0.0.1', '2018-07-22 00:25:47', '1', 'hollykunge', '127.0.0.1', '_import(\'project/project/index\')', '', '', '', '', '', '', '');
+INSERT INTO `base_menu` VALUES (48, 'joinedTasks', '我参加的', 41, '/project/task', 'share-alt-square', 'menu', 0, '我参加的任务', '/adminSys/taskSys/joinedTasks', '', '2018-07-22 00:25:21', '1', 'hollykunge', '127.0.0.1', '2018-07-23 10:08:22', '1', 'hollykunge', '127.0.0.1', '_import(\'project/project/index\')', '', '', '', '', '', '', '');
+INSERT INTO `base_menu` VALUES (49, 'myTeams', '我创建的', 46, NULL, 'user-plus', 'menu', 0, '我创建的团队', '/teamManager/myTeams', NULL, '2018-04-18 10:58:53', '1', 'hollykunge', '127.0.0.1', '2018-04-23 17:34:21', '1', 'hollykunge', '127.0.0.1', '_import(\'team/myTeams\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_menu` VALUES (50, 'joinedTeams', '我参加的', 46, NULL, 'user-circle', 'menu', 0, '我参加的团队', '/teamManager/joinedTeams', NULL, '2018-04-18 11:00:19', '1', 'hollykunge', '127.0.0.1', '2018-04-23 17:34:42', '1', 'hollykunge', '127.0.0.1', '_import(\'team/joinedTeams\')', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for base_org
@@ -437,7 +444,7 @@ CREATE TABLE `base_resource_authority`  (
   `attr7` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `attr8` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1273 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1719 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of base_resource_authority
@@ -592,33 +599,36 @@ INSERT INTO `base_resource_authority` VALUES (1136, '11', 'group', '39', 'menu',
 INSERT INTO `base_resource_authority` VALUES (1137, '11', 'group', '7', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_resource_authority` VALUES (1138, '11', 'group', '8', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_resource_authority` VALUES (1139, '11', 'group', '21', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1159, '1', 'group', '52', 'button', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1160, '1', 'group', '53', 'button', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1161, '1', 'group', '54', 'button', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1162, '1', 'group', '55', 'button', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1250, '1', 'group', '33', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1251, '1', 'group', '44', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1252, '1', 'group', '34', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1253, '1', 'group', '45', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1254, '1', 'group', '13', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1255, '1', 'group', '35', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1256, '1', 'group', '37', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1257, '1', 'group', '-1', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1258, '1', 'group', '27', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1259, '1', 'group', '39', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1260, '1', 'group', '29', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1261, '1', 'group', '1', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1262, '1', 'group', '5', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1263, '1', 'group', '6', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1264, '1', 'group', '7', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1265, '1', 'group', '8', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1266, '1', 'group', '30', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1267, '1', 'group', '41', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1268, '1', 'group', '31', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1269, '1', 'group', '42', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1270, '1', 'group', '21', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1271, '1', 'group', '32', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `base_resource_authority` VALUES (1272, '1', 'group', '43', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1549, '1', 'group', '56', 'button', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1578, '1', 'group', '57', 'button', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1691, '1', 'group', '44', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1692, '1', 'group', '45', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1693, '1', 'group', '46', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1694, '1', 'group', '47', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1695, '1', 'group', '48', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1696, '1', 'group', '27', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1697, '1', 'group', '49', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1698, '1', 'group', '29', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1699, '1', 'group', '50', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1700, '1', 'group', '30', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1701, '1', 'group', '31', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1702, '1', 'group', '32', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1703, '1', 'group', '33', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1704, '1', 'group', '34', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1705, '1', 'group', '13', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1706, '1', 'group', '35', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1707, '1', 'group', '37', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1708, '1', 'group', '-1', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1709, '1', 'group', '38', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1710, '1', 'group', '39', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1711, '1', 'group', '1', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1712, '1', 'group', '5', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1713, '1', 'group', '6', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1714, '1', 'group', '7', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1715, '1', 'group', '8', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1716, '1', 'group', '41', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1717, '1', 'group', '42', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_resource_authority` VALUES (1718, '1', 'group', '21', 'menu', '-1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for base_user
@@ -655,14 +665,14 @@ CREATE TABLE `base_user`  (
   `attr7` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `attr8` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of base_user
 -- ----------------------------
 INSERT INTO `base_user` VALUES (1, 'admin', '$2a$12$S/yLlj9kzi5Dgsz97H4rAekxrPlk/10eXp1lUJcAVAx.2M9tOpWie', 'hollykunge', '', NULL, '', NULL, '', '男', NULL, NULL, '管理员', NULL, NULL, NULL, NULL, '2018-03-15 11:08:29', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_user` VALUES (2, 'jihainan', '$2a$12$CqGpCTW190s5fZaG7uyPUezl6RRk4SsITuYQnZlBEc2rTwWQE2S3C', '姬海南', '', '', '', '', '', '男', '', '', '管理员', '2018-03-19 15:35:57', '1', 'hollykunge', '127.0.0.1', '2018-03-19 15:36:18', '1', 'hollykunge', '127.0.0.1', '', '', '', '', '', '', '', '');
 INSERT INTO `base_user` VALUES (5, '19881210', '$2a$12$k5RkyE9F0O51u4Ns9y0cZ.nzxBJ2UOdgq8bzk4tc5Fx7tdpmOJtaq', '19881210', '', '', '', '', '', '男', '', '', '', '2018-03-19 15:35:48', '1', 'hollykunge', '127.0.0.1', '2018-03-19 15:36:14', '1', 'hollykunge', '127.0.0.1', '', '', '', '', '', '', '', '');
-INSERT INTO `base_user` VALUES (6, 'jihainan', '$2a$12$CqGpCTW190s5fZaG7uyPUezl6RRk4SsITuYQnZlBEc2rTwWQE2S3C', '姬海南', '', '', '', '', '', '男', '', '', '管理员', '2018-03-19 15:35:57', '1', 'hollykunge', '127.0.0.1', '2018-03-19 15:36:18', '1', 'hollykunge', '127.0.0.1', '', '', '', '', '', '', '', '');
 INSERT INTO `base_user` VALUES (7, 'wangzhunzhong', '$2a$12$b8veMCpETW9VHyZqPxTo7OB3YodgNVzDi31nbvK3FDtm9NwZi3IN.', '王准忠', '', '', '', '', '', '男', '', '', '管理员', '2018-03-19 15:36:00', '6', '姬海南', '127.0.0.1', '2018-03-19 15:36:21', '6', '姬海南', '127.0.0.1', '', '', '', '', '', '', '', '');
 INSERT INTO `base_user` VALUES (8, 'jihang', '$2a$12$pihMUzpMVsCblOzUFr50gObNbEZqBdPgBMl.RQoiENF1befeyRlwC', '姬航', '', '', '', '', '', '男', '', '', '管理员', '2018-03-19 15:36:04', '6', '姬海南', '127.0.0.1', '2018-03-19 19:29:05', '1', 'hollykunge', '127.0.0.1', '', '', '', '', '', '', '', '');
 INSERT INTO `base_user` VALUES (10, 'test2', '$2a$12$QkOel.D8z6ZpNhY87q/Ctuyb0JXAAT0N5AeTWqbl.yPOfcaPpy/TO', '测试二', NULL, NULL, NULL, NULL, NULL, '男', NULL, NULL, NULL, '2018-03-19 16:24:29', '1', 'hollykunge', '127.0.0.1', '2018-03-19 16:24:29', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -672,6 +682,12 @@ INSERT INTO `base_user` VALUES (13, 'test5', '$2a$12$MSA7uI7iH0j8eDTKepGr6eBStbG
 INSERT INTO `base_user` VALUES (14, 'test6', '$2a$12$aY0Q10Q.FbreX.EOhmdrSuMZluPyPVlRf3KG8JvDXL0XArCOls7QG', '测试六', NULL, NULL, NULL, NULL, NULL, '男', NULL, NULL, NULL, '2018-03-19 16:27:44', '1', 'hollykunge', '127.0.0.1', '2018-03-19 16:27:44', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_user` VALUES (15, 'test8', '$2a$12$DdUf2jwqYRDgE16vrvP/9uX0/mh9awPDYOqtcJsG0gl6lUgNbKUPi', '测试八', NULL, NULL, NULL, NULL, NULL, '男', NULL, NULL, NULL, '2018-03-19 17:17:34', '1', 'hollykunge', '127.0.0.1', '2018-03-19 17:17:34', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `base_user` VALUES (16, '321', '$2a$12$clWcykpYL3sN2W8UAxiqFOivhEvvg0/uBTN3pSxcLSKopc2Ri30cW', '321', NULL, NULL, NULL, NULL, NULL, '男', NULL, NULL, NULL, '2018-03-28 16:18:47', '1', 'hollykunge', '127.0.0.1', '2018-03-28 16:18:47', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_user` VALUES (17, 'shejishi1', '$2a$12$rL2DRiEd0JN8tIOOFelPIeEK.ZjWXUO.sLjynB6is/R/t5FDfpwra', '设计师一', NULL, NULL, NULL, NULL, NULL, '男', NULL, NULL, '123456', '2018-08-01 14:03:26', '1', 'hollykunge', '127.0.0.1', '2018-08-01 14:03:26', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_user` VALUES (18, 'shejishi2', '$2a$12$xCk.QvqfmLBv0pFWPmrVCu9Gl8tDEFpjpGmuAUrnf0gQr4r1ULM6W', '设计师二', NULL, NULL, NULL, NULL, NULL, '男', NULL, NULL, '123', '2018-08-01 14:04:13', '1', 'hollykunge', '127.0.0.1', '2018-08-01 14:04:13', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_user` VALUES (19, 'shejishi3', '$2a$12$9f.7FEKBDQnOp.j0cxBQ8.E126Apedb6yVkG.zU2phJjHlDiwp2A.', '设计师三', NULL, NULL, NULL, NULL, NULL, '男', NULL, NULL, '123', '2018-08-01 14:04:49', '1', 'hollykunge', '127.0.0.1', '2018-08-01 14:04:49', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_user` VALUES (20, 'shejishi4', '$2a$12$niMPemBY5Iz/ORpzcCa1Xu1zfZdNRsDhUuE89aWOaE1wfvdSB3IAS', '设计师四', NULL, NULL, NULL, NULL, NULL, '男', NULL, NULL, '123', '2018-08-01 14:10:26', '1', 'hollykunge', '127.0.0.1', '2018-08-01 14:10:26', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_user` VALUES (21, 'shejishi5', '$2a$12$w6qsLgVwLt2z7nh3WTbEFu3bLwfrObVJSoxL7SESja5YqZU5iHLUC', '设计师5', NULL, NULL, NULL, NULL, NULL, '男', NULL, NULL, '1235', '2018-08-01 15:11:58', '1', 'hollykunge', '127.0.0.1', '2018-08-01 15:11:58', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `base_user` VALUES (22, '66666', '$2a$12$zeuYJej93ADah5eB1EOUa.I1HuXHIp7bvGcGjQwudCme2gBgokau.', '00099', NULL, NULL, NULL, NULL, NULL, '男', NULL, NULL, NULL, '2018-08-01 15:19:01', '1', 'hollykunge', '127.0.0.1', '2018-08-01 15:19:01', '1', 'hollykunge', '127.0.0.1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for gate_log
@@ -687,7 +703,7 @@ CREATE TABLE `gate_log`  (
   `crt_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '操作人',
   `crt_host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '操作主机',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 202 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 246 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of gate_log
@@ -844,5 +860,49 @@ INSERT INTO `gate_log` VALUES (198, '菜单管理', '删除', '/admin/menu', '20
 INSERT INTO `gate_log` VALUES (199, '菜单管理', '删除', '/admin/menu', '2018-07-22 01:25:39', '1', 'hollykunge', '127.0.0.1');
 INSERT INTO `gate_log` VALUES (200, '角色权限管理', '新增', '/admin/group', '2018-07-22 01:35:54', '1', 'hollykunge', '127.0.0.1');
 INSERT INTO `gate_log` VALUES (201, '角色权限管理', '新增', '/admin/group', '2018-07-22 01:36:17', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (202, '菜单管理', '编辑', '/admin/menu', '2018-07-23 10:08:22', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (203, '角色权限管理', '新增', '/admin/group', '2018-07-23 11:37:23', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (204, '角色权限管理', '删除', '/admin/group', '2018-07-23 13:56:44', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (205, '角色权限管理', '新增', '/admin/group', '2018-07-23 14:07:08', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (206, '菜单管理', '编辑', '/admin/menu', '2018-07-23 14:14:25', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (207, '菜单管理', '编辑', '/admin/menu', '2018-07-23 14:15:25', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (208, '菜单管理', '编辑', '/admin/menu', '2018-07-23 14:16:06', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (209, '菜单管理', '编辑', '/admin/menu', '2018-07-23 14:16:13', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (210, '角色权限管理', '新增', '/admin/group', '2018-07-23 14:21:44', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (211, '角色权限管理', '新增', '/admin/group', '2018-07-23 14:23:46', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (212, '角色权限管理', '新增', '/admin/group', '2018-07-23 14:26:23', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (213, '角色权限管理', '新增', '/admin/group', '2018-07-23 15:19:04', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (214, '菜单管理', '编辑', '/admin/menu', '2018-07-25 08:59:44', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (215, '角色权限管理', '新增', '/admin/group', '2018-07-31 17:28:41', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (216, '用户管理', '新增', '/admin/user', '2018-08-01 14:03:25', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (217, '用户管理', '新增', '/admin/user', '2018-08-01 14:04:12', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (218, '用户管理', '新增', '/admin/user', '2018-08-01 14:04:48', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (219, '用户管理', '新增', '/admin/user', '2018-08-01 14:07:42', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (220, '用户管理', '新增', '/admin/user', '2018-08-01 14:10:40', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (221, '用户管理', '新增', '/admin/user', '2018-08-01 15:13:11', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (222, '全部项目', '新增项目', '/project/project', '2018-08-01 15:22:53', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (223, '全部项目', '新增项目', '/project/project', '2018-08-01 15:30:16', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (224, '全部项目', '新增项目', '/project/project', '2018-08-01 15:38:28', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (225, '全部项目', '新增项目', '/project/project', '2018-08-01 15:41:20', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (226, '全部项目', '新增项目', '/project/project', '2018-08-01 15:49:01', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (227, '菜单管理', '编辑', '/admin/menu', '2018-08-01 16:24:32', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (228, '菜单管理', '编辑', '/admin/menu', '2018-08-01 16:24:40', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (229, '菜单管理', '新增元素', '/admin/element', '2018-08-01 16:26:45', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (230, '菜单管理', '编辑元素', '/admin/element', '2018-08-01 16:27:31', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (231, '菜单管理', '新增元素', '/admin/element', '2018-08-01 16:28:37', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (232, '菜单管理', '新增元素', '/admin/element', '2018-08-01 16:29:57', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (233, '菜单管理', '新增元素', '/admin/element', '2018-08-01 16:30:57', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (234, '角色权限', '新增', '/admin/group', '2018-08-01 16:40:02', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (235, '角色权限', '新增', '/admin/group', '2018-08-01 16:40:56', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (236, '角色权限', '新增', '/admin/group', '2018-08-01 16:44:04', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (237, '角色权限', '新增', '/admin/group', '2018-08-01 16:47:14', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (238, '角色权限', '新增', '/admin/group', '2018-08-01 16:47:15', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (239, '角色权限', '新增', '/admin/group', '2018-08-01 16:47:44', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (240, '角色权限', '新增', '/admin/group', '2018-08-01 16:47:47', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (241, '角色权限', '新增', '/admin/group', '2018-08-01 16:48:23', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (242, '角色权限', '新增', '/admin/group', '2018-08-01 16:50:40', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (243, '角色权限', '新增', '/admin/group', '2018-08-01 16:52:35', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (244, '角色权限', '新增', '/admin/group', '2018-08-01 16:53:30', '1', 'hollykunge', '127.0.0.1');
+INSERT INTO `gate_log` VALUES (245, '全部任务', '添加任务', '/project/task', '2018-08-01 17:03:32', '1', 'hollykunge', '127.0.0.1');
 
 SET FOREIGN_KEY_CHECKS = 1;
