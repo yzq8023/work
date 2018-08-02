@@ -95,10 +95,10 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
      * @param query dao接口
      * @return 任务
      */
-    public TableResultResponse<TaskEntity> getJoinedTaskFromProject(Query query) {
+    public TableResultResponse<Map<String,Object>> getJoinedTaskFromProject(Query query) {
         Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
-        List<TaskEntity> list = mapper.selectTaskByPIdAndUId(query.getCrtUser(), query.getProjectId());
-        return new TableResultResponse<>(result.getTotal(), list);
+        List<Map<String,Object>> list = mapper.selectTaskByPIdAndUId(query.getCrtUser(), query.getProjectId());
+        return  new TableResultResponse<>(result.getTotal(), list);
     }
 
     /**
