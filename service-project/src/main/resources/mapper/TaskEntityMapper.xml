@@ -113,8 +113,9 @@
   </delete>
   <select id="selectTaskByPIdAndUId" resultMap="StatusResultMap">
     select  t.*,case
-    when t.task_id in (select mut.task_id from map_user_task mut where mut.user_id = #{userId}) then 0
-    else 1 end as status
+    when t.task_id in (select mut.task_id from map_user_task mut where mut.user_id = #{userId}) then 1
+    when t.task_id in (select tk.task_id from task tk where tk.crt_user = #{userId}) then 1
+    else 0 end as status
     from task t where t.task_project_id = #{projectId}
   </select>
   <select id="selectJoinedTaskById" resultMap="BaseResultMap">
