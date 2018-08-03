@@ -96,4 +96,6 @@ public abstract class BaseBiz<M extends Mapper<T>, T> {
         List<T> list = mapper.selectByExample(example);
         return new TableResultResponse<T>(result.getTotal(), list);
     }
+
+    protected abstract String getPageName();
 }

@@ -43,6 +43,11 @@ public class UserBiz extends BaseBiz<UserMapper,User> {
         super.updateSelectiveById(entity);
     }
 
+    @Override
+    protected String getPageName() {
+        return null;
+    }
+
     /**
      * 根据用户名获取用户信息
      * @param username

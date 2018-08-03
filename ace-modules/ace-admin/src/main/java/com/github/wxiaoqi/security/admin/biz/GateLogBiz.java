@@ -25,4 +25,9 @@ public class GateLogBiz extends BaseBiz<GateLogMapper,GateLog> {
     public void insertSelective(GateLog entity) {
         mapper.insertSelective(entity);
     }
+
+    @Override
+    protected String getPageName() {
+        return null;
+    }
 }

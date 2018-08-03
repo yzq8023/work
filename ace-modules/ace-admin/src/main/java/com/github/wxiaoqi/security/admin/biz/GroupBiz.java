@@ -58,6 +58,11 @@ public class GroupBiz extends BaseBiz<GroupMapper, Group> {
         super.updateById(entity);
     }
 
+    @Override
+    protected String getPageName() {
+        return null;
+    }
+
     /**
      * 获取群组关联用户
      *

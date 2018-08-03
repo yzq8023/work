@@ -43,4 +43,9 @@ public class ElementBiz extends BaseBiz<ElementMapper,Element> {
     public void updateSelectiveById(Element entity) {
         super.updateSelectiveById(entity);
     }
+
+    @Override
+    protected String getPageName() {
+        return null;
+    }
 }

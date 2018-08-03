@@ -98,4 +98,8 @@ public class TeamBiz extends BaseBiz<TeamModelMapper, TeamModel> {
         return teams;
     }
 
+    @Override
+    protected String getPageName() {
+        return null;
+    }
 }

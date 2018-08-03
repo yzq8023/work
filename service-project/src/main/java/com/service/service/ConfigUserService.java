@@ -752,4 +752,9 @@ public class ConfigUserService extends BaseBiz<MapUserTaskMapper, MapUserTask> i
 	public String toString() {
 		return getClass().getSimpleName() + "()";
 	}
+
+	@Override
+	protected String getPageName() {
+		return null;
+	}
 }

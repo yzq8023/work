@@ -22,6 +22,7 @@ import com.service.service.mapper.TaskEntityMapper;
 import com.service.service.utils.JGitUtils;
 import com.service.service.utils.ModelUtils;
 import com.service.service.utils.StringUtils;
+import com.service.service.utils.UserUtils;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
@@ -57,9 +58,10 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
     private IUserFeignClient userFeignClient;
     private IRepositoryManager repositoryManager;
     List<TaskEntity> repositoryModels = new ArrayList<TaskEntity>();
-
+    protected String projectName;
     private Map<String, SubmoduleModel> submodules;
 
+    private TaskEntity taskEntity;
     @Autowired
     public TaskBiz(IUserManager userManager,
                    IWorkHub workHub,
@@ -143,6 +145,21 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
     public List<PathModel> getRepository(Query query){
         Integer taskId = query.getTaskId();
         TaskEntity taskEntity = this.selectById(taskId);
+        String root = StringUtils.getFirstPathElement(taskEntity.getTaskName());
+        if (StringUtils.isEmpty(root)) {
+            projectName = settings.getString(Keys.web.repositoryRootGroupName, "main");
+        } else {
+            projectName = root;
+        }
+
+        if (StringUtils.isEmpty(taskEntity.getTaskName())) {
+//            error(MessageFormat.format(("未指定任务"), getPageName()), true);
+        }
+
+//        if (!getRepositoryModel(taskEntity.getTaskName(), query.getCrtUser()).isHasCommits()) {
+//            //TODO 重定向到概览页面
+//        }
+
         Repository r = workHub.getRepository(taskEntity.getTaskName());
         RevCommit commit = getCommit(r, null);
         List<PathModel> paths = JGitUtils.getFilesInPath2(r, null, commit);
@@ -169,5 +186,27 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
     }
 
 
+    @Override
+    protected String getPageName() {
+        return "taskBiz";
+    }
+
+//    protected TaskEntity getRepositoryModel(String taskName, Integer userId) {
+//        if (taskEntity == null) {
+//            TaskEntity model = workHub.getRepositoryModel(UserUtils.transUser(userFeignClient.info(userId)), taskName);
+//            if (model == null) {
+//                if (workHub.hasRepository(taskName, true)) {
+//                    // 有这个库，但未经授权
+//                    authenticationError(getString("gb.unauthorizedAccessForRepository") + " " + repositoryName);
+//                } else {
+//                    // does not have repository
+//                    error(getString("gb.canNotLoadRepository") + " " + repositoryName, true);
+//                }
+//                return null;
+//            }
+//            m = model;
+//        }
+//        return m;
+//    }
 }
 

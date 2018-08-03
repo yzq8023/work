@@ -50,4 +50,9 @@ public class MapUserTaskBiz extends BaseBiz<MapUserTaskMapper, MapUserTask> {
         }
         return true;
     }
+
+    @Override
+    protected String getPageName() {
+        return null;
+    }
 }
