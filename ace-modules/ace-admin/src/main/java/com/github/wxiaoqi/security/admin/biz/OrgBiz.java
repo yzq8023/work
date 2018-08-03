@@ -58,4 +58,9 @@ public class OrgBiz extends BaseBiz<OrgMapper, Org> {
     public OrgUsers getOrgUsers(Integer orgId) {
         return new OrgUsers(userMapper.selectMemberByOrgId(orgId), userMapper.selectLeaderByOrgId(orgId));
     }
+
+    @Override
+    protected String getPageName() {
+        return null;
+    }
 }

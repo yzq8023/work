@@ -59,4 +59,9 @@ public class ProjectBiz extends BaseBiz<ProjectEntityMapper, ProjectEntity> {
         List<ProjectEntity> list = mapper.selectProjectByUserId(query.getCrtUser());
         return new TableResultResponse<ProjectEntity>(result.getTotal(), list);
     }
+
+    @Override
+    protected String getPageName() {
+        return null;
+    }
 }

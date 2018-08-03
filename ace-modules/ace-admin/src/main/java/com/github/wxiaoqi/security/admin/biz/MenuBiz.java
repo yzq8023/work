@@ -56,6 +56,11 @@ public class MenuBiz extends BaseBiz<MenuMapper, Menu> {
         super.updateSelectiveById(entity);
     }
 
+    @Override
+    protected String getPageName() {
+        return null;
+    }
+
     /**
      * 获取用户可以访问的菜单
      *
