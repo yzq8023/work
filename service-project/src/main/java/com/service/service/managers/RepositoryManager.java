@@ -560,11 +560,6 @@ public class RepositoryManager implements IRepositoryManager {
 	public Repository getRepository(String name, boolean logError) {
 		String repositoryName = fixRepositoryName(name);
 
-		if (isCollectingGarbage(repositoryName)) {
-			logger.warn(MessageFormat.format("Rejecting request for {0}, busy collecting garbage!", repositoryName));
-			return null;
-		}
-
 		File dir = FileKey.resolve(new File(repositoriesFolder, repositoryName), FS.DETECTED);
 		if (dir == null)
 		{return null;}

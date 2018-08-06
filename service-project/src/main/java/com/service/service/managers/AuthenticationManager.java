@@ -410,31 +410,25 @@ public class AuthenticationManager implements IAuthenticationManager {
 	/**
 	 * Authenticate a user based on a username and password.
 	 *
-	 * @param username
+	 * @param userId
 	 * @param password
 	 * @return a user object or null
 	 */
 	@Override
-	public UserModel authenticate(String username, char[] password, String remoteIP) {
-		if (StringUtils.isEmpty(username)) {
+	public UserModel authenticate(String userId, char[] password, String remoteIP) {
+		if (StringUtils.isEmpty(userId)) {
 			// can not authenticate empty username
 			return null;
 		}
-
-		if (username.equalsIgnoreCase(Constants.FEDERATION_USER)) {
-			// can not authenticate internal FEDERATION_USER at this point
-			// it must be routed to FederationManager
-			return null;
-		}
 		
-		String usernameDecoded = StringUtils.decodeUsername(username);
+		String userIdDecoded = StringUtils.decodeUsername(userId);
 		String pw = new String(password);
 		if (StringUtils.isEmpty(pw)) {
 			// can not authenticate empty password
 			return null;
 		}
 
-		UserModel user = userManager.getUserModel(usernameDecoded);
+		UserModel user = userManager.getUserModel(Integer.valueOf(userIdDecoded));
 
 		// try local authentication
 		if (user != null && user.isLocalAccount()) {
@@ -447,7 +441,7 @@ public class AuthenticationManager implements IAuthenticationManager {
 			// try registered external authentication providers
 			for (AuthenticationProvider provider : authenticationProviders) {
 				if (provider instanceof UsernamePasswordAuthenticationProvider) {
-					UserModel returnedUser = provider.authenticate(usernameDecoded, password);
+					UserModel returnedUser = provider.authenticate(userIdDecoded, password);
 					if (returnedUser != null) {
 						// user authenticated
 						returnedUser.setAccountType(provider.getAccountType());
@@ -458,7 +452,7 @@ public class AuthenticationManager implements IAuthenticationManager {
 		}
 
 		// could not authenticate locally or with a provider
-		logger.warn(MessageFormat.format("Failed login attempt for {0}, invalid credentials from {1}", username, 
+		logger.warn(MessageFormat.format("Failed login attempt for {0}, invalid credentials from {1}", userId,
 				remoteIP != null ? remoteIP : "unknown"));
 		
 		return null;
@@ -543,8 +537,10 @@ public class AuthenticationManager implements IAuthenticationManager {
 				// Pull the auth type from the request, it is set there if container managed
 				AuthenticationType authenticationType = (AuthenticationType) request.getAttribute(Constants.ATTRIB_AUTHTYPE);
 
-				if (null != authenticationType)
+				if (null != authenticationType){
 					standardLogin = authenticationType.isStandard();
+				}
+
 			}
 
 			if (standardLogin) {

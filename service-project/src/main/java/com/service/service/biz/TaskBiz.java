@@ -156,9 +156,9 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
 //            error(MessageFormat.format(("未指定任务"), getPageName()), true);
         }
 
-//        if (!getRepositoryModel(taskEntity.getTaskName(), query.getCrtUser()).isHasCommits()) {
-//            //TODO 重定向到概览页面
-//        }
+        if (!getRepositoryModel(taskEntity.getTaskName(), query.getCrtUser()).isHasCommits()) {
+            //TODO 重定向到概览页面
+        }
 
         Repository r = workHub.getRepository(taskEntity.getTaskName());
         RevCommit commit = getCommit(r, null);
@@ -191,22 +191,31 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
         return "taskBiz";
     }
 
-//    protected TaskEntity getRepositoryModel(String taskName, Integer userId) {
-//        if (taskEntity == null) {
-//            TaskEntity model = workHub.getRepositoryModel(UserUtils.transUser(userFeignClient.info(userId)), taskName);
-//            if (model == null) {
-//                if (workHub.hasRepository(taskName, true)) {
-//                    // 有这个库，但未经授权
-//                    authenticationError(getString("gb.unauthorizedAccessForRepository") + " " + repositoryName);
-//                } else {
-//                    // does not have repository
-//                    error(getString("gb.canNotLoadRepository") + " " + repositoryName, true);
-//                }
-//                return null;
-//            }
-//            m = model;
-//        }
-//        return m;
-//    }
+    protected TaskEntity getRepositoryModel(String taskName, Integer userId) {
+        if (taskEntity == null) {
+            TaskEntity model = workHub.getRepositoryModel(UserUtils.transUser(userFeignClient.info(userId)), taskName);
+            if (model == null) {
+                if (workHub.hasRepository(taskName, true)) {
+                    // 有这个库，但未经授权
+                    return null;
+                } else {
+                    // does not have repository
+                    return null;
+                }
+            }
+            taskEntity = model;
+        }
+        return taskEntity;
+    }
+
+    /**
+     * 删除任务仓库
+     * @param taskEntity
+     * @return
+     */
+    public boolean deleteRepository(TaskEntity taskEntity) {
+        return workHub.deleteRepository(taskEntity.getTaskName());
+    }
+
 }
 
