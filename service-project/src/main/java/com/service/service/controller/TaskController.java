@@ -65,9 +65,9 @@ public class TaskController extends BaseController<TaskBiz, TaskEntity> {
     @RequestMapping(value = "", method = RequestMethod.POST)
     @ResponseBody
     public ObjectRestResponse<TaskEntity> add(@RequestBody TaskEntity entity) {
-        if (taskBiz.createTask(entity, getCurrentUserId())){
-            baseBiz.insertSelective(entity);
-        }
+
+        taskBiz.createTask(entity, getCurrentUserId());
+
         return new ObjectRestResponse<TaskEntity>();
     }
 

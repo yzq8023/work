@@ -28,7 +28,7 @@ import static com.service.service.Constants.ALL;
  * @author Laurens Vrijnsen
  *
  */
-//@WebFilter(urlPatterns = ALL)
+@WebFilter(urlPatterns = ALL)
 public class BEnforceAuthenticationFilter implements Filter {
 
 	protected transient Logger logger = LoggerFactory.getLogger(getClass());
