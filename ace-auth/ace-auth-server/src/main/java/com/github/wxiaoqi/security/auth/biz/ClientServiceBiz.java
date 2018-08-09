@@ -11,4 +11,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ClientServiceBiz extends BaseBiz<ClientServiceMapper,ClientService> {
+    @Override
+    protected String getPageName() {
+        return null;
+    }
 }

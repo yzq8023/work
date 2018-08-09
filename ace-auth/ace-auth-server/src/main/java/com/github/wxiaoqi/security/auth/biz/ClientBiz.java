@@ -40,4 +40,9 @@ public class ClientBiz extends BaseBiz<ClientMapper,Client> {
             }
         }
     }
+
+    @Override
+    protected String getPageName() {
+        return null;
+    }
 }

@@ -77,6 +77,16 @@ public class TaskController extends BaseController<TaskBiz, TaskEntity> {
         Query query = new Query(params);
         return taskBiz.getRepository(query);
     }
+
+    @Override
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public ObjectRestResponse<TaskEntity> remove(@PathVariable Integer id) {
+        if (taskBiz.deleteRepository(baseBiz.selectById(id))){
+            baseBiz.deleteById(id);
+        }
+        return new ObjectRestResponse<TaskEntity>();
+    }
 }
 
 
