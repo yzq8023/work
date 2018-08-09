@@ -18,6 +18,7 @@ package com.service.service.entity;
 import com.github.wxiaoqi.security.api.vo.user.UserInfo;
 import com.service.service.Constants;
 import com.service.service.Constants.*;
+import com.service.service.biz.TaskBiz;
 import com.service.service.utils.ArrayUtils;
 import com.service.service.utils.ModelUtils;
 import com.service.service.utils.SecureRandom;
@@ -69,7 +70,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 	private final Set<String> repositories = new HashSet<String>();
 	private final Map<String, AccessPermission> permissions = new LinkedHashMap<String, AccessPermission>();
 	private final Set<TeamModel> teams = new TreeSet<TeamModel>();
-
+    private TaskBiz taskBiz;
 	/**
 	 * 非持久性字段
 	 */
@@ -814,4 +815,11 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 		return StringUtils.getSHA1(RANDOM.randomBytes(32));
 	}
 
+	public boolean isAdmin(){
+	    return taskBiz.isAdmin(userId,getid);
+    }
+
+    public boolean isOwner(){
+        return taskBiz.isOwner(userId,getid);
+    }
 }

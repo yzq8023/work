@@ -99,7 +99,19 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
      */
     public TableResultResponse<Map<String,Object>> getJoinedTaskFromProject(Query query) {
         Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
-        List<Map<String,Object>> list = mapper.selectTaskByPIdAndUId(query.getCrtUser(), query.getProjectId());
+        String taskName = null;
+        Integer taskProcess = null;
+        if(query.entrySet().size() > 0){
+            for (Map.Entry<String, Object> entry : query.entrySet()) {
+                if(entry.getKey().equals("taskName") && entry.getKey() != null && entry.getValue() instanceof String){
+                    taskName =(String)entry.getValue();
+                }
+                if(entry.getKey().equals("taskProcess") && entry.getKey() != null && entry.getValue() instanceof String){
+                    taskProcess = Integer.parseInt(entry.getValue().toString());
+                }
+            }
+        }
+        List<Map<String,Object>> list = mapper.selectTaskByPIdAndUId(query.getCrtUser(), query.getProjectId(),taskName,taskProcess);
         return  new TableResultResponse<>(result.getTotal(), list);
     }
 
@@ -217,5 +229,24 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
         return workHub.deleteRepository(taskEntity.getTaskName());
     }
 
+    public boolean isAdmin(Integer crtUser,Integer taskId){
+       int count = mapper.selectTaskByTIdAndCtrUser(crtUser,taskId);
+        if(count == 0){
+           return false;
+        }else if(count == 1){
+            return true;
+        }
+       return false;
+    }
+
+    public boolean isOwner(Integer crtUser,Integer taskId){
+        int count = mapper.selectMapTaskByTIdAndCtrUser(crtUser,taskId);
+        if(count == 0){
+            return false;
+        }else if(count == 1){
+            return true;
+        }
+        return false;
+    }
 }
 
