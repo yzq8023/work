@@ -117,6 +117,14 @@
     when t.task_id in (select tk.task_id from task tk where tk.crt_user = #{userId}) then 1
     else 0 end as status
     from task t where t.task_project_id = #{projectId}
+    <if test="taskName != null and taskName !=''">
+      <bind name="taskName" value="'%' + taskName + '%'" />
+     and  t.task_name like #{taskName}
+    </if>
+    <if test="taskProcess != null and taskProcess !=''">
+      <bind name="taskProcess" value="taskProcess" />
+      and  t.task_process = #{taskProcess}
+    </if>
   </select>
   <select id="selectJoinedTaskById" resultMap="BaseResultMap">
     select t.* from task t
@@ -124,5 +132,14 @@
     on t.task_id = mut.task_id
     where mut.user_id = #{userId}
   </select>
-
+  <select id="selectTaskByTIdAndCtrUser" resultType="java.lang.Integer">
+    select count(*) from task t
+    where t.crt_user = #{crtUser}
+    and t.task_id = #{taskId}
+  </select>
+  <select id="selectMapTaskByTIdAndCtrUser" resultType="java.lang.Integer">
+    select count(*) from map_user_task mut
+    where mut.user_id = #{crtUser}
+    and mut.task_id = #{taskId}
+  </select>
 </mapper>
