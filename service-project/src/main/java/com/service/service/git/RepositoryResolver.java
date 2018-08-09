@@ -102,6 +102,7 @@ public class RepositoryResolver<X> extends FileResolver<X> {
 			}
 		}
 
+		// TODO 影响了PUSH
 		if (user.canClone(model)) {
 			// user can access this git repo
 			logger.debug(MessageFormat.format("{0}:// access of {1} by {2} from {3} PERMITTED",
@@ -109,7 +110,7 @@ public class RepositoryResolver<X> extends FileResolver<X> {
 			return true;
 		}
 
-		// user can not access this git repo
+		// 无权访问该任务库
 		logger.warn(MessageFormat.format("{0}:// access of {1} by {2} from {3} DENIED",
 				scheme, repositoryName, user.getUserId(), origin));
 		return false;

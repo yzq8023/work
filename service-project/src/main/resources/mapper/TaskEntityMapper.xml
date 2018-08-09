@@ -46,8 +46,8 @@
     <result column="head" property="head" jdbcType="VARCHAR" />
     <result column="merge_to" property="mergeTo" jdbcType="VARCHAR" />
     <result column="project_path" property="projectPath" jdbcType="VARCHAR" />
-    <result column="access_restriction" property="accessRestriction" jdbcType="VARCHAR" />
-    <result column="authorization_control" property="authorizationControl" jdbcType="VARCHAR" />
+    <result column="access_restriction" property="accessRestriction" jdbcType="CHAR" />
+    <result column="authorization_control" property="authorizationControl" jdbcType="CHAR" />
     <result column="task_is_leaf" property="taskIsLeaf" jdbcType="BINARY" />
   </resultMap>
   <resultMap id="StatusResultMap" type="java.util.HashMap" >
@@ -95,8 +95,8 @@
     <result column="head" property="head" jdbcType="VARCHAR" />
     <result column="merge_to" property="mergeTo" jdbcType="VARCHAR" />
     <result column="project_path" property="projectPath" jdbcType="VARCHAR" />
-    <result column="access_restriction" property="accessRestriction" jdbcType="VARCHAR" />
-    <result column="authorization_control" property="authorizationControl" jdbcType="VARCHAR" />
+    <result column="access_restriction" property="accessRestriction" jdbcType="CHAR" />
+    <result column="authorization_control" property="authorizationControl" jdbcType="CHAR" />
     <result column="task_is_leaf" property="taskIsLeaf" jdbcType="BINARY" />
     <result column="status" property="status" jdbcType="VARCHAR" />
   </resultMap>

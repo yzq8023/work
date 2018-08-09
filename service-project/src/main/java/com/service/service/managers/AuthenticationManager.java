@@ -32,6 +32,7 @@ import com.service.service.utils.X509Utils.X509Metadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.Cookie;
@@ -70,6 +71,7 @@ public class AuthenticationManager implements IAuthenticationManager {
 
 	private final Map<String, String> legacyRedirects;
 
+	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 	@Autowired
 	public AuthenticationManager(
 			IRuntimeManager runtimeManager,
@@ -191,7 +193,7 @@ public class AuthenticationManager implements IAuthenticationManager {
 		String reqAuthUser = (String) httpRequest.getAttribute(Constants.ATTRIB_AUTHUSER);
 		if (!StringUtils.isEmpty(reqAuthUser)) {
 			logger.debug("Called servlet authenticate when request is already authenticated.");
-			return userManager.getUserModel(reqAuthUser);
+			return userManager.getUserModel(Integer.valueOf(reqAuthUser));
 		}
 
 		// 尝试通过 servlet 容器主体进行身份验证
@@ -300,9 +302,9 @@ public class AuthenticationManager implements IAuthenticationManager {
 			final String[] values = credentials.split(":", 2);
 
 			if (values.length == 2) {
-				String username = values[0];
+				String userId = values[0];
 				char[] password = values[1].toCharArray();
-				user = authenticate(username, password, httpRequest.getRemoteAddr());
+				user = authenticate(userId, password, httpRequest.getRemoteAddr());
 				if (user != null) {
 					flagRequest(httpRequest, AuthenticationType.CREDENTIALS, user.getUserId());
 					logger.debug(MessageFormat.format("{0} authenticated by BASIC request header from {1}",
@@ -323,7 +325,7 @@ public class AuthenticationManager implements IAuthenticationManager {
 				return validateAuthentication(authedUser, ap.getAuthenticationType());
 			}
 		}
-		return null;
+ 		return null;
 	}
 	
 	/**
@@ -459,7 +461,7 @@ public class AuthenticationManager implements IAuthenticationManager {
 	}
 
 	/**
-	 * Returns a UserModel if local authentication succeeds.
+	 * 如果本地身份验证成功，则返回一个UserModel。
 	 *
 	 * @param user
 	 * @param password
@@ -481,7 +483,9 @@ public class AuthenticationManager implements IAuthenticationManager {
 				returnedUser = user;
 			}
 		} else if (user.getPassword().equals(new String(password))) {
-			// plain-text password
+			// TODO 客户端密码需要加密传输
+			returnedUser = user;
+		} else if (encoder.matches(new String(password), user.getPassword())){
 			returnedUser = user;
 		}
 		return validateAuthentication(returnedUser, AuthenticationType.CREDENTIALS);

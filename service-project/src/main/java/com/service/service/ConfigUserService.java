@@ -698,7 +698,7 @@ public class ConfigUserService extends BaseBiz<MapUserTaskMapper, MapUserTask> i
 				for (UserInfo userInfo : userInfos) {
 					UserModel user = new UserModel(userInfo.getId());
 					user.setPassword(userInfo.getPassword());
-					user.setDisplayName(userInfo.getName());
+					user.setName(userInfo.getName());
 					user.setEmailAddress("hollykunge@163.com");
 					user.setAccountType(LOCAL);
 					user.setDisabled(false);

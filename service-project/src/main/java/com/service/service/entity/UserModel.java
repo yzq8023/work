@@ -47,17 +47,19 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 	/**
 	 * 字段名称在EditUser页面中反射映射
 	 */
-	private String userId;
+	private String id;
 	private String username;
 	private String password;
 	private String cookie;
-	private String displayName;
+	private String name;
 	private String emailAddress;
 	private String organizationalUnit;
 	private String organization;
 	private String locality;
 	private String stateProvince;
 	private String countryCode;
+	private String description;
+	private Date updTime;
 	private boolean canAdmin;
 	private boolean canFork;
 	private boolean canCreate;
@@ -79,27 +81,18 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 
 	private UserPreferences userPreferences;
 
-	public UserModel(String username) {
-		this.username = username;
+	public UserModel(String id) {
+		this.id = id;
 		this.isAuthenticated = true;
 		this.accountType = AccountType.LOCAL;
 		this.userPreferences = new UserPreferences(this.username);
 	}
 
 	public UserModel() {
-		this.username = "$anonymous";
+		this.id = "$anonymous";
 		this.isAuthenticated = false;
 		this.accountType = AccountType.LOCAL;
 		this.userPreferences = new UserPreferences(this.username);
-	}
-
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
 	}
 
 	public String getUsername() {
@@ -124,10 +117,6 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 
 	public void setCookie(String cookie) {
 		this.cookie = cookie;
-	}
-
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
 	}
 
 	public String getEmailAddress() {
@@ -248,6 +237,34 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 
 	public void setUserPreferences(UserPreferences userPreferences) {
 		this.userPreferences = userPreferences;
+	}
+
+	public String getUserId() {
+		return id;
+	}
+
+	public void setUserId(String id) {
+		this.id = id;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Date getUpdTime() {
+		return updTime;
+	}
+
+	public void setUpdTime(Date updTime) {
+		this.updTime = updTime;
 	}
 
 	public boolean isLocalAccount() {
@@ -389,7 +406,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 
 	public RegistrantAccessPermission getRepositoryPermission(TaskEntity repository) {
 		RegistrantAccessPermission ap = new RegistrantAccessPermission();
-		ap.registrant = username;
+		ap.registrant = id;
 		ap.registrantType = RegistrantType.USER;
 		ap.permission = AccessPermission.NONE;
 		ap.mutable = false;
@@ -431,7 +448,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 		}
 
 		// repository owner - either specified owner or personal repository
-		if (repository.isOwner(username) || repository.isUsersPersonalRepository(username)) {
+		if (repository.isOwner(id) || repository.isUsersPersonalRepository(id)) {
 			ap.permissionType = PermissionType.OWNER;
 			if (AccessPermission.REWIND.atMost(maxPermission)) {
 				ap.permission = AccessPermission.REWIND;
@@ -575,11 +592,11 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 	}
 
 	public boolean canFork(TaskEntity repository) {
-		if (repository.isUsersPersonalRepository(username)) {
+		if (repository.isUsersPersonalRepository(id)) {
 			// can not fork your own repository
 			return false;
 		}
-		if (canAdmin() || repository.isOwner(username)) {
+		if (canAdmin() || repository.isOwner(id)) {
 			return true;
 		}
 		if (!repository.isAllowForks()) {
@@ -592,24 +609,24 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 	}
 
 	public boolean canDelete(TaskEntity model) {
-		return canAdmin() || model.isUsersPersonalRepository(username);
+		return canAdmin() || model.isUsersPersonalRepository(id);
 	}
 
 	public boolean canEdit(TaskEntity model) {
-		return canAdmin() || model.isUsersPersonalRepository(username) || model.isOwner(username);
+		return canAdmin() || model.isUsersPersonalRepository(id) || model.isOwner(id);
 	}
 
 	public boolean canEdit(TicketModel ticket, TaskEntity repository) {
 		 return isAuthenticated() &&
 				 (canPush(repository)
-				 || (ticket != null && username.equals(ticket.responsible))
-				 || (ticket != null && username.equals(ticket.createdBy)));
+				 || (ticket != null && id.equals(ticket.responsible))
+				 || (ticket != null && id.equals(ticket.createdBy)));
 	}
 
 	public boolean canAdmin(TicketModel ticket, TaskEntity repository) {
 		 return isAuthenticated() &&
 				 (canPush(repository)
-				 || ticket != null && username.equals(ticket.responsible));
+				 || ticket != null && id.equals(ticket.responsible));
 	}
 
 	public boolean canReviewPatchset(TaskEntity model) {
@@ -709,7 +726,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 	 * @return true if the user can administer the repository
 	 */
 	public boolean canAdmin(TaskEntity repo) {
-		return canAdmin() || repo.isOwner(username) || isMyPersonalRepository(repo.getTaskName());
+		return canAdmin() || repo.isOwner(id) || isMyPersonalRepository(repo.getTaskName());
 	}
 
 	public boolean isAuthenticated() {
@@ -740,18 +757,18 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 
 	@Override
 	public String getName() {
-		return username;
+		return id;
 	}
 
 	public String getDisplayName() {
-		if (StringUtils.isEmpty(displayName)) {
+		if (StringUtils.isEmpty(name)) {
 			return username;
 		}
-		return displayName;
+		return name;
 	}
 
 	public String getPersonalPath() {
-		return ModelUtils.getPersonalPath(username);
+		return ModelUtils.getPersonalPath(id);
 	}
 
 	public UserPreferences getPreferences() {
@@ -760,25 +777,25 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 
 	@Override
 	public int hashCode() {
-		return username.hashCode();
+		return id.hashCode();
 	}
 
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof UserModel) {
-			return username.equals(((UserModel) o).username);
+			return id.equals(((UserModel) o).id);
 		}
 		return false;
 	}
 
 	@Override
 	public String toString() {
-		return username;
+		return id;
 	}
 
 	@Override
 	public int compareTo(UserModel o) {
-		return username.compareTo(o.username);
+		return id.compareTo(o.id);
 	}
 
 	/**
@@ -793,7 +810,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 		if (StringUtils.isEmpty(name) || StringUtils.isEmpty(email)) {
 			return false;
 		}
-		boolean nameVerified = name.equalsIgnoreCase(username) || name.equalsIgnoreCase(getDisplayName());
+		boolean nameVerified = name.equalsIgnoreCase(id) || name.equalsIgnoreCase(getDisplayName());
 		boolean emailVerified = false;
 		if (StringUtils.isEmpty(emailAddress)) {
 			// user account has not specified an email address
