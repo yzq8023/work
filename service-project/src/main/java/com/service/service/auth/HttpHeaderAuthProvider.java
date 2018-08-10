@@ -98,7 +98,7 @@ public class HttpHeaderAuthProvider extends AuthenticationProvider {
 				} else if (settings.getBoolean(Keys.realm.httpheader.autoCreateAccounts, false)) {
 					// auto-create user from HTTP header
 					user = new UserModel(headerUserName.toLowerCase());
-					user.setDisplayName(headerUserName);
+					user.setName(headerUserName);
 					user.setPassword(Constants.EXTERNAL_ACCOUNT);
 					user.setAccountType(AccountType.HTTPHEADER);
 					updateUser(user);

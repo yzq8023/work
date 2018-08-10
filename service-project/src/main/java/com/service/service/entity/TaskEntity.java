@@ -229,9 +229,12 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity> {
      */
     @Column(name = "task_is_leaf")
     private byte[] taskIsLeaf;
-
     /**
      * 访问限制
+     VIEW
+     PUSH
+     CLONE
+     NONE
      */
     @Transient
     private Constants.AccessRestrictionType accessRestriction;

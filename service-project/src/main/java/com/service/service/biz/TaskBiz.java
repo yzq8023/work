@@ -129,7 +129,7 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
      *
      * @param taskEntity 任务实体
      */
-    public boolean createTask(TaskEntity taskEntity, String userId) {
+    public void createTask(TaskEntity taskEntity, String userId) {
         try {
             //传递
             taskEntity.setCrtUser(userId);
@@ -141,10 +141,10 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
             workHub.updateRepositoryModel(taskEntity.getTaskName(), taskEntity, true);
             // 创建初始提交
 //            initialCommit(taskEntity, addReadme, gitignore, useGitFlow);
-            return true;
+            mapper.insertSelective(taskEntity);
+
         } catch (GitBlitException e) {
             error(e.getMessage());
-            return false;
         }
     }
 

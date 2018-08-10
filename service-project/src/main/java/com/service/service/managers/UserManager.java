@@ -24,6 +24,7 @@ import com.service.service.feign.IUserFeignClient;
 import com.service.service.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -195,28 +196,31 @@ public class UserManager implements IUserManager {
             return null;
         }
         UserInfo userInfo = userFeignClient.info(userId);
-        UserModel user = userSwitch(userInfo);
+        UserModel user = new UserModel(userInfo.getId());
+//        user = userSwitch(userInfo);
+        BeanUtils.copyProperties(userInfo, user);
         return user;
     }
 
-    public UserModel userSwitch(UserInfo userInfo) {
-        userModel.setUserId(userInfo.getId());
-        userModel.setPassword(userInfo.getPassword());
-        userModel.setCookie(null);
-        userModel.setUsername(userInfo.getUsername());
-        userModel.setEmailAddress(null);
-        userModel.setOrganizationalUnit(null);
-        userModel.setOrganization(null);
-        userModel.setLocality(null);
-        userModel.setStateProvince(null);
-        userModel.setCountryCode(null);
-        userModel.setCanAdmin(true);
-        userModel.setCanFork(true);
-        userModel.setCanCreate(true);
-        userModel.setExcludeFromFederation(false);
-        userModel.setDisabled(false);
-        return userModel;
-    }
+//    public UserModel userSwitch(UserInfo userInfo) {
+//        userModel.setUserId(userInfo.getId());
+//        userModel.setPassword(userInfo.getPassword());
+//        userModel.setCookie(null);
+//        userModel.setUsername(userInfo.getUsername());
+//        userModel.setEmailAddress(null);
+//        userModel.setOrganizationalUnit(null);
+//        userModel.setOrganization(null);
+//        userModel.setLocality(null);
+//        userModel.setStateProvince(null);
+//        userModel.setCountryCode(null);
+//        userModel.setCanAdmin(true);
+//        userModel.setCanFork(true);
+//        userModel.setCanCreate(true);
+//        userModel.setExcludeFromFederation(false);
+//        userModel.setDisabled(false);
+//
+//        return userModel;
+//    }
 
     /**
      * 更新/写一个完整的用户对象。

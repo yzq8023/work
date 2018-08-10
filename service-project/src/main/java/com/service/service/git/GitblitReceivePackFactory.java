@@ -77,9 +77,9 @@ public class GitblitReceivePackFactory<X> implements ReceivePackFactory<X> {
 			gitblitUrl = HttpUtils.getGitblitURL(client);
 
 			// determine pushing user
-			String username = client.getRemoteUser();
-			if (!StringUtils.isEmpty(username)) {
-				UserModel u = gitblit.getUserModel(username);
+			String userId = client.getRemoteUser();
+			if (!StringUtils.isEmpty(userId)) {
+				UserModel u = gitblit.getUserModel(Integer.valueOf(userId));
 				if (u != null) {
 					user = u;
 				}

@@ -217,9 +217,9 @@ public class Constants {
 	}
 
 	/**
-	 * Enumeration representing the four access restriction levels.
+	 * 表示4个访问限制级别的枚举。
 	 */
-	public static enum AccessRestrictionType {
+	public enum AccessRestrictionType {
 		NONE, PUSH, CLONE, VIEW;
 
 		private static final AccessRestrictionType [] AUTH_TYPES = { PUSH, CLONE, VIEW };

@@ -68,7 +68,6 @@ public class MirrorService implements Runnable {
 		this.settings = settings;
 		this.repositoryManager = repositoryManager;
 		this.gitblitUser = new UserModel("workhub");
-		this.gitblitUser.setDisplayName("WorkHub");
 	}
 
 	public boolean isReady() {

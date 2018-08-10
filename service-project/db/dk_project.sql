@@ -11,7 +11,7 @@
  Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 24/07/2018 14:16:43
+ Date: 09/08/2018 21:24:49
 */
 
 SET NAMES utf8mb4;
@@ -44,11 +44,6 @@ DROP TABLE IF EXISTS `hibernate_sequence`;
 CREATE TABLE `hibernate_sequence`  (
   `next_val` bigint(20) NULL DEFAULT NULL
 ) ENGINE = MyISAM CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Fixed;
-
--- ----------------------------
--- Records of hibernate_sequence
--- ----------------------------
-INSERT INTO `hibernate_sequence` VALUES (16);
 
 -- ----------------------------
 -- Table structure for issue
@@ -146,7 +141,7 @@ CREATE TABLE `map_user_task`  (
   `task_id` int(11) NULL DEFAULT NULL,
   `user_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `task_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `permission` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `permission` tinyint(6) NULL DEFAULT NULL COMMENT '0-NONE 1-VIEW 2-CLONE 3-PUSH',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -181,28 +176,7 @@ CREATE TABLE `project`  (
   `upd_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `upd_host` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`project_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of project
--- ----------------------------
-INSERT INTO `project` VALUES (1, 1, '协同设计平台', 1, 'est', '协同设计平台', 1, '2018-04-07 08:49:59', 2, NULL, 1, '2018-03-30 08:50:00', '2018-03-29 08:50:00', 1, 1, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `project` VALUES (2, NULL, '2342342', NULL, NULL, '234', 1, '2018-04-02 18:23:51', NULL, NULL, 0, NULL, '2018-04-02 18:23:53', NULL, NULL, NULL, NULL, 'hollykunge', '1', '127.0.0.1', '2018-04-02 18:24:01', '2018-04-02 18:24:01', '1', 'hollykunge', '127.0.0.1');
-INSERT INTO `project` VALUES (3, NULL, '234234', NULL, NULL, '123123', 1, '2018-04-02 18:46:20', NULL, NULL, 0, NULL, '2018-04-02 18:46:22', NULL, NULL, NULL, NULL, 'hollykunge', '1', '127.0.0.1', '2018-04-02 18:46:30', '2018-04-02 18:46:30', '1', 'hollykunge', '127.0.0.1');
-INSERT INTO `project` VALUES (4, NULL, '444444', NULL, NULL, '333', 1, '2018-04-02 18:47:23', NULL, NULL, 0, NULL, '2018-04-02 18:47:23', NULL, NULL, NULL, NULL, 'hollykunge', '1', '127.0.0.1', '2018-04-02 18:47:43', '2018-04-02 18:47:43', '1', 'hollykunge', '127.0.0.1');
-INSERT INTO `project` VALUES (6, NULL, '123123', NULL, NULL, '3123', 1, '2018-04-11 17:05:58', NULL, NULL, NULL, NULL, '2018-04-11 17:06:03', NULL, NULL, NULL, NULL, 'hollykunge', '1', '127.0.0.1', '2018-04-11 17:06:14', '2018-04-11 17:06:14', '1', 'hollykunge', '127.0.0.1');
-INSERT INTO `project` VALUES (10, NULL, '777777', NULL, NULL, '45', 1, '2018-04-11 17:29:43', NULL, NULL, NULL, NULL, '2018-04-11 17:29:45', NULL, NULL, NULL, NULL, 'hollykunge', '1', '127.0.0.1', '2018-04-11 17:30:45', '2018-04-11 17:30:45', '1', 'hollykunge', '127.0.0.1');
-INSERT INTO `project` VALUES (11, NULL, 'ertert', NULL, NULL, 'rtert', 1, '2018-04-11 17:31:47', NULL, NULL, NULL, NULL, '2018-04-11 17:31:49', NULL, NULL, NULL, NULL, 'hollykunge', '1', '127.0.0.1', '2018-04-11 17:31:55', '2018-04-11 17:31:55', '1', 'hollykunge', '127.0.0.1');
-INSERT INTO `project` VALUES (12, NULL, '678678', NULL, NULL, '6867', 1, '2018-04-11 17:31:58', NULL, NULL, NULL, NULL, '2018-04-11 17:31:58', NULL, NULL, NULL, NULL, 'hollykunge', '1', '127.0.0.1', '2018-04-11 17:32:09', '2018-04-11 17:32:09', '1', 'hollykunge', '127.0.0.1');
-INSERT INTO `project` VALUES (13, NULL, '55555', NULL, NULL, '769', 1, '2018-04-11 17:32:11', NULL, NULL, NULL, NULL, '2018-04-11 17:32:11', NULL, NULL, NULL, NULL, 'hollykunge', '1', '127.0.0.1', '2018-04-11 17:32:20', '2018-04-11 17:32:20', '1', 'hollykunge', '127.0.0.1');
-INSERT INTO `project` VALUES (14, NULL, '3645', NULL, NULL, '76574', 1, '2018-04-11 17:32:33', NULL, NULL, NULL, NULL, '2018-04-11 17:32:33', NULL, NULL, NULL, NULL, 'hollykunge', '1', '127.0.0.1', '2018-04-11 17:32:42', '2018-04-11 17:32:42', '1', 'hollykunge', '127.0.0.1');
-INSERT INTO `project` VALUES (15, NULL, '56747567', NULL, NULL, '756757', 1, '2018-04-11 17:32:48', NULL, NULL, NULL, NULL, '2018-04-11 17:32:48', NULL, NULL, NULL, NULL, 'hollykunge', '1', '127.0.0.1', '2018-04-11 17:32:56', '2018-04-11 17:32:56', '1', 'hollykunge', '127.0.0.1');
-INSERT INTO `project` VALUES (16, NULL, '123313', NULL, NULL, '2323', 1, '2018-04-11 21:15:07', NULL, NULL, NULL, NULL, '2018-04-11 21:15:10', NULL, NULL, NULL, NULL, 'hollykunge', '1', '127.0.0.1', '2018-04-11 21:15:18', '2018-04-11 21:15:18', '1', 'hollykunge', '127.0.0.1');
-INSERT INTO `project` VALUES (17, NULL, '76767', NULL, NULL, '777', 1, '2018-04-12 11:04:42', NULL, NULL, NULL, NULL, '2018-04-12 11:04:44', NULL, NULL, NULL, NULL, 'hollykunge', '1', '127.0.0.1', '2018-04-12 11:04:48', '2018-04-12 11:04:48', '1', 'hollykunge', '127.0.0.1');
-INSERT INTO `project` VALUES (18, NULL, '6546', NULL, NULL, '5566', 1, '2018-04-12 11:12:17', NULL, NULL, NULL, NULL, '2018-04-12 11:12:19', NULL, NULL, NULL, NULL, 'hollykunge', '1', '127.0.0.1', '2018-04-12 11:12:23', '2018-04-12 11:12:23', '1', 'hollykunge', '127.0.0.1');
-INSERT INTO `project` VALUES (19, NULL, '风格化的风格', NULL, NULL, '法国货', 1, '2018-04-12 14:55:09', NULL, NULL, NULL, NULL, '2018-04-12 14:55:11', NULL, NULL, NULL, NULL, 'hollykunge', '1', '127.0.0.1', '2018-04-12 14:55:16', '2018-04-12 14:55:16', '1', 'hollykunge', '127.0.0.1');
-INSERT INTO `project` VALUES (20, NULL, '5242342342', NULL, NULL, '13124', 1, '2018-04-12 17:33:38', NULL, NULL, NULL, NULL, '2018-04-12 17:33:40', NULL, 1, NULL, NULL, 'hollykunge', '1', '127.0.0.1', '2018-04-12 17:33:52', '2018-04-12 17:33:52', '1', 'hollykunge', '127.0.0.1');
-INSERT INTO `project` VALUES (21, NULL, '45642', NULL, NULL, '6786', 1, '2018-04-13 14:17:54', NULL, NULL, NULL, NULL, '2018-04-13 14:17:56', NULL, 1, NULL, NULL, 'hollykunge', '1', '127.0.0.1', '2018-04-13 14:18:02', '2018-04-13 14:18:02', '1', 'hollykunge', '127.0.0.1');
+) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for task
@@ -251,24 +225,11 @@ CREATE TABLE `task`  (
   `head` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `merge_to` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `project_path` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '项目路径',
-  `access_restriction` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '访问限制',
-  `authorization_control` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `access_restriction` enum('VIEW','PUSH','CLONE','NONE') CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '访问限制\r\nVIEW\r\n PUSH\r\n CLONE\r\n NONE',
+  `authorization_control` enum('AUTHENTICATED','NAMED') CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`task_id`) USING BTREE,
   INDEX `FKkg64gl3x0mqlkqrkyn81gyew3`(`task_project_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of task
--- ----------------------------
-INSERT INTO `task` VALUES (5, NULL, '7897698', NULL, NULL, '90', NULL, '2018-04-10 19:28:16', 2, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'null', 'null', 'null', '2018-04-10 19:28:47', '2018-04-10 19:28:47', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `task` VALUES (7, NULL, '123123', NULL, NULL, '23123', NULL, '2018-04-11 17:06:42', 3, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'null', 'null', 'null', '2018-04-11 17:06:46', '2018-04-11 17:06:46', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `task` VALUES (8, NULL, '123123', NULL, NULL, '231233', NULL, '2018-04-11 17:06:42', 3, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'null', 'null', 'null', '2018-04-11 17:09:18', '2018-04-11 17:10:27', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `task` VALUES (9, NULL, '123123', NULL, NULL, '231233', NULL, '2018-04-11 17:06:42', 3, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'null', 'null', 'null', '2018-04-11 17:16:58', '2018-04-11 17:22:28', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `task` VALUES (10, NULL, '123123123', 1, NULL, '12313', NULL, '2018-04-13 10:42:10', 1, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'null', 'null', 'null', '2018-04-13 10:42:14', '2018-04-13 10:42:14', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `task` VALUES (11, NULL, '456456456', 1, NULL, '6544', NULL, '2018-04-13 10:42:23', 3, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'null', 'null', 'null', '2018-04-13 10:42:32', '2018-04-13 10:42:32', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `task` VALUES (12, NULL, '567567', 1, NULL, '6456', NULL, '2018-04-13 14:17:14', 3, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'null', 'null', 'null', '2018-04-13 14:17:18', '2018-04-13 14:17:18', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `task` VALUES (13, NULL, '234234', 1, NULL, '43244', NULL, '2018-04-13 14:18:47', 2, NULL, 21, NULL, NULL, NULL, NULL, NULL, 'null', 'null', 'null', '2018-04-13 14:18:51', '2018-04-13 14:18:51', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `task` VALUES (14, NULL, 'wrerwer', 1, NULL, '34234', NULL, '2018-04-17 11:31:19', 2, NULL, 1, NULL, NULL, NULL, NULL, NULL, 'null', 'null', 'null', '2018-04-17 11:31:24', '2018-04-17 11:31:24', 'null', 'null', 'null', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for team
