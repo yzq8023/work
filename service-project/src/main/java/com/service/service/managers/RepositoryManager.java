@@ -800,8 +800,7 @@ public class RepositoryManager implements IRepositoryManager {
 			model.setTaskName(com.service.service.utils.FileUtils.getRelativePath(basePath, r.getDirectory().getParentFile()));
 		}
 		if (StringUtils.isEmpty(model.getTaskName())) {
-			// Repository is NOT located relative to the base folder because it
-			// is symlinked.  Use the provided repository name.
+			// 存储库不是相对于基文件夹的，因为它是符号链接的。使用所提供的存储库名称。
 			model.setTaskName(repositoryName);
 		}
 		model.setProjectPath(StringUtils.getFirstPathElement(repositoryName));
@@ -1281,6 +1280,8 @@ public class RepositoryManager implements IRepositoryManager {
 	 * 此方法创建的所有存储库都是裸的,并且自动具有.git附加到它们的名称, 这是裸存储库的标准约定。
      * 创建新库已经完成改造
 	 *
+	 * config中只存储id
+	 *
 	 * @param repositoryName 项目名/任务名格式
 	 * @param repository 库模型
 	 * @param isCreate 是否创建
@@ -1291,12 +1292,12 @@ public class RepositoryManager implements IRepositoryManager {
 			boolean isCreate) throws GitBlitException {
 
 		if (isCollectingGarbage(repositoryName)) {
-			throw new GitBlitException(MessageFormat.format("sorry, Gitblit is busy collecting garbage in {0}",
+			throw new GitBlitException(MessageFormat.format("{0}正在进行GC",
 					repositoryName));
 		}
+
 		Repository r = null;
 		String projectPath = StringUtils.getFirstPathElement(repositoryName);
-//		String projectPath = repository.getTaskProjectName();
 		if (!StringUtils.isEmpty(projectPath)) {
 			if (projectPath.equalsIgnoreCase(settings.getString(Keys.web.repositoryRootGroupName, "main"))) {
 				// 带项目名称的仓库全称
@@ -1311,11 +1312,12 @@ public class RepositoryManager implements IRepositoryManager {
 			}
 			if (hasRepository(repository.getTaskName())) {
 				throw new GitBlitException(MessageFormat.format(
-						"Can not create repository ''{0}'' because it already exists.",
+						"不能创建该任务库 ''{0}'' 已经存在该库",
 						repository.getTaskName()));
 			}
-			// create repository
+			// 创建任务库
 			logger.info("create repository " + repository.getTaskName());
+			// 所有任务库均不能默认共享
 			String shared = settings.getString(Keys.git.createRepositoriesShared, "FALSE");
 			r = JGitUtils.createRepository(repositoriesFolder, repository.getTaskName(), shared);
 		} else {

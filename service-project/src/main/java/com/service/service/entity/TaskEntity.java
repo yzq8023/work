@@ -1,10 +1,12 @@
 package com.service.service.entity;
 
 import com.service.service.Constants;
+import com.service.service.biz.TaskBiz;
 import com.service.service.utils.ArrayUtils;
 import com.service.service.utils.ModelUtils;
 import com.service.service.utils.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -308,7 +310,7 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity> {
         this.authorizationControl = Constants.AuthorizationControl.NAMED;
         this.projectPath = StringUtils.getFirstPathElement(taskName);
         this.isBare = true;
-//        this.crtUser = crtUser;
+        this.crtUser = crtUser;
         this.taskDes = taskDes;
         this.owners = new ArrayList<String>();
         this.mergeType = Constants.MergeType.DEFAULT_MERGE_TYPE;

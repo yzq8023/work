@@ -21,11 +21,10 @@ import com.service.service.Constants.AccessPermission;
 import com.service.service.Constants.AccountType;
 import com.service.service.Constants.Role;
 import com.service.service.Constants.Transport;
+import com.service.service.biz.MapUserTaskBiz;
+import com.service.service.biz.TaskBiz;
 import com.service.service.biz.TeamBiz;
-import com.service.service.entity.MapUserTask;
-import com.service.service.entity.TeamModel;
-import com.service.service.entity.UserModel;
-import com.service.service.entity.UserRepositoryPreferences;
+import com.service.service.entity.*;
 import com.service.service.feign.IUserFeignClient;
 import com.service.service.managers.IRuntimeManager;
 import com.service.service.mapper.MapUserTaskMapper;
@@ -40,6 +39,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import java.io.File;
 import java.io.IOException;
@@ -127,11 +127,18 @@ public class ConfigUserService extends BaseBiz<MapUserTaskMapper, MapUserTask> i
 
 	private TeamBiz teamBiz;
 
+	private TaskBiz taskBiz;
+
+	private MapUserTaskBiz mapUserTaskBiz;
 	@Autowired
 	public ConfigUserService(IUserFeignClient feignClient,
-							 TeamBiz teamBiz) {
+							 TeamBiz teamBiz,
+							 TaskBiz taskBiz,
+							 MapUserTaskBiz mapUserTaskBiz) {
 		this.feignClient = feignClient;
 		this.teamBiz = teamBiz;
+		this.taskBiz = taskBiz;
+		this.mapUserTaskBiz = mapUserTaskBiz;
 	}
 
 	public ConfigUserService() {
@@ -696,6 +703,14 @@ public class ConfigUserService extends BaseBiz<MapUserTaskMapper, MapUserTask> i
 			try {
 				List<UserInfo> userInfos = feignClient.all();
 				for (UserInfo userInfo : userInfos) {
+					Example example1 = new Example(TaskEntity.class);
+					example1.createCriteria().andEqualTo("crt_user", userInfo.getId());
+					List<TaskEntity> taskEntities = taskBiz.selectByExample(example1);
+
+					Example example2 = new Example(TaskEntity.class);
+					example2.createCriteria().andEqualTo("user_id", userInfo.getId());
+					List<MapUserTask> mapUserTasks = mapUserTaskBiz.selectByExample(example2);
+
 					UserModel user = new UserModel(userInfo.getId());
 					user.setPassword(userInfo.getPassword());
 					user.setName(userInfo.getName());
@@ -720,6 +735,8 @@ public class ConfigUserService extends BaseBiz<MapUserTaskMapper, MapUserTask> i
 					user.setCanFork(userInfo.isCanFork());
 					user.setCanCreate(userInfo.isCanCreate());
 
+					user.setJoinedReps(mapUserTasks);
+					user.setCreateReps(taskEntities);
 
 					// repository memberships
 					if (!user.isCanAdmin()) {

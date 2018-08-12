@@ -51,13 +51,9 @@ public class UserManager implements IUserManager {
 
     private final IPluginManager pluginManager;
 
-    private final Map<String, String> legacyBackingServices;
-
     private IUserService userService;
 
     private IUserFeignClient userFeignClient;
-
-    UserModel userModel = new UserModel();
 
     @Autowired
     public UserManager(IRuntimeManager runtimeManager, IPluginManager pluginManager, IUserFeignClient userFeignClient) {
@@ -65,15 +61,6 @@ public class UserManager implements IUserManager {
         this.runtimeManager = runtimeManager;
         this.pluginManager = pluginManager;
         this.userFeignClient = userFeignClient;
-
-        // 遗留领域支持用户服务的映射
-        legacyBackingServices = new HashMap<String, String>();
-        legacyBackingServices.put("com.gitblit.HtpasswdUserService", "realm.htpasswd.backingUserService");
-        legacyBackingServices.put("com.gitblit.LdapUserService", "realm.ldap.backingUserService");
-        legacyBackingServices.put("com.gitblit.PAMUserService", "realm.pam.backingUserService");
-        legacyBackingServices.put("com.gitblit.RedmineUserService", "realm.redmine.backingUserService");
-        legacyBackingServices.put("com.gitblit.SalesforceUserService", "realm.salesforce.backingUserService");
-        legacyBackingServices.put("com.gitblit.WindowsUserService", "realm.windows.backingUserService");
         this.start();
     }
 
