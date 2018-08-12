@@ -31,7 +31,7 @@ public class UserPreferences implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public final String username;
+	public final String userId;
 
 	private String locale;
 
@@ -41,8 +41,8 @@ public class UserPreferences implements Serializable {
 
 	private final Map<String, UserRepositoryPreferences> repositoryPreferences = new TreeMap<String, UserRepositoryPreferences>();
 
-	public UserPreferences(String username) {
-		this.username = username;
+	public UserPreferences(String id) {
+		this.userId = id;
 	}
 
 	public Locale getLocale() {
@@ -67,7 +67,7 @@ public class UserPreferences implements Serializable {
 		if (!repositoryPreferences.containsKey(key)) {
 			// default preferences
 			UserRepositoryPreferences prefs = new UserRepositoryPreferences();
-			prefs.username = username;
+			prefs.userId = userId;
 			prefs.repositoryName = repositoryName;
 			repositoryPreferences.put(key, prefs);
 		}

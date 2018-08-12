@@ -55,4 +55,15 @@ public class MapUserTaskBiz extends BaseBiz<MapUserTaskMapper, MapUserTask> {
     protected String getPageName() {
         return null;
     }
+
+    public boolean canView(){
+
+        return false;
+    }
+    public boolean canClone(){
+        return false;
+    }
+    public boolean canPush(){
+        return false;
+    }
 }

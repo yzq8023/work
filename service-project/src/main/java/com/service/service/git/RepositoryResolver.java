@@ -15,6 +15,7 @@
  */
 package com.service.service.git;
 
+import com.service.service.biz.TaskBiz;
 import com.service.service.entity.TaskEntity;
 import com.service.service.entity.UserModel;
 import com.service.service.managers.IWorkHub;
@@ -105,13 +106,13 @@ public class RepositoryResolver<X> extends FileResolver<X> {
 		// TODO 影响了PUSH
 		if (user.canClone(model)) {
 			// user can access this git repo
-			logger.debug(MessageFormat.format("{0}:// access of {1} by {2} from {3} PERMITTED",
+			logger.debug(MessageFormat.format("{0}:// access of {1} by {2} from {3} 允许",
 					scheme, repositoryName, user.getUserId(), origin));
 			return true;
 		}
 
 		// 无权访问该任务库
-		logger.warn(MessageFormat.format("{0}:// access of {1} by {2} from {3} DENIED",
+		logger.warn(MessageFormat.format("{0}:// access of {1} by {2} from {3} 拒绝",
 				scheme, repositoryName, user.getUserId(), origin));
 		return false;
 	}
