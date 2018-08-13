@@ -65,6 +65,9 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 	private boolean canCreate;
 	private boolean excludeFromFederation;
 	private boolean disabled;
+
+	private List<MapUserTask> joinedReps = new ArrayList<MapUserTask>();
+	private List<TaskEntity> createReps = new ArrayList<TaskEntity>();
 	/**
 	 * 与RPC客户端保持向后兼容
 	 */
@@ -72,7 +75,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 	private final Set<String> repositories = new HashSet<String>();
 	private final Map<String, AccessPermission> permissions = new LinkedHashMap<String, AccessPermission>();
 	private final Set<TeamModel> teams = new TreeSet<TeamModel>();
-    private TaskBiz taskBiz;
+
 	/**
 	 * 非持久性字段
 	 */
@@ -85,14 +88,38 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 		this.id = id;
 		this.isAuthenticated = true;
 		this.accountType = AccountType.LOCAL;
-		this.userPreferences = new UserPreferences(this.username);
+		this.userPreferences = new UserPreferences(this.id);
 	}
 
 	public UserModel() {
 		this.id = "$anonymous";
 		this.isAuthenticated = false;
 		this.accountType = AccountType.LOCAL;
-		this.userPreferences = new UserPreferences(this.username);
+		this.userPreferences = new UserPreferences(this.id);
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public List<MapUserTask> getJoinedReps() {
+		return joinedReps;
+	}
+
+	public void setJoinedReps(List<MapUserTask> joinedReps) {
+		this.joinedReps = joinedReps;
+	}
+
+	public List<TaskEntity> getCreateReps() {
+		return createReps;
+	}
+
+	public void setCreateReps(List<TaskEntity> createReps) {
+		this.createReps = createReps;
 	}
 
 	public String getUsername() {
@@ -428,7 +455,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 		}
 
 		// administrator
-		if (canAdmin()) {
+		if (canAdmin(repository)) {
 			ap.permissionType = PermissionType.ADMINISTRATOR;
 			if (AccessPermission.REWIND.atMost(maxPermission)) {
 				ap.permission = AccessPermission.REWIND;
@@ -831,12 +858,4 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 	public String createCookie() {
 		return StringUtils.getSHA1(RANDOM.randomBytes(32));
 	}
-
-	public boolean isAdmin(){
-	    return taskBiz.isAdmin(userId,getid);
-    }
-
-    public boolean isOwner(){
-        return taskBiz.isOwner(userId,getid);
-    }
 }

@@ -1,11 +1,15 @@
 package com.service.service.entity;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Table(name = "map_user_task")
 public class MapUserTask {
+
     @Id
     private Integer id;
 
@@ -101,4 +105,6 @@ public class MapUserTask {
     public void setPermission(String permission) {
         this.permission = permission;
     }
+
+
 }

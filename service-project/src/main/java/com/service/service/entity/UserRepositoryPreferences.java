@@ -27,7 +27,7 @@ public class UserRepositoryPreferences implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public String username;
+	public String userId;
 
 	public String repositoryName;
 
@@ -35,6 +35,6 @@ public class UserRepositoryPreferences implements Serializable {
 
 	@Override
 	public String toString() {
-		return username + ":" + repositoryName;
+		return userId + ":" + repositoryName;
 	}
 }
