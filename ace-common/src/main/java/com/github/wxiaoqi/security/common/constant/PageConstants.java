@@ -26,4 +26,17 @@ public class PageConstants {
     public final static String TASK_ID = "taskId";
 
     public final static String CRT_USER = "crtUser";
+
+    /**
+     * 项目名称
+     */
+    public final static String PROJECT_NAME = "projectName";
+
+    /**
+     * 任务名称
+     */
+    public final static String TASK_NAME = "taskName";
+
+
+    public final static String DAY_BACK = "dayBack";
 }
