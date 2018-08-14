@@ -292,7 +292,14 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity> {
     private boolean skipSummaryMetrics;
     @Transient
     private String frequency;
-
+    @Transient
+    private Constants.CommitMessageRenderer commitMessageRenderer;
+    @Transient
+    private Date lastChange;
+    @Transient
+    private List<String> metricAuthorExclusions;
+    @Transient
+    private boolean isCollectingGarbage;
 
     public TaskEntity() {
         this(0, "", new Date(0), "", "");
@@ -1379,5 +1386,37 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity> {
             forks = new TreeSet<String>();
         }
         forks.add(repository);
+    }
+
+    public Constants.CommitMessageRenderer getCommitMessageRenderer() {
+        return commitMessageRenderer;
+    }
+
+    public void setCommitMessageRenderer(Constants.CommitMessageRenderer commitMessageRenderer) {
+        this.commitMessageRenderer = commitMessageRenderer;
+    }
+
+    public List<String> getMetricAuthorExclusions() {
+        return metricAuthorExclusions;
+    }
+
+    public void setMetricAuthorExclusions(List<String> metricAuthorExclusions) {
+        this.metricAuthorExclusions = metricAuthorExclusions;
+    }
+
+    public Date getLastChange() {
+        return lastChange;
+    }
+
+    public void setLastChange(Date lastChange) {
+        this.lastChange = lastChange;
+    }
+
+    public boolean isCollectingGarbage() {
+        return isCollectingGarbage;
+    }
+
+    public void setCollectingGarbage(boolean collectingGarbage) {
+        isCollectingGarbage = collectingGarbage;
     }
 }

@@ -1420,7 +1420,7 @@ public class RepositoryManager implements IRepositoryManager {
 				}
 			}
 
-			// Adjust permissions in case we updated the config files
+			// 在我们更新配置文件时调整权限
 			JGitUtils.adjustSharedPerm(new File(r.getDirectory().getAbsolutePath(), "config"),
 					settings.getString(Keys.git.createRepositoriesShared, "FALSE"));
 			JGitUtils.adjustSharedPerm(new File(r.getDirectory().getAbsolutePath(), "HEAD"),
@@ -1495,11 +1495,12 @@ public class RepositoryManager implements IRepositoryManager {
 //			config.setString(Constants.CONFIG_GITBLIT, null, "incrementalPushTagPrefix", repository.incrementalPushTagPrefix);
 //		}
 //		config.setBoolean(Constants.CONFIG_GITBLIT, null, "allowForks", repository.allowForks);
+
 		config.setString(Constants.CONFIG_GITBLIT, null, "accessRestriction", repository.getAccessRestriction().name());
 		config.setString(Constants.CONFIG_GITBLIT, null, "authorizationControl", repository.getAuthorizationControl().name());
-//		config.setBoolean(Constants.CONFIG_GITBLIT, null, "verifyCommitter", repository.verifyCommitter);
+		config.setBoolean(Constants.CONFIG_GITBLIT, null, "verifyCommitter", repository.isVerifyCommitter());
 //		config.setBoolean(Constants.CONFIG_GITBLIT, null, "showRemoteBranches", repository.showRemoteBranches);
-//		config.setBoolean(Constants.CONFIG_GITBLIT, null, "isFrozen", repository.isFrozen);
+		config.setBoolean(Constants.CONFIG_GITBLIT, null, "isFrozen", repository.isFrozen());
 //		config.setBoolean(Constants.CONFIG_GITBLIT, null, "skipSizeCalculation", repository.skipSizeCalculation);
 //		config.setBoolean(Constants.CONFIG_GITBLIT, null, "skipSummaryMetrics", repository.skipSummaryMetrics);
 //		config.setString(Constants.CONFIG_GITBLIT, null, "federationStrategy",
@@ -1523,20 +1524,20 @@ public class RepositoryManager implements IRepositoryManager {
 		}
 
 		CommitMessageRenderer defaultRenderer = CommitMessageRenderer.fromName(settings.getString(Keys.web.commitMessageRenderer, null));
-//		if (repository.commitMessageRenderer == null || repository.commitMessageRenderer == defaultRenderer) {
-//			// use default from config
-//			config.unset(Constants.CONFIG_GITBLIT, null, "commitMessageRenderer");
-//		} else {
-//			// repository overrides default
-//			config.setString(Constants.CONFIG_GITBLIT, null, "commitMessageRenderer",
-//					repository.commitMessageRenderer.name());
-//		}
+		if (repository.getCommitMessageRenderer() == null || repository.getCommitMessageRenderer() == defaultRenderer) {
+			// use default from config
+			config.unset(Constants.CONFIG_GITBLIT, null, "commitMessageRenderer");
+		} else {
+			// repository overrides default
+			config.setString(Constants.CONFIG_GITBLIT, null, "commitMessageRenderer",
+					repository.getCommitMessageRenderer().name());
+		}
 
 //		updateList(config, "federationSets", repository.federationSets);
 //		updateList(config, "preReceiveScript", repository.preReceiveScripts);
 //		updateList(config, "postReceiveScript", repository.postReceiveScripts);
 //		updateList(config, "mailingList", repository.mailingLists);
-//		updateList(config, "indexBranch", repository.indexedBranches);
+		updateList(config, "indexBranch", repository.getIndexedBranches());
 //		updateList(config, "metricAuthorExclusions", repository.metricAuthorExclusions);
 
 		// User Defined Properties

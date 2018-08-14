@@ -26,6 +26,12 @@ public class Query extends LinkedHashMap<String, Object> {
 
     private Integer taskId = null;
 
+    private String projectName = null;
+
+    private String taskName = null;
+
+    private Integer dayBack = 0;
+
     public Query(Map<String, Object> params) {
         this.putAll(params);
         //分页参数
@@ -44,8 +50,17 @@ public class Query extends LinkedHashMap<String, Object> {
         if (params.get(PageConstants.TASK_ID) != null) {
             this.taskId = Integer.parseInt(params.get(PageConstants.TASK_ID).toString());
         }
-        if (params.get(CRT_USER) != null) {
+        if (params.get(PageConstants.CRT_USER) != null) {
             this.crtUser = Integer.parseInt(params.get(CRT_USER).toString());
+        }
+        if (params.get(PageConstants.PROJECT_NAME) != null) {
+            this.projectName = String.valueOf(params.get(PageConstants.PROJECT_NAME));
+        }
+        if (params.get(PageConstants.TASK_NAME) != null) {
+            this.taskName = String.valueOf(params.get(PageConstants.TASK_NAME));
+        }
+        if (params.get(PageConstants.DAY_BACK) != null) {
+            this.dayBack = Integer.parseInt(params.get(PageConstants.DAY_BACK).toString());
         }
         this.remove(PageConstants.PAGE_NUM);
         this.remove(PageConstants.PAGE_LIMIT);
@@ -97,5 +112,29 @@ public class Query extends LinkedHashMap<String, Object> {
 
     public void setCrtUser(Integer crtUser) {
         this.crtUser = crtUser;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
+
+    public Integer getDayBack() {
+        return dayBack;
+    }
+
+    public void setDayBack(Integer dayBack) {
+        this.dayBack = dayBack;
     }
 }
