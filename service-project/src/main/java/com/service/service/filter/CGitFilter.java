@@ -190,10 +190,10 @@ public class CGitFilter extends AccessRestrictionFilter {
     @Override
     protected boolean requiresAuthentication(TaskEntity repository, String action, String method) {
         if (gitUploadPack.equals(action)) {
-            // send to client
+            // 发送到客户端
             return repository.getAccessRestriction().atLeast(AccessRestrictionType.CLONE);
         } else if (gitReceivePack.equals(action)) {
-            // receive from client
+            // 从客户端接收
             return repository.getAccessRestriction().atLeast(AccessRestrictionType.PUSH);
         } else if (gitLfs.equals(action)) {
 
