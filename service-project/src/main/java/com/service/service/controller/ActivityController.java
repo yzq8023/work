@@ -22,10 +22,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("act")
 @Api("活动")
-public class ActivityController extends BaseController<ActivityBiz, Activity> {
+public class ActivityController {
 
     ActivityBiz activityBiz;
-
     @Autowired
     public ActivityController(ActivityBiz activityBiz) {
         this.activityBiz = activityBiz;

@@ -2,7 +2,6 @@ package com.service.service.biz;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.wxiaoqi.security.common.biz.BaseBiz;
 import com.github.wxiaoqi.security.common.msg.TableResultResponse;
 import com.github.wxiaoqi.security.common.util.Query;
 import com.service.service.Keys;
@@ -24,7 +23,7 @@ import java.util.*;
  * @Modified:
  */
 @Service
-public class ActivityBiz extends BaseBiz {
+public class ActivityBiz {
 
     private IWorkHub workHub;
     List<TaskEntity> repositoryModels = new ArrayList<TaskEntity>();
@@ -55,9 +54,9 @@ public class ActivityBiz extends BaseBiz {
         return new TableResultResponse<Activity>(result.getTotal(), recentActivity);
     }
 
-    protected List<TaskEntity> getRepositoryModels() {
+    protected List<TaskEntity> getRepositoryModels(Integer userId) {
         if (repositoryModels.isEmpty()) {
-            final UserModel user = workHub.getUserModel(getCurrentUserId());
+            final UserModel user = workHub.getUserModel(userId);
             List<TaskEntity> repositories = workHub.getRepositoryModels(user);
             repositoryModels.addAll(repositories);
             Collections.sort(repositoryModels);
@@ -67,14 +66,14 @@ public class ActivityBiz extends BaseBiz {
 
     protected List<TaskEntity> getRepositories(Query query) {
         if (query == null) {
-            return getRepositoryModels();
+            return null;
         }
 
         boolean hasParameter = false;
         String projectName = query.getProjectName();
-        Integer userId = query.getCrtUser();
+        Integer crtUser = query.getCrtUser();
         if (StringUtils.isEmpty(projectName)) {
-            if (userId != null) {
+            if (crtUser != null) {
                 //可自行创建独立于项目外的任务库
 //				projectName = ModelUtils.getPersonalPath(userId);
             }
@@ -86,7 +85,7 @@ public class ActivityBiz extends BaseBiz {
         int daysBack = 0;
         int maxDaysBack = workHub.getSettings().getInteger(Keys.web.activityDurationMaximum, 30);
 
-        List<TaskEntity> availableModels = getRepositoryModels();
+        List<TaskEntity> availableModels = getRepositoryModels(query.getCrtUser());
         Set<TaskEntity> models = new HashSet<TaskEntity>();
 
         if (!StringUtils.isEmpty(repositoryName)) {
@@ -201,10 +200,5 @@ public class ActivityBiz extends BaseBiz {
 
     protected TimeZone getTimeZone() {
         return workHub.getTimezone();
-    }
-
-    @Override
-    protected String getPageName() {
-        return null;
     }
 }
