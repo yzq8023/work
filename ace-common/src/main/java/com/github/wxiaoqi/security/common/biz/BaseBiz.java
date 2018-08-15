@@ -100,7 +100,5 @@ public abstract class BaseBiz<M extends Mapper<T>, T> {
 
     protected abstract String getPageName();
 
-    public String getCurrentUserId() {
-        return BaseContextHandler.getUserID();
-    }
+
 }
