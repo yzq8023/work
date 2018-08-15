@@ -12,7 +12,7 @@ import org.springframework.beans.BeanUtils;
 public class UserUtils {
     public static UserModel transUser(UserInfo userInfo){
         UserModel userModel = new UserModel();
-        BeanUtils.copyProperties(userModel, userInfo);
+        BeanUtils.copyProperties(userInfo,userModel);
         return userModel;
     }
 }
