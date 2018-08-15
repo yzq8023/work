@@ -23,20 +23,17 @@ import java.util.Map;
 @Api("任务管理")
 public class TaskController extends BaseController<TaskBiz, TaskEntity> {
 
-    TaskBiz taskBiz;
     MapUserTaskBiz mapUserTaskBiz;
 
     @Autowired
-    public TaskController(TaskBiz taskBiz,
-                          MapUserTaskBiz mapUserTaskBiz) {
-        this.taskBiz = taskBiz;
+    public TaskController(MapUserTaskBiz mapUserTaskBiz) {
         this.mapUserTaskBiz = mapUserTaskBiz;
     }
 
     @RequestMapping(value = "/{tid}/teams", method = RequestMethod.PUT)
     @ResponseBody
     public ObjectRestResponse modifyTeamsInTask(@PathVariable Integer tid, String teams){
-        taskBiz.modifyTeamsInTask(tid, teams);
+        baseBiz.modifyTeamsInTask(tid, teams);
         return new ObjectRestResponse().rel(true);
     }
 
@@ -51,14 +48,14 @@ public class TaskController extends BaseController<TaskBiz, TaskEntity> {
     @ResponseBody
     public TableResultResponse<TaskEntity> joined(@RequestParam Map<String, Object> params) {
         Query query = new Query(params);
-        return taskBiz.getJoinedTask(query);
+        return baseBiz.getJoinedTask(query);
     }
 
     @RequestMapping(value = "/project/joined", method = RequestMethod.GET)
     @ResponseBody
     public TableResultResponse<Map<String,Object>> pjoined(@RequestParam Map<String, Object> params) {
         Query query = new Query(params);
-        return taskBiz.getJoinedTaskFromProject(query);
+        return baseBiz.getJoinedTaskFromProject(query);
     }
 
     @Override
@@ -66,7 +63,7 @@ public class TaskController extends BaseController<TaskBiz, TaskEntity> {
     @ResponseBody
     public ObjectRestResponse<TaskEntity> add(@RequestBody TaskEntity entity) {
 
-        taskBiz.createTask(entity, getCurrentUserId());
+        baseBiz.createTask(entity, getCurrentUserId());
 
         return new ObjectRestResponse<TaskEntity>();
     }
@@ -75,14 +72,14 @@ public class TaskController extends BaseController<TaskBiz, TaskEntity> {
     @ResponseBody
     public List<PathModel> repository(@RequestParam Map<String, Object> params) {
         Query query = new Query(params);
-        return taskBiz.getRepository(query);
+        return baseBiz.getRepository(query);
     }
 
     @Override
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public ObjectRestResponse<TaskEntity> remove(@PathVariable Integer id) {
-        if (taskBiz.deleteRepository(baseBiz.selectById(id))){
+        if (baseBiz.deleteRepository(baseBiz.selectById(id))){
             baseBiz.deleteById(id);
         }
         return new ObjectRestResponse<TaskEntity>();

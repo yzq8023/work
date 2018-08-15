@@ -24,6 +24,7 @@ public class MapUserTaskBiz extends BaseBiz<MapUserTaskMapper, MapUserTask> {
 
     private TaskBiz taskBiz;
     private IWorkHub workHub;
+
     @Autowired
     public MapUserTaskBiz(TaskBiz taskBiz, IWorkHub workHub) {
         this.taskBiz = taskBiz;
