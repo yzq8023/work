@@ -16,7 +16,7 @@
     select sum(task_name) from map_user_task group by user_id
   </select>
     <insert id="insertTasksByUserId">
-      insert into team_user (
+      insert into map_user_task (
       user_id,task_id
       )
       values(
@@ -24,6 +24,6 @@
       )
   </insert>
     <delete id="deleteTasksByUserId">
-    delete from team_user where user_id = #{userId}
+    delete from map_user_task where user_id = #{userId}
   </delete>
 </mapper>

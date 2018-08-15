@@ -9,5 +9,5 @@ import java.util.List;
 public interface MapUserTaskMapper extends Mapper<MapUserTask> {
     public List<String> getUserIds();
     public void deleteTasksByUserId(@Param("userId") Integer userId);
-    public void insertTasksByUserId(@Param("userId") Integer userId, @Param("taskId") Integer taskId);
+    public void insertTasksByUserId(@Param("taskId") Integer taskId, @Param("userId") Integer userId);
 }

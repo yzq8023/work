@@ -34,9 +34,9 @@ public class Constants {
 
 	public final static String ALL = "/*";
 
-	public static final String NAME = "Gitblit";
+	public static final String NAME = "WorkHub";
 
-	public static final String FULL_NAME = "Gitblit - a pure Java Git solution";
+	public static final String FULL_NAME = "WorkHub";
 
 	@Deprecated
 	public static final String ADMIN_ROLE = "#admin";
