@@ -31,7 +31,7 @@ public class UserPreferences implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public final String userId;
+	public  String userId;
 
 	private String locale;
 
@@ -40,6 +40,9 @@ public class UserPreferences implements Serializable {
 	private Transport transport;
 
 	private final Map<String, UserRepositoryPreferences> repositoryPreferences = new TreeMap<String, UserRepositoryPreferences>();
+
+	public UserPreferences() {
+	}
 
 	public UserPreferences(String id) {
 		this.userId = id;

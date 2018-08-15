@@ -107,6 +107,8 @@ public class TeamModel implements Serializable, Comparable<TeamModel> {
 		this.accountType = AccountType.LOCAL;
 	}
 
+	public TeamModel() {
+	}
 
 	public Integer getId() {
 		return id;
