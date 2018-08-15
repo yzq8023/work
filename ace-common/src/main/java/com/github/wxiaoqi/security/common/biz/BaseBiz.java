@@ -2,6 +2,7 @@ package com.github.wxiaoqi.security.common.biz;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.wxiaoqi.security.common.context.BaseContextHandler;
 import com.github.wxiaoqi.security.common.msg.TableResultResponse;
 import com.github.wxiaoqi.security.common.util.EntityUtils;
 import com.github.wxiaoqi.security.common.util.Query;
@@ -98,4 +99,8 @@ public abstract class BaseBiz<M extends Mapper<T>, T> {
     }
 
     protected abstract String getPageName();
+
+    public String getCurrentUserId() {
+        return BaseContextHandler.getUserID();
+    }
 }

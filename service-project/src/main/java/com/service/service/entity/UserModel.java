@@ -455,7 +455,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 		}
 
 		// administrator
-		if (canAdmin(repository)) {
+		if (canAdmin()) {
 			ap.permissionType = PermissionType.ADMINISTRATOR;
 			if (AccessPermission.REWIND.atMost(maxPermission)) {
 				ap.permission = AccessPermission.REWIND;

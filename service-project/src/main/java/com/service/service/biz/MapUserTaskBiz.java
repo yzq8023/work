@@ -2,7 +2,11 @@ package com.service.service.biz;
 
 import com.github.wxiaoqi.security.common.biz.BaseBiz;
 import com.service.service.entity.MapUserTask;
+import com.service.service.entity.TaskEntity;
+import com.service.service.exception.GitBlitException;
+import com.service.service.managers.IWorkHub;
 import com.service.service.mapper.MapUserTaskMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -17,6 +21,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class MapUserTaskBiz extends BaseBiz<MapUserTaskMapper, MapUserTask> {
+
+    private TaskBiz taskBiz;
+    private IWorkHub workHub;
+    @Autowired
+    public MapUserTaskBiz(TaskBiz taskBiz, IWorkHub workHub) {
+        this.taskBiz = taskBiz;
+        this.workHub = workHub;
+    }
+
     /**
      * 修改用户所属任务
      *
@@ -40,13 +53,16 @@ public class MapUserTaskBiz extends BaseBiz<MapUserTaskMapper, MapUserTask> {
      * @param taskId
      * @param userIds
      */
-    public boolean updateUsersInTask(Integer taskId, String userIds){
+    public boolean updateUsersInTask(Integer taskId, String userIds) throws GitBlitException {
         mapper.deleteTasksByUserId(taskId);
         if (!StringUtils.isEmpty(userIds)) {
             String[] users = userIds.split(",");
+            TaskEntity taskEntity = taskBiz.selectById(taskId);
             for (String u : users) {
                 mapper.insertTasksByUserId(taskId, Integer.parseInt(u));
+                taskEntity.addOwner(u);
             }
+            workHub.updateRepositoryModel(taskEntity.getTaskName(), taskEntity, false);
         }
         return true;
     }
