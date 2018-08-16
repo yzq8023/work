@@ -1347,8 +1347,7 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity> {
     public void addOwner(String userId) {
         if (!StringUtils.isEmpty(userId)) {
             String name = userId.toLowerCase();
-            // a set would be more efficient, but this complicates JSON
-            // deserialization so we enforce uniqueness with an arraylist
+            // 一个集合会更有效率，但是这会使JSON反序列化变得复杂所以我们用一个arraylist来执行唯一性
             if (!owners.contains(name)) {
                 owners.add(name);
             }

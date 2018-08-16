@@ -24,4 +24,15 @@ public class MapUserTaskController extends BaseController<MapUserTaskBiz, MapUse
         baseBiz.updateUsersInTask(id, userIds);
         return new ObjectRestResponse().rel(true);
     }
+
+    @Override
+    public ObjectRestResponse<MapUserTask> remove(@PathVariable Integer id) {
+        MapUserTask mapUserTask = baseBiz.selectById(id);
+        try {
+            baseBiz.deleteUserInTask(mapUserTask);
+        } catch (GitBlitException e) {
+            e.printStackTrace();
+        }
+        return new ObjectRestResponse<MapUserTask>();
+    }
 }

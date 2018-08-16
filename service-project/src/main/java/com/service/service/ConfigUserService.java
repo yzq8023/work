@@ -701,6 +701,7 @@ public class ConfigUserService extends BaseBiz<MapUserTaskMapper, MapUserTask> i
 			teams.clear();
 
 			try {
+				//必须保证Admin服务优先启动
 				List<UserInfo> userInfos = feignClient.all();
 				for (UserInfo userInfo : userInfos) {
 					Example example1 = new Example(TaskEntity.class);
