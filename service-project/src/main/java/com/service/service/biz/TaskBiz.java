@@ -1,44 +1,29 @@
 package com.service.service.biz;
 
-import com.ace.cache.annotation.CacheClear;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.wxiaoqi.security.api.vo.user.UserInfo;
 import com.github.wxiaoqi.security.common.biz.BaseBiz;
 import com.github.wxiaoqi.security.common.msg.TableResultResponse;
 import com.github.wxiaoqi.security.common.util.Query;
-import com.google.common.base.Optional;
 import com.service.service.Constants;
 import com.service.service.IStoredSettings;
 import com.service.service.Keys;
 import com.service.service.entity.*;
 import com.service.service.exception.GitBlitException;
 import com.service.service.feign.IUserFeignClient;
-import com.service.service.managers.IRepositoryManager;
 import com.service.service.managers.IRuntimeManager;
-import com.service.service.managers.IUserManager;
 import com.service.service.managers.IWorkHub;
 import com.service.service.mapper.TaskEntityMapper;
 import com.service.service.utils.JGitUtils;
-import com.service.service.utils.ModelUtils;
 import com.service.service.utils.StringUtils;
 import com.service.service.utils.UserUtils;
-import org.eclipse.jgit.dircache.DirCache;
-import org.eclipse.jgit.dircache.DirCacheBuilder;
-import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.lib.*;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.text.MessageFormat;
 import java.util.*;
-import java.util.regex.Pattern;
 
 import static org.apache.log4j.helpers.LogLog.error;
 
@@ -52,27 +37,18 @@ import static org.apache.log4j.helpers.LogLog.error;
 @Transactional(rollbackFor = Exception.class)
 public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
 
-    private IUserManager userManager;
     private IWorkHub workHub;
     private IStoredSettings settings;
     private IUserFeignClient userFeignClient;
-    private IRepositoryManager repositoryManager;
-    List<TaskEntity> repositoryModels = new ArrayList<TaskEntity>();
-    protected String projectName;
     private Map<String, SubmoduleModel> submodules;
 
-    private TaskEntity taskEntity;
     @Autowired
-    public TaskBiz(IUserManager userManager,
-                   IWorkHub workHub,
+    public TaskBiz(IWorkHub workHub,
                    IRuntimeManager runtimeManager,
-                   IUserFeignClient userFeignClient,
-                   IRepositoryManager repositoryManager) {
-        this.userManager = userManager;
+                   IUserFeignClient userFeignClient) {
         this.workHub = workHub;
         this.settings = runtimeManager.getSettings();
         this.userFeignClient = userFeignClient;
-        this.repositoryManager = repositoryManager;
     }
 
     /**
@@ -97,22 +73,22 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
      * @param query dao接口
      * @return 任务
      */
-    public TableResultResponse<Map<String,Object>> getJoinedTaskFromProject(Query query) {
+    public TableResultResponse<Map<String, Object>> getJoinedTaskFromProject(Query query) {
         Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
         String taskName = null;
         Integer taskProcess = null;
-        if(query.entrySet().size() > 0){
+        if (query.entrySet().size() > 0) {
             for (Map.Entry<String, Object> entry : query.entrySet()) {
-                if(entry.getKey().equals("taskName") && entry.getKey() != null && entry.getValue() instanceof String){
-                    taskName =(String)entry.getValue();
+                if (entry.getKey().equals("taskName") && entry.getKey() != null && entry.getValue() instanceof String) {
+                    taskName = (String) entry.getValue();
                 }
-                if(entry.getKey().equals("taskProcess") && entry.getKey() != null && entry.getValue() instanceof String){
+                if (entry.getKey().equals("taskProcess") && entry.getKey() != null && entry.getValue() instanceof String) {
                     taskProcess = Integer.parseInt(entry.getValue().toString());
                 }
             }
         }
-        List<Map<String,Object>> list = mapper.selectTaskByPIdAndUId(query.getCrtUser(), query.getProjectId(),taskName,taskProcess);
-        return  new TableResultResponse<>(result.getTotal(), list);
+        List<Map<String, Object>> list = mapper.selectTaskByPIdAndUId(query.getCrtUser(), query.getProjectId(), taskName, taskProcess);
+        return new TableResultResponse<>(result.getTotal(), list);
     }
 
     /**
@@ -124,6 +100,7 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
         List<TaskEntity> list = mapper.selectJoinedTaskById(query.getCrtUser());
         return new TableResultResponse<>(result.getTotal(), list);
     }
+
     /**
      * 根据用户及名称创建任务
      *
@@ -149,30 +126,27 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
     }
 
     //TODO 采用数据库方式读取repository，如果有问题建议使用原始方式
+
     /**
      * 获取任务仓库内文件路径
      *
      * @param query
      */
-    public List<PathModel> getRepository(Query query){
-        Integer taskId = query.getTaskId();
-        TaskEntity taskEntity = this.selectById(taskId);
-        String root = StringUtils.getFirstPathElement(taskEntity.getTaskName());
+    public List<PathModel> getRepository(Query query) {
+        String projectName = null;
+        if (!getRepositoryModel(query.getTaskName(), query.getCrtUser()).isHasCommits()) {
+            return null;
+        }
+
+        String root = StringUtils.getFirstPathElement(query.getTaskName());
+
         if (StringUtils.isEmpty(root)) {
             projectName = settings.getString(Keys.web.repositoryRootGroupName, "main");
         } else {
             projectName = root;
         }
 
-        if (StringUtils.isEmpty(taskEntity.getTaskName())) {
-//            error(MessageFormat.format(("未指定任务"), getPageName()), true);
-        }
-
-        if (!getRepositoryModel(taskEntity.getTaskName(), query.getCrtUser()).isHasCommits()) {
-            //TODO 重定向到概览页面
-        }
-
-        Repository r = workHub.getRepository(taskEntity.getTaskName());
+        Repository r = workHub.getRepository(query.getTaskName());
         RevCommit commit = getCommit(r, null);
         List<PathModel> paths = JGitUtils.getFilesInPath2(r, null, commit);
         return paths;
@@ -204,6 +178,7 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
     }
 
     protected TaskEntity getRepositoryModel(String taskName, Integer userId) {
+        TaskEntity taskEntity = new TaskEntity();
         if (taskEntity == null) {
             TaskEntity model = workHub.getRepositoryModel(UserUtils.transUser(userFeignClient.info(userId)), taskName);
             if (model == null) {
@@ -222,6 +197,7 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
 
     /**
      * 删除任务仓库
+     *
      * @param taskEntity
      * @return
      */
@@ -229,21 +205,21 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
         return workHub.deleteRepository(taskEntity.getTaskName());
     }
 
-    public boolean isAdmin(Integer crtUser,Integer taskId){
-       int count = mapper.selectTaskByTIdAndCtrUser(crtUser,taskId);
-        if(count == 0){
-           return false;
-        }else if(count == 1){
+    public boolean isAdmin(Integer crtUser, Integer taskId) {
+        int count = mapper.selectTaskByTIdAndCtrUser(crtUser, taskId);
+        if (count == 0) {
+            return false;
+        } else if (count == 1) {
             return true;
         }
-       return false;
+        return false;
     }
 
-    public boolean isOwner(Integer crtUser,Integer taskId){
-        int count = mapper.selectMapTaskByTIdAndCtrUser(crtUser,taskId);
-        if(count == 0){
+    public boolean isOwner(Integer crtUser, Integer taskId) {
+        int count = mapper.selectMapTaskByTIdAndCtrUser(crtUser, taskId);
+        if (count == 0) {
             return false;
-        }else if(count == 1){
+        } else if (count == 1) {
             return true;
         }
         return false;

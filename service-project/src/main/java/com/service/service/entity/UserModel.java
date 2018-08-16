@@ -308,7 +308,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 	public List<RegistrantAccessPermission> getRepositoryPermissions() {
 		List<RegistrantAccessPermission> list = new ArrayList<RegistrantAccessPermission>();
 		if (canAdmin()) {
-			// user has REWIND access to all repositories
+			// 用户有REWIND权限去访问所有任务库
 			return list;
 		}
 		for (Map.Entry<String, AccessPermission> entry : permissions.entrySet()) {
@@ -322,7 +322,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 				ap = AccessPermission.REWIND;
 				mutable = false;
 			} else if (StringUtils.findInvalidCharacter(registrant) != null) {
-				// a regex will have at least 1 invalid character
+				// 一个正则表达式至少有一个无效字符
 				pType = PermissionType.REGEX;
 				source = registrant;
 			}
@@ -330,7 +330,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 		}
 		Collections.sort(list);
 
-		// include immutable team permissions, being careful to preserve order
+		// 包括不可变的团队权限，注意保持顺序
 		Set<RegistrantAccessPermission> set = new LinkedHashSet<RegistrantAccessPermission>(list);
 		for (TeamModel team : teams) {
 			for (RegistrantAccessPermission teamPermission : team.getRepositoryPermissions()) {
@@ -399,7 +399,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 	}
 
 	/**
-	 * 为团队添加仓库权限
+	 * 添加仓库权限
 	 * <p>
 	 * Role may be formatted as:
 	 * <ul>

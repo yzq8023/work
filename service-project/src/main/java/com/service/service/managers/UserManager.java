@@ -184,30 +184,9 @@ public class UserManager implements IUserManager {
         }
         UserInfo userInfo = userFeignClient.info(userId);
         UserModel user = new UserModel(userInfo.getId());
-//        user = userSwitch(userInfo);
         BeanUtils.copyProperties(userInfo, user);
         return user;
     }
-
-//    public UserModel userSwitch(UserInfo userInfo) {
-//        userModel.setUserId(userInfo.getId());
-//        userModel.setPassword(userInfo.getPassword());
-//        userModel.setCookie(null);
-//        userModel.setUsername(userInfo.getUsername());
-//        userModel.setEmailAddress(null);
-//        userModel.setOrganizationalUnit(null);
-//        userModel.setOrganization(null);
-//        userModel.setLocality(null);
-//        userModel.setStateProvince(null);
-//        userModel.setCountryCode(null);
-//        userModel.setCanAdmin(true);
-//        userModel.setCanFork(true);
-//        userModel.setCanCreate(true);
-//        userModel.setExcludeFromFederation(false);
-//        userModel.setDisabled(false);
-//
-//        return userModel;
-//    }
 
     /**
      * 更新/写一个完整的用户对象。
