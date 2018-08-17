@@ -1,21 +1,17 @@
 package com.service.service.biz;
 
 import com.github.wxiaoqi.security.common.biz.BaseBiz;
-import com.github.wxiaoqi.security.common.util.Query;
 import com.service.service.entity.MapUserTask;
 import com.service.service.entity.TaskEntity;
 import com.service.service.entity.UserModel;
 import com.service.service.exception.GitBlitException;
 import com.service.service.managers.IWorkHub;
-import com.service.service.managers.UserManager;
 import com.service.service.mapper.MapUserTaskMapper;
-import com.service.service.utils.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.Arrays;
@@ -63,9 +59,16 @@ public class MapUserTaskBiz extends BaseBiz<MapUserTaskMapper, MapUserTask> {
      * @param userIds
      */
     public boolean updateUsersInTask(Integer taskId, String userIds) throws GitBlitException {
-        mapper.deleteTasksByUserId(taskId);
-        if (!StringUtils.isEmpty(userIds)) {
-            String[] users = userIds.split(",");
+        Example example = new Example(MapUserTask.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("taskId", taskId);
+        mapper.deleteByExample(example);
+
+        //TODO 去除首尾“[]”，还需要做其它的字符串清理工作保证字符串干净
+        String userIdsTrim = StringUtils.deleteWhitespace(StringUtils.strip(userIds, "[]"));
+
+        if (!StringUtils.isEmpty(userIdsTrim)) {
+            String[] users = userIdsTrim.split(",");
             TaskEntity taskEntity = taskBiz.selectById(taskId);
             for (String u : users) {
                 MapUserTask mapUserTask = new MapUserTask();
