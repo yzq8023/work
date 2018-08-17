@@ -784,7 +784,7 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 
 	@Override
 	public String getName() {
-		return id;
+		return name;
 	}
 
 	public String getDisplayName() {
