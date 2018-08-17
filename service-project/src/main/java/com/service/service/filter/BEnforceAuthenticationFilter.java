@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.text.MessageFormat;
 
 import static com.service.service.Constants.ALL;
+import static com.service.service.Constants.GIT_PATH;
+import static com.service.service.Constants.R_PATH;
 
 /**
  * 这个过滤器通过HTTP基本身份验证强制认证，如果设置表明是这样的话。
@@ -28,7 +30,7 @@ import static com.service.service.Constants.ALL;
  * @author Laurens Vrijnsen
  *
  */
-@WebFilter(urlPatterns = ALL)
+@WebFilter(urlPatterns = {R_PATH, GIT_PATH})
 public class BEnforceAuthenticationFilter implements Filter {
 
 	protected transient Logger logger = LoggerFactory.getLogger(getClass());
@@ -62,8 +64,7 @@ public class BEnforceAuthenticationFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
-		Boolean mustForceAuth = settings.getBoolean(Keys.web.authenticateViewPages, false)
-								&& settings.getBoolean(Keys.web.enforceHttpBasicAuthentication, false);
+		Boolean mustForceAuth = true;
 
 		HttpServletRequest httpRequest  = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;

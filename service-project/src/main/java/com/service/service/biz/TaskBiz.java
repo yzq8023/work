@@ -133,9 +133,10 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
      * @param query
      */
     public List<PathModel> getRepository(Query query) {
+        List<PathModel> paths = new ArrayList<>();
         String projectName = null;
         if (!getRepositoryModel(query.getTaskName(), query.getCrtUser()).isHasCommits()) {
-            return null;
+            return paths;
         }
 
         String root = StringUtils.getFirstPathElement(query.getTaskName());
@@ -148,7 +149,7 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
 
         Repository r = workHub.getRepository(query.getTaskName());
         RevCommit commit = getCommit(r, null);
-        List<PathModel> paths = JGitUtils.getFilesInPath2(r, null, commit);
+        paths = JGitUtils.getFilesInPath2(r, null, commit);
         return paths;
     }
 
