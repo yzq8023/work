@@ -41,7 +41,7 @@ public class MapUserTaskBiz extends BaseBiz<MapUserTaskMapper, MapUserTask> {
      * @param userId
      * @param taskIds
      */
-    public boolean updateTasksInUser(Integer userId, String taskIds){
+    public boolean updateTasksInUser(Integer userId, String taskIds) {
         mapper.deleteTasksByUserId(userId);
         if (!StringUtils.isEmpty(taskIds)) {
             String[] teams = taskIds.split(",");
@@ -55,39 +55,31 @@ public class MapUserTaskBiz extends BaseBiz<MapUserTaskMapper, MapUserTask> {
     /**
      * 修改任务所包含用户
      *
-     * @param taskId
-     * @param userIds
+     * @param mapUserTaskList
      */
-    public boolean updateUsersInTask(Integer taskId, String userIds) throws GitBlitException {
-        Example example = new Example(MapUserTask.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("taskId", taskId);
-        mapper.deleteByExample(example);
+    public boolean updateUsersInTask(List<MapUserTask> mapUserTaskList) throws GitBlitException {
+        if (!mapUserTaskList.isEmpty() && mapUserTaskList != null) {
+            Integer taskId = mapUserTaskList.get(0).getTaskId();
+            Example example = new Example(MapUserTask.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("taskId", taskId);
+            mapper.deleteByExample(example);
 
-        //TODO 去除首尾“[]”，还需要做其它的字符串清理工作保证字符串干净
-        String userIdsTrim = StringUtils.deleteWhitespace(StringUtils.strip(userIds, "[]"));
-
-        if (!StringUtils.isEmpty(userIdsTrim)) {
-            String[] users = userIdsTrim.split(",");
             TaskEntity taskEntity = taskBiz.selectById(taskId);
-            for (String u : users) {
-                MapUserTask mapUserTask = new MapUserTask();
-                UserModel userModel = workHub.getUserModel(Integer.valueOf(u));
-                mapUserTask.setTaskId(Integer.valueOf(taskId));
-                mapUserTask.setTaskName(taskEntity.getTaskName());
-                mapUserTask.setUserId(Integer.valueOf(u));
-                mapUserTask.setUserName(userModel.getName());
-                mapUserTask.setPermission("3");
+
+            for (MapUserTask mapUserTask : mapUserTaskList) {
                 insertSelective(mapUserTask);
-                taskEntity.addOwner(u);
+                taskEntity.addOwner(String.valueOf(mapUserTask.getUserId()));
             }
             workHub.updateRepositoryModel(taskEntity.getTaskName(), taskEntity, false);
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**
      * 在任务中删除用户，删除数据库内容的同时删除仓库的配置文件owner
+     *
      * @param
      * @return
      */
@@ -112,20 +104,21 @@ public class MapUserTaskBiz extends BaseBiz<MapUserTaskMapper, MapUserTask> {
 //            return false;
 //        }
 //    }
-
     @Override
     protected String getPageName() {
         return null;
     }
 
-    public boolean canView(){
+    public boolean canView() {
 
         return false;
     }
-    public boolean canClone(){
+
+    public boolean canClone() {
         return false;
     }
-    public boolean canPush(){
+
+    public boolean canPush() {
         return false;
     }
 }
