@@ -23,7 +23,7 @@ public class MapUserTaskController extends BaseController<MapUserTaskBiz, MapUse
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     @ResponseBody
     public ObjectRestResponse modify(@RequestBody List<MapUserTask> mapUserTaskList) throws GitBlitException {
-        baseBiz.updateUsersInTask(id, userIds);
+        baseBiz.updateUsersInTask(mapUserTaskList);
         return new ObjectRestResponse().rel(true);
     }
 }
