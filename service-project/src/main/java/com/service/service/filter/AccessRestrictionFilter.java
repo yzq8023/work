@@ -34,17 +34,13 @@ import java.util.Collections;
 import java.util.Iterator;
 
 /**
- * The AccessRestrictionFilter is an AuthenticationFilter that confirms that the
- * requested repository can be accessed by the anonymous or named user.
+ * AccessRestrictionFilter是一个AuthenticationFilter，用于确认匿名用户或指定用户可以访问请求的存储库
  *
- * The filter extracts the name of the repository from the url and determines if
- * the requested action for the repository requires a Basic authentication
- * prompt. If authentication is required and no credentials are stored in the
- * "Authorization" header, then a basic authentication challenge is issued.
+ * 过滤器从URL中提取存储库的名称并确定是否请求的存储库操作需要基本身份验证提示。
+ * 如果需要身份验证，并且没有存储凭据“授权”标题，然后发出基本身份验证质询。
  *
- * http://en.wikipedia.org/wiki/Basic_access_authentication
+ * 参考Basic_access_authentication
  *
- * @author James Moger
  *
  */
 
@@ -66,7 +62,7 @@ public abstract class AccessRestrictionFilter extends AuthenticationFilter {
 	}
 
 	/**
-	 * Extract the repository name from the url.
+	 * 从 url 中提取存储库名称。
 	 *
 	 * @param url
 	 * @return repository name
@@ -74,7 +70,7 @@ public abstract class AccessRestrictionFilter extends AuthenticationFilter {
 	protected abstract String extractRepositoryName(String url);
 
 	/**
-	 * Analyze the url and returns the action of the request.
+	 * 分析 url 并返回请求的操作。
 	 *
 	 * @param url
 	 * @return action of the request
@@ -82,7 +78,7 @@ public abstract class AccessRestrictionFilter extends AuthenticationFilter {
 	protected abstract String getUrlRequestAction(String url);
 
 	/**
-	 * Determine if a non-existing repository can be created using this filter.
+	 * 确定是否可以使用此筛选器创建非现有存储库。
 	 *
 	 * @return true if the filter allows repository creation
 	 */

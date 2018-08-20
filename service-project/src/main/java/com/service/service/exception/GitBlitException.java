@@ -18,7 +18,7 @@ package com.service.service.exception;
 import java.io.IOException;
 
 /**
- * GitBlitException is a marginally useful class. :)
+ * 非常好用
  *
  * @author James Moger
  *

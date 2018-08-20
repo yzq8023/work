@@ -8,6 +8,8 @@ import com.service.service.exception.GitBlitException;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author hollykunge
  * @date 2018/7/18
@@ -20,8 +22,8 @@ public class MapUserTaskController extends BaseController<MapUserTaskBiz, MapUse
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse modify(@PathVariable  int id, String userIds) throws GitBlitException {
-        baseBiz.updateUsersInTask(id, userIds);
+    public ObjectRestResponse modify(@RequestBody List<MapUserTask> mapUserTaskList) throws GitBlitException {
+        baseBiz.updateUsersInTask(mapUserTaskList);
         return new ObjectRestResponse().rel(true);
     }
 }

@@ -24,10 +24,12 @@ import java.util.Map;
 public class TaskController extends BaseController<TaskBiz, TaskEntity> {
 
     MapUserTaskBiz mapUserTaskBiz;
+    TaskBiz taskBiz;
 
     @Autowired
-    public TaskController(MapUserTaskBiz mapUserTaskBiz) {
+    public TaskController(MapUserTaskBiz mapUserTaskBiz, TaskBiz taskBiz) {
         this.mapUserTaskBiz = mapUserTaskBiz;
+        this.taskBiz = taskBiz;
     }
 
     @RequestMapping(value = "/{tid}/teams", method = RequestMethod.PUT)
@@ -36,13 +38,6 @@ public class TaskController extends BaseController<TaskBiz, TaskEntity> {
         baseBiz.modifyTeamsInTask(tid, teams);
         return new ObjectRestResponse().rel(true);
     }
-
-//    @RequestMapping(value = "/{tid}/users", method = RequestMethod.PUT)
-//    @ResponseBody
-//    public ObjectRestResponse modifyUsersInTask(@PathVariable Integer tid, String userIds){
-//        mapUserTaskBiz.updateUsersInTask(tid, userIds);
-//        return new ObjectRestResponse().rel(true);
-//    }
 
     @RequestMapping(value = "/joined", method = RequestMethod.GET)
     @ResponseBody
@@ -72,7 +67,7 @@ public class TaskController extends BaseController<TaskBiz, TaskEntity> {
     @ResponseBody
     public List<PathModel> repository(@RequestParam Map<String, Object> params) {
         Query query = new Query(params);
-        return baseBiz.getRepository(query);
+        return taskBiz.getRepository(query);
     }
 
     @Override
