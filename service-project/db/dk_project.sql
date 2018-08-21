@@ -52,7 +52,7 @@ DROP TABLE IF EXISTS `issue`;
 CREATE TABLE `issue`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `repo_id` int(11) NULL DEFAULT NULL,
-  `index` int(11) NULL DEFAULT NULL,
+  `issue_index` int(11) NULL DEFAULT NULL,
   `poster_id` int(11) NULL DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
@@ -74,7 +74,7 @@ CREATE TABLE `issue`  (
   `upd_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `upd_host` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `UQE_issue_repo_index`(`repo_id`, `index`) USING BTREE,
+  UNIQUE INDEX `UQE_issue_repo_index`(`repo_id`, `issue_index`) USING BTREE,
   INDEX `IDX_issue_repo_id`(`repo_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
