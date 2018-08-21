@@ -65,7 +65,7 @@ public class TaskController extends BaseController<TaskBiz, TaskEntity> {
 
     @RequestMapping(value = "/repository", method = RequestMethod.GET)
     @ResponseBody
-    public List<PathModel> repository(@RequestParam Map<String, Object> params) {
+    public TableResultResponse<PathModel> repository(@RequestParam Map<String, Object> params) {
         Query query = new Query(params);
         return taskBiz.getRepository(query);
     }
