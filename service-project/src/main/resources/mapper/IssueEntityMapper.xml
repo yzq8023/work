@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.service.service.mapper.IssueEntityMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.service.service.mapper.IssueEntityMapper" id="issueMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="repoId" column="repo_id" jdbcType="INTEGER"/>
+        <result property="issue_index" column="issue_index" jdbcType="INTEGER"/>
+        <result property="posterId" column="poster_id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="milestoneId" column="milestone_id" jdbcType="INTEGER"/>
+        <result property="priority" column="priority" jdbcType="INTEGER"/>
+        <result property="assigneeId" column="assignee_id" jdbcType="INTEGER"/>
+        <result property="isClosed" column="is_closed" jdbcType="INTEGER"/>
+        <result property="isPull" column="is_pull" jdbcType="INTEGER"/>
+        <result property="numComments" column="num_comments" jdbcType="INTEGER"/>
+        <result property="deadlineUnix" column="deadline_unix" jdbcType="INTEGER"/>
+        <result property="createdUnix" column="created_unix" jdbcType="INTEGER"/>
+        <result property="updatedUnix" column="updated_unix" jdbcType="INTEGER"/>
+        <result property="crtName" column="crt_name" jdbcType="VARCHAR"/>
+        <result property="crtUser" column="crt_user" jdbcType="VARCHAR"/>
+        <result property="crtHost" column="crt_host" jdbcType="VARCHAR"/>
+        <result property="crtTime" column="crt_time" jdbcType="DATE"/>
+        <result property="updTime" column="upd_time" jdbcType="DATE"/>
+        <result property="updUser" column="upd_user" jdbcType="VARCHAR"/>
+        <result property="updName" column="upd_name" jdbcType="VARCHAR"/>
+        <result property="updHost" column="upd_host" jdbcType="VARCHAR"/>
+    </resultMap>
+
+</mapper>
