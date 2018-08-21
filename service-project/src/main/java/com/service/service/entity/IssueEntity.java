@@ -25,7 +25,7 @@ public class IssueEntity implements Serializable {
 	
 	    //
     @Column(name = "issue_index")
-    private Integer issue_index;
+    private Integer issueIndex;
 	
 	    //
     @Column(name = "poster_id")
@@ -135,14 +135,14 @@ public class IssueEntity implements Serializable {
 	/**
 	 * 设置：
 	 */
-	public void setIndex(Integer index) {
-		this.issue_index = index;
+	public void setIssueIndex(Integer issueIndex) {
+		this.issueIndex = issueIndex;
 	}
 	/**
 	 * 获取：
 	 */
-	public Integer getIndex() {
-		return issue_index;
+	public Integer getIssueIndex() {
+		return issueIndex;
 	}
 	/**
 	 * 设置：
