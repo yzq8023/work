@@ -296,6 +296,17 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity> {
     private Constants.CommitMessageRenderer commitMessageRenderer;
     @Transient
     private Date lastChange;
+
+    public String getLastChangeAuthor() {
+        return lastChangeAuthor;
+    }
+
+    public void setLastChangeAuthor(String lastChangeAuthor) {
+        this.lastChangeAuthor = lastChangeAuthor;
+    }
+
+    @Transient
+    private String lastChangeAuthor;
     @Transient
     private List<String> metricAuthorExclusions;
     @Transient
