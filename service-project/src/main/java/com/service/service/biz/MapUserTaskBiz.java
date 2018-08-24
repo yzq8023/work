@@ -57,9 +57,8 @@ public class MapUserTaskBiz extends BaseBiz<MapUserTaskMapper, MapUserTask> {
      *
      * @param mapUserTaskList
      */
-    public boolean updateUsersInTask(List<MapUserTask> mapUserTaskList) throws GitBlitException {
-        if (!mapUserTaskList.isEmpty() && mapUserTaskList != null) {
-            Integer taskId = mapUserTaskList.get(0).getTaskId();
+    public boolean updateUsersInTask(List<MapUserTask> mapUserTaskList, Integer taskId) throws GitBlitException {
+        if (taskId != null) {
             Example example = new Example(MapUserTask.class);
             Example.Criteria criteria = example.createCriteria();
             criteria.andEqualTo("taskId", taskId);
