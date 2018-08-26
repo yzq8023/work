@@ -70,6 +70,7 @@ public class MapUserTaskBiz extends BaseBiz<MapUserTaskMapper, MapUserTask> {
                 insertSelective(mapUserTask);
                 taskEntity.addOwner(String.valueOf(mapUserTask.getUserId()));
             }
+            //修改仓库配置文件
             workHub.updateRepositoryModel(taskEntity.getTaskName(), taskEntity, false);
             return true;
         }
