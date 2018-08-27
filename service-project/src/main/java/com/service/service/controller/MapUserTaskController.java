@@ -20,10 +20,10 @@ import java.util.List;
 @Api("任务用户关系管理")
 public class MapUserTaskController extends BaseController<MapUserTaskBiz, MapUserTask> {
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{taskId}", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse modify(@RequestBody List<MapUserTask> mapUserTaskList) throws GitBlitException {
-        baseBiz.updateUsersInTask(mapUserTaskList);
+    public ObjectRestResponse modify(@RequestBody List<MapUserTask> mapUserTaskList, @PathVariable Integer taskId) throws GitBlitException {
+        baseBiz.updateUsersInTask(mapUserTaskList, taskId);
         return new ObjectRestResponse().rel(true);
     }
 }

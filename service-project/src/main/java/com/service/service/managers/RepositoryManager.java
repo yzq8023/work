@@ -1108,17 +1108,17 @@ public class RepositoryManager implements IRepositoryManager {
 	@Override
 	public long updateLastChangeFields(Repository r, TaskEntity model) {
 		LastChange lc = JGitUtils.getLastChange(r);
-		model.setUpdTime(lc.when);
-		model.setUpdUser(lc.who);
+		model.setLastChange(lc.when);
+		model.setLastChangeAuthor(lc.who);
 
 		if (!settings.getBoolean(Keys.web.showRepositorySizes, true) || model.isSkipSizeCalculation()) {
 			model.setSize(null);
 			return 0L;
 		}
-		if (!repositorySizeCache.hasCurrent(model.getTaskName(), model.getUpdTime())) {
+		if (!repositorySizeCache.hasCurrent(model.getTaskName(), model.getLastChange())) {
 			File gitDir = r.getDirectory();
 			long sz = com.service.service.utils.FileUtils.folderSize(gitDir);
-			repositorySizeCache.updateObject(model.getTaskName(), model.getUpdTime(), sz);
+			repositorySizeCache.updateObject(model.getTaskName(), model.getLastChange(), sz);
 		}
 		long size = repositorySizeCache.getObject(model.getTaskName());
 		ByteFormat byteFormat = new ByteFormat();

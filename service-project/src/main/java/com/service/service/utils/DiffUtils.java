@@ -38,10 +38,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * DiffUtils is a class of utility methods related to diff, patch, and blame.
+ * DiffUtils是一类与diff，patch和blame相关的实用方法。
  *
- * The diff methods support pluggable diff output types like Gitblit, Gitweb,
- * and Plain.
+ * diff方法支持可插入的diff输出类型，如Gitblit，Gitweb，和文本域。
  *
  * @author James Moger
  *
@@ -72,7 +71,7 @@ public class DiffUtils {
 	}
 
 	/**
-	 * Enumeration for the diff output types.
+	 * diff输出类型的枚举。
 	 */
 	public static enum DiffOutputType {
 		PLAIN, HTML;
@@ -88,7 +87,7 @@ public class DiffUtils {
 	}
 
 	/**
-	 * Enumeration for the diff comparator types.
+	 * diff比较器类型的枚举。
 	 */
 	public static enum DiffComparator {
 		SHOW_WHITESPACE(RawTextComparator.DEFAULT),
@@ -122,7 +121,7 @@ public class DiffUtils {
 	}
 
 	/**
-	 * Encapsulates the output of a diff.
+	 * 封装差异的输出。
 	 */
 	public static class DiffOutput implements Serializable {
 		private static final long serialVersionUID = 1L;
@@ -224,8 +223,7 @@ public class DiffUtils {
 	}
 
 	/**
-	 * Returns the complete diff of the specified commit compared to its primary
-	 * parent.
+	 * 返回与父提交完整的比较
 	 *
 	 * @param repository
 	 * @param commit
@@ -503,10 +501,6 @@ public class DiffUtils {
 	 *            if base commit is unspecified, the diffstat is generated against
 	 *            the primary parent of the specified tip.
 	 * @param tip
-	 * @param path
-	 *            if path is specified, the diffstat is generated only for the
-	 *            specified file or folder. if unspecified, the diffstat is
-	 *            generated for the entire diff between the two commits.
 	 * @return patch as a string
 	 */
 	public static DiffStat getDiffStat(Repository repository, String base, String tip) {

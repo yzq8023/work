@@ -57,9 +57,8 @@ public class MapUserTaskBiz extends BaseBiz<MapUserTaskMapper, MapUserTask> {
      *
      * @param mapUserTaskList
      */
-    public boolean updateUsersInTask(List<MapUserTask> mapUserTaskList) throws GitBlitException {
-        if (!mapUserTaskList.isEmpty() && mapUserTaskList != null) {
-            Integer taskId = mapUserTaskList.get(0).getTaskId();
+    public boolean updateUsersInTask(List<MapUserTask> mapUserTaskList, Integer taskId) throws GitBlitException {
+        if (taskId != null) {
             Example example = new Example(MapUserTask.class);
             Example.Criteria criteria = example.createCriteria();
             criteria.andEqualTo("taskId", taskId);
@@ -71,39 +70,13 @@ public class MapUserTaskBiz extends BaseBiz<MapUserTaskMapper, MapUserTask> {
                 insertSelective(mapUserTask);
                 taskEntity.addOwner(String.valueOf(mapUserTask.getUserId()));
             }
+            //修改仓库配置文件
             workHub.updateRepositoryModel(taskEntity.getTaskName(), taskEntity, false);
             return true;
         }
         return false;
     }
 
-    /**
-     * 在任务中删除用户，删除数据库内容的同时删除仓库的配置文件owner
-     *
-     * @param
-     * @return
-     */
-//    public boolean deleteUserInTask(MapUserTask mapUserTask) throws GitBlitException {
-//        if (mapUserTask.getId() != null){
-//            super.delete(mapUserTask);
-//
-//            Example example = new Example(MapUserTask.class);
-//            Example.Criteria criteria = example.createCriteria();
-//            criteria.andEqualTo("taskId", mapUserTask.getTaskId());
-//            List<MapUserTask> mapUserTasks = super.selectByExample(example);
-//
-//            Integer[] userIds = new Integer[mapUserTasks.size()];
-//            if (mapUserTasks != null && mapUserTasks.size() > 0){
-//                for (int z = 0; z < userIds.length; z++) {
-//                    userIds[z] = mapUserTasks.get(z).getUserId();
-//                }
-//            }
-//
-//            return updateUsersInTask(mapUserTask.getTaskId(), Arrays.toString(userIds));
-//        }else {
-//            return false;
-//        }
-//    }
     @Override
     protected String getPageName() {
         return null;

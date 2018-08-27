@@ -108,13 +108,14 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
      */
     public void createTask(TaskEntity taskEntity, String userId) {
         try {
-            //传递
+            // 传递
             taskEntity.setCrtUser(userId);
             taskEntity.setHead(Constants.R_MASTER);
             taskEntity.setMergeTo(Constants.MASTER);
-            //更新
+            taskEntity.setAccessRestriction(Constants.AccessRestrictionType.PUSH);
+            // 更新
             taskEntity.setTaskName(taskEntity.getTaskProjectName() + "/" + taskEntity.getTaskName());
-            //初始化
+            // 初始化
             workHub.updateRepositoryModel(taskEntity.getTaskName(), taskEntity, true);
             // 创建初始提交
 //            initialCommit(taskEntity, addReadme, gitignore, useGitFlow);
@@ -132,12 +133,13 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
      *
      * @param query
      */
-    public List<PathModel> getRepository(Query query) {
+    public TableResultResponse<PathModel> getRepository(Query query) {
+        Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
         List<PathModel> paths = new ArrayList<>();
         String projectName = null;
-        if (!getRepositoryModel(query.getTaskName(), query.getCrtUser()).isHasCommits()) {
-            return paths;
-        }
+//        if (!getRepositoryModel(query.getTaskName(), query.getCrtUser()).isHasCommits()) {
+//            return paths;
+//        }
 
         String root = StringUtils.getFirstPathElement(query.getTaskName());
 
@@ -150,7 +152,7 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
         Repository r = workHub.getRepository(query.getTaskName());
         RevCommit commit = getCommit(r, null);
         paths = JGitUtils.getFilesInPath2(r, null, commit);
-        return paths;
+        return new TableResultResponse<>(result.getTotal(), paths);
     }
 
     protected RevCommit getCommit(Repository r, String objectId) {
