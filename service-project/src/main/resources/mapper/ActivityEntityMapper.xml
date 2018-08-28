@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.service.service.mapper.ActivityEntityMapper" >
+  <resultMap id="BaseResultMap" type="com.service.service.entity.ActivityEntity" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="op_type" property="opType" jdbcType="INTEGER" />
+    <result column="act_user_id" property="actUserId" jdbcType="INTEGER" />
+    <result column="act_user_name" property="actUserName" jdbcType="VARCHAR" />
+    <result column="repo_id" property="repoId" jdbcType="INTEGER" />
+    <result column="repo_user_name" property="repoUserName" jdbcType="VARCHAR" />
+    <result column="repo_name" property="repoName" jdbcType="VARCHAR" />
+    <result column="ref_name" property="refName" jdbcType="VARCHAR" />
+    <result column="is_private" property="isPrivate" jdbcType="BIT" />
+    <result column="created_unix" property="createdUnix" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+</mapper>

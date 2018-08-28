@@ -21,6 +21,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import static com.service.service.Constants.ALL;
+import static com.service.service.Constants.GIT_PATH;
+import static com.service.service.Constants.R_PATH;
 
 /**
  * 请求过滤器，而不是允许注册的扩展请求过滤器访问请求数据。
@@ -29,7 +31,7 @@ import static com.service.service.Constants.ALL;
  * @author David Ostrovsky
  * @since 1.6.0
  */
-@WebFilter(urlPatterns = ALL)
+@WebFilter(urlPatterns = {R_PATH, GIT_PATH})
 public class AProxyFilter implements Filter {
 	private final IRuntimeManager runtimeManager;
 

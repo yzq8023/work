@@ -42,7 +42,7 @@
         </table>-->
         <!--<table tableName="base_element" domainObjectName="Element">-->
         <!--</table>-->
-        <table tableName="task" domainObjectName="TaskEntity">
+        <table tableName="activity" domainObjectName="ActivityEntity">
         </table>
     </context>
 </generatorConfiguration>
