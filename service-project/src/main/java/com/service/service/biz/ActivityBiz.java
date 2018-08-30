@@ -34,6 +34,7 @@ public class ActivityBiz extends BaseBiz<ActivityEntityMapper, ActivityEntity> {
     @Autowired
     public ActivityBiz(IWorkHub workHub) {
         this.workHub = workHub;
+
     }
 
     /**
@@ -137,7 +138,7 @@ public class ActivityBiz extends BaseBiz<ActivityEntityMapper, ActivityEntity> {
 //		if (!StringUtils.isEmpty(set)) {
 //			// filter the repositories by the specified sets
 //			hasParameter = true;
-//			List<String> sets = StringUtils.getStringsFromValue(set, ",");
+//			List<String> sets = triSngUtils.getStringsFromValue(set, ",");
 //			for (TaskEntity model : availableModels) {
 //				for (String curr : sets) {
 //					if (model.federationSets.contains(curr)) {
@@ -208,5 +209,20 @@ public class ActivityBiz extends BaseBiz<ActivityEntityMapper, ActivityEntity> {
     @Override
     protected String getPageName() {
         return null;
+    }
+
+    public void updateActivity(TaskEntity taskEntity, String method) {
+
+        ActivityEntity activityEntity = new ActivityEntity();
+        activityEntity.setContent(taskEntity.getTaskDes());
+        activityEntity.setIsPrivate(true);
+//        activityEntity.setOpType();
+//        activityEntity.setRefName();
+//        activityEntity.setRepoId();
+//        activityEntity.setRepoUserName();
+//        activityEntity.setRepoName();
+//        activityEntity.setUserId();
+//
+//        super.insertSelective(taskEntity);
     }
 }
