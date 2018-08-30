@@ -1,5 +1,7 @@
 package com.service.service.entity;
 
+import com.service.service.enumeration.impl.CommentType;
+
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
@@ -9,10 +11,11 @@ import javax.persistence.*;
  * 
  * 
  * @author
- * @date 2018-08-20 16:05:04
+ * @email
+ * @date 2018-08-27 10:41:16
  */
-@Table(name = "issue")
-public class IssueEntity implements Serializable {
+@Table(name = "comment")
+public class CommentEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	    //
@@ -20,52 +23,28 @@ public class IssueEntity implements Serializable {
     private Integer id;
 	
 	    //
-    @Column(name = "task_id")
-    private Integer taskId;
-	
-	    //
-    @Column(name = "issue_index")
-    private Integer issueIndex;
+    @Column(name = "comment_type")
+    private CommentType commentType;
 	
 	    //
     @Column(name = "poster_id")
     private Integer posterId;
 	
 	    //
-    @Column(name = "name")
-    private String name;
+    @Column(name = "issue_id")
+    private Integer issueId;
+	
+	    //
+    @Column(name = "commit_id")
+    private Integer commitId;
+	
+	    //
+    @Column(name = "line")
+    private Integer line;
 	
 	    //
     @Column(name = "content")
     private String content;
-	
-	    //
-    @Column(name = "milestone_id")
-    private Integer milestoneId;
-	
-	    //
-    @Column(name = "priority")
-    private Integer priority;
-	
-	    //
-    @Column(name = "assignee_id")
-    private Integer assigneeId;
-	
-	    //
-    @Column(name = "is_closed")
-    private Integer isClosed;
-	
-	    //
-    @Column(name = "is_pull")
-    private Integer isPull;
-	
-	    //
-    @Column(name = "num_comments")
-    private Integer numComments;
-	
-	    //
-    @Column(name = "deadline_unix")
-    private Integer deadlineUnix;
 	
 	    //
     @Column(name = "created_unix")
@@ -74,6 +53,10 @@ public class IssueEntity implements Serializable {
 	    //
     @Column(name = "updated_unix")
     private Integer updatedUnix;
+	
+	    //
+    @Column(name = "commit_sha")
+    private String commitSha;
 	
 	    //
     @Column(name = "crt_name")
@@ -123,26 +106,14 @@ public class IssueEntity implements Serializable {
 	/**
 	 * 设置：
 	 */
-	public void setTaskId(Integer taskId) {
-		this.taskId = taskId;
+	public void setCommentType(CommentType commentType) {
+		this.commentType = commentType;
 	}
 	/**
 	 * 获取：
 	 */
-	public Integer getTaskId() {
-		return taskId;
-	}
-	/**
-	 * 设置：
-	 */
-	public void setIssueIndex(Integer issueIndex) {
-		this.issueIndex = issueIndex;
-	}
-	/**
-	 * 获取：
-	 */
-	public Integer getIssueIndex() {
-		return issueIndex;
+	public CommentType getCommentType() {
+		return commentType;
 	}
 	/**
 	 * 设置：
@@ -159,14 +130,38 @@ public class IssueEntity implements Serializable {
 	/**
 	 * 设置：
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setIssueId(Integer issueId) {
+		this.issueId = issueId;
 	}
 	/**
 	 * 获取：
 	 */
-	public String getName() {
-		return name;
+	public Integer getIssueId() {
+		return issueId;
+	}
+	/**
+	 * 设置：
+	 */
+	public void setCommitId(Integer commitId) {
+		this.commitId = commitId;
+	}
+	/**
+	 * 获取：
+	 */
+	public Integer getCommitId() {
+		return commitId;
+	}
+	/**
+	 * 设置：
+	 */
+	public void setLine(Integer line) {
+		this.line = line;
+	}
+	/**
+	 * 获取：
+	 */
+	public Integer getLine() {
+		return line;
 	}
 	/**
 	 * 设置：
@@ -179,90 +174,6 @@ public class IssueEntity implements Serializable {
 	 */
 	public String getContent() {
 		return content;
-	}
-	/**
-	 * 设置：
-	 */
-	public void setMilestoneId(Integer milestoneId) {
-		this.milestoneId = milestoneId;
-	}
-	/**
-	 * 获取：
-	 */
-	public Integer getMilestoneId() {
-		return milestoneId;
-	}
-	/**
-	 * 设置：
-	 */
-	public void setPriority(Integer priority) {
-		this.priority = priority;
-	}
-	/**
-	 * 获取：
-	 */
-	public Integer getPriority() {
-		return priority;
-	}
-	/**
-	 * 设置：
-	 */
-	public void setAssigneeId(Integer assigneeId) {
-		this.assigneeId = assigneeId;
-	}
-	/**
-	 * 获取：
-	 */
-	public Integer getAssigneeId() {
-		return assigneeId;
-	}
-	/**
-	 * 设置：
-	 */
-	public void setIsClosed(Integer isClosed) {
-		this.isClosed = isClosed;
-	}
-	/**
-	 * 获取：
-	 */
-	public Integer getIsClosed() {
-		return isClosed;
-	}
-	/**
-	 * 设置：
-	 */
-	public void setIsPull(Integer isPull) {
-		this.isPull = isPull;
-	}
-	/**
-	 * 获取：
-	 */
-	public Integer getIsPull() {
-		return isPull;
-	}
-	/**
-	 * 设置：
-	 */
-	public void setNumComments(Integer numComments) {
-		this.numComments = numComments;
-	}
-	/**
-	 * 获取：
-	 */
-	public Integer getNumComments() {
-		return numComments;
-	}
-	/**
-	 * 设置：
-	 */
-	public void setDeadlineUnix(Integer deadlineUnix) {
-		this.deadlineUnix = deadlineUnix;
-	}
-	/**
-	 * 获取：
-	 */
-	public Integer getDeadlineUnix() {
-		return deadlineUnix;
 	}
 	/**
 	 * 设置：
@@ -287,6 +198,18 @@ public class IssueEntity implements Serializable {
 	 */
 	public Integer getUpdatedUnix() {
 		return updatedUnix;
+	}
+	/**
+	 * 设置：
+	 */
+	public void setCommitSha(String commitSha) {
+		this.commitSha = commitSha;
+	}
+	/**
+	 * 获取：
+	 */
+	public String getCommitSha() {
+		return commitSha;
 	}
 	/**
 	 * 设置：

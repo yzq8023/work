@@ -9,10 +9,11 @@ import javax.persistence.*;
  * 
  * 
  * @author
- * @date 2018-08-20 16:05:04
+ * @email
+ * @date 2018-08-27 10:41:16
  */
-@Table(name = "issue")
-public class IssueEntity implements Serializable {
+@Table(name = "milestone")
+public class MilestoneEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	    //
@@ -24,14 +25,6 @@ public class IssueEntity implements Serializable {
     private Integer taskId;
 	
 	    //
-    @Column(name = "issue_index")
-    private Integer issueIndex;
-	
-	    //
-    @Column(name = "poster_id")
-    private Integer posterId;
-	
-	    //
     @Column(name = "name")
     private String name;
 	
@@ -40,40 +33,28 @@ public class IssueEntity implements Serializable {
     private String content;
 	
 	    //
-    @Column(name = "milestone_id")
-    private Integer milestoneId;
-	
-	    //
-    @Column(name = "priority")
-    private Integer priority;
-	
-	    //
-    @Column(name = "assignee_id")
-    private Integer assigneeId;
-	
-	    //
     @Column(name = "is_closed")
     private Integer isClosed;
 	
 	    //
-    @Column(name = "is_pull")
-    private Integer isPull;
+    @Column(name = "num_issues")
+    private Integer numIssues;
 	
 	    //
-    @Column(name = "num_comments")
-    private Integer numComments;
+    @Column(name = "num_closed_issues")
+    private Integer numClosedIssues;
+	
+	    //
+    @Column(name = "completeness")
+    private Integer completeness;
 	
 	    //
     @Column(name = "deadline_unix")
-    private Integer deadlineUnix;
+    private Long deadlineUnix;
 	
 	    //
-    @Column(name = "created_unix")
-    private Integer createdUnix;
-	
-	    //
-    @Column(name = "updated_unix")
-    private Integer updatedUnix;
+    @Column(name = "closed_date_unix")
+    private Long closedDateUnix;
 	
 	    //
     @Column(name = "crt_name")
@@ -135,30 +116,6 @@ public class IssueEntity implements Serializable {
 	/**
 	 * 设置：
 	 */
-	public void setIssueIndex(Integer issueIndex) {
-		this.issueIndex = issueIndex;
-	}
-	/**
-	 * 获取：
-	 */
-	public Integer getIssueIndex() {
-		return issueIndex;
-	}
-	/**
-	 * 设置：
-	 */
-	public void setPosterId(Integer posterId) {
-		this.posterId = posterId;
-	}
-	/**
-	 * 获取：
-	 */
-	public Integer getPosterId() {
-		return posterId;
-	}
-	/**
-	 * 设置：
-	 */
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -183,42 +140,6 @@ public class IssueEntity implements Serializable {
 	/**
 	 * 设置：
 	 */
-	public void setMilestoneId(Integer milestoneId) {
-		this.milestoneId = milestoneId;
-	}
-	/**
-	 * 获取：
-	 */
-	public Integer getMilestoneId() {
-		return milestoneId;
-	}
-	/**
-	 * 设置：
-	 */
-	public void setPriority(Integer priority) {
-		this.priority = priority;
-	}
-	/**
-	 * 获取：
-	 */
-	public Integer getPriority() {
-		return priority;
-	}
-	/**
-	 * 设置：
-	 */
-	public void setAssigneeId(Integer assigneeId) {
-		this.assigneeId = assigneeId;
-	}
-	/**
-	 * 获取：
-	 */
-	public Integer getAssigneeId() {
-		return assigneeId;
-	}
-	/**
-	 * 设置：
-	 */
 	public void setIsClosed(Integer isClosed) {
 		this.isClosed = isClosed;
 	}
@@ -231,62 +152,62 @@ public class IssueEntity implements Serializable {
 	/**
 	 * 设置：
 	 */
-	public void setIsPull(Integer isPull) {
-		this.isPull = isPull;
+	public void setNumIssues(Integer numIssues) {
+		this.numIssues = numIssues;
 	}
 	/**
 	 * 获取：
 	 */
-	public Integer getIsPull() {
-		return isPull;
+	public Integer getNumIssues() {
+		return numIssues;
 	}
 	/**
 	 * 设置：
 	 */
-	public void setNumComments(Integer numComments) {
-		this.numComments = numComments;
+	public void setNumClosedIssues(Integer numClosedIssues) {
+		this.numClosedIssues = numClosedIssues;
 	}
 	/**
 	 * 获取：
 	 */
-	public Integer getNumComments() {
-		return numComments;
+	public Integer getNumClosedIssues() {
+		return numClosedIssues;
 	}
 	/**
 	 * 设置：
 	 */
-	public void setDeadlineUnix(Integer deadlineUnix) {
+	public void setCompleteness(Integer completeness) {
+		this.completeness = completeness;
+	}
+	/**
+	 * 获取：
+	 */
+	public Integer getCompleteness() {
+		return completeness;
+	}
+	/**
+	 * 设置：
+	 */
+	public void setDeadlineUnix(Long deadlineUnix) {
 		this.deadlineUnix = deadlineUnix;
 	}
 	/**
 	 * 获取：
 	 */
-	public Integer getDeadlineUnix() {
+	public Long getDeadlineUnix() {
 		return deadlineUnix;
 	}
 	/**
 	 * 设置：
 	 */
-	public void setCreatedUnix(Integer createdUnix) {
-		this.createdUnix = createdUnix;
+	public void setClosedDateUnix(Long closedDateUnix) {
+		this.closedDateUnix = closedDateUnix;
 	}
 	/**
 	 * 获取：
 	 */
-	public Integer getCreatedUnix() {
-		return createdUnix;
-	}
-	/**
-	 * 设置：
-	 */
-	public void setUpdatedUnix(Integer updatedUnix) {
-		this.updatedUnix = updatedUnix;
-	}
-	/**
-	 * 获取：
-	 */
-	public Integer getUpdatedUnix() {
-		return updatedUnix;
+	public Long getClosedDateUnix() {
+		return closedDateUnix;
 	}
 	/**
 	 * 设置：
