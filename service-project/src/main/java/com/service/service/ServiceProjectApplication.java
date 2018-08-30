@@ -12,6 +12,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -30,6 +31,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @MapperScan("com.service.service.mapper")
 @EnableSwagger2Doc
 @ServletComponentScan
+@EnableAspectJAutoProxy
 public class ServiceProjectApplication {
 	public static void main(String[] args) {
 		new SpringApplicationBuilder(ServiceProjectApplication.class).web(true).run(args);

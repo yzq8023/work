@@ -2,13 +2,16 @@ package com.service.service.biz;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.wxiaoqi.security.common.biz.BaseBiz;
 import com.github.wxiaoqi.security.common.msg.TableResultResponse;
 import com.github.wxiaoqi.security.common.util.Query;
 import com.service.service.Keys;
 import com.service.service.entity.Activity;
+import com.service.service.entity.ActivityEntity;
 import com.service.service.entity.TaskEntity;
 import com.service.service.entity.UserModel;
 import com.service.service.managers.IWorkHub;
+import com.service.service.mapper.ActivityEntityMapper;
 import com.service.service.utils.ActivityUtils;
 import com.service.service.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +26,7 @@ import java.util.*;
  * @Modified:
  */
 @Service
-public class ActivityBiz {
+public class ActivityBiz extends BaseBiz<ActivityEntityMapper, ActivityEntity> {
 
     private IWorkHub workHub;
     List<TaskEntity> repositoryModels = new ArrayList<TaskEntity>();
@@ -31,6 +34,7 @@ public class ActivityBiz {
     @Autowired
     public ActivityBiz(IWorkHub workHub) {
         this.workHub = workHub;
+
     }
 
     /**
@@ -134,7 +138,7 @@ public class ActivityBiz {
 //		if (!StringUtils.isEmpty(set)) {
 //			// filter the repositories by the specified sets
 //			hasParameter = true;
-//			List<String> sets = StringUtils.getStringsFromValue(set, ",");
+//			List<String> sets = triSngUtils.getStringsFromValue(set, ",");
 //			for (TaskEntity model : availableModels) {
 //				for (String curr : sets) {
 //					if (model.federationSets.contains(curr)) {
@@ -200,5 +204,25 @@ public class ActivityBiz {
 
     protected TimeZone getTimeZone() {
         return workHub.getTimezone();
+    }
+
+    @Override
+    protected String getPageName() {
+        return null;
+    }
+
+    public void updateActivity(TaskEntity taskEntity, String method) {
+
+        ActivityEntity activityEntity = new ActivityEntity();
+        activityEntity.setContent(taskEntity.getTaskDes());
+        activityEntity.setIsPrivate(true);
+//        activityEntity.setOpType();
+//        activityEntity.setRefName();
+//        activityEntity.setRepoId();
+//        activityEntity.setRepoUserName();
+//        activityEntity.setRepoName();
+//        activityEntity.setUserId();
+//
+//        super.insertSelective(taskEntity);
     }
 }
