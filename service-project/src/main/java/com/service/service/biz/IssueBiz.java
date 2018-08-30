@@ -3,6 +3,7 @@ package com.service.service.biz;
 import com.github.wxiaoqi.security.common.biz.BaseBiz;
 import com.service.service.entity.IssueEntity;
 import com.service.service.mapper.IssueEntityMapper;
+import com.service.service.utils.StringUtils;
 import org.springframework.stereotype.Service;
 
 
@@ -15,6 +16,16 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class IssueBiz extends BaseBiz<IssueEntityMapper,IssueEntity> {
+
+    public void modifyLabelsInIssue(Integer issueId, String labels) {
+        mapper.deleteIssueLabelsById(issueId);
+        if (!StringUtils.isEmpty(labels)) {
+            String[] label = labels.split(",");
+            for (String t : label) {
+                mapper.insertIssueLabelsById(issueId, Integer.parseInt(t));
+            }
+        }
+    }
     @Override
     protected String getPageName() {
         return null;
