@@ -48,6 +48,7 @@ mybatis:
     basepackage: com.service.service.mapper
     xmlLocation: classpath:mapper/**/*.xml
     mapper-locations: "classpath*:mapper/*.xml"
+    type-handlers-package: com.service.service.handler.impl
 
 server:
     port: 8764
