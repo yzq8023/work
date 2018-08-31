@@ -106,7 +106,7 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
      *
      * @param taskEntity 任务实体
      */
-    public void createTask(TaskEntity taskEntity, String userId) {
+    public TaskEntity createTask(TaskEntity taskEntity, String userId) {
         try {
             // 传递
             taskEntity.setCrtUser(userId);
@@ -119,11 +119,14 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
             workHub.updateRepositoryModel(taskEntity.getTaskName(), taskEntity, true);
             // 创建初始提交
 //            initialCommit(taskEntity, addReadme, gitignore, useGitFlow);
-            mapper.insertSelective(taskEntity);
+//            mapper.insertSelective(taskEntity);
+            Integer taskId = mapper.insert(taskEntity);
 
+            return taskEntity;
         } catch (GitBlitException e) {
             error(e.getMessage());
         }
+        return null;
     }
 
     //TODO 采用数据库方式读取repository，如果有问题建议使用原始方式
