@@ -130,14 +130,13 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 	}
 
 	/**
-	 * Returns true if the user is permitted to apply the receive commands to
-	 * the repository.
+	 * 如果用户被允许将接收命令应用到该命令，则返回true存储库。
 	 *
 	 * @param commands
 	 * @return true if the user may push these commands
 	 */
 	protected boolean canPush(Collection<ReceiveCommand> commands) {
-		// TODO Consider supporting branch permissions here (issue-36)
+		// TODO 考虑支持分支权限 (issue-36)
 		// Not sure if that should be Gerrit-style, refs/meta/config, or
 		// gitolite-style, permissions in users.conf
 		//

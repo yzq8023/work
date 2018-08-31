@@ -3,10 +3,7 @@ package com.service.service.entity;
 import com.service.service.Constants.*;
 import com.service.service.utils.StringUtils;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
 

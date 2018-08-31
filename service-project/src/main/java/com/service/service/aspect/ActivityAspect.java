@@ -8,6 +8,7 @@ import com.service.service.entity.ActivityEntity;
 import com.service.service.entity.TaskEntity;
 import com.service.service.entity.UserModel;
 import org.apache.log4j.Logger;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -25,19 +26,21 @@ import org.springframework.stereotype.Component;
 public class ActivityAspect {
 
     ActivityBiz activityBiz;
-    ConfigUserService configUserService;
 
     @Autowired
-    public ActivityAspect(ActivityBiz activityBiz, ConfigUserService configUserService) {
+    public ActivityAspect(ActivityBiz activityBiz) {
         this.activityBiz = activityBiz;
-        this.configUserService = configUserService;
     }
 
     private Logger logger = Logger.getLogger(getClass());
 
-    @Pointcut("execution(public * com.service.service.biz.TaskBiz.createTask(..))")
-    public void taskAspect(){}
+    @Pointcut("execution(public * com.service.service.controller.TaskController.remove(..))")
+    public void removeTaskAspect(){}
 
+    @Pointcut("execution(public * com.service.service.controller.MapUserTaskController.modify(..))")
+    public void modifyTaskUserAspect(){}
+//    @Pointcut("execution(public * com.service.service.biz.TaskBiz.(..))")
+//    public void createTaskAspect(){}
 //    @Pointcut("execution(public * com.service.service.biz.ProjectBiz.*(..))")
 //    public void projectAspect(){}
 //
@@ -47,9 +50,10 @@ public class ActivityAspect {
 //    @Pointcut("execution(public * com.service.service.biz.TeamBiz.*(..))")
 //    public void teamAspect(){}
 
-    @AfterReturning(returning = "taskEntity", pointcut = "taskAspect()")
-    public void doAfterReturning(TaskEntity taskEntity) throws Throwable {
+    @AfterReturning(returning = "result", pointcut = "removeTaskAspect()")
+    public void doAfterReturning(JoinPoint joinPoint, Object result) throws Throwable {
+        logger.info(joinPoint.getSignature().getName());
         //获取访问目标方法
-        activityBiz.updateActivity(taskEntity, OpTypeConstant.OP_CREATE);
+        activityBiz.updateActivity(result, OpTypeConstant.OP_CREATE);
     }
 }

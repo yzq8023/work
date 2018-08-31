@@ -1,106 +1,106 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.service.service.mapper.TaskEntityMapper" >
-  <resultMap id="BaseResultMap" type="com.service.service.entity.TaskEntity" >
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="task_id" property="taskId" jdbcType="INTEGER" />
-    <result column="task_creator_id" property="taskCreatorId" jdbcType="INTEGER" />
-    <result column="task_des" property="taskDes" jdbcType="VARCHAR" />
-    <result column="task_executor_id" property="taskExecutorId" jdbcType="INTEGER" />
-    <result column="task_name" property="taskName" jdbcType="VARCHAR" />
-    <result column="task_parent_id" property="taskParentId" jdbcType="INTEGER" />
-    <result column="task_plan_end" property="taskPlanEnd" jdbcType="TIMESTAMP" />
-    <result column="task_process" property="taskProcess" jdbcType="INTEGER" />
-    <result column="task_project_name" property="taskProjectName" jdbcType="VARCHAR" />
-    <result column="task_project_id" property="taskProjectId" jdbcType="INTEGER" />
-    <result column="task_resource_id" property="taskResourceId" jdbcType="INTEGER" />
-    <result column="task_state" property="taskState" jdbcType="TINYINT" />
-    <result column="task_time_end" property="taskTimeEnd" jdbcType="TIMESTAMP" />
-    <result column="task_time_start" property="taskTimeStart" jdbcType="TIMESTAMP" />
-    <result column="task_type" property="taskType" jdbcType="TINYINT" />
-    <result column="crt_name" property="crtName" jdbcType="VARCHAR" />
-    <result column="crt_user" property="crtUser" jdbcType="VARCHAR" />
-    <result column="crt_host" property="crtHost" jdbcType="VARCHAR" />
-    <result column="crt_time" property="crtTime" jdbcType="TIMESTAMP" />
-    <result column="upd_time" property="updTime" jdbcType="TIMESTAMP" />
-    <result column="upd_user" property="updUser" jdbcType="VARCHAR" />
-    <result column="upd_name" property="updName" jdbcType="VARCHAR" />
-    <result column="upd_host" property="updHost" jdbcType="VARCHAR" />
-    <result column="default_branch" property="defaultBranch" jdbcType="VARCHAR" />
-    <result column="size" property="size" jdbcType="VARCHAR" />
-    <result column="num_watches" property="numWatches" jdbcType="VARCHAR" />
-    <result column="num_stars" property="numStars" jdbcType="INTEGER" />
-    <result column="num_forks" property="numForks" jdbcType="INTEGER" />
-    <result column="num_issues" property="numIssues" jdbcType="INTEGER" />
-    <result column="num_closed_issues" property="numClosedIssues" jdbcType="INTEGER" />
-    <result column="num_pulls" property="numPulls" jdbcType="INTEGER" />
-    <result column="num_closed_pulls" property="numClosedPulls" jdbcType="INTEGER" />
-    <result column="num_milestones" property="numMilestones" jdbcType="INTEGER" />
-    <result column="num_closed_milestones" property="numClosedMilestones" jdbcType="INTEGER" />
-    <result column="enable_issues" property="enableIssues" jdbcType="BIT" />
-    <result column="allow_public_issues" property="allowPublicIssues" jdbcType="BIT" />
-    <result column="is_fork" property="isFork" jdbcType="BIT" />
-    <result column="fork_id" property="forkId" jdbcType="INTEGER" />
-    <result column="head" property="head" jdbcType="VARCHAR" />
-    <result column="merge_to" property="mergeTo" jdbcType="VARCHAR" />
-    <result column="project_path" property="projectPath" jdbcType="VARCHAR" />
-    <result column="access_restriction" property="accessRestriction" jdbcType="CHAR" />
-    <result column="authorization_control" property="authorizationControl" jdbcType="CHAR" />
-    <result column="task_is_leaf" property="taskIsLeaf" jdbcType="BINARY" />
-  </resultMap>
-  <resultMap id="StatusResultMap" type="java.util.HashMap" >
-    <!--
-      WARNING - @mbg.generated
-    -->
-    <id column="task_id" property="taskId" jdbcType="INTEGER" />
-    <result column="task_creator_id" property="taskCreatorId" jdbcType="INTEGER" />
-    <result column="task_des" property="taskDes" jdbcType="VARCHAR" />
-    <result column="task_executor_id" property="taskExecutorId" jdbcType="INTEGER" />
-    <result column="task_name" property="taskName" jdbcType="VARCHAR" />
-    <result column="task_parent_id" property="taskParentId" jdbcType="INTEGER" />
-    <result column="task_plan_end" property="taskPlanEnd" jdbcType="TIMESTAMP" />
-    <result column="task_process" property="taskProcess" jdbcType="INTEGER" />
-    <result column="task_project_name" property="taskProjectName" jdbcType="VARCHAR" />
-    <result column="task_project_id" property="taskProjectId" jdbcType="INTEGER" />
-    <result column="task_resource_id" property="taskResourceId" jdbcType="INTEGER" />
-    <result column="task_state" property="taskState" jdbcType="TINYINT" />
-    <result column="task_time_end" property="taskTimeEnd" jdbcType="TIMESTAMP" />
-    <result column="task_time_start" property="taskTimeStart" jdbcType="TIMESTAMP" />
-    <result column="task_type" property="taskType" jdbcType="TINYINT" />
-    <result column="crt_name" property="crtName" jdbcType="VARCHAR" />
-    <result column="crt_user" property="crtUser" jdbcType="VARCHAR" />
-    <result column="crt_host" property="crtHost" jdbcType="VARCHAR" />
-    <result column="crt_time" property="crtTime" jdbcType="TIMESTAMP" />
-    <result column="upd_time" property="updTime" jdbcType="TIMESTAMP" />
-    <result column="upd_user" property="updUser" jdbcType="VARCHAR" />
-    <result column="upd_name" property="updName" jdbcType="VARCHAR" />
-    <result column="upd_host" property="updHost" jdbcType="VARCHAR" />
-    <result column="default_branch" property="defaultBranch" jdbcType="VARCHAR" />
-    <result column="size" property="size" jdbcType="VARCHAR" />
-    <result column="num_watches" property="numWatches" jdbcType="VARCHAR" />
-    <result column="num_stars" property="numStars" jdbcType="INTEGER" />
-    <result column="num_forks" property="numForks" jdbcType="INTEGER" />
-    <result column="num_issues" property="numIssues" jdbcType="INTEGER" />
-    <result column="num_closed_issues" property="numClosedIssues" jdbcType="INTEGER" />
-    <result column="num_pulls" property="numPulls" jdbcType="INTEGER" />
-    <result column="num_closed_pulls" property="numClosedPulls" jdbcType="INTEGER" />
-    <result column="num_milestones" property="numMilestones" jdbcType="INTEGER" />
-    <result column="num_closed_milestones" property="numClosedMilestones" jdbcType="INTEGER" />
-    <result column="enable_issues" property="enableIssues" jdbcType="BIT" />
-    <result column="allow_public_issues" property="allowPublicIssues" jdbcType="BIT" />
-    <result column="is_fork" property="isFork" jdbcType="BIT" />
-    <result column="fork_id" property="forkId" jdbcType="INTEGER" />
-    <result column="head" property="head" jdbcType="VARCHAR" />
-    <result column="merge_to" property="mergeTo" jdbcType="VARCHAR" />
-    <result column="project_path" property="projectPath" jdbcType="VARCHAR" />
-    <result column="access_restriction" property="accessRestriction" jdbcType="CHAR" />
-    <result column="authorization_control" property="authorizationControl" jdbcType="CHAR" />
-    <result column="task_is_leaf" property="taskIsLeaf" jdbcType="BINARY" />
-    <result column="status" property="status" jdbcType="VARCHAR" />
-  </resultMap>
-  <insert id="insertTaskTeamsById">
+<mapper namespace="com.service.service.mapper.TaskEntityMapper">
+    <resultMap id="BaseResultMap" type="com.service.service.entity.TaskEntity">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="task_id" property="taskId" jdbcType="INTEGER"/>
+        <result column="task_creator_id" property="taskCreatorId" jdbcType="INTEGER"/>
+        <result column="task_des" property="taskDes" jdbcType="VARCHAR"/>
+        <result column="task_executor_id" property="taskExecutorId" jdbcType="INTEGER"/>
+        <result column="task_name" property="taskName" jdbcType="VARCHAR"/>
+        <result column="task_parent_id" property="taskParentId" jdbcType="INTEGER"/>
+        <result column="task_plan_end" property="taskPlanEnd" jdbcType="TIMESTAMP"/>
+        <result column="task_process" property="taskProcess" jdbcType="INTEGER"/>
+        <result column="task_project_name" property="taskProjectName" jdbcType="VARCHAR"/>
+        <result column="task_project_id" property="taskProjectId" jdbcType="INTEGER"/>
+        <result column="task_resource_id" property="taskResourceId" jdbcType="INTEGER"/>
+        <result column="task_state" property="taskState" jdbcType="TINYINT"/>
+        <result column="task_time_end" property="taskTimeEnd" jdbcType="TIMESTAMP"/>
+        <result column="task_time_start" property="taskTimeStart" jdbcType="TIMESTAMP"/>
+        <result column="task_type" property="taskType" jdbcType="TINYINT"/>
+        <result column="crt_name" property="crtName" jdbcType="VARCHAR"/>
+        <result column="crt_user" property="crtUser" jdbcType="VARCHAR"/>
+        <result column="crt_host" property="crtHost" jdbcType="VARCHAR"/>
+        <result column="crt_time" property="crtTime" jdbcType="TIMESTAMP"/>
+        <result column="upd_time" property="updTime" jdbcType="TIMESTAMP"/>
+        <result column="upd_user" property="updUser" jdbcType="VARCHAR"/>
+        <result column="upd_name" property="updName" jdbcType="VARCHAR"/>
+        <result column="upd_host" property="updHost" jdbcType="VARCHAR"/>
+        <result column="default_branch" property="defaultBranch" jdbcType="VARCHAR"/>
+        <result column="size" property="size" jdbcType="VARCHAR"/>
+        <result column="num_watches" property="numWatches" jdbcType="VARCHAR"/>
+        <result column="num_stars" property="numStars" jdbcType="INTEGER"/>
+        <result column="num_forks" property="numForks" jdbcType="INTEGER"/>
+        <result column="num_issues" property="numIssues" jdbcType="INTEGER"/>
+        <result column="num_closed_issues" property="numClosedIssues" jdbcType="INTEGER"/>
+        <result column="num_pulls" property="numPulls" jdbcType="INTEGER"/>
+        <result column="num_closed_pulls" property="numClosedPulls" jdbcType="INTEGER"/>
+        <result column="num_milestones" property="numMilestones" jdbcType="INTEGER"/>
+        <result column="num_closed_milestones" property="numClosedMilestones" jdbcType="INTEGER"/>
+        <result column="enable_issues" property="enableIssues" jdbcType="BIT"/>
+        <result column="allow_public_issues" property="allowPublicIssues" jdbcType="BIT"/>
+        <result column="is_fork" property="isFork" jdbcType="BIT"/>
+        <result column="fork_id" property="forkId" jdbcType="INTEGER"/>
+        <result column="head" property="head" jdbcType="VARCHAR"/>
+        <result column="merge_to" property="mergeTo" jdbcType="VARCHAR"/>
+        <result column="project_path" property="projectPath" jdbcType="VARCHAR"/>
+        <result column="access_restriction" property="accessRestriction" jdbcType="CHAR"/>
+        <result column="authorization_control" property="authorizationControl" jdbcType="CHAR"/>
+        <result column="task_is_leaf" property="taskIsLeaf" jdbcType="BINARY"/>
+    </resultMap>
+    <resultMap id="StatusResultMap" type="java.util.HashMap">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="task_id" property="taskId" jdbcType="INTEGER"/>
+        <result column="task_creator_id" property="taskCreatorId" jdbcType="INTEGER"/>
+        <result column="task_des" property="taskDes" jdbcType="VARCHAR"/>
+        <result column="task_executor_id" property="taskExecutorId" jdbcType="INTEGER"/>
+        <result column="task_name" property="taskName" jdbcType="VARCHAR"/>
+        <result column="task_parent_id" property="taskParentId" jdbcType="INTEGER"/>
+        <result column="task_plan_end" property="taskPlanEnd" jdbcType="TIMESTAMP"/>
+        <result column="task_process" property="taskProcess" jdbcType="INTEGER"/>
+        <result column="task_project_name" property="taskProjectName" jdbcType="VARCHAR"/>
+        <result column="task_project_id" property="taskProjectId" jdbcType="INTEGER"/>
+        <result column="task_resource_id" property="taskResourceId" jdbcType="INTEGER"/>
+        <result column="task_state" property="taskState" jdbcType="TINYINT"/>
+        <result column="task_time_end" property="taskTimeEnd" jdbcType="TIMESTAMP"/>
+        <result column="task_time_start" property="taskTimeStart" jdbcType="TIMESTAMP"/>
+        <result column="task_type" property="taskType" jdbcType="TINYINT"/>
+        <result column="crt_name" property="crtName" jdbcType="VARCHAR"/>
+        <result column="crt_user" property="crtUser" jdbcType="VARCHAR"/>
+        <result column="crt_host" property="crtHost" jdbcType="VARCHAR"/>
+        <result column="crt_time" property="crtTime" jdbcType="TIMESTAMP"/>
+        <result column="upd_time" property="updTime" jdbcType="TIMESTAMP"/>
+        <result column="upd_user" property="updUser" jdbcType="VARCHAR"/>
+        <result column="upd_name" property="updName" jdbcType="VARCHAR"/>
+        <result column="upd_host" property="updHost" jdbcType="VARCHAR"/>
+        <result column="default_branch" property="defaultBranch" jdbcType="VARCHAR"/>
+        <result column="size" property="size" jdbcType="VARCHAR"/>
+        <result column="num_watches" property="numWatches" jdbcType="VARCHAR"/>
+        <result column="num_stars" property="numStars" jdbcType="INTEGER"/>
+        <result column="num_forks" property="numForks" jdbcType="INTEGER"/>
+        <result column="num_issues" property="numIssues" jdbcType="INTEGER"/>
+        <result column="num_closed_issues" property="numClosedIssues" jdbcType="INTEGER"/>
+        <result column="num_pulls" property="numPulls" jdbcType="INTEGER"/>
+        <result column="num_closed_pulls" property="numClosedPulls" jdbcType="INTEGER"/>
+        <result column="num_milestones" property="numMilestones" jdbcType="INTEGER"/>
+        <result column="num_closed_milestones" property="numClosedMilestones" jdbcType="INTEGER"/>
+        <result column="enable_issues" property="enableIssues" jdbcType="BIT"/>
+        <result column="allow_public_issues" property="allowPublicIssues" jdbcType="BIT"/>
+        <result column="is_fork" property="isFork" jdbcType="BIT"/>
+        <result column="fork_id" property="forkId" jdbcType="INTEGER"/>
+        <result column="head" property="head" jdbcType="VARCHAR"/>
+        <result column="merge_to" property="mergeTo" jdbcType="VARCHAR"/>
+        <result column="project_path" property="projectPath" jdbcType="VARCHAR"/>
+        <result column="access_restriction" property="accessRestriction" jdbcType="CHAR"/>
+        <result column="authorization_control" property="authorizationControl" jdbcType="CHAR"/>
+        <result column="task_is_leaf" property="taskIsLeaf" jdbcType="BINARY"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+    </resultMap>
+    <insert id="insertTaskTeamsById">
       insert into team_repo (
       task_id,team_id
       )
@@ -108,36 +108,36 @@
       #{taskId},#{teamId}
       )
   </insert>
-  <delete id="deleteTaskTeamsById">
+    <delete id="deleteTaskTeamsById">
     delete from team_repo where task_id = #{taskId}
   </delete>
-  <select id="selectTaskByPIdAndUId" resultMap="StatusResultMap">
-    select  t.*,case
-    when t.task_id in (select mut.task_id from map_user_task mut where mut.user_id = #{userId}) then 1
-    when t.task_id in (select tk.task_id from task tk where tk.crt_user = #{userId}) then 1
-    else 0 end as status
-    from task t where t.task_project_id = #{projectId}
-    <if test="taskName != null and taskName !=''">
-      <bind name="taskName" value="'%' + taskName + '%'" />
-     and  t.task_name like #{taskName}
-    </if>
-    <if test="taskProcess != null and taskProcess !=''">
-      <bind name="taskProcess" value="taskProcess" />
-      and  t.task_process = #{taskProcess}
-    </if>
-  </select>
-  <select id="selectJoinedTaskById" resultMap="BaseResultMap">
+    <select id="selectTaskByPIdAndUId" resultMap="StatusResultMap">
+        select t.*,case
+        when t.task_id in (select mut.task_id from map_user_task mut where mut.user_id = #{userId}) then 1
+        when t.task_id in (select tk.task_id from task tk where tk.crt_user = #{userId}) then 1
+        else 0 end as status
+        from task t where t.task_project_id = #{projectId}
+        <if test="taskName != null and taskName !=''">
+            <bind name="taskName" value="'%' + taskName + '%'"/>
+            and t.task_name like #{taskName}
+        </if>
+        <if test="taskProcess != null and taskProcess !=''">
+            <bind name="taskProcess" value="taskProcess"/>
+            and t.task_process = #{taskProcess}
+        </if>
+    </select>
+    <select id="selectJoinedTaskById" resultMap="BaseResultMap">
     select t.* from task t
     left join map_user_task mut
     on t.task_id = mut.task_id
     where mut.user_id = #{userId}
   </select>
-  <select id="selectTaskByTIdAndCtrUser" resultType="java.lang.Integer">
+    <select id="selectTaskByTIdAndCtrUser" resultType="java.lang.Integer">
     select count(*) from task t
     where t.crt_user = #{crtUser}
     and t.task_id = #{taskId}
   </select>
-  <select id="selectMapTaskByTIdAndCtrUser" resultType="java.lang.Integer">
+    <select id="selectMapTaskByTIdAndCtrUser" resultType="java.lang.Integer">
     select count(*) from map_user_task mut
     where mut.user_id = #{crtUser}
     and mut.task_id = #{taskId}

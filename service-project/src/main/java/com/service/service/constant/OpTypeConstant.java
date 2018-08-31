@@ -7,10 +7,10 @@ package com.service.service.constant;
  * @Modified: 活动类型使用
  */
 public class OpTypeConstant {
-    private static final Integer OP_CREATE = 1;
-    private static final Integer OP_DELETE = 2;
-    private static final Integer OP_UPDATE = 3;
-    private static final Integer OP_COMMIT = 4;
-    private static final Integer OP_JOIN = 5;
-    private static final Integer OP_MERGE = 6;
+    public static final Integer OP_CREATE = 1;
+    public static final Integer OP_DELETE = 2;
+    public static final Integer OP_UPDATE = 3;
+    public static final Integer OP_COMMIT = 4;
+    public static final Integer OP_JOIN = 5;
+    public static final Integer OP_MERGE = 6;
 }

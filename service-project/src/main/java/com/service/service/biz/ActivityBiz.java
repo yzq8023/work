@@ -6,10 +6,7 @@ import com.github.wxiaoqi.security.common.biz.BaseBiz;
 import com.github.wxiaoqi.security.common.msg.TableResultResponse;
 import com.github.wxiaoqi.security.common.util.Query;
 import com.service.service.Keys;
-import com.service.service.entity.Activity;
-import com.service.service.entity.ActivityEntity;
-import com.service.service.entity.TaskEntity;
-import com.service.service.entity.UserModel;
+import com.service.service.entity.*;
 import com.service.service.managers.IWorkHub;
 import com.service.service.mapper.ActivityEntityMapper;
 import com.service.service.utils.ActivityUtils;
@@ -18,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import static com.service.service.constant.OpTypeConstant.*;
 
 /**
  * @Author: hollykunge
@@ -211,18 +209,50 @@ public class ActivityBiz extends BaseBiz<ActivityEntityMapper, ActivityEntity> {
         return null;
     }
 
-    public void updateActivity(TaskEntity taskEntity, String method) {
+    /**
+     * 所有的可通知活动均通过该函数持久化
+     */
+    public void updateActivity(Object object, Integer method) {
 
-        ActivityEntity activityEntity = new ActivityEntity();
-        activityEntity.setContent(taskEntity.getTaskDes());
-        activityEntity.setIsPrivate(true);
-//        activityEntity.setOpType();
-//        activityEntity.setRefName();
-//        activityEntity.setRepoId();
-//        activityEntity.setRepoUserName();
-//        activityEntity.setRepoName();
-//        activityEntity.setUserId();
-//
-//        super.insertSelective(taskEntity);
+        if (object instanceof TaskEntity) {
+            TaskEntity taskEntity = (TaskEntity) object;
+            ActivityEntity activityEntity = new ActivityEntity();
+            activityEntity.setContent(taskEntity.getTaskDes());
+            activityEntity.setIsPrivate(true);
+            switch (method) {
+                case 1:
+                    activityEntity.setOpType(OP_CREATE);
+                    break;
+                case 2:
+                    activityEntity.setOpType(OP_DELETE);
+                    break;
+                case 3:
+                    activityEntity.setOpType(OP_UPDATE);
+                    break;
+                case 4:
+                    activityEntity.setOpType(OP_COMMIT);
+                    break;
+                case 5:
+                    activityEntity.setOpType(OP_JOIN);
+                    break;
+                case 6:
+                    activityEntity.setOpType(OP_MERGE);
+                    break;
+                default:
+                    break;
+            }
+
+            activityEntity.setRefName(null);
+            activityEntity.setRepoId(taskEntity.getTaskId());
+            activityEntity.setRepoUserName(taskEntity.getCrtName());
+            activityEntity.setRepoName(taskEntity.getTaskName());
+            activityEntity.setUserId(Integer.valueOf(taskEntity.getCrtUser()));
+
+            super.insertSelective(activityEntity);
+        } else if (object instanceof ProjectEntity) {
+
+        }
+
+
     }
 }
