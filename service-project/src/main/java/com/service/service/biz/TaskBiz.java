@@ -115,6 +115,7 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
             taskEntity.setAccessRestriction(Constants.AccessRestrictionType.PUSH);
             // 更新
             taskEntity.setTaskName(taskEntity.getTaskProjectName() + "/" + taskEntity.getTaskName());
+            taskEntity.addOwner(userId);
             // 初始化
             workHub.updateRepositoryModel(taskEntity.getTaskName(), taskEntity, true);
             // 创建初始提交
