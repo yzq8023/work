@@ -37,8 +37,8 @@ public class ActivityAspect {
     @Pointcut("execution(public * com.service.service.controller.TaskController.remove(..))")
     public void removeTaskAspect(){}
 
-    @Pointcut("execution(public * com.service.service.controller.MapUserTaskController.modify(..))")
-    public void modifyTaskUserAspect(){}
+    @Pointcut("execution(public * com.service.service.biz.MapUserTaskBiz.updateUsersInTask(..))")
+    public void updateUsersInTaskAspect(){}
 //    @Pointcut("execution(public * com.service.service.biz.TaskBiz.(..))")
 //    public void createTaskAspect(){}
 //    @Pointcut("execution(public * com.service.service.biz.ProjectBiz.*(..))")
@@ -51,7 +51,15 @@ public class ActivityAspect {
 //    public void teamAspect(){}
 
     @AfterReturning(returning = "result", pointcut = "removeTaskAspect()")
-    public void doAfterReturning(JoinPoint joinPoint, Object result) throws Throwable {
+    public void doAfterTaskReturning(JoinPoint joinPoint, Object result) throws Throwable {
+        logger.info(joinPoint.getSignature().getName());
+        //获取访问目标方法
+        activityBiz.updateActivity(result, OpTypeConstant.OP_CREATE);
+    }
+
+    @AfterReturning(returning = "result", pointcut = "updateUsersInTaskAspect()")
+    public void doAfterMapReturning(JoinPoint joinPoint, Object result) throws Throwable {
+        Object[] args = joinPoint.getArgs();
         logger.info(joinPoint.getSignature().getName());
         //获取访问目标方法
         activityBiz.updateActivity(result, OpTypeConstant.OP_CREATE);

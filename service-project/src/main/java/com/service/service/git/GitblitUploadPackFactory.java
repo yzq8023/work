@@ -24,10 +24,8 @@ import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.eclipse.jgit.transport.resolver.UploadPackFactory;
 
 /**
- * The upload pack factory creates an upload pack which controls what refs are
- * advertised to cloning/pulling clients.
- *
- * @author James Moger
+ * 上传任务包工厂，创建一个上传任务包来控制refs，告知正在clone或pull的客户端
+ * @author hollykunge
  *
  * @param <X> the connection type
  */

@@ -313,9 +313,7 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 	}
 
 	/**
-	 * Instrumentation point where the incoming push has been applied to the
-	 * repository. This is the point where we would trigger a Jenkins build
-	 * or send an email.
+	 * 钩子，在整个push过程完结以后运行，可以用来更新其他系统服务或者通知用户。
 	 */
 	@Override
 	public void onPostReceive(ReceivePack rp, Collection<ReceiveCommand> commands) {
@@ -641,6 +639,19 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 		}
 		if (!StringUtils.isEmpty(msg)) {
 			LOGGER.error(text + " (" + user.getUserId() + ")");
+		}
+	}
+	/**
+	 * Update Gitblit's internal reflog.
+	 *
+	 * @param commands
+	 */
+	protected void updateGitblitRefLog(Collection<ReceiveCommand> commands) {
+		try {
+			RefLogUtils.updateRefLog(user, getRepository(), commands);
+			LOGGER.debug(MessageFormat.format("{0} reflog updated", repository.getTaskName()));
+		} catch (Exception e) {
+			LOGGER.error(MessageFormat.format("Failed to update {0} reflog", repository.getTaskName()), e);
 		}
 	}
 
