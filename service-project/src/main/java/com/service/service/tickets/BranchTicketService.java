@@ -50,9 +50,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * Implementation of a ticket service based on an orphan branch.  All tickets
- * are serialized as a list of JSON changes and persisted in a hashed directory
- * structure, similar to the standard git loose object structure.
+ * 执行基于独立分支的Ticket服务。所有Ticket被序列化为JSON更改的列表并持久化到散列目录中
+ * 结构类似于标准的git松散对象结构。
  *
  * @author James Moger
  *
