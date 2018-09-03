@@ -15,7 +15,7 @@
  */
 package com.service.service.entity;
 
-import com.gitblit.utils.StringUtils;
+import com.service.service.utils.StringUtils;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -156,7 +156,6 @@ public class RefLogEntry implements Serializable, Comparable<RefLogEntry> {
 	 * Adds a commit to the push entry object as long as the commit is not a
 	 * duplicate.
 	 *
-	 * @param branch
 	 * @param commit
 	 * @return a RepositoryCommit, if one was added. Null if this is duplicate
 	 *         commit
@@ -173,7 +172,7 @@ public class RefLogEntry implements Serializable, Comparable<RefLogEntry> {
 	 * Adds a a list of repository commits.  This is used to construct discrete
 	 * ref push log entries
 	 *
-	 * @param commits
+	 * @param list
 	 */
 	public void addCommits(List<RepositoryCommit> list) {
 		commits.addAll(list);
@@ -317,7 +316,7 @@ public class RefLogEntry implements Serializable, Comparable<RefLogEntry> {
 	}
 
 	public PersonIdent getCommitterIdent() {
-		return new PersonIdent(user.getDisplayName(), user.emailAddress == null ? user.username : user.emailAddress);
+		return new PersonIdent(user.getDisplayName(), user.getEmailAddress() == null ? user.getUsername() : user.getEmailAddress());
 	}
 
 	public PersonIdent getAuthorIdent() {
