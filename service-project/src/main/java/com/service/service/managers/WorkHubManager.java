@@ -9,6 +9,7 @@ import com.service.service.IStoredSettings;
 import com.service.service.entity.*;
 import com.service.service.exception.GitBlitException;
 import com.service.service.extensions.RepositoryLifeCycleListener;
+import com.service.service.tickets.ITicketService;
 import com.service.service.utils.*;
 import org.eclipse.jgit.api.CloneCommand;
 import org.eclipse.jgit.api.FetchCommand;
@@ -45,6 +46,7 @@ public class WorkHubManager implements IWorkHub {
     protected final IProjectManager projectManager;
     protected final IFilestoreManager filestoreManager;
     protected final IPluginManager pluginManager;
+//    protected final ITicketService ticketServiceProvider;
 
     @Autowired
     public WorkHubManager(IRuntimeManager runtimeManager,
@@ -64,6 +66,7 @@ public class WorkHubManager implements IWorkHub {
         this.projectManager = projectManager;
         this.filestoreManager = filestoreManager;
         this.pluginManager = pluginManager;
+//        this.ticketServiceProvider = ticketServiceProvider;
         this.start();
     }
 
@@ -371,6 +374,11 @@ public class WorkHubManager implements IWorkHub {
         }
 
         return clientApplications.getObject("system");
+    }
+
+    @Override
+    public ITicketService getTicketService() {
+        return null;
     }
     /****************************************************************************************
      *                                     IWorkHub end                                     *
