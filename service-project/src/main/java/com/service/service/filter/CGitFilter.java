@@ -222,14 +222,14 @@ public class CGitFilter extends AccessRestrictionFilter {
             return false;
         }
         if (action.equals(gitReceivePack)) {
-            // push permissions are enforced in the receive pack
+            // 推送权限在接收包中执行
             return true;
         } else if (action.equals(gitUploadPack)) {
-            // Clone request
+            // clone请求
             if (user.canClone(repository)) {
                 return true;
             } else {
-                // user is unauthorized to clone this repository
+                // 用户未经授权克隆这个存储库
                 logger.warn(MessageFormat.format("user {0} is not authorized to clone {1}",
                         user.getUserId(), repository));
                 return false;

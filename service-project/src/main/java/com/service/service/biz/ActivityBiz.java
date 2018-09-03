@@ -2,19 +2,20 @@ package com.service.service.biz;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.github.wxiaoqi.security.common.biz.BaseBiz;
 import com.github.wxiaoqi.security.common.msg.TableResultResponse;
 import com.github.wxiaoqi.security.common.util.Query;
 import com.service.service.Keys;
-import com.service.service.entity.Activity;
-import com.service.service.entity.TaskEntity;
-import com.service.service.entity.UserModel;
+import com.service.service.entity.*;
 import com.service.service.managers.IWorkHub;
+import com.service.service.mapper.ActivityEntityMapper;
 import com.service.service.utils.ActivityUtils;
 import com.service.service.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import static com.service.service.constant.OpTypeConstant.*;
 
 /**
  * @Author: hollykunge
@@ -23,7 +24,7 @@ import java.util.*;
  * @Modified:
  */
 @Service
-public class ActivityBiz {
+public class ActivityBiz extends BaseBiz<ActivityEntityMapper, ActivityEntity> {
 
     private IWorkHub workHub;
     List<TaskEntity> repositoryModels = new ArrayList<TaskEntity>();
@@ -31,6 +32,7 @@ public class ActivityBiz {
     @Autowired
     public ActivityBiz(IWorkHub workHub) {
         this.workHub = workHub;
+
     }
 
     /**
@@ -134,7 +136,7 @@ public class ActivityBiz {
 //		if (!StringUtils.isEmpty(set)) {
 //			// filter the repositories by the specified sets
 //			hasParameter = true;
-//			List<String> sets = StringUtils.getStringsFromValue(set, ",");
+//			List<String> sets = triSngUtils.getStringsFromValue(set, ",");
 //			for (TaskEntity model : availableModels) {
 //				for (String curr : sets) {
 //					if (model.federationSets.contains(curr)) {
@@ -200,5 +202,57 @@ public class ActivityBiz {
 
     protected TimeZone getTimeZone() {
         return workHub.getTimezone();
+    }
+
+    @Override
+    protected String getPageName() {
+        return null;
+    }
+
+    /**
+     * 所有的可通知活动均通过该函数持久化
+     */
+    public void updateActivity(Object object, Integer method) {
+
+        if (object instanceof TaskEntity) {
+            TaskEntity taskEntity = (TaskEntity) object;
+            ActivityEntity activityEntity = new ActivityEntity();
+            activityEntity.setContent(taskEntity.getTaskDes());
+            activityEntity.setIsPrivate(true);
+            switch (method) {
+                case 1:
+                    activityEntity.setOpType(OP_CREATE);
+                    break;
+                case 2:
+                    activityEntity.setOpType(OP_DELETE);
+                    break;
+                case 3:
+                    activityEntity.setOpType(OP_UPDATE);
+                    break;
+                case 4:
+                    activityEntity.setOpType(OP_COMMIT);
+                    break;
+                case 5:
+                    activityEntity.setOpType(OP_JOIN);
+                    break;
+                case 6:
+                    activityEntity.setOpType(OP_MERGE);
+                    break;
+                default:
+                    break;
+            }
+
+            activityEntity.setRefName(null);
+            activityEntity.setRepoId(taskEntity.getTaskId());
+            activityEntity.setRepoUserName(taskEntity.getCrtName());
+            activityEntity.setRepoName(taskEntity.getTaskName());
+            activityEntity.setUserId(Integer.valueOf(taskEntity.getCrtUser()));
+
+            super.insertSelective(activityEntity);
+        } else if (object instanceof ProjectEntity) {
+
+        }
+
+
     }
 }

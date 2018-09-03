@@ -147,8 +147,7 @@ public abstract class AccessRestrictionFilter extends AuthenticationFilter {
 	}
 	
 	/**
-	 * doFilter does the actual work of preprocessing the request to ensure that
-	 * the user may proceed.
+	 * doFilter负责预先处理请求，以确保用户可以继续。
 	 *
 	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest,
 	 *      javax.servlet.ServletResponse, javax.servlet.FilterChain)

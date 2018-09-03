@@ -2,10 +2,7 @@ package com.service.service.entity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 @Table(name = "map_user_task")
 public class MapUserTask {

@@ -2,6 +2,7 @@ package com.service.service.managers;
 
 import com.service.service.entity.*;
 import com.service.service.exception.GitBlitException;
+import com.service.service.tickets.ITicketService;
 
 import java.util.Collection;
 
@@ -53,4 +54,12 @@ public interface IWorkHub extends IManager,
      * @return
      */
     Collection<GitClientApplication> getClientApplications();
+
+    /**
+     * Returns the ticket service.
+     *
+     * @return a ticket service
+     * @since 1.4.0
+     */
+    ITicketService getTicketService();
 }

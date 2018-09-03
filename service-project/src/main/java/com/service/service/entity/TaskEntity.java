@@ -8,10 +8,7 @@ import com.service.service.utils.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
 
@@ -296,15 +293,6 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity> {
     private Constants.CommitMessageRenderer commitMessageRenderer;
     @Transient
     private Date lastChange;
-
-    public String getLastChangeAuthor() {
-        return lastChangeAuthor;
-    }
-
-    public void setLastChangeAuthor(String lastChangeAuthor) {
-        this.lastChangeAuthor = lastChangeAuthor;
-    }
-
     @Transient
     private String lastChangeAuthor;
     @Transient
@@ -335,6 +323,13 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity> {
         addOwner(crtUser);
     }
 
+    public String getLastChangeAuthor() {
+        return lastChangeAuthor;
+    }
+
+    public void setLastChangeAuthor(String lastChangeAuthor) {
+        this.lastChangeAuthor = lastChangeAuthor;
+    }
     /**
      * @return task_id
      */
