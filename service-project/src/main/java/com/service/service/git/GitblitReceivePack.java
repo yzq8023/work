@@ -355,7 +355,7 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 	}
 
 	/**
-	 * Log the ref changes in the container log.
+	 * 在容器日志中记录ref更改。
 	 *
 	 * @param commands
 	 */
