@@ -71,9 +71,9 @@ import java.util.regex.Pattern;
 import com.service.service.entity.TicketModel.TicketLink;
 import com.service.service.entity.TicketModel.TicketAction;
 /**
- * Collection of static methods for retrieving information from a repository.
+ * 从repository检索信息的静态方法的集合
  *
- * @author James Moger
+ * @author hollykunge
  *
  */
 public class JGitUtils {
@@ -81,7 +81,7 @@ public class JGitUtils {
 	static final Logger LOGGER = LoggerFactory.getLogger(JGitUtils.class);
 
 	/**
-	 * Log an error message and exception.
+	 * 记录错误消息和异常。
 	 *
 	 * @param t
 	 * @param repository
@@ -104,8 +104,7 @@ public class JGitUtils {
 	}
 
 	/**
-	 * Returns the displayable name of the person in the form "Real Name <email
-	 * address>".  If the email address is empty, just "Real Name" is returned.
+	 * 返回用户名称，如果没有邮件地址，直接返回用户名称
 	 *
 	 * @param person
 	 * @return "Real Name <email address>" or "Real Name"
@@ -123,7 +122,7 @@ public class JGitUtils {
 	}
 
 	/**
-	 * Encapsulates the result of cloning or pulling from a repository.
+	 * 封装了从repository中克隆或提取的结果。
 	 */
 	public static class CloneResult {
 		public String name;
@@ -132,9 +131,8 @@ public class JGitUtils {
 	}
 
 	/**
-	 * Clone or Fetch a repository. If the local repository does not exist,
-	 * clone is called. If the repository does exist, fetch is called. By
-	 * default the clone/fetch retrieves the remote heads, tags, and notes.
+	 * Clone or Fetch a repository. 如果库不存在的话,clone被调用，如果库不存在fetch被调用，
+	 * 默认情况下clone/fetch检索远程heads, tags, and notes
 	 *
 	 * @param repositoriesFolder
 	 * @param name
@@ -148,9 +146,8 @@ public class JGitUtils {
 	}
 
 	/**
-	 * Clone or Fetch a repository. If the local repository does not exist,
-	 * clone is called. If the repository does exist, fetch is called. By
-	 * default the clone/fetch retrieves the remote heads, tags, and notes.
+	 * Clone or Fetch a repository. 如果库不存在的话,clone被调用，如果库不存在fetch被调用，
+	 * 默认情况下clone/fetch检索远程heads, tags, and notes
 	 *
 	 * @param repositoriesFolder
 	 * @param name
@@ -203,8 +200,8 @@ public class JGitUtils {
 	}
 
 	/**
-	 * Fetch updates from the remote repository. If refSpecs is unspecifed,
-	 * remote heads, tags, and notes are retrieved.
+	 * 从远程存储库获取更新。
+	 * 如果refSpecs未指明,检索远程头部、标签和notes。
 	 *
 	 * @param credentialsProvider
 	 * @param repository
@@ -233,7 +230,7 @@ public class JGitUtils {
 	}
 
 	/**
-	 * Creates a bare repository.
+	 * 创建一个裸repository.
 	 *
 	 * @param repositoriesFolder
 	 * @param name
