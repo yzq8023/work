@@ -299,6 +299,10 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity> {
     private List<String> metricAuthorExclusions;
     @Transient
     private boolean isCollectingGarbage;
+    @Transient
+    private List<String> preReceiveScripts;
+    @Transient
+    private List<String> postReceiveScripts;
 
     public TaskEntity() {
         this(0, "", new Date(0), "", "");
@@ -1280,6 +1284,21 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity> {
     }
 
 
+    public List<String> getPreReceiveScripts() {
+        return preReceiveScripts;
+    }
+
+    public void setPreReceiveScripts(List<String> preReceiveScripts) {
+        this.preReceiveScripts = preReceiveScripts;
+    }
+
+    public List<String> getPostReceiveScripts() {
+        return postReceiveScripts;
+    }
+
+    public void setPostReceiveScripts(List<String> postReceiveScripts) {
+        this.postReceiveScripts = postReceiveScripts;
+    }
 
     @Override
     public int hashCode() {
