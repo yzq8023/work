@@ -32,6 +32,8 @@ import com.service.service.tickets.BranchTicketService;
 import com.service.service.tickets.ITicketService;
 import com.service.service.tickets.TicketNotifier;
 import com.service.service.utils.*;
+import groovy.lang.Binding;
+import groovy.util.GroovyScriptEngine;
 import org.eclipse.jgit.lib.*;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -86,7 +88,8 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 	protected final ITicketService ticketService;
 
 	protected final TicketNotifier ticketNotifier;
-	
+
+	protected GroovyScriptEngine gse;
 
 	public GitblitReceivePack(
 			IWorkHub gitblit,
@@ -155,9 +158,8 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 	}
 
 	/**
-	 * Instrumentation point where the incoming push event has been parsed,
-	 * validated, objects created BUT refs have not been updated. You might
-	 * use this to enforce a branch-write permissions model.
+	 * 插装点，传入的推送事件已经被解析，经过验证，创建的对象和refs都没有更新。
+	 * 可能会使用此方法来强制执行分支-写权限模型。
 	 */
 	@Override
 	public void onPreReceive(ReceivePack rp, Collection<ReceiveCommand> commands) {
@@ -290,20 +292,20 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 		}
 
 		// call pre-receive plugins
-//		for (ReceiveHook hook : gitblit.getExtensions(ReceiveHook.class)) {
-//			try {
-//				hook.onPreReceive(this, commands);
-//			} catch (Exception e) {
-//				LOGGER.error("Failed to execute extension", e);
-//			}
-//		}
+		for (ReceiveHook hook : gitblit.getExtensions(ReceiveHook.class)) {
+			try {
+				hook.onPreReceive(this, commands);
+			} catch (Exception e) {
+				LOGGER.error("Failed to execute extension", e);
+			}
+		}
 
-//		Set<String> scripts = new LinkedHashSet<String>();
-//		scripts.addAll(gitblit.getPreReceiveScriptsInherited(repository));
-//		if (!ArrayUtils.isEmpty(repository.preReceiveScripts)) {
-//			scripts.addAll(repository.preReceiveScripts);
-//		}
-//		runGroovy(commands, scripts);
+		Set<String> scripts = new LinkedHashSet<String>();
+		scripts.addAll(gitblit.getPreReceiveScriptsInherited(repository));
+		if (!ArrayUtils.isEmpty(repository.getPreReceiveScripts())) {
+			scripts.addAll(repository.getPreReceiveScripts());
+		}
+		runGroovy(commands, scripts);
 		for (ReceiveCommand cmd : commands) {
 			if (!Result.NOT_ATTEMPTED.equals(cmd.getResult())) {
 				LOGGER.warn(MessageFormat.format("{0} {1} because \"{2}\"", cmd.getNewId()
@@ -324,10 +326,9 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 
 		logRefChange(commands);
 		updateIncrementalPushTags(commands);
-//		updateGitblitRefLog(commands);
+		updateGitblitRefLog(commands);
 
-		// check for updates pushed to the BranchTicketService branch
-		// if the BranchTicketService is active it will reindex, as appropriate
+		// 检查推送到BranchTicketService分支的更新，如果BranchTicketService是活动的，它将根据适当的方式重新索引
 		for (ReceiveCommand cmd : commands) {
 			if (Result.OK.equals(cmd.getResult())
 					&& BranchTicketService.BRANCH.equals(cmd.getRefName())) {
@@ -335,26 +336,26 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 			}
 		}
 
-		// call post-receive plugins
-//		for (ReceiveHook hook : gitblit.getExtensions(ReceiveHook.class)) {
-//			try {
-//				hook.onPostReceive(this, commands);
-//			} catch (Exception e) {
-//				LOGGER.error("Failed to execute extension", e);
-//			}
-//		}
+		// 调用post-receive插件
+		for (ReceiveHook hook : gitblit.getExtensions(ReceiveHook.class)) {
+			try {
+				hook.onPostReceive(this, commands);
+			} catch (Exception e) {
+				LOGGER.error("Failed to execute extension", e);
+			}
+		}
 
 		// run Groovy hook scripts
-//		Set<String> scripts = new LinkedHashSet<String>();
-//		scripts.addAll(gitblit.getPostReceiveScriptsInherited(repository));
-//		if (!ArrayUtils.isEmpty(repository.postReceiveScripts)) {
-//			scripts.addAll(repository.postReceiveScripts);
-//		}
-//		runGroovy(commands, scripts);
+		Set<String> scripts = new LinkedHashSet<String>();
+		scripts.addAll(gitblit.getPostReceiveScriptsInherited(repository));
+		if (!ArrayUtils.isEmpty(repository.getPostReceiveScripts())) {
+			scripts.addAll(repository.getPostReceiveScripts());
+		}
+		runGroovy(commands, scripts);
 	}
 
 	/**
-	 * Log the ref changes in the container log.
+	 * 在容器日志中记录ref更改。
 	 *
 	 * @param commands
 	 */
@@ -451,7 +452,7 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 //		}
 //	}
 
-	/** Execute commands to update references. */
+	/** 执行命令以更新引用。 */
 	@Override
 	protected void executeCommands() {
 		List<ReceiveCommand> toApply = filterCommands(Result.NOT_ATTEMPTED);
@@ -642,7 +643,7 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 		}
 	}
 	/**
-	 * Update Gitblit's internal reflog.
+	 * 更新Gitblit的内部reflog。
 	 *
 	 * @param commands
 	 */
@@ -668,7 +669,7 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 	}
 	
 	/**
-	 * Automatically closes open tickets and adds references to tickets if made in the commit message.
+	 * 自动关闭Ticket,并在提交信息中增加对Ticket的参考。
 	 *
 	 * @param cmd
 	 */
@@ -777,5 +778,56 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 		}
 
 		return changedTickets.values();
+	}
+
+
+	/**
+	 * 运行指定的Groovy钩子脚本。
+	 *
+	 * @param commands
+	 * @param scripts
+	 */
+	private void runGroovy(Collection<ReceiveCommand> commands, Set<String> scripts) {
+		if (scripts == null || scripts.size() == 0) {
+			// no Groovy scripts to execute
+			return;
+		}
+
+		Binding binding = new Binding();
+		binding.setVariable("gitblit", gitblit);
+		binding.setVariable("repository", repository);
+		binding.setVariable("receivePack", this);
+		binding.setVariable("user", user);
+		binding.setVariable("commands", commands);
+		binding.setVariable("url", gitblitUrl);
+		binding.setVariable("logger", LOGGER);
+		binding.setVariable("clientLogger", new ClientLogger(this));
+		for (String script : scripts) {
+			if (StringUtils.isEmpty(script)) {
+				continue;
+			}
+			// allow script to be specified without .groovy extension
+			// this is easier to read in the settings
+			File file = new File(groovyDir, script);
+			if (!file.exists() && !script.toLowerCase().endsWith(".groovy")) {
+				file = new File(groovyDir, script + ".groovy");
+				if (file.exists()) {
+					script = file.getName();
+				}
+			}
+			try {
+				Object result = gse.run(script, binding);
+				if (result instanceof Boolean) {
+					if (!((Boolean) result)) {
+						LOGGER.error(MessageFormat.format(
+								"Groovy script {0} has failed!  Hook scripts aborted.", script));
+						break;
+					}
+				}
+			} catch (Exception e) {
+				LOGGER.error(
+						MessageFormat.format("Failed to execute Groovy script {0}", script), e);
+			}
+		}
 	}
 }

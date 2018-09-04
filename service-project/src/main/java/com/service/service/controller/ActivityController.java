@@ -22,18 +22,12 @@ import java.util.Map;
 @RestController
 @RequestMapping("act")
 @Api("活动")
-public class ActivityController {
+public class ActivityController extends BaseController<ActivityBiz, Activity> {
 
-    ActivityBiz activityBiz;
-    @Autowired
-    public ActivityController(ActivityBiz activityBiz) {
-        this.activityBiz = activityBiz;
-    }
-
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    @ResponseBody
-    public TableResultResponse<Activity> view(@RequestParam Map<String, Object> params) {
-        Query query = new Query(params);
-        return activityBiz.getActivity(query);
-    }
+//    @RequestMapping(value = "", method = RequestMethod.GET)
+//    @ResponseBody
+//    public TableResultResponse<Activity> view(@RequestParam Map<String, Object> params) {
+//        Query query = new Query(params);
+//        return activityBiz.get(query);
+//    }
 }
