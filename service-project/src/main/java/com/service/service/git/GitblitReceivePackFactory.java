@@ -38,7 +38,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * The receive pack factory creates the receive pack which processes pushes.
+ * 接收包工厂，创建push进行中接收到的包
  *
  * @author James Moger
  *
@@ -120,10 +120,13 @@ public class GitblitReceivePackFactory<X> implements ReceivePackFactory<X> {
 
 		final TaskEntity repository = gitblit.getRepositoryModel(repositoryName);
 
-		// Determine which receive pack to use for pushes
+		// 确定用于推送的接收包
 		final GitblitReceivePack rp;
-		rp = new GitblitReceivePack(gitblit, db, repository, user);
-
+		if (gitblit.getTicketService().isAcceptingNewPatchsets(repository)){
+			rp = new PatchsetReceivePack(gitblit, db, repository, user);
+		}else {
+			rp = new GitblitReceivePack(gitblit, db, repository, user);
+		}
 		rp.setGitblitUrl(url);
 		rp.setRefLogIdent(new PersonIdent(user.getUserId(), user.getUserId() + "@" + origin));
 		rp.setTimeout(timeout);
