@@ -235,15 +235,15 @@ public class PatchsetReceivePack extends GitblitReceivePack {
 		super.validateCommands();
 	}
 
-	/** Execute commands to update references. */
+	/** 执行命令来更新引用。 */
 	@Override
 	protected void executeCommands() {
-		// we process patchsets unless the user is pushing something special
+		// 我们处理补丁集，除非用户在推一些特殊的东西
 		boolean processPatchsets = true;
 		for (ReceiveCommand cmd : filterCommands(Result.NOT_ATTEMPTED)) {
 			if (ticketService instanceof BranchTicketService
 					&& BranchTicketService.BRANCH.equals(cmd.getRefName())) {
-				// the user is pushing an update to the BranchTicketService data
+				// 用户正在对BranchTicketService数据进行更新
 				processPatchsets = false;
 			}
 		}
@@ -502,7 +502,7 @@ public class PatchsetReceivePack extends GitblitReceivePack {
 	}
 
 	/**
-	 * Prepares a patchset command.
+	 * 准备一个补丁命令。
 	 *
 	 * @param cmd
 	 * @return the patchset command
@@ -1061,7 +1061,7 @@ public class PatchsetReceivePack extends GitblitReceivePack {
 
 
 	/**
-	 * Creates a new patchset with metadata.
+	 * 用元数据创建一个新的补丁集。
 	 *
 	 * @param ticket
 	 * @param mergeBase

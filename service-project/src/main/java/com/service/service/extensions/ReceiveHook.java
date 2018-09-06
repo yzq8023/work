@@ -22,7 +22,7 @@ import ro.fortsoft.pf4j.ExtensionPoint;
 import java.util.Collection;
 
 /**
- * Extension point for plugins to process commits on Pre- and Post- Receive.
+ * 插件的拓展点，用于处理基于Pre- 和 Post- Receive的提交
  *
  * @author James Moger
  * @since 1.5.0

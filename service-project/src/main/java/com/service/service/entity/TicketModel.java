@@ -27,7 +27,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * The Gitblit Ticket model, its component classes, and enums.
+ * WorkHub的ticket模型，它的组件类和枚举。
  *
  * @author James Moger
  *
