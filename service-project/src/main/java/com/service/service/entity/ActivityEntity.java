@@ -1,6 +1,9 @@
 package com.service.service.entity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.util.Date;
 
 @Table(name = "activity")
 public class ActivityEntity {
@@ -36,6 +39,30 @@ public class ActivityEntity {
 
     @Column(name = "created_unix")
     private Integer createdUnix;
+
+    @Column(name = "crt_name")
+    private String crtName;
+
+    @Column(name = "crt_user")
+    private String crtUser;
+
+    @Column(name = "crt_host")
+    private String crtHost;
+
+    @Column(name = "crt_time")
+    private Date crtTime;
+
+    @Column(name = "upd_time")
+    private Date updTime;
+
+    @Column(name = "upd_user")
+    private String updUser;
+
+    @Column(name = "upd_name")
+    private String updName;
+
+    @Column(name = "upd_host")
+    private String updHost;
 
     private String content;
 
@@ -191,6 +218,118 @@ public class ActivityEntity {
      */
     public void setCreatedUnix(Integer createdUnix) {
         this.createdUnix = createdUnix;
+    }
+
+    /**
+     * @return crt_name
+     */
+    public String getCrtName() {
+        return crtName;
+    }
+
+    /**
+     * @param crtName
+     */
+    public void setCrtName(String crtName) {
+        this.crtName = crtName;
+    }
+
+    /**
+     * @return crt_user
+     */
+    public String getCrtUser() {
+        return crtUser;
+    }
+
+    /**
+     * @param crtUser
+     */
+    public void setCrtUser(String crtUser) {
+        this.crtUser = crtUser;
+    }
+
+    /**
+     * @return crt_host
+     */
+    public String getCrtHost() {
+        return crtHost;
+    }
+
+    /**
+     * @param crtHost
+     */
+    public void setCrtHost(String crtHost) {
+        this.crtHost = crtHost;
+    }
+
+    /**
+     * @return crt_time
+     */
+    public Date getCrtTime() {
+        return crtTime;
+    }
+
+    /**
+     * @param crtTime
+     */
+    public void setCrtTime(Date crtTime) {
+        this.crtTime = crtTime;
+    }
+
+    /**
+     * @return upd_time
+     */
+    public Date getUpdTime() {
+        return updTime;
+    }
+
+    /**
+     * @param updTime
+     */
+    public void setUpdTime(Date updTime) {
+        this.updTime = updTime;
+    }
+
+    /**
+     * @return upd_user
+     */
+    public String getUpdUser() {
+        return updUser;
+    }
+
+    /**
+     * @param updUser
+     */
+    public void setUpdUser(String updUser) {
+        this.updUser = updUser;
+    }
+
+    /**
+     * @return upd_name
+     */
+    public String getUpdName() {
+        return updName;
+    }
+
+    /**
+     * @param updName
+     */
+    public void setUpdName(String updName) {
+        this.updName = updName;
+    }
+
+    /**
+     * @return upd_host
+     */
+    public String getUpdHost() {
+        return updHost;
+    }
+
+    /**
+     * @param updHost
+     */
+    public void setUpdHost(String updHost) {
+        this.updHost = updHost;
     }
 
     /**

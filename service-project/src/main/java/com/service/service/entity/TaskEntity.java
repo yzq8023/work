@@ -212,6 +212,7 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity> {
     @Column(name = "fork_id")
     private Integer forkId;
 
+    @Column(name = "head")
     private String head;
 
     @Column(name = "merge_to")
@@ -1442,5 +1443,18 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity> {
 
     public void setCollectingGarbage(boolean collectingGarbage) {
         isCollectingGarbage = collectingGarbage;
+    }
+
+    public List<String> getLocalBranches() {
+        if (ArrayUtils.isEmpty(availableRefs)) {
+            return new ArrayList<String>();
+        }
+        List<String> localBranches = new ArrayList<String>();
+        for (String ref : availableRefs) {
+            if (ref.startsWith("refs/heads")) {
+                localBranches.add(ref);
+            }
+        }
+        return localBranches;
     }
 }

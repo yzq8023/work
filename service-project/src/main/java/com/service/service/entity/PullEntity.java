@@ -48,6 +48,9 @@ public class PullEntity {
     @Column(name = "merged_unix")
     private Long mergedUnix;
 
+    @Column(name = "task_id")
+    private Long taskId;
+
     private String title;
 
     private String context;
@@ -288,5 +291,14 @@ public class PullEntity {
      */
     public void setContext(String context) {
         this.context = context;
+    }
+
+
+    public Long getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Long taskId) {
+        this.taskId = taskId;
     }
 }

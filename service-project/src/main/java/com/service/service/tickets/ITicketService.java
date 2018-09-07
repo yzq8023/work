@@ -203,7 +203,7 @@ public abstract class ITicketService implements IManager {
 	protected abstract void close();
 
 	/**
-	 * Creates a ticket notifier.  The ticket notifier is not thread-safe!
+	 * 创建一个合并请求通知器。目前非线程安全
 	 * @since 1.4.0
 	 */
 	public TicketNotifier createNotifier() {
@@ -972,9 +972,8 @@ public abstract class ITicketService implements IManager {
 	}
 
 	/**
-	 * Creates a ticket.  Your change must include a repository, author & title,
-	 * at a minimum. If your change does not have those minimum requirements a
-	 * RuntimeException will be thrown.
+	 * 创建工单 该工单目前是提供了合并请求服务，未来可拓展。你的变更请求必须包含任务仓库、作者 、标题,
+	 * 如果没有这些信息，会抛出异常
 	 *
 	 * @param repository
 	 * @param ticketId (if <=0 the ticket id will be assigned)
@@ -1301,7 +1300,7 @@ public abstract class ITicketService implements IManager {
 //	}
 
 	/**
-	 * Commit a ticket change to the repository.
+	 * 提交变更到存储库的变更。
 	 *
 	 * @param repository
 	 * @param ticketId

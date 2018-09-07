@@ -16,6 +16,14 @@
     <result column="ref_name" property="refName" jdbcType="VARCHAR" />
     <result column="is_private" property="isPrivate" jdbcType="BIT" />
     <result column="created_unix" property="createdUnix" jdbcType="INTEGER" />
+    <result column="crt_name" property="crtName" jdbcType="VARCHAR" />
+    <result column="crt_user" property="crtUser" jdbcType="VARCHAR" />
+    <result column="crt_host" property="crtHost" jdbcType="VARCHAR" />
+    <result column="crt_time" property="crtTime" jdbcType="TIMESTAMP" />
+    <result column="upd_time" property="updTime" jdbcType="TIMESTAMP" />
+    <result column="upd_user" property="updUser" jdbcType="VARCHAR" />
+    <result column="upd_name" property="updName" jdbcType="VARCHAR" />
+    <result column="upd_host" property="updHost" jdbcType="VARCHAR" />
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
 </mapper>

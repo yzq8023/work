@@ -109,7 +109,7 @@ public class PatchsetReceivePack extends GitblitReceivePack {
 		return refName.startsWith(Constants.R_TICKETS_PATCHSETS);
 	}
 
-	/** Extracts the integration branch from the ref name */
+	/** 从ref名称中提取集成分支 */
 	private String getIntegrationBranch(String refName) {
 		String patchsetRef = getPatchsetRef(refName);
 		String branch = refName.substring(patchsetRef.length());
@@ -121,11 +121,11 @@ public class PatchsetReceivePack extends GitblitReceivePack {
 		try {
 			defaultBranch = getRepository().getBranch();
 		} catch (Exception e) {
-			LOGGER.error("failed to determine default branch for " + repository.getTaskName(), e);
+			LOGGER.error("未能确定集成分支" + repository.getTaskName(), e);
 		}
 
 		if (!StringUtils.isEmpty(getRepositoryModel().getMergeTo())) {
-			// repository settings specifies a default integration branch
+			// 存储库设置指定一个默认的集成分支
 			defaultBranch = Repository.shortenRefName(getRepositoryModel().getMergeTo());
 		}
 
