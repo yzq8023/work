@@ -232,5 +232,22 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
         return false;
     }
 
+    /**
+     * 获取可用的分支
+     * @param taskName
+     * @return
+     */
+    public List<String> getIntegrationBranch(String taskName){
+        List<String> branches = new ArrayList<String>();
+        for (String branch : workHub.getRepositoryModel(taskName).getLocalBranches()) {
+            // 排除ticket分支
+            if (!branch.startsWith(Constants.R_TICKET)) {
+                branches.add(Repository.shortenRefName(branch));
+            }
+        }
+        branches.remove(Repository.shortenRefName(workHub.getRepositoryModel(taskName).getHead()));
+        branches.add(0, Repository.shortenRefName(workHub.getRepositoryModel(taskName).getHead()));
+        return branches;
+    }
 }
 

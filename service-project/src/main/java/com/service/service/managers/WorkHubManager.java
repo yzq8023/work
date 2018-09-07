@@ -379,7 +379,7 @@ public class WorkHubManager implements IWorkHub {
 
     @Override
     public ITicketService getTicketService() {
-        return null;
+        return ticketServiceProvider;
     }
     /****************************************************************************************
      *                                     IWorkHub end                                     *

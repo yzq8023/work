@@ -9,7 +9,6 @@ import com.service.service.Keys;
 import com.service.service.entity.*;
 import com.service.service.managers.IWorkHub;
 import com.service.service.mapper.ActivityEntityMapper;
-import com.service.service.utils.ActivityUtils;
 import com.service.service.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,27 +32,6 @@ public class ActivityBiz extends BaseBiz<ActivityEntityMapper, ActivityEntity> {
     public ActivityBiz(IWorkHub workHub) {
         this.workHub = workHub;
 
-    }
-
-    /**
-     * 根据用户id获取map_user_project中的项目
-     *
-     * @param query
-     * @@return TableResultResponse
-     */
-    public TableResultResponse<Activity> getActivity(Query query) {
-        String objectId = null;
-        int daysBack = query.getDayBack();
-        Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
-        List<TaskEntity> models = getRepositories(query);
-        List<Activity> recentActivity = ActivityUtils.getRecentActivity(
-                workHub.getSettings(),
-                workHub,
-                models,
-                daysBack,
-                objectId,
-                getTimeZone());
-        return new TableResultResponse<Activity>(result.getTotal(), recentActivity);
     }
 
     protected List<TaskEntity> getRepositoryModels(Integer userId) {

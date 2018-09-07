@@ -62,6 +62,7 @@ public class Query extends LinkedHashMap<String, Object> {
         if (params.get(PageConstants.DAY_BACK) != null) {
             this.dayBack = Integer.parseInt(params.get(PageConstants.DAY_BACK).toString());
         }
+        this.remove(PageConstants.DAY_BACK);
         this.remove(PageConstants.PAGE_NUM);
         this.remove(PageConstants.PAGE_LIMIT);
     }
