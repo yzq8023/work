@@ -79,9 +79,8 @@ public class TicketModel implements Serializable, Comparable<TicketModel> {
 	public Severity severity;
 	
 	/**
-	 * Builds an effective ticket from the collection of changes.  A change may
-	 * Add or Subtract information from a ticket, but the collection of changes
-	 * is only additive.
+	 * 从变更集合中构建有效的票据Ticket。 一个变化可能从Ticket中添加或减去信息,
+	 * 但是，这些变化只是附加的。
 	 *
 	 * @param changes
 	 * @return the effective ticket
