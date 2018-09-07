@@ -22,5 +22,6 @@
     <result column="merged_unix" property="mergedUnix" jdbcType="BIGINT" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="context" property="context" jdbcType="VARCHAR" />
+    <result column="task_id" property="taskId" jdbcType="INTEGER" />
   </resultMap>
 </mapper>

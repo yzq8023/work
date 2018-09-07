@@ -62,6 +62,6 @@ public class ProjectBiz extends BaseBiz<ProjectEntityMapper, ProjectEntity> {
 
     @Override
     protected String getPageName() {
-        return null;
+        return "ProjectBiz";
     }
 }
