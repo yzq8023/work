@@ -3,7 +3,6 @@ package com.service.service.biz;
 import com.github.wxiaoqi.security.common.biz.BaseBiz;
 import com.github.wxiaoqi.security.common.context.BaseContextHandler;
 import com.service.service.Constants;
-import com.service.service.entity.PullEntity;
 import com.service.service.entity.TaskEntity;
 import com.service.service.entity.TicketModel;
 import com.service.service.entity.TicketModel.*;
@@ -11,7 +10,7 @@ import com.service.service.entity.UserModel;
 import com.service.service.feign.IUserFeignClient;
 import com.service.service.git.PatchsetReceivePack;
 import com.service.service.managers.IWorkHub;
-import com.service.service.mapper.PullEntityMapper;
+import com.service.service.mapper.TicketModelMapper;
 import com.service.service.tickets.TicketNotifier;
 import com.service.service.utils.JGitUtils;
 import com.service.service.utils.JGitUtils.*;
@@ -34,7 +33,7 @@ import java.util.List;
  */
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class PullBiz extends BaseBiz<PullEntityMapper, PullEntity> {
+public class PullBiz extends BaseBiz<TicketModelMapper, TicketModel>{
 
     private IWorkHub workHub;
     private TicketModel ticket;
@@ -48,11 +47,6 @@ public class PullBiz extends BaseBiz<PullEntityMapper, PullEntity> {
         this.userFeignClient = userFeignClient;
     }
 
-    @Override
-    protected String getPageName() {
-        return "PullBiz";
-    }
-
     private String getCurrentUserId() {
         return BaseContextHandler.getUserID();
     }
@@ -60,27 +54,28 @@ public class PullBiz extends BaseBiz<PullEntityMapper, PullEntity> {
     /**
      * 创建pullRequest
      *
-     * @param pullEntity
+     * @param ticketModel
      */
-    public void createPullRequest(PullEntity pullEntity) {
-        if (StringUtils.isEmpty(pullEntity.getTitle())) {
+    public void createPullRequest(TicketModel ticketModel) {
+        if (StringUtils.isEmpty(ticketModel.getTitle())) {
             return;
         }
         Change change = new Change(getCurrentUserId());
-        change.setField(Field.title, pullEntity.getTitle());
-        change.setField(Field.body, pullEntity.getContext());
-        String mergeTo = pullEntity.getMergeBase();
+        change.setField(Field.title, ticketModel.getTitle());
+        change.setField(Field.body, ticketModel.getBody());
+        String mergeTo = ticketModel.getMergeTo();
         if (!StringUtils.isEmpty(mergeTo)) {
             change.setField(Field.mergeTo, mergeTo);
         }
-        TaskEntity taskEntity = taskBiz.selectById(pullEntity.getBaseRepoId());
-        UserModel userModel = UserUtils.transUser(userFeignClient.info(Integer.valueOf(getCurrentUserId())));
+        TaskEntity taskEntity = taskBiz.selectById(ticketModel.getTaskName());
+//        UserModel userModel = UserUtils.transUser(userFeignClient.info(Integer.valueOf(getCurrentUserId())));
         TicketModel ticket = workHub.getTicketService().createTicket(workHub.getRepositoryModel(taskEntity.getTaskName()), 0L, change);
+
         if (ticket != null) {
             TicketNotifier notifier = workHub.getTicketService().createNotifier();
             //绑定邮件
             notifier.sendMailing(ticket);
-            createMerge(userModel, taskEntity);
+//            createMerge(userModel, taskEntity);
         } else {
             // TODO error
         }
@@ -107,7 +102,7 @@ public class PullBiz extends BaseBiz<PullEntityMapper, PullEntity> {
             allowMerge = ticket.isOpen() && !ticket.isVetoed(patchset);
         }
 
-        MergeStatus mergeStatus = JGitUtils.canMerge(workHub.getRepository(taskEntity.getTaskName()), patchset.tip, ticket.mergeTo, taskEntity.getMergeType());
+        MergeStatus mergeStatus = JGitUtils.canMerge(workHub.getRepository(taskEntity.getTaskName()), patchset.tip, ticket.getMergeTo(), taskEntity.getMergeType());
         if (allowMerge) {
             if (JGitUtils.MergeStatus.MERGEABLE == mergeStatus) {
                 //补丁集可以被干净地合并到集成分支或者已经合并了
@@ -115,7 +110,7 @@ public class PullBiz extends BaseBiz<PullEntityMapper, PullEntity> {
 
                     String taskName = taskBiz.selectById(taskEntity.getTaskId()).getTaskName();
                     //可合并
-                    final TicketModel refreshedTicket = workHub.getTicketService().getTicket(workHub.getRepositoryModel(taskName), ticket.number);
+                    final TicketModel refreshedTicket = workHub.getTicketService().getTicket(workHub.getRepositoryModel(taskName), ticket.getNumber());
                     PatchsetReceivePack rp = new PatchsetReceivePack(
                             workHub,
                             workHub.getRepository(taskName),
@@ -125,5 +120,10 @@ public class PullBiz extends BaseBiz<PullEntityMapper, PullEntity> {
                 }
             }
         }
+    }
+
+    @Override
+    protected String getPageName() {
+        return "PulBiz";
     }
 }

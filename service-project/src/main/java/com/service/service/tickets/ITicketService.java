@@ -44,8 +44,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Abstract parent class of a ticket service that stubs out required methods
- * and transparently handles Lucene indexing.
+ * 工单的父类
  *
  * @author James Moger
  *
@@ -67,7 +66,7 @@ public abstract class ITicketService implements IManager {
 	private static final String DUE_DATE_PATTERN = "yyyy-MM-dd";
 
 	/**
-	 * Object filter interface to querying against all available ticket models.
+	 * 对象筛选器接口
 	 */
 	public interface TicketFilter {
 
@@ -128,7 +127,7 @@ public abstract class ITicketService implements IManager {
 
 
 	/**
-	 * Creates a ticket service.
+	 * 创建一个工单
 	 */
 	public ITicketService(
 			IRuntimeManager runtimeManager,
@@ -860,8 +859,8 @@ public abstract class ITicketService implements IManager {
 						// commit objects.  e.g. ticket replication without repo
 						// mirroring
 						if (diffStat != null) {
-							ticket.insertions = diffStat.getInsertions();
-							ticket.deletions = diffStat.getDeletions();
+							ticket.setInsertions(diffStat.getInsertions());
+							ticket.setDeletions(diffStat.getDeletions());
 						}
 					} finally {
 						r.close();
@@ -921,7 +920,7 @@ public abstract class ITicketService implements IManager {
 	public String getTicketUrl(TicketModel ticket) {
 		final String canonicalUrl = settings.getString(Keys.web.canonicalUrl, "https://localhost:8443");
 		final String hrefPattern = "{0}/tickets?r={1}&h={2,number,0}";
-		return MessageFormat.format(hrefPattern, canonicalUrl, ticket.repository, ticket.number);
+		return MessageFormat.format(hrefPattern, canonicalUrl, ticket.getTaskName(), ticket.getNumber());
 	}
 
 	/**
@@ -935,7 +934,7 @@ public abstract class ITicketService implements IManager {
 	public String getCompareUrl(TicketModel ticket, String base, String tip) {
 		final String canonicalUrl = settings.getString(Keys.web.canonicalUrl, "https://localhost:8443");
 		final String hrefPattern = "{0}/compare?r={1}&h={2}..{3}";
-		return MessageFormat.format(hrefPattern, canonicalUrl, ticket.repository, base, tip);
+		return MessageFormat.format(hrefPattern, canonicalUrl, ticket.getTaskName(), base, tip);
 	}
 
 	/**
@@ -984,13 +983,13 @@ public abstract class ITicketService implements IManager {
 	public TicketModel createTicket(TaskEntity repository, long ticketId, Change change) {
 
 		if (repository == null) {
-			throw new RuntimeException("Must specify a repository!");
+			throw new RuntimeException("必须指定一个任务库!");
 		}
 		if (StringUtils.isEmpty(change.author)) {
-			throw new RuntimeException("Must specify a change author!");
+			throw new RuntimeException("必须指定一个作者!");
 		}
 		if (!change.hasField(Field.title)) {
-			throw new RuntimeException("Must specify a title!");
+			throw new RuntimeException("必须指定标题!");
 		}
 
 		change.watch(change.author);
@@ -1006,7 +1005,7 @@ public abstract class ITicketService implements IManager {
 			TicketModel ticket = getTicket(repository, ticketId);
 			indexer.index(ticket);
 
-			// call the ticket hooks
+			// 调用工单的钩子
 			if (pluginManager != null) {
 				for (TicketHook hook : pluginManager.getExtensions(TicketHook.class)) {
 					try {
@@ -1202,7 +1201,7 @@ public abstract class ITicketService implements IManager {
 		boolean success = deleteTicketImpl(repository, ticket, deletedBy);
 		if (success) {
 			log.info(MessageFormat.format("Deleted {0} ticket #{1,number,0}: {2}",
-					repository.getTaskName(), ticketId, ticket.title));
+					repository.getTaskName(), ticketId, ticket.getTitle()));
 			ticketsCache.invalidate(new TicketKey(repository, ticketId));
 			indexer.delete(ticket);
 			return true;
@@ -1240,8 +1239,8 @@ public abstract class ITicketService implements IManager {
 		Change revision = new Change(updatedBy);
 		revision.comment(comment);
 		revision.comment.id = commentId;
-		TaskEntity repository = repositoryManager.getRepositoryModel(ticket.repository);
-		TicketModel revisedTicket = updateTicket(repository, ticket.number, revision);
+		TaskEntity repository = repositoryManager.getRepositoryModel(ticket.getTaskName());
+		TicketModel revisedTicket = updateTicket(repository, ticket.getNumber(), revision);
 		return revisedTicket;
 	}
 
@@ -1261,8 +1260,8 @@ public abstract class ITicketService implements IManager {
 		deletion.comment("");
 		deletion.comment.id = commentId;
 		deletion.comment.deleted = true;
-		TaskEntity repository = repositoryManager.getRepositoryModel(ticket.repository);
-		TicketModel revisedTicket = updateTicket(repository, ticket.number, deletion);
+		TaskEntity repository = repositoryManager.getRepositoryModel(ticket.getTaskName());
+		TicketModel revisedTicket = updateTicket(repository, ticket.getNumber(), deletion);
 		return revisedTicket;
 	}
 	
@@ -1355,8 +1354,8 @@ public abstract class ITicketService implements IManager {
 
 
 	/**
-	 * Destroys an existing index and reindexes all tickets.
-	 * This operation may be expensive and time-consuming.
+	 * 破坏现有的索引并重新索引所有的ticket。
+	 * 非常耗时耗资源
 	 * @since 1.4.0
 	 */
 	public void reindex() {

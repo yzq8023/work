@@ -1098,9 +1098,9 @@ public class JGitUtils {
 	}
 
 	/**
-	 * Returns the list of files in the repository in the specified commit that
-	 * match one of the specified extensions. This is a CASE-SENSITIVE search.
-	 * If the repository does not exist or is empty, an empty list is returned.
+	 * 在指定的提交中返回储存库中的文件列表
+	 * 匹配其中一个指定的扩展。 这是区分大小写的搜索
+	 * 如果存储库不存在或者是空的，就会返回一个空列表。
 	 *
 	 * @param repository
 	 * @param extensions

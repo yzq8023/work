@@ -23,7 +23,6 @@ import com.service.service.entity.TaskEntity;
 import com.service.service.entity.TicketModel;
 import com.service.service.entity.TicketModel.*;
 import com.service.service.entity.UserModel;
-import com.service.service.tickets.BranchTicketService;
 import com.service.service.tickets.ITicketService;
 import com.service.service.tickets.TicketMilestone;
 import com.service.service.tickets.TicketNotifier;
@@ -240,13 +239,13 @@ public class PatchsetReceivePack extends GitblitReceivePack {
 	protected void executeCommands() {
 		// 我们处理补丁集，除非用户在推一些特殊的东西
 		boolean processPatchsets = true;
-		for (ReceiveCommand cmd : filterCommands(Result.NOT_ATTEMPTED)) {
-			if (ticketService instanceof BranchTicketService
-					&& BranchTicketService.BRANCH.equals(cmd.getRefName())) {
-				// 用户正在对BranchTicketService数据进行更新
-				processPatchsets = false;
-			}
-		}
+//		for (ReceiveCommand cmd : filterCommands(Result.NOT_ATTEMPTED)) {
+//			if (ticketService instanceof BranchTicketServiceTemp
+//					&& BranchTicketServiceTemp.BRANCH.equals(cmd.getRefName())) {
+//				// 用户正在对BranchTicketService数据进行更新
+//				processPatchsets = false;
+//			}
+//		}
 
 		// workaround for JGit's awful scoping choices
 		//
@@ -254,11 +253,12 @@ public class PatchsetReceivePack extends GitblitReceivePack {
 		for (ReceiveCommand cmd : filterCommands(Result.OK)) {
 			if (isPatchsetRef(cmd.getRefName())) {
 				cmd.setResult(Result.NOT_ATTEMPTED);
-			} else if (ticketService instanceof BranchTicketService
-					&& BranchTicketService.BRANCH.equals(cmd.getRefName())) {
-				// the user is pushing an update to the BranchTicketService data
-				processPatchsets = false;
 			}
+//			else if (ticketService instanceof BranchTicketServiceTemp
+//					&& BranchTicketServiceTemp.BRANCH.equals(cmd.getRefName())) {
+//				// the user is pushing an update to the BranchTicketService data
+//				processPatchsets = false;
+//			}
 		}
 
 		List<ReceiveCommand> toApply = filterCommands(Result.NOT_ATTEMPTED);
@@ -527,7 +527,7 @@ public class PatchsetReceivePack extends GitblitReceivePack {
 			if (ticket.isMerged()) {
 				// ticket already merged & resolved
 				Change mergeChange = null;
-				for (Change change : ticket.changes) {
+				for (Change change : ticket.getChanges()) {
 					if (change.isMerge()) {
 						mergeChange = change;
 						break;
@@ -535,13 +535,13 @@ public class PatchsetReceivePack extends GitblitReceivePack {
 				}
 				if (mergeChange != null) {
 					sendError("Sorry, {0} already merged {1} from ticket {2,number,0} to {3}!",
-						mergeChange.author, mergeChange.patchset, number, ticket.mergeTo);
+						mergeChange.author, mergeChange.patchset, number, ticket.getMergeTo());
 				}
 				sendRejection(cmd, "Ticket {0,number,0} already resolved", number);
 				return null;
-			} else if (!StringUtils.isEmpty(ticket.mergeTo)) {
+			} else if (!StringUtils.isEmpty(ticket.getMergeTo())) {
 				// ticket specifies integration branch
-				branch = ticket.mergeTo;
+				branch = ticket.getMergeTo();
 			}
 		}
 
@@ -598,8 +598,8 @@ public class PatchsetReceivePack extends GitblitReceivePack {
 
 		// check to see if this commit is already linked to a ticket
 		if (ticket != null &&
-				JGitUtils.getTicketNumberFromCommitBranch(getRepository(), tipCommit) == ticket.number) {
-			sendError("{0} has already been pushed to ticket {1,number,0}.", shortTipId, ticket.number);
+				JGitUtils.getTicketNumberFromCommitBranch(getRepository(), tipCommit) == ticket.getNumber()) {
+			sendError("{0} has already been pushed to ticket {1,number,0}.", shortTipId, ticket.getNumber());
 			sendRejection(cmd, "everything up-to-date");
 			return null;
 		}
@@ -782,7 +782,7 @@ public class PatchsetReceivePack extends GitblitReceivePack {
 				sendError("  3. you are specified as responsible for the ticket");
 				sendError("  4. you have push (RW) permissions to {0}", repository.getTaskName());
 				sendError("");
-				sendRejection(cmd, "not permitted to push to ticket {0,number,0}", ticket.number);
+				sendRejection(cmd, "not permitted to push to ticket {0,number,0}", ticket.getNumber());
 				return null;
 			}
 			break;
@@ -816,7 +816,7 @@ public class PatchsetReceivePack extends GitblitReceivePack {
 			TicketModel ticket = ticketService.createTicket(repository, cmd.getTicketId(), change);
 			if (ticket != null) {
 				sendInfo("");
-				sendHeader("#{0,number,0}: {1}", ticket.number, StringUtils.trimString(ticket.title, Constants.LEN_SHORTLOG));
+				sendHeader("#{0,number,0}: {1}", ticket.getNumber(), StringUtils.trimString(ticket.getTitle(), Constants.LEN_SHORTLOG));
 				sendInfo("created proposal ticket from patchset");
 				sendInfo(ticketService.getTicketUrl(ticket));
 				sendInfo("");
@@ -843,7 +843,7 @@ public class PatchsetReceivePack extends GitblitReceivePack {
 			TicketModel ticket = ticketService.updateTicket(repository, cmd.getTicketId(), change);
 			if (ticket != null) {
 				sendInfo("");
-				sendHeader("#{0,number,0}: {1}", ticket.number, StringUtils.trimString(ticket.title, Constants.LEN_SHORTLOG));
+				sendHeader("#{0,number,0}: {1}", ticket.getNumber(), StringUtils.trimString(ticket.getTitle(), Constants.LEN_SHORTLOG));
 				if (change.patchset.rev == 1) {
 					// new patchset
 					sendInfo("uploaded patchset {0} ({1})", change.patchset.number, change.patchset.type.toString());
@@ -920,12 +920,12 @@ public class PatchsetReceivePack extends GitblitReceivePack {
 						continue;
 					}
 					String integrationBranch;
-					if (StringUtils.isEmpty(ticket.mergeTo)) {
+					if (StringUtils.isEmpty(ticket.getMergeTo())) {
 						// unspecified integration branch
 						integrationBranch = null;
 					} else {
 						// specified integration branch
-						integrationBranch = Constants.R_HEADS + ticket.mergeTo;
+						integrationBranch = Constants.R_HEADS + ticket.getMergeTo();
 					}
 
 					Change change;
@@ -944,7 +944,7 @@ public class PatchsetReceivePack extends GitblitReceivePack {
 							continue;
 						}
 
-						String baseRef = PatchsetCommand.getBasePatchsetBranch(ticket.number);
+						String baseRef = PatchsetCommand.getBasePatchsetBranch(ticket.getNumber());
 						boolean knownPatchset = false;
 						Set<Ref> refs = getRepository().getAllRefsByPeeledObjectId().get(c.getId());
 						if (refs != null) {
@@ -968,7 +968,7 @@ public class PatchsetReceivePack extends GitblitReceivePack {
 							if (patchset == null) {
 								// should not happen - unless ticket has been hacked
 								sendError("Failed to find the patchset for {0} in ticket {1,number,0}?!",
-										mergeSha, ticket.number);
+										mergeSha, ticket.getNumber());
 								continue;
 							}
 
@@ -995,17 +995,17 @@ public class PatchsetReceivePack extends GitblitReceivePack {
 						change.setField(Field.mergeSha, mergeSha);
 						change.setField(Field.mergeTo, mergeTo);
 
-						if (StringUtils.isEmpty(ticket.responsible)) {
+						if (StringUtils.isEmpty(ticket.getResponsible())) {
 							// unassigned tickets are assigned to the closer
 							change.setField(Field.responsible, user.getUsername());
 						}
 					}
 
-					ticket = ticketService.updateTicket(repository, ticket.number, change);
+					ticket = ticketService.updateTicket(repository, ticket.getNumber(), change);
 
 					if (ticket != null) {
 						sendInfo("");
-						sendHeader("#{0,number,0}: {1}", ticket.number, StringUtils.trimString(ticket.title, Constants.LEN_SHORTLOG));
+						sendHeader("#{0,number,0}: {1}", ticket.getNumber(), StringUtils.trimString(ticket.getTitle(), Constants.LEN_SHORTLOG));
 
 						switch (link.action) {
 							case Commit: {
@@ -1015,7 +1015,7 @@ public class PatchsetReceivePack extends GitblitReceivePack {
 
 							case Close: {
 								sendInfo("closed by push of {0} to {1}", patchset, mergeTo);
-								mergedTickets.put(ticket.number, ticket);
+								mergedTickets.put(ticket.getNumber(), ticket);
 							}
 							break;
 
@@ -1105,7 +1105,7 @@ public class PatchsetReceivePack extends GitblitReceivePack {
 				 * patchset number preserved, rev incremented
 				 */
 
-				boolean merged = JGitUtils.isMergedInto(getRepository(), currPatchset.tip, ticket.mergeTo);
+				boolean merged = JGitUtils.isMergedInto(getRepository(), currPatchset.tip, ticket.getMergeTo());
 				if (merged) {
 					// current patchset was already merged
 					// new patchset, mark as rebase
@@ -1239,37 +1239,37 @@ public class PatchsetReceivePack extends GitblitReceivePack {
 	public MergeStatus merge(TicketModel ticket) {
 		PersonIdent committer = new PersonIdent(user.getDisplayName(), StringUtils.isEmpty(user.getEmailAddress()) ? (user.getUsername() + "@workhub") : user.getEmailAddress());
 		Patchset patchset = ticket.getCurrentPatchset();
-		String message = MessageFormat.format("Merged #{0,number,0} \"{1}\"", ticket.number, ticket.title);
+		String message = MessageFormat.format("Merged #{0,number,0} \"{1}\"", ticket.getNumber(), ticket.getTitle());
 		Ref oldRef = null;
 		try {
-			oldRef = getRepository().findRef(ticket.mergeTo);
+			oldRef = getRepository().findRef(ticket.getMergeTo());
 		} catch (IOException e) {
-			LOGGER.error("failed to get ref for " + ticket.mergeTo, e);
+			LOGGER.error("failed to get ref for " + ticket.getMergeTo(), e);
 		}
 		MergeResult mergeResult = JGitUtils.merge(
 				getRepository(),
 				patchset.tip,
-				ticket.mergeTo,
+				ticket.getMergeTo(),
 				getRepositoryModel().getMergeType(),
 				committer,
 				message);
 
 		if (StringUtils.isEmpty(mergeResult.sha)) {
-			LOGGER.error("FAILED to merge {} to {} ({})", new Object [] { patchset, ticket.mergeTo, mergeResult.status.name() });
+			LOGGER.error("FAILED to merge {} to {} ({})", new Object [] { patchset, ticket.getMergeTo(), mergeResult.status.name() });
 			return mergeResult.status;
 		}
 		Change change = new Change(user.getUsername());
 		change.setField(Field.status, Status.Merged);
 		change.setField(Field.mergeSha, mergeResult.sha);
-		change.setField(Field.mergeTo, ticket.mergeTo);
+		change.setField(Field.mergeTo, ticket.getMergeTo());
 
-		if (StringUtils.isEmpty(ticket.responsible)) {
+		if (StringUtils.isEmpty(ticket.getResponsible())) {
 			// unassigned tickets are assigned to the closer
 			change.setField(Field.responsible, user.getUsername());
 		}
 
-		long ticketId = ticket.number;
-		ticket = ticketService.updateTicket(repository, ticket.number, change);
+		long ticketId = ticket.getId();
+		ticket = ticketService.updateTicket(repository, ticket.getNumber(), change);
 		if (ticket != null) {
 			ticketNotifier.queueMailing(ticket);
 
