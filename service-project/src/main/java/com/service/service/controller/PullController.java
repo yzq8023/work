@@ -7,7 +7,7 @@ import com.github.wxiaoqi.security.common.rest.BaseController;
 import com.github.wxiaoqi.security.common.util.Query;
 import com.service.service.biz.PullBiz;
 import com.service.service.entity.ProjectEntity;
-import com.service.service.entity.PullEntity;
+import com.service.service.entity.TicketModel;
 import com.service.service.entity.TicketModel.*;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
@@ -23,14 +23,21 @@ import java.util.Map;
 @RestController
 @RequestMapping("pull")
 @Api("合并请求")
-public class PullController extends BaseController<PullBiz, PullEntity> {
+public class PullController extends BaseController<PullBiz, TicketModel> {
 
     @Override
     @RequestMapping(value = "", method = RequestMethod.POST)
     @ResponseBody
-    public ObjectRestResponse<PullEntity> add(@RequestBody PullEntity entity) {
+    public ObjectRestResponse<TicketModel> add(@RequestBody TicketModel entity) {
         baseBiz.createPullRequest(entity);
-        return new ObjectRestResponse<PullEntity>();
+        return new ObjectRestResponse<TicketModel>();
+    }
+
+    @RequestMapping(value = "merge", method = RequestMethod.GET)
+    @ResponseBody
+    public ObjectRestResponse<TicketModel> merge(@RequestBody TicketModel entity) {
+        baseBiz.createPullRequest(entity);
+        return new ObjectRestResponse<TicketModel>();
     }
 
 }

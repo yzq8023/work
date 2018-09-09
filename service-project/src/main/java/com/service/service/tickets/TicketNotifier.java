@@ -121,32 +121,32 @@ public class TicketNotifier {
 			html.append("</body>");
 
 			Mailing mailing = Mailing.newHtml();
-			mailing.from = getUserModel(ticket.updatedBy == null ? ticket.createdBy : ticket.updatedBy).getDisplayName();
+			mailing.from = getUserModel(ticket.getUpdUser() == null ? ticket.getCrtUser() : ticket.getUpdUser()).getDisplayName();
 			mailing.subject = getSubject(ticket);
 			mailing.content = html.toString();
-			mailing.id = "ticket." + ticket.number + "." + StringUtils.getSHA1(ticket.repository + ticket.number);
+			mailing.id = "ticket." + ticket.getNumber() + "." + StringUtils.getSHA1(ticket.getTaskName() + ticket.getNumber());
 
 			setRecipients(ticket, mailing);
-			queue.put(ticket.number, mailing);
+			queue.put(ticket.getNumber(), mailing);
 
 			return mailing;
 		} catch (Exception e) {
-			Logger.getLogger(getClass()).error("failed to queue mailing for #" + ticket.number, e);
+			Logger.getLogger(getClass()).error("failed to queue mailing for #" + ticket.getNumber(), e);
 		}
 		return null;
 	}
 
 	protected String getSubject(TicketModel ticket) {
-		Change lastChange = ticket.changes.get(ticket.changes.size() - 1);
-		boolean newTicket = lastChange.isStatusChange() && ticket.changes.size() == 1;
+		Change lastChange = ticket.getChanges().get(ticket.getChanges().size() - 1);
+		boolean newTicket = lastChange.isStatusChange() && ticket.getChanges().size() == 1;
 		String re = newTicket ? "" : "Re: ";
 		String subject = MessageFormat.format("{0}[{1}] {2} (#{3,number,0})",
-				re, StringUtils.stripDotGit(ticket.repository), ticket.title, ticket.number);
+				re, StringUtils.stripDotGit(ticket.getTaskName()), ticket.getTitle(), ticket.getNumber());
 		return subject;
 	}
 
 	protected String formatLastChange(TicketModel ticket) {
-		Change lastChange = ticket.changes.get(ticket.changes.size() - 1);
+		Change lastChange = ticket.getChanges().get(ticket.getChanges().size() - 1);
 		UserModel user = getUserModel(lastChange.author);
 
 		// define the fields we do NOT want to see in an email notification
@@ -167,7 +167,7 @@ public class TicketNotifier {
 			// determine the changed paths
 			Repository repo = null;
 			try {
-				repo = repositoryManager.getRepository(ticket.repository);
+				repo = repositoryManager.getRepository(ticket.getTaskName());
 				if (patchset.isFF() && (patchset.rev > 1)) {
 					// fast-forward update, just show the new data
 					isFastForward = true;
@@ -243,14 +243,14 @@ public class TicketNotifier {
 				pattern = "**{0}** closed this ticket by merging {1} to {2}.";
 
 				// identify patchset that closed the ticket
-				String merged = ticket.mergeSha;
+				String merged = ticket.getMergeSha();
 				for (Patchset patchset : ticket.getPatchsets()) {
-					if (patchset.tip.equals(ticket.mergeSha)) {
+					if (patchset.tip.equals(ticket.getMergeSha())) {
 						merged = patchset.toString();
 						break;
 					}
 				}
-				sb.append(MessageFormat.format(pattern, user.getDisplayName(), merged, ticket.mergeTo));
+				sb.append(MessageFormat.format(pattern, user.getDisplayName(), merged, ticket.getMergeTo()));
 			} else {
 				// workflow status change by user
 				pattern = "**{0}** changed the status of this ticket to **{1}**.";
@@ -318,19 +318,19 @@ public class TicketNotifier {
 
 		// ticket link
 		sb.append(MessageFormat.format("[view ticket {0,number,0}]({1})",
-				ticket.number, ticketService.getTicketUrl(ticket)));
+				ticket.getNumber(), ticketService.getTicketUrl(ticket)));
 		sb.append(HARD_BRK);
 
 		if (newTicket) {
 			// ticket title
-			sb.append(MessageFormat.format("### {0}", ticket.title));
+			sb.append(MessageFormat.format("### {0}", ticket.getTitle()));
 			sb.append(HARD_BRK);
 
 			// ticket description, on state change
-			if (StringUtils.isEmpty(ticket.body)) {
+			if (StringUtils.isEmpty(ticket.getBody())) {
 				sb.append("<span style=\"color: #888;\">no description entered</span>");
 			} else {
-				sb.append(ticket.body);
+				sb.append(ticket.getBody());
 			}
 			sb.append(HARD_BRK);
 			sb.append(HR);
@@ -471,14 +471,14 @@ public class TicketNotifier {
 	 */
 	protected String formatPatchsetInstructions(TicketModel ticket, Patchset patchset) {
 		String canonicalUrl = settings.getString(Keys.web.canonicalUrl, "https://localhost:8443");
-		String repositoryUrl = canonicalUrl + Constants.R_PATH + ticket.repository;
+		String repositoryUrl = canonicalUrl + Constants.R_PATH + ticket.getTaskName();
 
-		String ticketBranch = Repository.shortenRefName(PatchsetCommand.getTicketBranch(ticket.number));
-		String patchsetBranch  = PatchsetCommand.getPatchsetBranch(ticket.number, patchset.number);
-		String reviewBranch = PatchsetCommand.getReviewBranch(ticket.number);
+		String ticketBranch = Repository.shortenRefName(PatchsetCommand.getTicketBranch(ticket.getNumber()));
+		String patchsetBranch  = PatchsetCommand.getPatchsetBranch(ticket.getNumber(), patchset.number);
+		String reviewBranch = PatchsetCommand.getReviewBranch(ticket.getNumber());
 
 		String instructions = readResource("commands.md");
-		instructions = instructions.replace("${ticketId}", "" + ticket.number);
+		instructions = instructions.replace("${ticketId}", "" + ticket.getNumber());
 		instructions = instructions.replace("${patchset}", "" + patchset.number);
 		instructions = instructions.replace("${repositoryUrl}", repositoryUrl);
 		instructions = instructions.replace("${ticketRef}", ticketBranch);
@@ -511,16 +511,16 @@ public class TicketNotifier {
 	 * @param mailing
 	 */
 	protected void setRecipients(TicketModel ticket, Mailing mailing) {
-		TaskEntity repository = repositoryManager.getRepositoryModel(ticket.repository);
+		TaskEntity repository = repositoryManager.getRepositoryModel(ticket.getTaskName());
 
 		//
 		// Direct TO recipients
 		// reporter & responsible
 		//
 		Set<String> tos = new TreeSet<String>();
-		tos.add(ticket.createdBy);
-		if (!StringUtils.isEmpty(ticket.responsible)) {
-			tos.add(ticket.responsible);
+		tos.add(ticket.getCrtUser());
+		if (!StringUtils.isEmpty(ticket.getResponsible())) {
+			tos.add(ticket.getResponsible());
 		}
 
 		Set<String> toAddresses = new TreeSet<String>();
@@ -533,7 +533,7 @@ public class TicketNotifier {
 					} else {
 						LoggerFactory.getLogger(getClass()).warn(
 								MessageFormat.format("ticket {0}-{1,number,0}: {2} can not receive notification",
-										repository.getTaskName(), ticket.number, user.getUserId()));
+										repository.getTaskName(), ticket.getNumber(), user.getUserId()));
 					}
 				}
 			}
@@ -550,7 +550,7 @@ public class TicketNotifier {
 		}
 
 		// cc users mentioned in last comment
-		Change lastChange = ticket.changes.get(ticket.changes.size() - 1);
+		Change lastChange = ticket.getChanges().get(ticket.getChanges().size() - 1);
 		if (lastChange.hasComment()) {
 			Pattern p = Pattern.compile(Constants.REGEX_TICKET_MENTION);
 			Matcher m = p.matcher(lastChange.comment.text);
@@ -575,7 +575,7 @@ public class TicketNotifier {
 					} else {
 						LoggerFactory.getLogger(getClass()).warn(
 								MessageFormat.format("ticket {0}-{1,number,0}: {2} can not receive notification",
-										repository.getTaskName(), ticket.number, user.getUserId()));
+										repository.getTaskName(), ticket.getNumber(), user.getUserId()));
 					}
 				}
 			}

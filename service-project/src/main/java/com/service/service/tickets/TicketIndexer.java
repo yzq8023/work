@@ -240,14 +240,14 @@ public class TicketIndexer {
 	}
 
 	/**
-	 * Add/Update a ticket in the Lucene index
+	 * 在Lucene索引中添加/更新工单
 	 *
 	 * @param ticket
 	 */
 	public void index(TicketModel ticket) {
 		try {
 			IndexWriter writer = getWriter();
-			delete(ticket.repository, ticket.number, writer);
+			delete(ticket.getTaskName(), ticket.getNumber(), writer);
 			Document doc = ticketToDoc(ticket);
 			writer.addDocument(doc);
 			writer.commit();
@@ -267,9 +267,9 @@ public class TicketIndexer {
 	public boolean delete(TicketModel ticket) {
 		try {
 			IndexWriter writer = getWriter();
-			return delete(ticket.repository, ticket.number, writer);
+			return delete(ticket.getTaskName(), ticket.getNumber(), writer);
 		} catch (Exception e) {
-			log.error("Failed to delete ticket " + ticket.number, e);
+			log.error("Failed to delete ticket " + ticket.getNumber(), e);
 		}
 		return false;
 	}
@@ -481,7 +481,7 @@ public class TicketIndexer {
 	}
 
 	/**
-	 * Creates a Lucene document from a ticket.
+	 * 从工单中创建索引文档
 	 *
 	 * @param ticket
 	 * @return a Lucene document
@@ -489,33 +489,33 @@ public class TicketIndexer {
 	private Document ticketToDoc(TicketModel ticket) {
 		Document doc = new Document();
 		// repository and document ids for Lucene querying
-		toDocField(doc, Lucene.rid, StringUtils.getSHA1(ticket.repository));
-		toDocField(doc, Lucene.did, StringUtils.getSHA1(ticket.repository + ticket.number));
+		toDocField(doc, Lucene.rid, StringUtils.getSHA1(ticket.getTaskName()));
+		toDocField(doc, Lucene.did, StringUtils.getSHA1(ticket.getTaskName() + ticket.getNumber()));
 
-		toDocField(doc, Lucene.project, ticket.project);
-		toDocField(doc, Lucene.repository, ticket.repository);
-		toDocField(doc, Lucene.number, ticket.number);
-		toDocField(doc, Lucene.title, ticket.title);
-		toDocField(doc, Lucene.body, ticket.body);
-		toDocField(doc, Lucene.created, ticket.created);
-		toDocField(doc, Lucene.createdby, ticket.createdBy);
-		toDocField(doc, Lucene.updated, ticket.updated);
-		toDocField(doc, Lucene.updatedby, ticket.updatedBy);
-		toDocField(doc, Lucene.responsible, ticket.responsible);
-		toDocField(doc, Lucene.milestone, ticket.milestone);
-		toDocField(doc, Lucene.topic, ticket.topic);
-		toDocField(doc, Lucene.status, ticket.status.name());
+		toDocField(doc, Lucene.project, ticket.getProjectName());
+		toDocField(doc, Lucene.repository, ticket.getTaskName());
+		toDocField(doc, Lucene.number, ticket.getNumber());
+		toDocField(doc, Lucene.title, ticket.getTitle());
+		toDocField(doc, Lucene.body, ticket.getBody());
+		toDocField(doc, Lucene.created, ticket.getCrtTime());
+		toDocField(doc, Lucene.createdby, ticket.getCrtUser());
+		toDocField(doc, Lucene.updated, ticket.getUpdTime());
+		toDocField(doc, Lucene.updatedby, ticket.getUpdUser());
+		toDocField(doc, Lucene.responsible, ticket.getResponsible());
+		toDocField(doc, Lucene.milestone, ticket.getMilestone());
+		toDocField(doc, Lucene.topic, ticket.getTopic());
+		toDocField(doc, Lucene.status, Status.valueOf(ticket.getStatus()).name());
 		toDocField(doc, Lucene.comments, ticket.getComments().size());
-		toDocField(doc, Lucene.type, ticket.type == null ? null : ticket.type.name());
-		toDocField(doc, Lucene.mergesha, ticket.mergeSha);
-		toDocField(doc, Lucene.mergeto, ticket.mergeTo);
+		toDocField(doc, Lucene.type, Type.valueOf(ticket.getType()) == null ? null : Type.valueOf(ticket.getType()).name());
+		toDocField(doc, Lucene.mergesha, ticket.getMergeSha());
+		toDocField(doc, Lucene.mergeto, ticket.getMergeTo());
 		toDocField(doc, Lucene.labels, StringUtils.flattenStrings(ticket.getLabels(), ";").toLowerCase());
 		toDocField(doc, Lucene.participants, StringUtils.flattenStrings(ticket.getParticipants(), ";").toLowerCase());
 		toDocField(doc, Lucene.watchedby, StringUtils.flattenStrings(ticket.getWatchers(), ";").toLowerCase());
 		toDocField(doc, Lucene.mentions, StringUtils.flattenStrings(ticket.getMentions(), ";").toLowerCase());
 		toDocField(doc, Lucene.votes, ticket.getVoters().size());
-		toDocField(doc, Lucene.priority, ticket.priority.getValue());
-		toDocField(doc, Lucene.severity, ticket.severity.getValue());
+		toDocField(doc, Lucene.priority, TicketModel.Priority.valueOf(ticket.getPriority()).getValue());
+		toDocField(doc, Lucene.severity, TicketModel.Severity.valueOf(ticket.getSeverity()).getValue());
 
 		List<String> attachments = new ArrayList<String>();
 		for (Attachment attachment : ticket.getAttachments()) {

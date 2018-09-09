@@ -184,7 +184,7 @@ public class PatchsetCommand extends ReceiveCommand {
 	 */
 	public void updateTicket(RevCommit commit, String mergeTo, TicketModel ticket, String pushRef) {
 
-		this.ticketId = ticket.number;
+		this.ticketId = ticket.getNumber();
 
 		if (ticket.isClosed()) {
 			// re-opening a closed ticket
@@ -192,7 +192,7 @@ public class PatchsetCommand extends ReceiveCommand {
 		}
 
 		// ticket may or may not already have an integration branch
-		if (StringUtils.isEmpty(ticket.mergeTo) || !ticket.mergeTo.equals(mergeTo)) {
+		if (StringUtils.isEmpty(ticket.getMergeTo()) || !ticket.getMergeTo().equals(mergeTo)) {
 			change.setField(Field.mergeTo, mergeTo);
 		}
 
@@ -203,12 +203,12 @@ public class PatchsetCommand extends ReceiveCommand {
 			String title = getTitle(commit);
 			String body = getBody(commit);
 
-			if (!ticket.title.equals(title)) {
+			if (!ticket.getTitle().equals(title)) {
 				// title changed
 				change.setField(Field.title, title);
 			}
 
-			if (!ticket.body.equals(body)) {
+			if (!ticket.getBody().equals(body)) {
 				// description changed
 				change.setField(Field.body, body);
 			}
@@ -227,20 +227,20 @@ public class PatchsetCommand extends ReceiveCommand {
 			}
 
 			String milestone = getSingleOption(pushRef, MILESTONE);
-			if (!StringUtils.isEmpty(milestone) && !milestone.equals(ticket.milestone)) {
+			if (!StringUtils.isEmpty(milestone) && !milestone.equals(ticket.getMilestone())) {
 				// user specified a (different) milestone
 				change.setField(Field.milestone, milestone);
 			}
 
 			String responsible = getSingleOption(pushRef, RESPONSIBLE);
-			if (!StringUtils.isEmpty(responsible) && !responsible.equals(ticket.responsible)) {
+			if (!StringUtils.isEmpty(responsible) && !responsible.equals(ticket.getMilestone())) {
 				// user specified a (different) responsible
 				change.setField(Field.responsible, responsible);
 				watchSet.add(responsible);
 			}
 
 			String topic = getSingleOption(pushRef, TOPIC);
-			if (!StringUtils.isEmpty(topic) && !topic.equals(ticket.topic)) {
+			if (!StringUtils.isEmpty(topic) && !topic.equals(ticket.getTopic())) {
 				// user specified a (different) topic
 				change.setField(Field.topic, topic);
 			}
