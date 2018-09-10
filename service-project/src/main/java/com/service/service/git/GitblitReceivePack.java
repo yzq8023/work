@@ -15,6 +15,7 @@
  */
 package com.service.service.git;
 
+import com.github.wxiaoqi.security.common.context.BaseContextHandler;
 import com.service.service.Constants;
 import com.service.service.Constants.AccessRestrictionType;
 import com.service.service.IStoredSettings;
@@ -89,9 +90,9 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 
     protected GroovyScriptEngine gse;
 
-    @Autowired
-    PushAsync pushAsync;
+    private PushAsync pushAsync;
 
+    @Autowired
     public GitblitReceivePack(
             IWorkHub gitblit,
             Repository db,
@@ -131,6 +132,8 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
         // setup pre and post receive hook
         setPreReceiveHook(this);
         setPostReceiveHook(this);
+
+        this.pushAsync = pushAsync;
     }
 
     /**
@@ -338,13 +341,12 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
 //                rp.getRepository().fireEvent(new ReceiveCommandEvent(repository, cmd));
 //            }
 //        }
+        Change change = new Change(BaseContextHandler.getUserID());
+        change.setField(Field.title, "请求合并");
+        change.setField(Field.body, "来自客户端的合并请求");
+        change.setField(Field.mergeTo, "master");
 
-        try {
-            pushAsync.createPRFromPush(repository);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
+        gitblit.getTicketService().createTicket(gitblit.getRepositoryModel(repository.getTaskName()), 0L, change);
         // 调用post-receive插件
         for (ReceiveHook hook : gitblit.getExtensions(ReceiveHook.class)) {
             try {

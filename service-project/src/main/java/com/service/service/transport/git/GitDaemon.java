@@ -75,8 +75,7 @@ import java.text.MessageFormat;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Gitblit's Git Daemon ignores any and all per-repository daemon settings and
- * integrates into Gitblit's security model.
+ * WorkHub的git守护进程忽略了所有任务库的守护进程设置，并集成到了WorkHub的安全模型中
  *
  * @author James Moger
  *
@@ -85,7 +84,7 @@ public class GitDaemon {
 
 	private final Logger logger = LoggerFactory.getLogger(GitDaemon.class);
 
-	/** 9418: IANA assigned port number for Git. */
+	/** 9418: IANA 为git指定端口 */
 	public static final int DEFAULT_PORT = 9418;
 
 	private static final int BACKLOG = 5;
@@ -175,13 +174,13 @@ public class GitDaemon {
 		}
 	}
 
-	/** @return timeout (in seconds) before aborting an IO operation. */
+	/** @return 在终止IO操作之前 */
 	public int getTimeout() {
 		return timeout;
 	}
 
 	/**
-	 * Set the timeout before willing to abort an IO call.
+	 * 在愿意终止IO调用之前设置超时。
 	 *
 	 * @param seconds
 	 *            number of seconds to wait (with no data transfer occurring)
@@ -193,7 +192,7 @@ public class GitDaemon {
 	}
 
 	/**
-	 * Start this daemon on a background thread.
+	 * 在后台线程上启动这个守护进程。
 	 *
 	 * @throws IOException
 	 *             the server socket could not be opened.

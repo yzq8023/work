@@ -115,7 +115,8 @@ public class PullBiz extends BaseBiz<TicketModelMapper, TicketModel>{
                             workHub,
                             workHub.getRepository(taskName),
                             taskEntity,
-                            userModel);
+                            userModel
+                            );
                     MergeStatus result = rp.merge(refreshedTicket);
                 }
             }
