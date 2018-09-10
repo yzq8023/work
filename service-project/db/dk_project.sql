@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : mysql
+ Source Server         : workhub
  Source Server Type    : MySQL
- Source Server Version : 50723
+ Source Server Version : 50721
  Source Host           : localhost:3306
  Source Schema         : dk_project
 
  Target Server Type    : MySQL
- Target Server Version : 50723
+ Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 09/09/2018 21:30:12
+ Date: 10/09/2018 10:39:41
 */
 
 SET NAMES utf8mb4;
@@ -34,6 +34,14 @@ CREATE TABLE `activity`  (
   `is_private` tinyint(1) NOT NULL,
   `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
   `created_unix` int(11) NULL DEFAULT NULL,
+  `crt_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `crt_user` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `crt_host` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `crt_time` datetime(0) NULL DEFAULT NULL,
+  `upd_time` datetime(0) NULL DEFAULT NULL,
+  `upd_user` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `upd_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `upd_host` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -239,6 +247,32 @@ CREATE TABLE `project`  (
   `upd_host` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`project_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for pull_request
+-- ----------------------------
+DROP TABLE IF EXISTS `pull_request`;
+CREATE TABLE `pull_request`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` int(11) NULL DEFAULT NULL,
+  `status` int(11) NULL DEFAULT NULL,
+  `issue_id` bigint(20) NULL DEFAULT NULL,
+  `index` bigint(20) NULL DEFAULT NULL,
+  `head_repo_id` bigint(20) NULL DEFAULT NULL,
+  `base_repo_id` bigint(20) NULL DEFAULT NULL,
+  `head_user_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `head_branch` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `base_branch` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `merge_base` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `has_merged` tinyint(1) NULL DEFAULT NULL,
+  `merged_commit_id` varchar(40) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `merger_id` bigint(20) NULL DEFAULT NULL,
+  `merged_unix` bigint(20) NULL DEFAULT NULL,
+  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `context` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `task_id` int(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for task
