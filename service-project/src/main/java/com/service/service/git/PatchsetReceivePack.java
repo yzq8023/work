@@ -17,6 +17,7 @@ package com.service.service.git;
 
 import com.service.service.Constants;
 import com.service.service.Keys;
+import com.service.service.async.PushAsync;
 import com.service.service.extensions.PatchsetHook;
 import com.service.service.managers.IWorkHub;
 import com.service.service.entity.TaskEntity;
@@ -41,6 +42,7 @@ import org.eclipse.jgit.transport.ReceiveCommand.Type;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -82,6 +84,7 @@ public class PatchsetReceivePack extends GitblitReceivePack {
 
 	private boolean requireMergeablePatchset;
 
+	@Autowired
 	public PatchsetReceivePack(IWorkHub gitblit, Repository db, TaskEntity repository, UserModel user) {
 		super(gitblit, db, repository, user);
 		this.ticketService = gitblit.getTicketService();
