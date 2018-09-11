@@ -87,41 +87,41 @@ public class PullBiz extends BaseBiz<TicketModelMapper, TicketModel>{
      * @param userModel
      * @param taskEntity
      */
-    public void createMerge(UserModel userModel, TaskEntity taskEntity) {
-        Patchset patchset = ticket.getCurrentPatchset();
-        if (patchset == null) {
-            // no patchset to merge
-            return;
-        }
-        boolean allowMerge;
-        if (taskEntity.isRequireApproval()) {
-            // repository requires approval
-            allowMerge = ticket.isOpen() && ticket.isApproved(patchset);
-        } else {
-            // vetoes are binding
-            allowMerge = ticket.isOpen() && !ticket.isVetoed(patchset);
-        }
-
-        MergeStatus mergeStatus = JGitUtils.canMerge(workHub.getRepository(taskEntity.getTaskName()), patchset.tip, ticket.getMergeTo(), taskEntity.getMergeType());
-        if (allowMerge) {
-            if (JGitUtils.MergeStatus.MERGEABLE == mergeStatus) {
-                //补丁集可以被干净地合并到集成分支或者已经合并了
-                if (userModel.canPush(taskEntity)) {
-
-                    String taskName = taskBiz.selectById(taskEntity.getTaskId()).getTaskName();
-                    //可合并
-                    final TicketModel refreshedTicket = workHub.getTicketService().getTicket(workHub.getRepositoryModel(taskName), ticket.getNumber());
-                    PatchsetReceivePack rp = new PatchsetReceivePack(
-                            workHub,
-                            workHub.getRepository(taskName),
-                            taskEntity,
-                            userModel
-                            );
-                    MergeStatus result = rp.merge(refreshedTicket);
-                }
-            }
-        }
-    }
+//    public void createMerge(UserModel userModel, TaskEntity taskEntity) {
+//        Patchset patchset = ticket.getCurrentPatchset();
+//        if (patchset == null) {
+//            // no patchset to merge
+//            return;
+//        }
+//        boolean allowMerge;
+//        if (taskEntity.isRequireApproval()) {
+//            // repository requires approval
+//            allowMerge = ticket.isOpen() && ticket.isApproved(patchset);
+//        } else {
+//            // vetoes are binding
+//            allowMerge = ticket.isOpen() && !ticket.isVetoed(patchset);
+//        }
+//
+//        MergeStatus mergeStatus = JGitUtils.canMerge(workHub.getRepository(taskEntity.getTaskName()), patchset.tip, ticket.getMergeTo(), taskEntity.getMergeType());
+//        if (allowMerge) {
+//            if (JGitUtils.MergeStatus.MERGEABLE == mergeStatus) {
+//                //补丁集可以被干净地合并到集成分支或者已经合并了
+//                if (userModel.canPush(taskEntity)) {
+//
+//                    String taskName = taskBiz.selectById(taskEntity.getTaskId()).getTaskName();
+//                    //可合并
+//                    final TicketModel refreshedTicket = workHub.getTicketService().getTicket(workHub.getRepositoryModel(taskName), ticket.getNumber());
+//                    PatchsetReceivePack rp = new PatchsetReceivePack(
+//                            workHub,
+//                            workHub.getRepository(taskName),
+//                            taskEntity,
+//                            userModel
+//                            );
+//                    MergeStatus result = rp.merge(refreshedTicket);
+//                }
+//            }
+//        }
+//    }
 
     @Override
     protected String getPageName() {

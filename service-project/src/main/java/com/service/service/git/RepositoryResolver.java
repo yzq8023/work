@@ -39,7 +39,6 @@ import java.text.MessageFormat;
  * @author James Moger
  *
  */
-@Component
 public class RepositoryResolver<X> extends FileResolver<X> {
 
 	private final Logger logger = LoggerFactory.getLogger(RepositoryResolver.class);
