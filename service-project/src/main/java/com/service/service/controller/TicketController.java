@@ -5,7 +5,7 @@ import com.github.wxiaoqi.security.common.msg.ObjectRestResponse;
 import com.github.wxiaoqi.security.common.msg.TableResultResponse;
 import com.github.wxiaoqi.security.common.rest.BaseController;
 import com.github.wxiaoqi.security.common.util.Query;
-import com.service.service.biz.PullBiz;
+import com.service.service.biz.TicketBiz;
 import com.service.service.entity.ProjectEntity;
 import com.service.service.entity.TicketModel;
 import com.service.service.entity.TicketModel.*;
@@ -23,7 +23,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("pull")
 @Api("合并请求")
-public class PullController extends BaseController<PullBiz, TicketModel> {
+public class TicketController extends BaseController<TicketBiz, TicketModel> {
 
     @Override
     @RequestMapping(value = "", method = RequestMethod.POST)
