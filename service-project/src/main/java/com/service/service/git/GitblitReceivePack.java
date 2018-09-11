@@ -19,7 +19,6 @@ import com.service.service.Constants;
 import com.service.service.Constants.AccessRestrictionType;
 import com.service.service.IStoredSettings;
 import com.service.service.Keys;
-import com.service.service.async.PushAsync;
 import com.service.service.entity.TaskEntity;
 import com.service.service.extensions.ReceiveHook;
 import com.service.service.entity.TicketModel;
@@ -44,7 +43,6 @@ import org.eclipse.jgit.transport.ReceiveCommand.Result;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.io.IOException;
@@ -88,8 +86,6 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
     protected final TicketNotifier ticketNotifier;
 
     protected GroovyScriptEngine gse;
-
-    private PushAsync pushAsync;
 
     public GitblitReceivePack(
             IWorkHub gitblit,

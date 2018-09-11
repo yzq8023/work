@@ -18,7 +18,6 @@ package com.service.service.git;
 import com.service.service.Constants.Transport;
 import com.service.service.IStoredSettings;
 import com.service.service.Keys;
-import com.service.service.async.PushAsync;
 import com.service.service.entity.TaskEntity;
 import com.service.service.entity.UserModel;
 import com.service.service.managers.IWorkHub;
@@ -33,8 +32,6 @@ import org.eclipse.jgit.transport.resolver.ServiceNotAuthorizedException;
 import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
