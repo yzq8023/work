@@ -34,6 +34,7 @@ import org.eclipse.jgit.transport.resolver.ServiceNotEnabledException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
@@ -54,7 +55,6 @@ public class GitblitReceivePackFactory<X> implements ReceivePackFactory<X> {
 
 	private final IWorkHub gitblit;
 
-	@Autowired
 	public GitblitReceivePackFactory(IWorkHub gitblit) {
 		super();
 		this.settings = gitblit.getSettings();

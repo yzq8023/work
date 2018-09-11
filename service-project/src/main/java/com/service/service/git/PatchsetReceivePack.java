@@ -43,6 +43,7 @@ import org.eclipse.jgit.transport.ReceivePack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -84,7 +85,6 @@ public class PatchsetReceivePack extends GitblitReceivePack {
 
 	private boolean requireMergeablePatchset;
 
-	@Autowired
 	public PatchsetReceivePack(IWorkHub gitblit, Repository db, TaskEntity repository, UserModel user) {
 		super(gitblit, db, repository, user);
 		this.ticketService = gitblit.getTicketService();

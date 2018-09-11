@@ -156,6 +156,7 @@ public abstract class ITicketService implements IManager {
 		this.milestonesCache = new ConcurrentHashMap<String, List<TicketMilestone>>();
 
 		this.updateDiffstats = settings.getBoolean(SETTING_UPDATE_DIFFSTATS, true);
+		this.start();
 	}
 
 	/**
@@ -167,10 +168,10 @@ public abstract class ITicketService implements IManager {
 		onStart();
 		if (shouldReindex()) {
 			log.info("Re-indexing all tickets...");
-//			long startTime = System.currentTimeMillis();
+			long startTime = System.currentTimeMillis();
 			reindex();
-//			float duration = (System.currentTimeMillis() - startTime) / 1000f;
-//			log.info("Built Lucene index over all tickets in {} secs", duration);
+			float duration = (System.currentTimeMillis() - startTime) / 1000f;
+			log.info("Built Lucene index over all tickets in {} secs", duration);
 		}
 		return this;
 	}
@@ -225,7 +226,7 @@ public abstract class ITicketService implements IManager {
 	}
 
 	/**
-	 * Returns true if the new patchsets can be accepted for this repository.
+	 * 如果新的补丁集可被当前任务库接收，则返回true
 	 *
 	 * @param repository
 	 * @return true if patchsets are being accepted
