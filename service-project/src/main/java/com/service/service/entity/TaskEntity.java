@@ -212,6 +212,7 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity> {
     @Column(name = "fork_id")
     private Integer forkId;
 
+    @Column(name = "head")
     private String head;
 
     @Column(name = "merge_to")
@@ -299,6 +300,10 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity> {
     private List<String> metricAuthorExclusions;
     @Transient
     private boolean isCollectingGarbage;
+    @Transient
+    private List<String> preReceiveScripts;
+    @Transient
+    private List<String> postReceiveScripts;
 
     public TaskEntity() {
         this(0, "", new Date(0), "", "");
@@ -1280,6 +1285,21 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity> {
     }
 
 
+    public List<String> getPreReceiveScripts() {
+        return preReceiveScripts;
+    }
+
+    public void setPreReceiveScripts(List<String> preReceiveScripts) {
+        this.preReceiveScripts = preReceiveScripts;
+    }
+
+    public List<String> getPostReceiveScripts() {
+        return postReceiveScripts;
+    }
+
+    public void setPostReceiveScripts(List<String> postReceiveScripts) {
+        this.postReceiveScripts = postReceiveScripts;
+    }
 
     @Override
     public int hashCode() {
@@ -1423,5 +1443,18 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity> {
 
     public void setCollectingGarbage(boolean collectingGarbage) {
         isCollectingGarbage = collectingGarbage;
+    }
+
+    public List<String> getLocalBranches() {
+        if (ArrayUtils.isEmpty(availableRefs)) {
+            return new ArrayList<String>();
+        }
+        List<String> localBranches = new ArrayList<String>();
+        for (String ref : availableRefs) {
+            if (ref.startsWith("refs/heads")) {
+                localBranches.add(ref);
+            }
+        }
+        return localBranches;
     }
 }

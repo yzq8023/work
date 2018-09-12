@@ -46,7 +46,7 @@ public class WorkHubManager implements IWorkHub {
     protected final IProjectManager projectManager;
     protected final IFilestoreManager filestoreManager;
     protected final IPluginManager pluginManager;
-//    protected final ITicketService ticketServiceProvider;
+    protected final ITicketService ticketServiceProvider;
 
     @Autowired
     public WorkHubManager(IRuntimeManager runtimeManager,
@@ -56,7 +56,8 @@ public class WorkHubManager implements IWorkHub {
                           IRepositoryManager repositoryManager,
                           IProjectManager projectManager,
                           IFilestoreManager filestoreManager,
-                          IPluginManager pluginManager) {
+                          IPluginManager pluginManager,
+                          ITicketService ticketServiceProvider) {
         this.settings = runtimeManager.getSettings();
         this.runtimeManager = runtimeManager;
         this.notificationManager = notificationManager;
@@ -66,7 +67,7 @@ public class WorkHubManager implements IWorkHub {
         this.projectManager = projectManager;
         this.filestoreManager = filestoreManager;
         this.pluginManager = pluginManager;
-//        this.ticketServiceProvider = ticketServiceProvider;
+        this.ticketServiceProvider = ticketServiceProvider;
         this.start();
     }
 
@@ -378,7 +379,7 @@ public class WorkHubManager implements IWorkHub {
 
     @Override
     public ITicketService getTicketService() {
-        return null;
+        return ticketServiceProvider;
     }
     /****************************************************************************************
      *                                     IWorkHub end                                     *

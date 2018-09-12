@@ -34,7 +34,7 @@ public class TaskController extends BaseController<TaskBiz, TaskEntity> {
 
     @RequestMapping(value = "/{tid}/teams", method = RequestMethod.PUT)
     @ResponseBody
-    public ObjectRestResponse modifyTeamsInTask(@PathVariable Integer tid, String teams){
+    public ObjectRestResponse modifyTeamsInTask(@PathVariable Integer tid, String teams) {
         baseBiz.modifyTeamsInTask(tid, teams);
         return new ObjectRestResponse().rel(true);
     }
@@ -48,7 +48,7 @@ public class TaskController extends BaseController<TaskBiz, TaskEntity> {
 
     @RequestMapping(value = "/project/joined", method = RequestMethod.GET)
     @ResponseBody
-    public TableResultResponse<Map<String,Object>> pjoined(@RequestParam Map<String, Object> params) {
+    public TableResultResponse<Map<String, Object>> pjoined(@RequestParam Map<String, Object> params) {
         Query query = new Query(params);
         return baseBiz.getJoinedTaskFromProject(query);
     }
@@ -72,10 +72,17 @@ public class TaskController extends BaseController<TaskBiz, TaskEntity> {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public ObjectRestResponse<TaskEntity> remove(@PathVariable Integer id) {
-        if (baseBiz.deleteRepository(baseBiz.selectById(id))){
+        if (baseBiz.deleteRepository(baseBiz.selectById(id))) {
             baseBiz.deleteById(id);
         }
         return new ObjectRestResponse<TaskEntity>();
+    }
+
+    @RequestMapping(value = "/branches", method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> branches(@PathVariable Integer taskId) {
+        TaskEntity taskEntity = baseBiz.selectById(taskId);
+        return taskBiz.getIntegrationBranch(taskEntity.getTaskName());
     }
 }
 

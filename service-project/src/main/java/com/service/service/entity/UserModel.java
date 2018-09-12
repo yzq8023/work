@@ -646,14 +646,14 @@ public class UserModel implements Principal, Serializable, Comparable<UserModel>
 	public boolean canEdit(TicketModel ticket, TaskEntity repository) {
 		 return isAuthenticated() &&
 				 (canPush(repository)
-				 || (ticket != null && id.equals(ticket.responsible))
-				 || (ticket != null && id.equals(ticket.createdBy)));
+				 || (ticket != null && id.equals(ticket.getResponsible()))
+				 || (ticket != null && id.equals(ticket.getCrtUser())));
 	}
 
 	public boolean canAdmin(TicketModel ticket, TaskEntity repository) {
 		 return isAuthenticated() &&
 				 (canPush(repository)
-				 || ticket != null && id.equals(ticket.responsible));
+				 || ticket != null && id.equals(ticket.getResponsible()));
 	}
 
 	public boolean canReviewPatchset(TaskEntity model) {

@@ -26,8 +26,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import java.io.Serializable;
 
 /**
- * PathModel is a serializable model class that represents a file or a folder,
- * including all its metadata and associated commit id.
+ * PathModel是一个可序列化的模型类，它表示一个文件或一个文件夹，
+ * 包括所有的元数据和相关的提交id。
  *
  * @author James Moger
  *
