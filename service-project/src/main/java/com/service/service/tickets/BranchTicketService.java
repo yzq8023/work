@@ -154,8 +154,8 @@ public class BranchTicketService extends ITicketService implements RefsChangedLi
     }
 
     /**
-     * Returns a RefModel for the refs/meta/gitblit/tickets branch in the repository.
-     * If the branch can not be found, null is returned.
+     * 获取refs/meta/gitblit/tickets分支中的RefModel在任务库中
+     * 如果找不到分支返回null
      *
      * @return a refmodel for the gitblit tickets branch or null
      */
@@ -200,7 +200,7 @@ public class BranchTicketService extends ITicketService implements RefsChangedLi
     }
 
     /**
-     * Returns the ticket path. This follows the same scheme as Git's object
+     * 返回工单路径 This follows the same scheme as Git's object
      * store path where the first two characters of the hash id are the root
      * folder with the remaining characters as a subfolder within that folder.
      *
@@ -679,12 +679,12 @@ public class BranchTicketService extends ITicketService implements RefsChangedLi
     }
 
     /**
-     * Commit a ticket change to the repository.
+     * 为任务库提交一个工单变更
      *
      * @param repository
      * @param ticketId
      * @param change
-     * @return true, if the change was committed
+     * @return 如果变更被提交返回true
      */
     @Override
     protected synchronized boolean commitChangeImpl(TaskEntity repository, long ticketId, Change change) {
@@ -705,11 +705,11 @@ public class BranchTicketService extends ITicketService implements RefsChangedLi
     }
 
     /**
-     * Creates an in-memory index of the ticket change.
+     * 创建一个工单变更的内存索引
      *
      * @param ticketId
      * @param change
-     * @return an in-memory index
+     * @return 一个内存索引
      * @throws IOException
      */
     private DirCache createIndex(Repository db, long ticketId, Change change)
