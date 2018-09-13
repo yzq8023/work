@@ -20,7 +20,7 @@ import org.eclipse.jgit.events.RefsChangedEvent;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 /**
- * The event fired by other classes to allow this service to index tickets.
+ * 该事件由其他类触发，以允许该服务对门票进行索引。
  *
  * @author James Moger
  */

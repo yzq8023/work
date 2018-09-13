@@ -21,6 +21,7 @@ import com.service.service.entity.TaskEntity;
 import com.service.service.git.ReceiveCommandEvent;
 import com.service.service.managers.IRepositoryManager;
 import com.service.service.entity.UserModel;
+import com.service.service.tickets.BranchTicketService;
 import com.service.service.utils.JGitUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.RefUpdate.Result;
@@ -160,28 +161,28 @@ public class MirrorService implements Runnable {
 						sb.append(ru.getNewObjectId() == null ? "" : ru.getNewObjectId().abbreviate(7).name());
 						logger.info(sb.toString());
 
-//						if (BranchTicketServiceTemp.BRANCH.equals(ru.getLocalName())) {
-//							Type type = null;
-//							switch (ru.getResult()) {
-//							case NEW:
-//								type = Type.CREATE;
-//								break;
-//							case FAST_FORWARD:
-//								type = Type.UPDATE;
-//								break;
-//							case FORCED:
-//								type = Type.UPDATE_NONFASTFORWARD;
-//								break;
-//							default:
-//								type = null;
-//								break;
-//							}
-//
-//							if (type != null) {
-//								ticketBranchCmd = new ReceiveCommand(ru.getOldObjectId(),
-//									ru.getNewObjectId(), ru.getLocalName(), type);
-//							}
-//						}
+						if (BranchTicketService.BRANCH.equals(ru.getLocalName())) {
+							Type type = null;
+							switch (ru.getResult()) {
+							case NEW:
+								type = Type.CREATE;
+								break;
+							case FAST_FORWARD:
+								type = Type.UPDATE;
+								break;
+							case FORCED:
+								type = Type.UPDATE_NONFASTFORWARD;
+								break;
+							default:
+								type = null;
+								break;
+							}
+
+							if (type != null) {
+								ticketBranchCmd = new ReceiveCommand(ru.getOldObjectId(),
+									ru.getNewObjectId(), ru.getLocalName(), type);
+							}
+						}
 					}
 
 					if (ticketBranchCmd != null) {
