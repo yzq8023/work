@@ -42,7 +42,7 @@ import java.util.concurrent.atomic.AtomicLong;
  *
  */
 @Component
-public class BranchTicketService extends ITicketService implements RefsChangedListener {
+public class BranchTicketService extends ITicketService {
 
     public static final String BRANCH = "refs/meta/gitblit/tickets";
 
@@ -69,7 +69,7 @@ public class BranchTicketService extends ITicketService implements RefsChangedLi
         lastAssignedId = new ConcurrentHashMap<String, AtomicLong>();
 
         // register the branch ticket service for repository ref changes
-        Repository.getGlobalListenerList().addRefsChangedListener(this);
+//        Repository.getGlobalListenerList().addRefsChangedListener(this);
     }
 
     @Override
@@ -96,62 +96,62 @@ public class BranchTicketService extends ITicketService implements RefsChangedLi
     /**
      * Listen for tickets branch changes and (re)index tickets, as appropriate
      */
-    @Override
-    public synchronized void onRefsChanged(RefsChangedEvent event) {
-        if (!(event instanceof ReceiveCommandEvent)) {
-            return;
-        }
-
-        ReceiveCommandEvent branchUpdate = (ReceiveCommandEvent) event;
-        TaskEntity repository = branchUpdate.model;
-        ReceiveCommand cmd = branchUpdate.cmd;
-        try {
-            switch (cmd.getType()) {
-                case CREATE:
-                case UPDATE_NONFASTFORWARD:
-                    // reindex everything
-                    reindex(repository);
-                    break;
-                case UPDATE:
-                    // incrementally index ticket updates
-                    resetCaches(repository);
-                    long start = System.nanoTime();
-                    log.info("incrementally indexing {} ticket branch due to received ref update", repository.getTaskName());
-                    Repository db = repositoryManager.getRepository(repository.getTaskName());
-                    try {
-                        Set<Long> ids = new HashSet<Long>();
-                        List<PathChangeModel> paths = JGitUtils.getFilesInRange(db,
-                                cmd.getOldId().getName(), cmd.getNewId().getName());
-                        for (PathChangeModel path : paths) {
-                            String name = path.name.substring(path.name.lastIndexOf('/') + 1);
-                            if (!JOURNAL.equals(name)) {
-                                continue;
-                            }
-                            String tid = path.path.split("/")[2];
-                            long ticketId = Long.parseLong(tid);
-                            if (!ids.contains(ticketId)) {
-                                ids.add(ticketId);
-                                TicketModel ticket = getTicket(repository, ticketId);
-                                log.info(MessageFormat.format("indexing ticket #{0,number,0}: {1}",
-                                        ticketId, ticket.getTitle()));
-                                indexer.index(ticket);
-                            }
-                        }
-                        long end = System.nanoTime();
-                        log.info("incremental indexing of {0} ticket(s) completed in {1} msecs",
-                                ids.size(), TimeUnit.NANOSECONDS.toMillis(end - start));
-                    } finally {
-                        db.close();
-                    }
-                    break;
-                default:
-                    log.warn("Unexpected receive type {} in BranchTicketService.onRefsChanged" + cmd.getType());
-                    break;
-            }
-        } catch (Exception e) {
-            log.error("failed to reindex " + repository.getTaskName(), e);
-        }
-    }
+//    @Override
+//    public synchronized void onRefsChanged(RefsChangedEvent event) {
+//        if (!(event instanceof ReceiveCommandEvent)) {
+//            return;
+//        }
+//
+//        ReceiveCommandEvent branchUpdate = (ReceiveCommandEvent) event;
+//        TaskEntity repository = branchUpdate.model;
+//        ReceiveCommand cmd = branchUpdate.cmd;
+//        try {
+//            switch (cmd.getType()) {
+//                case CREATE:
+//                case UPDATE_NONFASTFORWARD:
+//                    // reindex everything
+//                    reindex(repository);
+//                    break;
+//                case UPDATE:
+//                    // incrementally index ticket updates
+//                    resetCaches(repository);
+//                    long start = System.nanoTime();
+//                    log.info("incrementally indexing {} ticket branch due to received ref update", repository.getTaskName());
+//                    Repository db = repositoryManager.getRepository(repository.getTaskName());
+//                    try {
+//                        Set<Long> ids = new HashSet<Long>();
+//                        List<PathChangeModel> paths = JGitUtils.getFilesInRange(db,
+//                                cmd.getOldId().getName(), cmd.getNewId().getName());
+//                        for (PathChangeModel path : paths) {
+//                            String name = path.name.substring(path.name.lastIndexOf('/') + 1);
+//                            if (!JOURNAL.equals(name)) {
+//                                continue;
+//                            }
+//                            String tid = path.path.split("/")[2];
+//                            long ticketId = Long.parseLong(tid);
+//                            if (!ids.contains(ticketId)) {
+//                                ids.add(ticketId);
+//                                TicketModel ticket = getTicket(repository, ticketId);
+//                                log.info(MessageFormat.format("indexing ticket #{0,number,0}: {1}",
+//                                        ticketId, ticket.getTitle()));
+//                                indexer.index(ticket);
+//                            }
+//                        }
+//                        long end = System.nanoTime();
+//                        log.info("incremental indexing of {0} ticket(s) completed in {1} msecs",
+//                                ids.size(), TimeUnit.NANOSECONDS.toMillis(end - start));
+//                    } finally {
+//                        db.close();
+//                    }
+//                    break;
+//                default:
+//                    log.warn("Unexpected receive type {} in BranchTicketService.onRefsChanged" + cmd.getType());
+//                    break;
+//            }
+//        } catch (Exception e) {
+//            log.error("failed to reindex " + repository.getTaskName(), e);
+//        }
+//    }
 
     /**
      * 获取refs/meta/gitblit/tickets分支中的RefModel在任务库中
