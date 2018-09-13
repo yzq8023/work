@@ -28,6 +28,7 @@ import com.service.service.entity.TicketModel.Status;
 import com.service.service.entity.TicketModel.TicketLink;
 import com.service.service.entity.UserModel;
 import com.service.service.managers.IWorkHub;
+import com.service.service.tickets.BranchTicketService;
 import com.service.service.tickets.ITicketService;
 import com.service.service.tickets.TicketNotifier;
 import com.service.service.utils.*;
@@ -275,14 +276,14 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
                         break;
                 }
             }
-//            else if (ref.equals(BranchTicketServiceTemp.BRANCH)) {
-//                // ensure pushing user is an administrator OR an owner
-//                // i.e. prevent ticket tampering
-//                boolean permitted = user.canAdmin() || repository.isOwner(user.getUserId());
-//                if (!permitted) {
-//                    sendRejection(cmd, "{0} is not permitted to push to {1}", user.getUserId(), ref);
-//                }
-//            }
+            else if (ref.equals(BranchTicketService.BRANCH)) {
+                // ensure pushing user is an administrator OR an owner
+                // i.e. prevent ticket tampering
+                boolean permitted = user.canAdmin() || repository.isOwner(user.getUserId());
+                if (!permitted) {
+                    sendRejection(cmd, "{0} is not permitted to push to {1}", user.getUserId(), ref);
+                }
+            }
             else if (ref.startsWith(Constants.R_FOR)) {
                 // prevent accidental push to refs/for
                 sendRejection(cmd, "{0} is not configured to receive patchsets", repository.getTaskName());
@@ -327,12 +328,13 @@ public class GitblitReceivePack extends ReceivePack implements PreReceiveHook, P
         updateGitblitRefLog(commands);
 
         // 检查推送到BranchTicketService分支的更新，如果BranchTicketService是活动的，它将根据适当的方式重新索引
-//        for (ReceiveCommand cmd : commands) {
-//            if (Result.OK.equals(cmd.getResult())
-//                    && BranchTicketServiceTemp.BRANCH.equals(cmd.getRefName())) {
-//                rp.getRepository().fireEvent(new ReceiveCommandEvent(repository, cmd));
-//            }
-//        }
+        for (ReceiveCommand cmd : commands) {
+            if (Result.OK.equals(cmd.getResult())
+//                    && BranchTicketService.BRANCH.equals(cmd.getRefName())
+            ) {
+                rp.getRepository().fireEvent(new ReceiveCommandEvent(repository, cmd));
+            }
+        }
 
         // 调用post-receive插件
         for (ReceiveHook hook : gitblit.getExtensions(ReceiveHook.class)) {

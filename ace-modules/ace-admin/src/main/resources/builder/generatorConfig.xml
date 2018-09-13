@@ -42,7 +42,7 @@
         </table>-->
         <!--<table tableName="base_element" domainObjectName="Element">-->
         <!--</table>-->
-        <table tableName="ticket" domainObjectName="TicketModel">
+        <table tableName="pull_request" domainObjectName="PullRequestEntity">
         </table>
     </context>
 </generatorConfiguration>

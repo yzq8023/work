@@ -23,6 +23,7 @@ import com.service.service.entity.TaskEntity;
 import com.service.service.entity.TicketModel;
 import com.service.service.entity.TicketModel.*;
 import com.service.service.entity.UserModel;
+import com.service.service.tickets.BranchTicketService;
 import com.service.service.tickets.ITicketService;
 import com.service.service.tickets.TicketMilestone;
 import com.service.service.tickets.TicketNotifier;
@@ -239,13 +240,13 @@ public class PatchsetReceivePack extends GitblitReceivePack {
 	protected void executeCommands() {
 		// 我们处理补丁集，除非用户在推一些特殊的东西
 		boolean processPatchsets = true;
-//		for (ReceiveCommand cmd : filterCommands(Result.NOT_ATTEMPTED)) {
-//			if (ticketService instanceof BranchTicketServiceTemp
-//					&& BranchTicketServiceTemp.BRANCH.equals(cmd.getRefName())) {
-//				// 用户正在对BranchTicketService数据进行更新
-//				processPatchsets = false;
-//			}
-//		}
+		for (ReceiveCommand cmd : filterCommands(Result.NOT_ATTEMPTED)) {
+			if (ticketService instanceof BranchTicketService
+					&& BranchTicketService.BRANCH.equals(cmd.getRefName())) {
+				// 用户正在对BranchTicketService数据进行更新
+				processPatchsets = false;
+			}
+		}
 
 		// workaround for JGit's awful scoping choices
 		//
@@ -254,11 +255,11 @@ public class PatchsetReceivePack extends GitblitReceivePack {
 			if (isPatchsetRef(cmd.getRefName())) {
 				cmd.setResult(Result.NOT_ATTEMPTED);
 			}
-//			else if (ticketService instanceof BranchTicketServiceTemp
-//					&& BranchTicketServiceTemp.BRANCH.equals(cmd.getRefName())) {
-//				// the user is pushing an update to the BranchTicketService data
-//				processPatchsets = false;
-//			}
+			else if (ticketService instanceof BranchTicketService
+					&& BranchTicketService.BRANCH.equals(cmd.getRefName())) {
+				// the user is pushing an update to the BranchTicketService data
+				processPatchsets = false;
+			}
 		}
 
 		List<ReceiveCommand> toApply = filterCommands(Result.NOT_ATTEMPTED);
