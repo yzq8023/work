@@ -11,7 +11,7 @@
  Target Server Version : 50721
  File Encoding         : 65001
 
- Date: 13/09/2018 17:32:40
+ Date: 10/09/2018 10:39:41
 */
 
 SET NAMES utf8mb4;
@@ -86,7 +86,7 @@ CREATE TABLE `hibernate_sequence`  (
 DROP TABLE IF EXISTS `issue`;
 CREATE TABLE `issue`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `repo_id` int(11) NULL DEFAULT NULL,
+  `task_id` int(11) NULL DEFAULT NULL,
   `issue_index` int(11) NULL DEFAULT NULL,
   `poster_id` int(11) NULL DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
@@ -109,8 +109,8 @@ CREATE TABLE `issue`  (
   `upd_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `upd_host` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `UQE_issue_repo_index`(`repo_id`, `issue_index`) USING BTREE,
-  INDEX `IDX_issue_repo_id`(`repo_id`) USING BTREE
+  UNIQUE INDEX `UQE_issue_task_index`(`task_id`, `issue_index`) USING BTREE,
+  INDEX `IDX_issue_task_id`(`task_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -131,18 +131,11 @@ CREATE TABLE `issue_label`  (
 DROP TABLE IF EXISTS `issue_user`;
 CREATE TABLE `issue_user`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uid` int(11) NULL DEFAULT NULL,
   `issue_id` int(11) NULL DEFAULT NULL,
-  `repo_id` int(11) NULL DEFAULT NULL,
-  `milestone_id` int(11) NULL DEFAULT NULL,
-  `is_read` tinyint(1) NULL DEFAULT NULL,
-  `is_assigned` tinyint(1) NULL DEFAULT NULL,
-  `is_mentioned` tinyint(1) NULL DEFAULT NULL,
-  `is_poster` tinyint(1) NULL DEFAULT NULL,
-  `is_closed` tinyint(1) NULL DEFAULT NULL,
+  `user_id` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `IDX_issue_user_uid`(`uid`) USING BTREE,
-  INDEX `IDX_issue_user_repo_id`(`repo_id`) USING BTREE
+  INDEX `IDX_issue_user_user_id`(`user_id`) USING BTREE,
+  INDEX `IDX_issue_user_issue_id`(`issue_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -151,13 +144,21 @@ CREATE TABLE `issue_user`  (
 DROP TABLE IF EXISTS `label`;
 CREATE TABLE `label`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `repo_id` int(11) NULL DEFAULT NULL,
+  `task_id` int(11) NULL DEFAULT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `color` varchar(7) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `num_issues` int(11) NULL DEFAULT NULL,
   `num_closed_issues` int(11) NULL DEFAULT NULL,
+  `crt_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `crt_user` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `crt_host` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `crt_time` datetime(0) NULL DEFAULT NULL,
+  `upd_time` datetime(0) NULL DEFAULT NULL,
+  `upd_user` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `upd_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `upd_host` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `IDX_label_repo_id`(`repo_id`) USING BTREE
+  INDEX `IDX_label_task_id`(`task_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------

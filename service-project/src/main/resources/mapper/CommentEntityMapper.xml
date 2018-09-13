@@ -4,7 +4,7 @@
 <mapper namespace="com.service.service.mapper.CommentEntityMapper">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.service.service.entity.CommentEntity" id="commentMap">
+    <resultMap type="com.service.service.entity.CommentEntity" id="BaseResultMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="commentType" column="comment_type" jdbcType="INTEGER"/>
         <result property="posterId" column="poster_id" jdbcType="INTEGER"/>

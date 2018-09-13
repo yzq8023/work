@@ -4,7 +4,7 @@
 <mapper namespace="com.service.service.mapper.MilestoneEntityMapper">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.service.service.entity.MilestoneEntity" id="milestoneMap">
+    <resultMap type="com.service.service.entity.MilestoneEntity" id="BaseResultMap">
         <result property="id" column="id"/>
         <result property="taskId" column="task_id"/>
         <result property="name" column="name"/>
