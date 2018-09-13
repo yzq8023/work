@@ -55,7 +55,7 @@
     <!--
       WARNING - @mbg.generated
     -->
-<!--    <id column="task_id" property="taskId" jdbcType="INTEGER" />
+    <id column="task_id" property="taskId" jdbcType="INTEGER" />
     <result column="task_creator_id" property="taskCreatorId" jdbcType="INTEGER" />
     <result column="task_des" property="taskDes" jdbcType="VARCHAR" />
     <result column="task_executor_id" property="taskExecutorId" jdbcType="INTEGER" />
@@ -98,9 +98,8 @@
     <result column="project_path" property="projectPath" jdbcType="VARCHAR" />
     <result column="access_restriction" property="accessRestriction" jdbcType="CHAR" />
     <result column="authorization_control" property="authorizationControl" jdbcType="CHAR" />
-    <result column="task_is_leaf" property="taskIsLeaf" jdbcType="BINARY" />-->
-    <result column="status" property="status" jdbcType="VARCHAR" />
-    <collection property="task" ofType="com.service.service.entity.TaskEntity" resultMap="BaseResultMap"/>
+    <result column="task_is_leaf" property="taskIsLeaf" jdbcType="BINARY" />
+      <result column="status" property="status" jdbcType="VARCHAR" />
   </resultMap>
   <insert id="insertTaskTeamsById">
       insert into team_repo (

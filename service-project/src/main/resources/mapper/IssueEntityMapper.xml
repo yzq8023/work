@@ -4,7 +4,7 @@
 <mapper namespace="com.service.service.mapper.IssueEntityMapper">
 
 	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.service.service.entity.IssueEntity" id="issueMap">
+    <resultMap type="com.service.service.entity.IssueEntity" id="BaseResultMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="taskId" column="task_id" jdbcType="INTEGER"/>
         <result property="issueIndex" column="issue_index" jdbcType="INTEGER"/>
@@ -36,8 +36,26 @@
       values(
       #{issueId},#{labelId}
       )
-  </insert>
+    </insert>
     <delete id="deleteIssueLabelsById">
     delete from issue_label where issue_id = #{issueId}
-  </delete>
+    </delete>
+    <select id="getJoinedUsersFromIssue" resultType="java.lang.Integer">
+    select * from (
+    select mut.user_id 'userId' from map_user_task mut where mut.task_id = #{taskId}
+    union
+    select t.crt_user from task t where t.task_id = #{taskId}
+    ) temp
+    where temp.userId != (
+    select issue.crt_user from issue where issue.id = #{issueId}
+    )
+    </select>
+    <insert id="insertIssueUsersById">
+      insert into issue_user (
+      issue_id,user_id
+      )
+      values(
+      #{issueId},#{userId}
+      )
+    </insert>
 </mapper>

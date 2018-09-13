@@ -55,7 +55,9 @@ public class WebConfiguration implements WebMvcConfigurer {
         String[] urls = {
                 "/project/**",
                 "/team/**",
-                "/task/**"
+                "/task/**",
+                "/issue/**",
+                "/comment/**"
         };
         Collections.addAll(list, urls);
         return list;
