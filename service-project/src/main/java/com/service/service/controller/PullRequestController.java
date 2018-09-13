@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("pull")
 @Api("合并请求")
 public class PullRequestController extends BaseController<PullRequestBiz, PullRequestEntity> {
-
     @Override
     @RequestMapping(value = "", method = RequestMethod.POST)
     @ResponseBody
@@ -32,5 +31,4 @@ public class PullRequestController extends BaseController<PullRequestBiz, PullRe
         baseBiz.merge(id, name);
         return new ObjectRestResponse().rel(true);
     }
-
 }
