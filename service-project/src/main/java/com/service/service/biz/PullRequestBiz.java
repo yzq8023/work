@@ -15,11 +15,13 @@ import com.service.service.mapper.PullRequestEntityMapper;
 import com.service.service.utils.JGitUtils;
 import com.service.service.utils.JGitUtils.*;
 import com.service.service.utils.StringUtils;
+
 import com.service.service.utils.UserUtils;
 import org.eclipse.jgit.events.RefsChangedEvent;
 import org.eclipse.jgit.events.RefsChangedListener;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
+
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,6 +91,7 @@ public class PullRequestBiz extends BaseBiz<PullRequestEntityMapper, PullRequest
 
         MergeResult mergeResult = JGitUtils.merge(
                 workHub.getRepository(taskName),
+
                 pullRequestEntity.getBaseBranch(),
                 pullRequestEntity.getHeadBranch(),
                 MERGE_ALWAYS,
@@ -115,7 +118,9 @@ public class PullRequestBiz extends BaseBiz<PullRequestEntityMapper, PullRequest
         ReceiveCommandEvent branchUpdate = (ReceiveCommandEvent) event;
         TaskEntity repository = branchUpdate.model;
         ReceiveCommand cmd = branchUpdate.cmd;
+
         UserModel userModel = UserUtils.transUser(userFeignClient.info(Integer.valueOf(getCurrentUserId())));
+
         try {
             switch (cmd.getType()) {
                 case CREATE:
@@ -131,8 +136,6 @@ public class PullRequestBiz extends BaseBiz<PullRequestEntityMapper, PullRequest
 
         }
     }
-
-
     @Override
     protected String getPageName() {
         return "PullRequestBiz";
