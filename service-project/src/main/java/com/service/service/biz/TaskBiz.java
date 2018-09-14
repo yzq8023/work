@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 import static org.apache.log4j.helpers.LogLog.error;
+import static org.apache.log4j.helpers.LogLog.warn;
 
 /**
  * 业务逻辑类
@@ -162,7 +163,7 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
     protected RevCommit getCommit(Repository r, String objectId) {
         RevCommit commit = JGitUtils.getCommit(r, objectId);
         if (commit == null) {
-            error("commit出现错误");
+            warn(r.toString()+"当前仓库不包含commit");
         }
         getSubmodules(commit, r);
         return commit;
@@ -178,7 +179,6 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
         return submodules;
     }
 
-
     @Override
     protected String getPageName() {
         return "taskBiz";
@@ -193,7 +193,7 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
                     // 有这个库，但未经授权
                     return null;
                 } else {
-                    // does not have repository
+                    // 没有存储库
                     return null;
                 }
             }

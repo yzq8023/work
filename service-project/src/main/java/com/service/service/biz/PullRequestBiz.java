@@ -91,7 +91,6 @@ public class PullRequestBiz extends BaseBiz<PullRequestEntityMapper, PullRequest
 
         MergeResult mergeResult = JGitUtils.merge(
                 workHub.getRepository(taskName),
-
                 pullRequestEntity.getBaseBranch(),
                 pullRequestEntity.getHeadBranch(),
                 MERGE_ALWAYS,
