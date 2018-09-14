@@ -78,7 +78,7 @@ public class TaskController extends BaseController<TaskBiz, TaskEntity> {
         return new ObjectRestResponse<TaskEntity>();
     }
 
-    @RequestMapping(value = "/branches", method = RequestMethod.GET)
+    @RequestMapping(value = "{taskId}/branches", method = RequestMethod.GET)
     @ResponseBody
     public List<String> branches(@PathVariable Integer taskId) {
         TaskEntity taskEntity = baseBiz.selectById(taskId);

@@ -16,7 +16,8 @@ public class PullRequestEntity {
     @Column(name = "issue_id")
     private Long issueId;
 
-    private Long index;
+    @Column(name = "index_id")
+    private Long indexId;
 
     @Column(name = "head_repo_id")
     private Long headRepoId;
@@ -115,14 +116,14 @@ public class PullRequestEntity {
      * @return index
      */
     public Long getIndex() {
-        return index;
+        return indexId;
     }
 
     /**
-     * @param index
+     * @param indexId
      */
-    public void setIndex(Long index) {
-        this.index = index;
+    public void setIndex(Long indexId) {
+        this.indexId = indexId;
     }
 
     /**

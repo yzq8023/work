@@ -9,7 +9,7 @@
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="issue_id" property="issueId" jdbcType="BIGINT" />
-    <result column="index" property="index" jdbcType="BIGINT" />
+    <result column="index_id" property="indexId" jdbcType="BIGINT" />
     <result column="head_repo_id" property="headRepoId" jdbcType="BIGINT" />
     <result column="base_repo_id" property="baseRepoId" jdbcType="BIGINT" />
     <result column="head_user_name" property="headUserName" jdbcType="VARCHAR" />
