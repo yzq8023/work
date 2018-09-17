@@ -156,6 +156,7 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
 
         Repository r = workHub.getRepository(query.getTaskName());
         RevCommit commit = getCommit(r, null);
+
         paths = JGitUtils.getFilesInPath2(r, null, commit);
         return new TableResultResponse<>(result.getTotal(), paths);
     }
