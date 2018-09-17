@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * @author yanzhenqing
+ */
 @RestController
 @RequestMapping("issue")
 @Api("问题研讨")

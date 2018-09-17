@@ -673,8 +673,7 @@ public class JGitUtils {
 	}
 
 	/**
-	 * Returns the specified commit from the repository. If the repository does
-	 * not exist or is empty, null is returned.
+	 * 从资源库返回指定的提交 如果资源库为空或者不存在则返回null
 	 *
 	 * @param repository
 	 * @param objectId
@@ -1276,8 +1275,7 @@ public class JGitUtils {
 	}
 
 	/**
-	 * Returns a list of commits since the minimum date starting from the
-	 * specified object id.
+	 * 返回提交列表，从最小的日期开始，通过objectId
 	 *
 	 * @param repository
 	 * @param objectId
