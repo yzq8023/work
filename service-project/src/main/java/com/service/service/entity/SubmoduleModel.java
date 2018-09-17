@@ -18,10 +18,9 @@ package com.service.service.entity;
 import java.io.Serializable;
 
 /**
- * SubmoduleModel is a serializable model class that represents a git submodule
- * definition.
+ * SubmoduleModel是一个可序列化的model类，它代表一个git子模块定义。
  *
- * @author James Moger
+ * @author hollykunge
  *
  */
 public class SubmoduleModel implements Serializable {
