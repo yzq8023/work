@@ -1,10 +1,16 @@
 package com.service.service.controller;
 
 import com.github.wxiaoqi.security.common.msg.ObjectRestResponse;
+import com.github.wxiaoqi.security.common.msg.TableResultResponse;
+import com.github.wxiaoqi.security.common.util.Query;
 import com.service.service.biz.GraphBiz;
+import com.service.service.entity.PathModel;
+import com.service.service.vo.DataFlow;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * @author dk
@@ -21,10 +27,10 @@ public class GraphController {
         this.graphBiz = graphBiz;
     }
 
-    @RequestMapping(value = "/{id}/flow", method = RequestMethod.GET)
+    @RequestMapping(value = "/flow", method = RequestMethod.GET)
     @ResponseBody
-    public ObjectRestResponse flow(@PathVariable Integer id) {
-
+    public TableResultResponse<DataFlow> flow(@RequestParam Map<String, Object> params) {
+        Query query = new Query(params);
         return new ObjectRestResponse().rel(true);
     }
 }
