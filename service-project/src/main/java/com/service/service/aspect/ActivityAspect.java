@@ -1,6 +1,6 @@
 package com.service.service.aspect;
 
-import com.github.wxiaoqi.security.common.context.BaseContextHandler;
+import com.github.hollykunge.security.common.context.BaseContextHandler;
 import com.service.service.ConfigUserService;
 import com.service.service.biz.ActivityBiz;
 import com.service.service.constant.OpTypeConstant;

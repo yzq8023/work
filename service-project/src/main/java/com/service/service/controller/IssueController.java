@@ -1,9 +1,9 @@
 package com.service.service.controller;
 
 
-import com.github.wxiaoqi.security.api.vo.user.UserInfo;
-import com.github.wxiaoqi.security.common.msg.ObjectRestResponse;
-import com.github.wxiaoqi.security.common.rest.BaseController;
+import com.github.hollykunge.security.api.vo.user.UserInfo;
+import com.github.hollykunge.security.common.msg.ObjectRestResponse;
+import com.github.hollykunge.security.common.rest.BaseController;
 import com.service.service.biz.IssueBiz;
 import com.service.service.entity.IssueEntity;
 import io.swagger.annotations.Api;

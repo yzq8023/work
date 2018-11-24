@@ -1,7 +1,7 @@
 package com.service.service.controller;
 
-import com.github.wxiaoqi.security.common.msg.ObjectRestResponse;
-import com.github.wxiaoqi.security.common.rest.BaseController;
+import com.github.hollykunge.security.common.msg.ObjectRestResponse;
+import com.github.hollykunge.security.common.rest.BaseController;
 import com.service.service.biz.PullRequestBiz;
 import com.service.service.entity.PullRequestEntity;
 import io.swagger.annotations.Api;

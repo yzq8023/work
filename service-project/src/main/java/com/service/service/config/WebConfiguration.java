@@ -1,10 +1,10 @@
 package com.service.service.config;
 
-import com.github.wxiaoqi.security.auth.client.feign.ServiceAuthFeign;
-import com.github.wxiaoqi.security.auth.client.interceptor.ServiceAuthRestInterceptor;
-import com.github.wxiaoqi.security.auth.client.interceptor.UserAuthRestInterceptor;
-import com.github.wxiaoqi.security.common.handler.GlobalExceptionHandler;
-import com.github.wxiaoqi.security.common.msg.ObjectRestResponse;
+import com.github.hollykunge.security.auth.client.feign.ServiceAuthFeign;
+import com.github.hollykunge.security.auth.client.interceptor.ServiceAuthRestInterceptor;
+import com.github.hollykunge.security.auth.client.interceptor.UserAuthRestInterceptor;
+import com.github.hollykunge.security.common.handler.GlobalExceptionHandler;
+import com.github.hollykunge.security.common.msg.ObjectRestResponse;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

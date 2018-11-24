@@ -3,7 +3,7 @@
 AG-Admin2.0版本的通用代码生成器！加速业务开发！
 
 ## 关于代码
-[后端github项目地址](https://github.com/wxiaoqi/ace-admin)
+[后端github项目地址](https://github.com/hollykunge/ace-admin)
 
 [后端gitchina项目地址](http://git.oschina.net/geek_qi/ace-security)
 
@@ -19,4 +19,4 @@ AG-Admin2.0版本的通用代码生成器！加速业务开发！
 
 [码云](http://git.oschina.net/geek_qi)
 
-[github](https://github.com/wxiaoqi)
+[github](https://github.com/hollykunge)

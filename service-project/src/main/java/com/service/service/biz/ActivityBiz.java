@@ -2,9 +2,9 @@ package com.service.service.biz;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.wxiaoqi.security.common.biz.BaseBiz;
-import com.github.wxiaoqi.security.common.msg.TableResultResponse;
-import com.github.wxiaoqi.security.common.util.Query;
+import com.github.hollykunge.security.common.biz.BaseBiz;
+import com.github.hollykunge.security.common.msg.TableResultResponse;
+import com.github.hollykunge.security.common.util.Query;
 import com.service.service.Keys;
 import com.service.service.entity.*;
 import com.service.service.managers.IWorkHub;

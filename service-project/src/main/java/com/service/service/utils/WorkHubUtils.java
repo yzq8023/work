@@ -1,6 +1,6 @@
 package com.service.service.utils;
 
-import com.github.wxiaoqi.security.common.util.Query;
+import com.github.hollykunge.security.common.util.Query;
 import com.service.service.Keys;
 import com.service.service.entity.TaskEntity;
 import com.service.service.entity.UserModel;

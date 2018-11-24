@@ -2,7 +2,7 @@ package com.service.service.controller;
 
 
 
-import com.github.wxiaoqi.security.common.rest.BaseController;
+import com.github.hollykunge.security.common.rest.BaseController;
 import com.service.service.biz.MilestoneBiz;
 import com.service.service.entity.MilestoneEntity;
 import io.swagger.annotations.Api;
