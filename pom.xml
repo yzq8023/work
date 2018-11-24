@@ -4,10 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.wxiaoqi</groupId>
+    <groupId>com.github.hollykunge</groupId>
     <artifactId>ace-security</artifactId>
     <version>2.0-SNAPSHOT</version>
-    <url>https://github.com/wxiaoqi/ace-security</url>
+    <url>https://github.com/hollykunge/ace-security</url>
     <licenses>
         <license>
             <name>Apache 2</name>
@@ -37,6 +37,11 @@
         <module>ace-control</module>
         <module>ace-modules</module>
         <module>service-project</module>
+        <module>service-tool</module>
+        <module>service-chat</module>
+        <module>service-search</module>
+        <module>service-power</module>
+        <module>service-score</module>
     </modules>
     <packaging>pom</packaging>
     <developers>

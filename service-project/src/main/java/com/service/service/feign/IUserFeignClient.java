@@ -1,6 +1,6 @@
 package com.service.service.feign;
 
-import com.github.wxiaoqi.security.api.vo.user.UserInfo;
+import com.github.hollykunge.security.api.vo.user.UserInfo;
 import com.service.service.config.FeignConfiguration;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;

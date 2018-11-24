@@ -15,7 +15,7 @@
  */
 package com.service.service.managers;
 
-import com.github.wxiaoqi.security.api.vo.user.UserInfo;
+import com.github.hollykunge.security.api.vo.user.UserInfo;
 import com.service.service.*;
 import com.service.service.entity.TeamModel;
 import com.service.service.entity.UserModel;

@@ -1,6 +1,6 @@
 package com.service.service.biz;
 
-import com.github.wxiaoqi.security.common.biz.BaseBiz;
+import com.github.hollykunge.security.common.biz.BaseBiz;
 import com.service.service.entity.LabelEntity;
 import com.service.service.mapper.LabelEntityMapper;
 import com.service.service.utils.StringUtils;

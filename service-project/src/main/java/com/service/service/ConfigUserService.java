@@ -15,9 +15,9 @@
  */
 package com.service.service;
 
-import com.github.wxiaoqi.security.api.vo.user.UserInfo;
-import com.github.wxiaoqi.security.common.biz.BaseBiz;
-import com.github.wxiaoqi.security.common.context.BaseContextHandler;
+import com.github.hollykunge.security.api.vo.user.UserInfo;
+import com.github.hollykunge.security.common.biz.BaseBiz;
+import com.github.hollykunge.security.common.context.BaseContextHandler;
 import com.service.service.Constants.AccessPermission;
 import com.service.service.Constants.AccountType;
 import com.service.service.Constants.Role;

@@ -2,8 +2,8 @@ package com.service.service.biz;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.wxiaoqi.security.common.msg.TableResultResponse;
-import com.github.wxiaoqi.security.common.util.Query;
+import com.github.hollykunge.security.common.msg.TableResultResponse;
+import com.github.hollykunge.security.common.util.Query;
 import com.service.service.Constants;
 import com.service.service.entity.PullRequestEntity;
 import com.service.service.managers.IWorkHub;
@@ -37,24 +37,24 @@ public class GraphBiz {
      * @param query
      * @return
      */
-    public TableResultResponse<DataFlow> dataFlow(Query query){
-        Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
-        Repository r = workHub.getRepository(query.getTaskName());
-        List<RevCommit> commits = JGitUtils.getRevLog(r, workHub.getRepositoryModel(query.getTaskName()).getHead(), 0, query.getLimit());
-
-        DataFlow dataFlow = new DataFlow();
-        for (RevCommit commit:commits){
-            dataFlow.setAction(commit.getAuthorIdent().);
-            dataFlow.setActionTime(commit.getCommitTime());
-            dataFlow.setBranch(commit);
-            dataFlow.setMessage();
-            dataFlow.setTaskId();
-            dataFlow.setUserId();
-            dataFlow.setUserName(commit.getCommitterIdent().getName());
-            dataFlow.setParent();
-            dataFlow.setSha();
-        }
-        return new TableResultResponse<>(result.getTotal(), paths);
-    }
+//    public TableResultResponse<DataFlow> dataFlow(Query query){
+//        Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
+//        Repository r = workHub.getRepository(query.getTaskName());
+//        List<RevCommit> commits = JGitUtils.getRevLog(r, workHub.getRepositoryModel(query.getTaskName()).getHead(), 0, query.getLimit());
+//
+//        DataFlow dataFlow = new DataFlow();
+//        for (RevCommit commit:commits){
+//            dataFlow.setAction(commit.getAuthorIdent().);
+//            dataFlow.setActionTime(commit.getCommitTime());
+//            dataFlow.setBranch(commit);
+//            dataFlow.setMessage();
+//            dataFlow.setTaskId();
+//            dataFlow.setUserId();
+//            dataFlow.setUserName(commit.getCommitterIdent().getName());
+//            dataFlow.setParent();
+//            dataFlow.setSha();
+//        }
+//        return new TableResultResponse<>(result.getTotal(), paths);
+//    }
 
 }

@@ -1,7 +1,7 @@
 package com.service.service;
 
 import com.ace.cache.EnableAceCache;
-import com.github.wxiaoqi.security.auth.client.EnableAceAuthClient;
+import com.github.hollykunge.security.auth.client.EnableAceAuthClient;
 import com.spring4all.swagger.EnableSwagger2Doc;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableCircuitBreaker
 @EnableTransactionManagement
 @SpringBootApplication
-@EnableFeignClients({"com.github.wxiaoqi.security.auth.client.feign", "com.service.service.feign"})
+@EnableFeignClients({"com.github.hollykunge.security.auth.client.feign", "com.service.service.feign"})
 @EnableScheduling
 @EnableAceCache
 @EnableAceAuthClient

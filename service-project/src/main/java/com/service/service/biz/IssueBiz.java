@@ -1,7 +1,7 @@
 package com.service.service.biz;
 
-import com.github.wxiaoqi.security.api.vo.user.UserInfo;
-import com.github.wxiaoqi.security.common.biz.BaseBiz;
+import com.github.hollykunge.security.api.vo.user.UserInfo;
+import com.github.hollykunge.security.common.biz.BaseBiz;
 import com.service.service.entity.IssueEntity;
 import com.service.service.feign.IUserFeignClient;
 import com.service.service.mapper.IssueEntityMapper;

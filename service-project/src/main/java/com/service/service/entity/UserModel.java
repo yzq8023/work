@@ -15,7 +15,7 @@
  */
 package com.service.service.entity;
 
-import com.github.wxiaoqi.security.api.vo.user.UserInfo;
+import com.github.hollykunge.security.api.vo.user.UserInfo;
 import com.service.service.Constants;
 import com.service.service.Constants.*;
 import com.service.service.biz.TaskBiz;
