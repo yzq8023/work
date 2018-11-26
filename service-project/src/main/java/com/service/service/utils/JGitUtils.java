@@ -1325,10 +1325,8 @@ public class JGitUtils {
 	}
 
 	/**
-	 * Returns a list of commits starting from the specified objectId using an
-	 * offset and maxCount for paging. This is similar to LIMIT n OFFSET p in
-	 * SQL. If the repository does not exist or is empty, an empty list is
-	 * returned.
+	 * 通过特定的objectId返回一个提交list， This is similar to LIMIT n OFFSET p in
+	 * SQL. 如果仓库不存在，返回一个空的list。
 	 *
 	 * @param repository
 	 * @param objectId
@@ -1811,8 +1809,8 @@ public class JGitUtils {
 	}
 
 	/**
-	 * Returns the list of local branches in the repository. If repository does
-	 * not exist or is empty, an empty list is returned.
+	 * 返回储存库中本地分支的列表。 如果存储库
+	 * 不存在或空，返回空列表。
 	 *
 	 * @param repository
 	 * @param fullName

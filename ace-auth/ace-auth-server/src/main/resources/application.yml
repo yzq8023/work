@@ -43,7 +43,7 @@ spring:
 
 
 mybatis:
-    basepackage: com.github.wxiaoqi.security.auth.mapper
+    basepackage: com.github.hollykunge.security.auth.mapper
     xmlLocation: classpath:mapper/**/*.xml
     mapper-locations: "classpath*:mapper/*.xml"
 

@@ -1,6 +1,6 @@
 package com.service.service.biz;
 
-import com.github.wxiaoqi.security.common.biz.BaseBiz;
+import com.github.hollykunge.security.common.biz.BaseBiz;
 import com.service.service.entity.CommentEntity;
 import com.service.service.mapper.CommentEntityMapper;
 import com.service.service.utils.StringUtils;
