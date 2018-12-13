@@ -11,12 +11,16 @@ spring:
         default-property-inclusion: non_null
     datasource:
         name: test
-        url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/ag_admin_v1?useUnicode=true&characterEncoding=UTF8&useSSL=true
-        username: root
+#        url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/ag_admin_v1?useUnicode=true&characterEncoding=UTF8&useSSL=true
+#        username: root
+#        password: 123456
+        url: jdbc:oracle:thin:@${ORACLE_HOST:10.12.97.30}:${ORACLE_PORT:1521}:arltr
+        username: ag_admin
         password: 123456
         # 使用druid数据源
         type: com.alibaba.druid.pool.DruidDataSource
-        driver-class-name: com.mysql.jdbc.Driver
+#        driver-class-name: com.mysql.jdbc.Driver
+        driver-class-name: oracle.jdbc.driver.OracleDriver
         filters: stat
         maxActive: 20
         initialSize: 1
@@ -24,7 +28,7 @@ spring:
         minIdle: 1
         timeBetweenEvictionRunsMillis: 60000
         minEvictableIdleTimeMillis: 300000
-        validationQuery: select 'x'
+        validationQuery: select 'x' from dual
         testWhileIdle: true
         testOnBorrow: false
         testOnReturn: false

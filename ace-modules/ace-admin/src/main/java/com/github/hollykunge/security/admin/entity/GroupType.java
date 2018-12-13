@@ -1,61 +1,75 @@
 package com.github.hollykunge.security.admin.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
-import javax.persistence.*;
 
-@Table(name = "base_group_type")
+@Table(name = "BASE_GROUP_TYPE")
 public class GroupType {
     @Id
+    @Column(name = "ID")
     private Integer id;
 
+    @Column(name = "CODE")
     private String code;
 
+    @Column(name = "NAME")
     private String name;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column(name = "crt_time")
+    @Column(name = "CRT_TIME")
     private Date crtTime;
 
-    @Column(name = "crt_user")
+    @Column(name = "CRT_USER")
     private String crtUser;
 
-    @Column(name = "crt_name")
+    @Column(name = "CRT_NAME")
     private String crtName;
 
-    @Column(name = "crt_host")
+    @Column(name = "CRT_HOST")
     private String crtHost;
 
-    @Column(name = "upd_time")
+    @Column(name = "UPD_TIME")
     private Date updTime;
 
-    @Column(name = "upd_user")
+    @Column(name = "UPD_USER")
     private String updUser;
 
-    @Column(name = "upd_name")
+    @Column(name = "UPD_NAME")
     private String updName;
 
-    @Column(name = "upd_host")
+    @Column(name = "UPD_HOST")
     private String updHost;
 
+    @Column(name = "ATTR1")
     private String attr1;
 
+    @Column(name = "ATTR2")
     private String attr2;
 
+    @Column(name = "ATTR3")
     private String attr3;
 
+    @Column(name = "ATTR4")
     private String attr4;
 
+    @Column(name = "ATTR5")
     private String attr5;
 
+    @Column(name = "ATTR6")
     private String attr6;
 
+    @Column(name = "ATTR7")
     private String attr7;
 
+    @Column(name = "ATTR8")
     private String attr8;
 
     /**
-     * @return id
+     * @return ID
      */
     public Integer getId() {
         return id;
@@ -69,7 +83,7 @@ public class GroupType {
     }
 
     /**
-     * @return code
+     * @return CODE
      */
     public String getCode() {
         return code;
@@ -83,7 +97,7 @@ public class GroupType {
     }
 
     /**
-     * @return name
+     * @return NAME
      */
     public String getName() {
         return name;
@@ -97,7 +111,7 @@ public class GroupType {
     }
 
     /**
-     * @return description
+     * @return DESCRIPTION
      */
     public String getDescription() {
         return description;
@@ -111,7 +125,7 @@ public class GroupType {
     }
 
     /**
-     * @return crt_time
+     * @return CRT_TIME
      */
     public Date getCrtTime() {
         return crtTime;
@@ -125,7 +139,7 @@ public class GroupType {
     }
 
     /**
-     * @return crt_user
+     * @return CRT_USER
      */
     public String getCrtUser() {
         return crtUser;
@@ -139,7 +153,7 @@ public class GroupType {
     }
 
     /**
-     * @return crt_name
+     * @return CRT_NAME
      */
     public String getCrtName() {
         return crtName;
@@ -153,7 +167,7 @@ public class GroupType {
     }
 
     /**
-     * @return crt_host
+     * @return CRT_HOST
      */
     public String getCrtHost() {
         return crtHost;
@@ -167,7 +181,7 @@ public class GroupType {
     }
 
     /**
-     * @return upd_time
+     * @return UPD_TIME
      */
     public Date getUpdTime() {
         return updTime;
@@ -181,7 +195,7 @@ public class GroupType {
     }
 
     /**
-     * @return upd_user
+     * @return UPD_USER
      */
     public String getUpdUser() {
         return updUser;
@@ -195,7 +209,7 @@ public class GroupType {
     }
 
     /**
-     * @return upd_name
+     * @return UPD_NAME
      */
     public String getUpdName() {
         return updName;
@@ -209,7 +223,7 @@ public class GroupType {
     }
 
     /**
-     * @return upd_host
+     * @return UPD_HOST
      */
     public String getUpdHost() {
         return updHost;
@@ -223,7 +237,7 @@ public class GroupType {
     }
 
     /**
-     * @return attr1
+     * @return ATTR1
      */
     public String getAttr1() {
         return attr1;
@@ -237,7 +251,7 @@ public class GroupType {
     }
 
     /**
-     * @return attr2
+     * @return ATTR2
      */
     public String getAttr2() {
         return attr2;
@@ -251,7 +265,7 @@ public class GroupType {
     }
 
     /**
-     * @return attr3
+     * @return ATTR3
      */
     public String getAttr3() {
         return attr3;
@@ -265,7 +279,7 @@ public class GroupType {
     }
 
     /**
-     * @return attr4
+     * @return ATTR4
      */
     public String getAttr4() {
         return attr4;
@@ -279,7 +293,7 @@ public class GroupType {
     }
 
     /**
-     * @return attr5
+     * @return ATTR5
      */
     public String getAttr5() {
         return attr5;
@@ -293,7 +307,7 @@ public class GroupType {
     }
 
     /**
-     * @return attr6
+     * @return ATTR6
      */
     public String getAttr6() {
         return attr6;
@@ -307,7 +321,7 @@ public class GroupType {
     }
 
     /**
-     * @return attr7
+     * @return ATTR7
      */
     public String getAttr7() {
         return attr7;
@@ -321,7 +335,7 @@ public class GroupType {
     }
 
     /**
-     * @return attr8
+     * @return ATTR8
      */
     public String getAttr8() {
         return attr8;

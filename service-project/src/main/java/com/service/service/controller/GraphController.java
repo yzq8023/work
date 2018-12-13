@@ -1,3 +1,4 @@
+/*
 package com.service.service.controller;
 
 import com.github.hollykunge.security.common.msg.ObjectRestResponse;
@@ -12,9 +13,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+*/
 /**
  * @author dk
- */
+ *//*
+
 @RestController
 @RequestMapping("graph")
 @Api("任务管理")
@@ -34,3 +37,4 @@ public class GraphController {
         return new ObjectRestResponse().rel(true);
     }
 }
+*/

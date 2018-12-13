@@ -1,58 +1,71 @@
 package com.github.hollykunge.security.admin.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
-import javax.persistence.*;
 
-@Table(name = "base_resource_authority")
+@Table(name = "BASE_RESOURCE_AUTHORITY")
 public class ResourceAuthority {
     @Id
+    @Column(name = "ID")
     private Integer id;
 
-    @Column(name = "authority_id")
+    @Column(name = "AUTHORITY_ID")
     private String authorityId;
 
-    @Column(name = "authority_type")
+    @Column(name = "AUTHORITY_TYPE")
     private String authorityType;
 
-    @Column(name = "resource_id")
+    @Column(name = "RESOURCE_ID")
     private String resourceId;
 
-    @Column(name = "resource_type")
+    @Column(name = "RESOURCE_TYPE")
     private String resourceType;
 
-    @Column(name = "parent_id")
+    @Column(name = "PARENT_ID")
     private String parentId;
 
+    @Column(name = "PATH")
     private String path;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column(name = "crt_time")
+    @Column(name = "CRT_TIME")
     private Date crtTime;
 
-    @Column(name = "crt_user")
+    @Column(name = "CRT_USER")
     private String crtUser;
 
-    @Column(name = "crt_name")
+    @Column(name = "CRT_NAME")
     private String crtName;
 
-    @Column(name = "crt_host")
+    @Column(name = "CRT_HOST")
     private String crtHost;
 
+    @Column(name = "ATTR1")
     private String attr1;
 
+    @Column(name = "ATTR2")
     private String attr2;
 
+    @Column(name = "ATTR3")
     private String attr3;
 
+    @Column(name = "ATTR4")
     private String attr4;
 
+    @Column(name = "ATTR5")
     private String attr5;
 
+    @Column(name = "ATTR6")
     private String attr6;
 
+    @Column(name = "ATTR7")
     private String attr7;
 
+    @Column(name = "ATTR8")
     private String attr8;
 
     public ResourceAuthority(String authorityType, String resourceType) {
@@ -64,7 +77,7 @@ public class ResourceAuthority {
     }
 
     /**
-     * @return id
+     * @return ID
      */
     public Integer getId() {
         return id;
@@ -78,7 +91,7 @@ public class ResourceAuthority {
     }
 
     /**
-     * @return authority_id
+     * @return AUTHORITY_ID
      */
     public String getAuthorityId() {
         return authorityId;
@@ -92,7 +105,7 @@ public class ResourceAuthority {
     }
 
     /**
-     * @return authority_type
+     * @return AUTHORITY_TYPE
      */
     public String getAuthorityType() {
         return authorityType;
@@ -106,7 +119,7 @@ public class ResourceAuthority {
     }
 
     /**
-     * @return resource_id
+     * @return RESOURCE_ID
      */
     public String getResourceId() {
         return resourceId;
@@ -120,7 +133,7 @@ public class ResourceAuthority {
     }
 
     /**
-     * @return resource_type
+     * @return RESOURCE_TYPE
      */
     public String getResourceType() {
         return resourceType;
@@ -134,7 +147,7 @@ public class ResourceAuthority {
     }
 
     /**
-     * @return parent_id
+     * @return PARENT_ID
      */
     public String getParentId() {
         return parentId;
@@ -148,7 +161,7 @@ public class ResourceAuthority {
     }
 
     /**
-     * @return path
+     * @return PATH
      */
     public String getPath() {
         return path;
@@ -162,7 +175,7 @@ public class ResourceAuthority {
     }
 
     /**
-     * @return description
+     * @return DESCRIPTION
      */
     public String getDescription() {
         return description;
@@ -176,7 +189,7 @@ public class ResourceAuthority {
     }
 
     /**
-     * @return crt_time
+     * @return CRT_TIME
      */
     public Date getCrtTime() {
         return crtTime;
@@ -190,7 +203,7 @@ public class ResourceAuthority {
     }
 
     /**
-     * @return crt_user
+     * @return CRT_USER
      */
     public String getCrtUser() {
         return crtUser;
@@ -204,7 +217,7 @@ public class ResourceAuthority {
     }
 
     /**
-     * @return crt_name
+     * @return CRT_NAME
      */
     public String getCrtName() {
         return crtName;
@@ -218,7 +231,7 @@ public class ResourceAuthority {
     }
 
     /**
-     * @return crt_host
+     * @return CRT_HOST
      */
     public String getCrtHost() {
         return crtHost;
@@ -232,7 +245,7 @@ public class ResourceAuthority {
     }
 
     /**
-     * @return attr1
+     * @return ATTR1
      */
     public String getAttr1() {
         return attr1;
@@ -246,7 +259,7 @@ public class ResourceAuthority {
     }
 
     /**
-     * @return attr2
+     * @return ATTR2
      */
     public String getAttr2() {
         return attr2;
@@ -260,7 +273,7 @@ public class ResourceAuthority {
     }
 
     /**
-     * @return attr3
+     * @return ATTR3
      */
     public String getAttr3() {
         return attr3;
@@ -274,7 +287,7 @@ public class ResourceAuthority {
     }
 
     /**
-     * @return attr4
+     * @return ATTR4
      */
     public String getAttr4() {
         return attr4;
@@ -288,7 +301,7 @@ public class ResourceAuthority {
     }
 
     /**
-     * @return attr5
+     * @return ATTR5
      */
     public String getAttr5() {
         return attr5;
@@ -302,7 +315,7 @@ public class ResourceAuthority {
     }
 
     /**
-     * @return attr6
+     * @return ATTR6
      */
     public String getAttr6() {
         return attr6;
@@ -316,7 +329,7 @@ public class ResourceAuthority {
     }
 
     /**
-     * @return attr7
+     * @return ATTR7
      */
     public String getAttr7() {
         return attr7;
@@ -330,7 +343,7 @@ public class ResourceAuthority {
     }
 
     /**
-     * @return attr8
+     * @return ATTR8
      */
     public String getAttr8() {
         return attr8;

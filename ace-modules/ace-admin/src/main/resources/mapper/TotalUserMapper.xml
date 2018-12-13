@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.github.hollykunge.security.admin.mapper.UserMapper">
-  <resultMap id="BaseResultMap" type="com.github.hollykunge.security.admin.entity.User">
+<mapper namespace="com.github.hollykunge.security.admin.mapper.TotalUserMapper">
+  <resultMap id="BaseResultMap" type="com.github.hollykunge.security.admin.entity.TotalUser">
     <!--
       WARNING - @mbg.generated
     -->
@@ -74,25 +74,4 @@
     <result column="CAN_FORK" jdbcType="BLOB" property="canFork" />
     <result column="CAN_CREATE" jdbcType="BLOB" property="canCreate" />
   </resultMap>
-  
-  <select id="selectMemberByGroupId" resultMap="BaseResultMap">
-    select u.* from base_user u
-    left join  base_group_member gm
-    on gm.user_id = u.id where gm.group_id = #{groupId}
-  </select>
-  <select id="selectLeaderByGroupId" resultMap="BaseResultMap">
-    select u.* from base_user u
-    left join  base_group_leader gm
-    on gm.user_id = u.id where gm.group_id = #{groupId}
-  </select>
-  <select id="selectMemberByOrgId" resultMap="BaseResultMap">
-    select u.* from base_user u
-    left join  base_org_member om
-    on om.user_id = u.id where om.org_id = #{orgId}
-  </select>
-  <select id="selectLeaderByOrgId" resultMap="BaseResultMap">
-    select u.* from base_user u
-    left join  base_org_leader ol
-    on ol.user_id = u.id where ol.org_id = #{orgId}
-  </select>
 </mapper>

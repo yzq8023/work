@@ -54,6 +54,7 @@ public class ProjectEntity {
     @Column(name = "default_branch")
     private String defaultBranch;
 
+    @Column(name = "project_size")
     private Long size;
 
     @Column(name = "crt_name")

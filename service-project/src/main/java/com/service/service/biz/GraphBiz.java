@@ -1,3 +1,4 @@
+/*
 package com.service.service.biz;
 
 import com.github.pagehelper.Page;
@@ -32,29 +33,32 @@ public class GraphBiz {
         this.workHub = workHub;
     }
 
-    /**
+    */
+/**
      * 为任务仓库提供数据流视图
      * @param query
      * @return
-     */
-//    public TableResultResponse<DataFlow> dataFlow(Query query){
-//        Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
-//        Repository r = workHub.getRepository(query.getTaskName());
-//        List<RevCommit> commits = JGitUtils.getRevLog(r, workHub.getRepositoryModel(query.getTaskName()).getHead(), 0, query.getLimit());
-//
-//        DataFlow dataFlow = new DataFlow();
-//        for (RevCommit commit:commits){
-//            dataFlow.setAction(commit.getAuthorIdent().);
-//            dataFlow.setActionTime(commit.getCommitTime());
-//            dataFlow.setBranch(commit);
-//            dataFlow.setMessage();
-//            dataFlow.setTaskId();
-//            dataFlow.setUserId();
-//            dataFlow.setUserName(commit.getCommitterIdent().getName());
-//            dataFlow.setParent();
-//            dataFlow.setSha();
-//        }
-//        return new TableResultResponse<>(result.getTotal(), paths);
-//    }
+     *//*
+
+    public TableResultResponse<DataFlow> dataFlow(Query query){
+        Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit());
+        Repository r = workHub.getRepository(query.getTaskName());
+        List<RevCommit> commits = JGitUtils.getRevLog(r, workHub.getRepositoryModel(query.getTaskName()).getHead(), 0, query.getLimit());
+
+        DataFlow dataFlow = new DataFlow();
+        for (RevCommit commit:commits){
+            dataFlow.setAction(commit.getAuthorIdent().);
+            dataFlow.setActionTime(commit.getCommitTime());
+            dataFlow.setBranch(commit);
+            dataFlow.setMessage();
+            dataFlow.setTaskId();
+            dataFlow.setUserId();
+            dataFlow.setUserName(commit.getCommitterIdent().getName());
+            dataFlow.setParent();
+            dataFlow.setSha();
+        }
+        return new TableResultResponse<>(result.getTotal(), paths);
+    }
 
 }
+*/

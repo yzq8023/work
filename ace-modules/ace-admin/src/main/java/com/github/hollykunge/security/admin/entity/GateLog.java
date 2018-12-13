@@ -1,35 +1,39 @@
 package com.github.hollykunge.security.admin.entity;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
-import javax.persistence.*;
 
-@Table(name = "gate_log")
+@Table(name = "GATE_LOG")
 public class GateLog {
     @Id
+    @Column(name = "ID")
     private Integer id;
 
+    @Column(name = "MENU")
     private String menu;
 
+    @Column(name = "OPT")
     private String opt;
 
+    @Column(name = "URI")
     private String uri;
 
-    @Column(name = "crt_time")
+    @Column(name = "CRT_TIME")
     private Date crtTime;
 
-    @Column(name = "crt_user")
+    @Column(name = "CRT_USER")
     private String crtUser;
 
-    @Column(name = "crt_name")
+    @Column(name = "CRT_NAME")
     private String crtName;
 
-    @Column(name = "crt_host")
+    @Column(name = "CRT_HOST")
     private String crtHost;
 
     /**
-     * @return id
+     * @return ID
      */
     public Integer getId() {
         return id;
@@ -43,7 +47,7 @@ public class GateLog {
     }
 
     /**
-     * @return menu
+     * @return MENU
      */
     public String getMenu() {
         return menu;
@@ -56,9 +60,22 @@ public class GateLog {
         this.menu = menu;
     }
 
+    /**
+     * @return OPT
+     */
+    public String getOpt() {
+        return opt;
+    }
 
     /**
-     * @return uri
+     * @param opt
+     */
+    public void setOpt(String opt) {
+        this.opt = opt;
+    }
+
+    /**
+     * @return URI
      */
     public String getUri() {
         return uri;
@@ -70,8 +87,9 @@ public class GateLog {
     public void setUri(String uri) {
         this.uri = uri;
     }
+
     /**
-     * @return crt_time
+     * @return CRT_TIME
      */
     public Date getCrtTime() {
         return crtTime;
@@ -85,7 +103,7 @@ public class GateLog {
     }
 
     /**
-     * @return crt_user
+     * @return CRT_USER
      */
     public String getCrtUser() {
         return crtUser;
@@ -99,7 +117,7 @@ public class GateLog {
     }
 
     /**
-     * @return crt_name
+     * @return CRT_NAME
      */
     public String getCrtName() {
         return crtName;
@@ -113,7 +131,7 @@ public class GateLog {
     }
 
     /**
-     * @return crt_host
+     * @return CRT_HOST
      */
     public String getCrtHost() {
         return crtHost;
@@ -124,13 +142,5 @@ public class GateLog {
      */
     public void setCrtHost(String crtHost) {
         this.crtHost = crtHost;
-    }
-
-    public String getOpt() {
-        return opt;
-    }
-
-    public void setOpt(String opt) {
-        this.opt = opt;
     }
 }

@@ -78,7 +78,7 @@ public class OrgController extends BaseController<OrgBiz, Org> {
         OrgTree node = null;
         for (Org org : orgs) {
             node = new OrgTree();
-            node.setLabel(org.getOrgname());
+            node.setLabel(org.getOrgName());
             BeanUtils.copyProperties(org, node);
             trees.add(node);
         }

@@ -1,74 +1,96 @@
 package com.github.hollykunge.security.admin.entity;
 
-import com.github.hollykunge.security.admin.constant.AdminCommonConstant;
-
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
-import javax.persistence.*;
 
-@Table(name = "base_menu")
+@Table(name = "BASE_MENU")
 public class Menu {
     @Id
+    @Column(name = "ID")
     private Integer id;
 
+    @Column(name = "CODE")
     private String code;
 
+    @Column(name = "TITLE")
     private String title;
 
-    @Column(name = "parent_id")
-    private Integer parentId = AdminCommonConstant.ROOT;
+    @Column(name = "PARENT_ID")
+    private Integer parentId;
 
+    @Column(name = "HREF")
     private String href;
 
+    @Column(name = "ICON")
     private String icon;
 
+    @Column(name = "TYPE")
     private String type;
 
+    @Column(name = "ORDER_NUM")
+    private Long orderNum;
+
+    @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column(name = "crt_time")
-    private Date crtTime;
-
-    @Column(name = "crt_user")
-    private String crtUser;
-
-    @Column(name = "crt_name")
-    private String crtName;
-
-    @Column(name = "crt_host")
-    private String crtHost;
-
-    @Column(name = "upd_time")
-    private Date updTime;
-
-    @Column(name = "upd_user")
-    private String updUser;
-
-    @Column(name = "upd_name")
-    private String updName;
-
-    @Column(name = "upd_host")
-    private String updHost;
-
-    private String attr1;
-
-    private String attr2;
-
-    private String attr3;
-
-    private String attr4;
-
-    private String attr5;
-
-    private String attr6;
-
-    private String attr7;
-
-    private String attr8;
-
+    @Column(name = "PATH")
     private String path;
 
+    @Column(name = "ENABLED")
+    private String enabled;
+
+    @Column(name = "CRT_TIME")
+    private Date crtTime;
+
+    @Column(name = "CRT_USER")
+    private String crtUser;
+
+    @Column(name = "CRT_NAME")
+    private String crtName;
+
+    @Column(name = "CRT_HOST")
+    private String crtHost;
+
+    @Column(name = "UPD_TIME")
+    private Date updTime;
+
+    @Column(name = "UPD_USER")
+    private String updUser;
+
+    @Column(name = "UPD_NAME")
+    private String updName;
+
+    @Column(name = "UPD_HOST")
+    private String updHost;
+
+    @Column(name = "ATTR1")
+    private String attr1;
+
+    @Column(name = "ATTR2")
+    private String attr2;
+
+    @Column(name = "ATTR3")
+    private String attr3;
+
+    @Column(name = "ATTR4")
+    private String attr4;
+
+    @Column(name = "ATTR5")
+    private String attr5;
+
+    @Column(name = "ATTR6")
+    private String attr6;
+
+    @Column(name = "ATTR7")
+    private String attr7;
+
+    @Column(name = "ATTR8")
+    private String attr8;
+
     /**
-     * @return id
+     * @return ID
      */
     public Integer getId() {
         return id;
@@ -82,7 +104,7 @@ public class Menu {
     }
 
     /**
-     * @return code
+     * @return CODE
      */
     public String getCode() {
         return code;
@@ -96,7 +118,7 @@ public class Menu {
     }
 
     /**
-     * @return title
+     * @return TITLE
      */
     public String getTitle() {
         return title;
@@ -110,7 +132,7 @@ public class Menu {
     }
 
     /**
-     * @return parent_id
+     * @return PARENT_ID
      */
     public Integer getParentId() {
         return parentId;
@@ -124,7 +146,7 @@ public class Menu {
     }
 
     /**
-     * @return href
+     * @return HREF
      */
     public String getHref() {
         return href;
@@ -138,7 +160,7 @@ public class Menu {
     }
 
     /**
-     * @return icon
+     * @return ICON
      */
     public String getIcon() {
         return icon;
@@ -152,7 +174,7 @@ public class Menu {
     }
 
     /**
-     * @return type
+     * @return TYPE
      */
     public String getType() {
         return type;
@@ -166,7 +188,21 @@ public class Menu {
     }
 
     /**
-     * @return description
+     * @return ORDER_NUM
+     */
+    public Long getOrderNum() {
+        return orderNum;
+    }
+
+    /**
+     * @param orderNum
+     */
+    public void setOrderNum(Long orderNum) {
+        this.orderNum = orderNum;
+    }
+
+    /**
+     * @return DESCRIPTION
      */
     public String getDescription() {
         return description;
@@ -180,7 +216,35 @@ public class Menu {
     }
 
     /**
-     * @return crt_time
+     * @return PATH
+     */
+    public String getPath() {
+        return path;
+    }
+
+    /**
+     * @param path
+     */
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    /**
+     * @return ENABLED
+     */
+    public String getEnabled() {
+        return enabled;
+    }
+
+    /**
+     * @param enabled
+     */
+    public void setEnabled(String enabled) {
+        this.enabled = enabled;
+    }
+
+    /**
+     * @return CRT_TIME
      */
     public Date getCrtTime() {
         return crtTime;
@@ -194,7 +258,7 @@ public class Menu {
     }
 
     /**
-     * @return crt_user
+     * @return CRT_USER
      */
     public String getCrtUser() {
         return crtUser;
@@ -208,7 +272,7 @@ public class Menu {
     }
 
     /**
-     * @return crt_name
+     * @return CRT_NAME
      */
     public String getCrtName() {
         return crtName;
@@ -222,7 +286,7 @@ public class Menu {
     }
 
     /**
-     * @return crt_host
+     * @return CRT_HOST
      */
     public String getCrtHost() {
         return crtHost;
@@ -236,7 +300,7 @@ public class Menu {
     }
 
     /**
-     * @return upd_time
+     * @return UPD_TIME
      */
     public Date getUpdTime() {
         return updTime;
@@ -250,7 +314,7 @@ public class Menu {
     }
 
     /**
-     * @return upd_user
+     * @return UPD_USER
      */
     public String getUpdUser() {
         return updUser;
@@ -264,7 +328,7 @@ public class Menu {
     }
 
     /**
-     * @return upd_name
+     * @return UPD_NAME
      */
     public String getUpdName() {
         return updName;
@@ -278,7 +342,7 @@ public class Menu {
     }
 
     /**
-     * @return upd_host
+     * @return UPD_HOST
      */
     public String getUpdHost() {
         return updHost;
@@ -292,7 +356,7 @@ public class Menu {
     }
 
     /**
-     * @return attr1
+     * @return ATTR1
      */
     public String getAttr1() {
         return attr1;
@@ -306,7 +370,7 @@ public class Menu {
     }
 
     /**
-     * @return attr2
+     * @return ATTR2
      */
     public String getAttr2() {
         return attr2;
@@ -320,7 +384,7 @@ public class Menu {
     }
 
     /**
-     * @return attr3
+     * @return ATTR3
      */
     public String getAttr3() {
         return attr3;
@@ -334,7 +398,7 @@ public class Menu {
     }
 
     /**
-     * @return attr4
+     * @return ATTR4
      */
     public String getAttr4() {
         return attr4;
@@ -348,7 +412,7 @@ public class Menu {
     }
 
     /**
-     * @return attr5
+     * @return ATTR5
      */
     public String getAttr5() {
         return attr5;
@@ -362,7 +426,7 @@ public class Menu {
     }
 
     /**
-     * @return attr6
+     * @return ATTR6
      */
     public String getAttr6() {
         return attr6;
@@ -376,7 +440,7 @@ public class Menu {
     }
 
     /**
-     * @return attr7
+     * @return ATTR7
      */
     public String getAttr7() {
         return attr7;
@@ -390,7 +454,7 @@ public class Menu {
     }
 
     /**
-     * @return attr8
+     * @return ATTR8
      */
     public String getAttr8() {
         return attr8;
@@ -401,19 +465,5 @@ public class Menu {
      */
     public void setAttr8(String attr8) {
         this.attr8 = attr8;
-    }
-
-    /**
-     * @return path
-     */
-    public String getPath() {
-        return path;
-    }
-
-    /**
-     * @param path
-     */
-    public void setPath(String path) {
-        this.path = path;
     }
 }
