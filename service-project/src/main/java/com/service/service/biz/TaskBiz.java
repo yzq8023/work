@@ -122,8 +122,8 @@ public class TaskBiz extends BaseBiz<TaskEntityMapper, TaskEntity> {
             // 创建初始提交
 //            initialCommit(taskEntity, addReadme, gitignore, useGitFlow);
 //            mapper.insertSelective(taskEntity);
-            Integer taskId = mapper.insert(taskEntity);
-
+//            Integer taskId = mapper.insert(taskEntity);
+            Integer taskId =  mapper.insertSelective(taskEntity);
             return taskEntity;
         } catch (GitBlitException e) {
             error(e.getMessage());

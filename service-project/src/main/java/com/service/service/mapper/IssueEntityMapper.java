@@ -20,4 +20,5 @@ public interface IssueEntityMapper extends Mapper<IssueEntity> {
     public void insertIssueLabelsById(@Param("issueId") Integer issueId, @Param("labelId") Integer labelId);
     public List<Integer> getJoinedUsersFromIssue(@Param("taskId") Integer taskId,@Param("issueId") Integer issueId);
     public void insertIssueUsersById(@Param("issueId") Integer issueId, @Param("userId") Integer userId);
+    public List<Integer> getIssueUserByIssueId(@Param("issueId") Integer issueId);
 }

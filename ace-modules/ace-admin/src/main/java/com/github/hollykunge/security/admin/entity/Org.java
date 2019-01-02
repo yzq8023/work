@@ -1,65 +1,79 @@
 package com.github.hollykunge.security.admin.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.math.BigDecimal;
 import java.util.Date;
-import javax.persistence.*;
 
-@Table(name = "base_org")
+@Table(name = "BASE_ORG")
 public class Org {
     @Id
+    @Column(name = "ID")
     private Integer id;
 
-    @Column(name = "org_name")
-    private String orgName;
+    @Column(name = "INNER_ID")
+    private String innerId;
 
-    @Column(name = "org_code")
+    @Column(name = "FC_FLAG")
+    private String fcFlag;
+
+    @Column(name = "XH")
+    private String xh;
+
+    @Column(name = "ORG_CODE")
     private String orgCode;
 
-    /**
-     * 父节点
-     */
-    @Column(name = "parent_id")
-    private Integer parentId;
+    @Column(name = "MD_CODE")
+    private String mdCode;
 
-    /**
-     * 类型
-     */
-    @Column(name = "org_type")
+    @Column(name = "ORG_NAME")
+    private String orgName;
+
+    @Column(name = "PARENT_ID")
+    private Long parentId;
+
+    @Column(name = "ORG_TYPE")
     private String orgType;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column(name = "crt_time")
-    private Date crtTime;
-
-    @Column(name = "crt_user")
+    @Column(name = "CRT_USER")
     private String crtUser;
 
-    @Column(name = "crt_name")
+    @Column(name = "CRT_NAME")
     private String crtName;
 
-    @Column(name = "crt_host")
+    @Column(name = "CRT_HOST")
     private String crtHost;
 
-    @Column(name = "upd_time")
-    private Date updTime;
+    @Column(name = "CRT_TIME")
+    private Date crtTime;
 
-    @Column(name = "upd_user")
+    @Column(name = "UPD_USER")
     private String updUser;
 
-    @Column(name = "upd_name")
+    @Column(name = "UPD_NAME")
     private String updName;
 
-    @Column(name = "upd_host")
+    @Column(name = "UPD_HOST")
     private String updHost;
 
+    @Column(name = "UPD_TIME")
+    private Date updTime;
+
+    @Column(name = "ATTR1")
     private String attr1;
 
+    @Column(name = "ATTR2")
     private String attr2;
 
+    @Column(name = "ATTR3")
     private String attr3;
 
     /**
-     * @return id
+     * @return ID
      */
     public Integer getId() {
         return id;
@@ -73,71 +87,119 @@ public class Org {
     }
 
     /**
-     * @return orgName
+     * @return INNER_ID
      */
-    public String getOrgname() {
-        return orgName;
+    public String getInnerId() {
+        return innerId;
     }
 
     /**
-     * @param orgName
+     * @param innerId
      */
-    public void setOrgname(String orgName) {
-        this.orgName = orgName;
+    public void setInnerId(String innerId) {
+        this.innerId = innerId;
     }
 
     /**
-     * @return orgCode
+     * @return FC_FLAG
      */
-    public String getOrgcode() {
+    public String getFcFlag() {
+        return fcFlag;
+    }
+
+    /**
+     * @param fcFlag
+     */
+    public void setFcFlag(String fcFlag) {
+        this.fcFlag = fcFlag;
+    }
+
+    /**
+     * @return XH
+     */
+    public String getXh() {
+        return xh;
+    }
+
+    /**
+     * @param xh
+     */
+    public void setXh(String xh) {
+        this.xh = xh;
+    }
+
+    /**
+     * @return ORG_CODE
+     */
+    public String getOrgCode() {
         return orgCode;
     }
 
     /**
      * @param orgCode
      */
-    public void setOrgcode(String orgCode) {
+    public void setOrgCode(String orgCode) {
         this.orgCode = orgCode;
     }
 
     /**
-     * 获取父节点
-     *
-     * @return parentId - 父节点
+     * @return MD_CODE
      */
-    public Integer getParentid() {
+    public String getMdCode() {
+        return mdCode;
+    }
+
+    /**
+     * @param mdCode
+     */
+    public void setMdCode(String mdCode) {
+        this.mdCode = mdCode;
+    }
+
+    /**
+     * @return ORG_NAME
+     */
+    public String getOrgName() {
+        return orgName;
+    }
+
+    /**
+     * @param orgName
+     */
+    public void setOrgName(String orgName) {
+        this.orgName = orgName;
+    }
+
+    /**
+     * @return PARENT_ID
+     */
+    public Long getParentId() {
         return parentId;
     }
 
     /**
-     * 设置父节点
-     *
-     * @param parentId 父节点
+     * @param parentId
      */
-    public void setParentid(Integer parentId) {
+    public void setParentId(Long parentId) {
         this.parentId = parentId;
     }
 
     /**
-     * 获取类型
-     *
-     * @return orgType - 类型
+     * @return ORG_TYPE
      */
-    public String getOrgtype() {
+    public String getOrgType() {
         return orgType;
     }
 
     /**
-     * 设置类型
-     *
-     * @param orgType 类型
+     * @param orgType
      */
-    public void setOrgtype(String orgType) {
+    public void setOrgType(String orgType) {
         this.orgType = orgType;
     }
 
     /**
-     * @return description
+     * @return DESCRIPTION
      */
     public String getDescription() {
         return description;
@@ -151,21 +213,7 @@ public class Org {
     }
 
     /**
-     * @return crt_time
-     */
-    public Date getCrtTime() {
-        return crtTime;
-    }
-
-    /**
-     * @param crtTime
-     */
-    public void setCrtTime(Date crtTime) {
-        this.crtTime = crtTime;
-    }
-
-    /**
-     * @return crt_user
+     * @return CRT_USER
      */
     public String getCrtUser() {
         return crtUser;
@@ -179,7 +227,7 @@ public class Org {
     }
 
     /**
-     * @return crt_name
+     * @return CRT_NAME
      */
     public String getCrtName() {
         return crtName;
@@ -193,7 +241,7 @@ public class Org {
     }
 
     /**
-     * @return crt_host
+     * @return CRT_HOST
      */
     public String getCrtHost() {
         return crtHost;
@@ -207,21 +255,21 @@ public class Org {
     }
 
     /**
-     * @return upd_time
+     * @return CRT_TIME
      */
-    public Date getUpdTime() {
-        return updTime;
+    public Date getCrtTime() {
+        return crtTime;
     }
 
     /**
-     * @param updTime
+     * @param crtTime
      */
-    public void setUpdTime(Date updTime) {
-        this.updTime = updTime;
+    public void setCrtTime(Date crtTime) {
+        this.crtTime = crtTime;
     }
 
     /**
-     * @return upd_user
+     * @return UPD_USER
      */
     public String getUpdUser() {
         return updUser;
@@ -235,7 +283,7 @@ public class Org {
     }
 
     /**
-     * @return upd_name
+     * @return UPD_NAME
      */
     public String getUpdName() {
         return updName;
@@ -249,7 +297,7 @@ public class Org {
     }
 
     /**
-     * @return upd_host
+     * @return UPD_HOST
      */
     public String getUpdHost() {
         return updHost;
@@ -263,7 +311,21 @@ public class Org {
     }
 
     /**
-     * @return attr1
+     * @return UPD_TIME
+     */
+    public Date getUpdTime() {
+        return updTime;
+    }
+
+    /**
+     * @param updTime
+     */
+    public void setUpdTime(Date updTime) {
+        this.updTime = updTime;
+    }
+
+    /**
+     * @return ATTR1
      */
     public String getAttr1() {
         return attr1;
@@ -277,7 +339,7 @@ public class Org {
     }
 
     /**
-     * @return attr2
+     * @return ATTR2
      */
     public String getAttr2() {
         return attr2;
@@ -291,7 +353,7 @@ public class Org {
     }
 
     /**
-     * @return attr3
+     * @return ATTR3
      */
     public String getAttr3() {
         return attr3;

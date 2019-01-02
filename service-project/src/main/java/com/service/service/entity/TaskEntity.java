@@ -132,6 +132,7 @@ public class TaskEntity implements Serializable, Comparable<TaskEntity> {
     /**
      * 大小
      */
+    @Column(name = "task_size")
     private String size;
 
     /**

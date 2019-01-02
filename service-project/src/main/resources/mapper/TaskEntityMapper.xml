@@ -30,7 +30,7 @@
     <result column="upd_name" property="updName" jdbcType="VARCHAR" />
     <result column="upd_host" property="updHost" jdbcType="VARCHAR" />
     <result column="default_branch" property="defaultBranch" jdbcType="VARCHAR" />
-    <result column="size" property="size" jdbcType="VARCHAR" />
+    <result column="task_size" property="task_size" jdbcType="VARCHAR" />
     <result column="num_watches" property="numWatches" jdbcType="VARCHAR" />
     <result column="num_stars" property="numStars" jdbcType="INTEGER" />
     <result column="num_forks" property="numForks" jdbcType="INTEGER" />
@@ -79,7 +79,7 @@
     <result column="upd_name" property="updName" jdbcType="VARCHAR" />
     <result column="upd_host" property="updHost" jdbcType="VARCHAR" />
     <result column="default_branch" property="defaultBranch" jdbcType="VARCHAR" />
-    <result column="size" property="size" jdbcType="VARCHAR" />
+    <result column="task_size" property="task_size" jdbcType="VARCHAR" />
     <result column="num_watches" property="numWatches" jdbcType="VARCHAR" />
     <result column="num_stars" property="numStars" jdbcType="INTEGER" />
     <result column="num_forks" property="numForks" jdbcType="INTEGER" />
@@ -101,6 +101,19 @@
     <result column="task_is_leaf" property="taskIsLeaf" jdbcType="BINARY" />
       <result column="status" property="status" jdbcType="VARCHAR" />
   </resultMap>
+
+  <sql id="Base_Column_List">
+    task_id, task_creator_id, task_des, task_executor_id, task_name,
+    task_parent_id, task_plan_end, task_process, task_project_name, task_project_id,
+    task_resource_id, task_state, task_time_end, task_time_start,
+    task_type, crt_name, crt_user, crt_host,
+    crt_time, upd_time, upd_user,upd_name, upd_host,
+    default_branch,task_size,num_watches,num_stars,num_forks,num_issues,num_closed_issues,
+    num_pulls,num_closed_pulls,num_milestones,num_closed_milestones,enable_issues,
+    allow_public_issues,is_fork,head,merge_to,project_path,
+    access_restriction,authorization_control,task_is_leaf
+  </sql>
+
   <insert id="insertTaskTeamsById">
       insert into team_repo (
       task_id,team_id

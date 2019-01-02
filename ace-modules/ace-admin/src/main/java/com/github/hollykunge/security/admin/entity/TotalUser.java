@@ -6,8 +6,8 @@ import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Table(name = "BASE_USER")
-public class User {
+@Table(name = "TOTAL_USER")
+public class TotalUser {
     @Id
     @Column(name = "ID")
     private Integer id;

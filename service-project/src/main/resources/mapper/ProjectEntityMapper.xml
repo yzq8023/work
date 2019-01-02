@@ -21,7 +21,7 @@
         <result column="project_type" property="projectType" jdbcType="TINYINT"/>
         <result column="project_user_id" property="projectUserId" jdbcType="INTEGER"/>
         <result column="default_branch" property="defaultBranch" jdbcType="VARCHAR"/>
-        <result column="size" property="size" jdbcType="BIGINT"/>
+        <result column="project_size" property="project_size" jdbcType="BIGINT"/>
         <result column="crt_name" property="crtName" jdbcType="VARCHAR"/>
         <result column="crt_user" property="crtUser" jdbcType="VARCHAR"/>
         <result column="crt_host" property="crtHost" jdbcType="VARCHAR"/>

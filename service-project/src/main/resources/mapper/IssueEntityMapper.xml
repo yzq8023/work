@@ -58,4 +58,8 @@
       #{issueId},#{userId}
       )
     </insert>
+    <select id="getIssueUserByIssueId" resultType="java.lang.Integer">
+        select iu.user_id from issue_user iu
+        where iu.issue_id = #{issueId}
+    </select>
 </mapper>

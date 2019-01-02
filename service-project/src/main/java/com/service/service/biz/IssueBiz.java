@@ -8,6 +8,7 @@ import com.service.service.mapper.IssueEntityMapper;
 import com.service.service.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,15 +41,21 @@ public class IssueBiz extends BaseBiz<IssueEntityMapper,IssueEntity> {
         }
     }
 
-    public List<UserInfo> getJoinedUsersFromIssue(Integer taskId,Integer issueId){
+    public List<UserInfo> getJoinedUsersFromIssue(Integer issueId,Integer taskId){
 
         List<Integer> userIds = mapper.getJoinedUsersFromIssue(taskId,issueId);
         List<UserInfo> userInfos = new ArrayList<>();
+        UserInfo userInfo = new UserInfo();
 
-        for(Integer userId:userIds){
-            mapper.insertIssueUsersById(issueId,userId);
-            UserInfo userInfo = userFeignClient.info(userId);
-            userInfos.add(userInfo);
+        if (taskId != null) {
+            List<Integer> issueUserByIssueId = mapper.getIssueUserByIssueId(issueId);
+                for(Integer userId:userIds){
+                    if(issueUserByIssueId .size() == 0){
+                        mapper.insertIssueUsersById(issueId,userId);
+                    }
+                    userInfo = userFeignClient.info(userId);
+                    userInfos.add(userInfo);
+                }
         }
         return userInfos;
     }

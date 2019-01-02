@@ -1,63 +1,81 @@
 package com.github.hollykunge.security.admin.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
-import javax.persistence.*;
 
-@Table(name = "base_element")
+@Table(name = "BASE_ELEMENT")
 public class Element {
     @Id
+    @Column(name = "ID")
     private Integer id;
 
+    @Column(name = "CODE")
     private String code;
 
+    @Column(name = "TYPE")
     private String type;
 
+    @Column(name = "NAME")
     private String name;
 
+    @Column(name = "URI")
     private String uri;
 
-    @Column(name = "menu_id")
+    @Column(name = "MENU_ID")
     private String menuId;
 
-    @Column(name = "parent_id")
+    @Column(name = "PARENT_ID")
     private String parentId;
 
+    @Column(name = "PATH")
     private String path;
 
+    @Column(name = "METHOD")
     private String method;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column(name = "crt_time")
+    @Column(name = "CRT_TIME")
     private Date crtTime;
 
-    @Column(name = "crt_user")
+    @Column(name = "CRT_USER")
     private String crtUser;
 
-    @Column(name = "crt_name")
+    @Column(name = "CRT_NAME")
     private String crtName;
 
-    @Column(name = "crt_host")
+    @Column(name = "CRT_HOST")
     private String crtHost;
 
+    @Column(name = "ATTR1")
     private String attr1;
 
+    @Column(name = "ATTR2")
     private String attr2;
 
+    @Column(name = "ATTR3")
     private String attr3;
 
+    @Column(name = "ATTR4")
     private String attr4;
 
+    @Column(name = "ATTR5")
     private String attr5;
 
+    @Column(name = "ATTR6")
     private String attr6;
 
+    @Column(name = "ATTR7")
     private String attr7;
 
+    @Column(name = "ATTR8")
     private String attr8;
 
     /**
-     * @return id
+     * @return ID
      */
     public Integer getId() {
         return id;
@@ -71,7 +89,7 @@ public class Element {
     }
 
     /**
-     * @return code
+     * @return CODE
      */
     public String getCode() {
         return code;
@@ -85,7 +103,7 @@ public class Element {
     }
 
     /**
-     * @return type
+     * @return TYPE
      */
     public String getType() {
         return type;
@@ -99,7 +117,7 @@ public class Element {
     }
 
     /**
-     * @return name
+     * @return NAME
      */
     public String getName() {
         return name;
@@ -113,7 +131,7 @@ public class Element {
     }
 
     /**
-     * @return uri
+     * @return URI
      */
     public String getUri() {
         return uri;
@@ -127,7 +145,7 @@ public class Element {
     }
 
     /**
-     * @return menu_id
+     * @return MENU_ID
      */
     public String getMenuId() {
         return menuId;
@@ -141,7 +159,7 @@ public class Element {
     }
 
     /**
-     * @return parent_id
+     * @return PARENT_ID
      */
     public String getParentId() {
         return parentId;
@@ -155,7 +173,7 @@ public class Element {
     }
 
     /**
-     * @return path
+     * @return PATH
      */
     public String getPath() {
         return path;
@@ -169,7 +187,7 @@ public class Element {
     }
 
     /**
-     * @return method
+     * @return METHOD
      */
     public String getMethod() {
         return method;
@@ -183,7 +201,7 @@ public class Element {
     }
 
     /**
-     * @return description
+     * @return DESCRIPTION
      */
     public String getDescription() {
         return description;
@@ -197,7 +215,7 @@ public class Element {
     }
 
     /**
-     * @return crt_time
+     * @return CRT_TIME
      */
     public Date getCrtTime() {
         return crtTime;
@@ -211,7 +229,7 @@ public class Element {
     }
 
     /**
-     * @return crt_user
+     * @return CRT_USER
      */
     public String getCrtUser() {
         return crtUser;
@@ -225,7 +243,7 @@ public class Element {
     }
 
     /**
-     * @return crt_name
+     * @return CRT_NAME
      */
     public String getCrtName() {
         return crtName;
@@ -239,7 +257,7 @@ public class Element {
     }
 
     /**
-     * @return crt_host
+     * @return CRT_HOST
      */
     public String getCrtHost() {
         return crtHost;
@@ -253,7 +271,7 @@ public class Element {
     }
 
     /**
-     * @return attr1
+     * @return ATTR1
      */
     public String getAttr1() {
         return attr1;
@@ -267,7 +285,7 @@ public class Element {
     }
 
     /**
-     * @return attr2
+     * @return ATTR2
      */
     public String getAttr2() {
         return attr2;
@@ -281,7 +299,7 @@ public class Element {
     }
 
     /**
-     * @return attr3
+     * @return ATTR3
      */
     public String getAttr3() {
         return attr3;
@@ -295,7 +313,7 @@ public class Element {
     }
 
     /**
-     * @return attr4
+     * @return ATTR4
      */
     public String getAttr4() {
         return attr4;
@@ -309,7 +327,7 @@ public class Element {
     }
 
     /**
-     * @return attr5
+     * @return ATTR5
      */
     public String getAttr5() {
         return attr5;
@@ -323,7 +341,7 @@ public class Element {
     }
 
     /**
-     * @return attr6
+     * @return ATTR6
      */
     public String getAttr6() {
         return attr6;
@@ -337,7 +355,7 @@ public class Element {
     }
 
     /**
-     * @return attr7
+     * @return ATTR7
      */
     public String getAttr7() {
         return attr7;
@@ -351,7 +369,7 @@ public class Element {
     }
 
     /**
-     * @return attr8
+     * @return ATTR8
      */
     public String getAttr8() {
         return attr8;
