@@ -42,6 +42,7 @@
         <module>service-search</module>
         <module>service-power</module>
         <module>service-score</module>
+        <module>service-talk</module>
     </modules>
     <packaging>pom</packaging>
     <developers>
