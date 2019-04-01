@@ -1,0 +1,787 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.casic.flatform.mapper.MessageMapper">
+	<resultMap id="PrivateMsgModel" type="com.casic.flatform.model.PrivateMsgModel">
+		<id column="msg_id" property="msgId" jdbcType="VARCHAR" />
+		<result column="msg_sender" property="msgSender" jdbcType="VARCHAR" />
+		<result column="senderName" property="senderName" jdbcType="VARCHAR" />
+		<result column="msg_receiver" property="msgReceiver" jdbcType="VARCHAR" />
+		<result column="receiverName" property="receiverName" jdbcType="VARCHAR" />
+		<result column="send_time" property="sendTime" />
+		<result column="receiver_time" property="receiverTime" />
+		<result column="is_read" property="isRead" jdbcType="VARCHAR" />
+		<result column="msg" property="msg" jdbcType="VARCHAR" />
+		<result column="msg_type" property="msgType" jdbcType="VARCHAR" />
+		<result column="is_delete" property="isDelete" jdbcType="VARCHAR" />
+		<result column="levels" property="levels" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="GroupMsgModel" type="com.casic.flatform.model.GroupMsgModel">
+		<id column="msg_id" property="msgId" jdbcType="VARCHAR" />
+		<result column="msg_sender" property="msgSender" jdbcType="VARCHAR" />
+		<result column="senderName" property="senderName" jdbcType="VARCHAR" />
+		<result column="msg_receiver" property="msgReceiver" jdbcType="VARCHAR" />
+		<result column="send_time" property="sendTime" />
+		<result column="msg" property="msg" jdbcType="VARCHAR" />
+		<result column="msg_type" property="msgType" jdbcType="VARCHAR" />
+		<result column="is_delete" property="isDelete" jdbcType="VARCHAR" />
+		<result column="levels" property="levels" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="SystemNotificationModel" type="com.casic.flatform.model.SystemNotificationModel">
+		<id column="notification_id" property="notificationId" jdbcType="VARCHAR" />
+		<result column="sender" property="sender" jdbcType="VARCHAR" />
+		<result column="send_time" property="sendTime" />
+		<result column="msg_title" property="msgTitle" jdbcType="VARCHAR" />
+		<result column="msg_type" property="msgType" jdbcType="VARCHAR" />
+		<result column="msg_content" property="msgContent" jdbcType="VARCHAR" />
+		<result column="is_delete" property="isDelete" jdbcType="VARCHAR" />
+		<result column="is_read" property="isRead" jdbcType="VARCHAR" />
+		<result column="receiver" property="receiver" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="TreeModel" type="com.casic.flatform.model.TreeModel">
+		<id column="NODE_ID" property="id" jdbcType="INTEGER" />
+		<result column="PID" property="pId" jdbcType="INTEGER" />
+		<result column="PNAME" property="name" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="ReModel" type="com.casic.flatform.model.ReModel">
+		<id column="reid" property="reId" jdbcType="VARCHAR" />
+		<result column="remsg" property="reMsg" jdbcType="VARCHAR" />
+		<result column="reperson" property="rePerson" jdbcType="VARCHAR" />
+		<result column="pid" property="pid" jdbcType="VARCHAR" />
+		<result column="retime" property="reTime" />
+		<result column="msgreceiver" property="msgReceiver" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="UserFileListModel" type="com.casic.flatform.model.ChatFileModel">
+		<id column="file_id" property="fileId" jdbcType="VARCHAR" />
+		<result column="file_name" property="fileName" jdbcType="VARCHAR" />
+		<result column="file_type" property="fileType" jdbcType="VARCHAR" />
+		<result column="file_ext" property="fileExt" jdbcType="VARCHAR" />
+		<result column="path" property="path" jdbcType="VARCHAR" />
+		<result column="read_path" property="readPath" jdbcType="VARCHAR" />
+		<result column="send_time" property="sendTime" />
+		<result column="sender" property="sender" jdbcType="VARCHAR" />
+		<result column="receiver" property="receiver" jdbcType="VARCHAR" />
+		<result column="receiverstr" property="receiverStr" jdbcType="VARCHAR" />
+		<result column="chat_type" property="chatType" jdbcType="VARCHAR" />
+		<result column="levels" property="levels" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="GroupFileModel" type="com.casic.flatform.model.GroupFileModel">
+		<id column="file_id" property="fileId" jdbcType="VARCHAR" />
+		<result column="file_name" property="fileName" jdbcType="VARCHAR" />
+		<result column="file_type" property="fileType" jdbcType="VARCHAR" />
+		<result column="file_ext" property="fileExt" jdbcType="VARCHAR" />
+		<result column="sizes" property="sizes" jdbcType="INTEGER" />
+		<result column="path" property="path" jdbcType="VARCHAR" />
+		<result column="read_path" property="readPath" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" />
+		<result column="creator" property="creator" jdbcType="INTEGER" />
+		<result column="creatorName" property="creatorName" jdbcType="INTEGER" />
+		<result column="update_time" property="updateTime" jdbcType="DATE" />
+		<result column="updator" property="updator" jdbcType="VARCHAR" />
+		<result column="updatorName" property="updatorName" jdbcType="VARCHAR" />
+		<result column="group_id" property="groupId" jdbcType="VARCHAR" />
+		<result column="levels" property="levels" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="Content" type="com.casic.flatform.model.Content">
+		<result column="MSG_TYPE" property="type" jdbcType="VARCHAR" />
+		<result column="MSG" property="content" jdbcType="VARCHAR" />
+		<result column="SEND_TIME" property="date"  />
+	</resultMap>
+
+	<resultMap id="msgout" type="com.casic.flatform.model.StatisticsModel">
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="num" property="num" jdbcType="INTEGER" />
+	</resultMap>
+
+	<resultMap id="reportdata" type="com.casic.flatform.model.ReportDataModel">
+		<result column="personalDiscuss" property="personalDiscuss" jdbcType="INTEGER" />
+		<result column="personalDiscussSum" property="personalDiscussSum" jdbcType="INTEGER" />
+		<result column="groupDiscuss" property="groupDiscuss" jdbcType="INTEGER" />
+		<result column="groupDiscussSum" property="groupDiscussSum" jdbcType="INTEGER" />
+		<result column="creatDiscuss" property="creatDiscuss" jdbcType="INTEGER" />
+		<result column="creatDiscussSum" property="creatDiscussSum" jdbcType="INTEGER" />
+		<result column="uploadfile" property="uploadfile" jdbcType="INTEGER" />
+		<result column="uploadfileSum" property="uploadfileSum" jdbcType="INTEGER" />
+		<result column="downloadfile" property="downloadfile" jdbcType="INTEGER" />
+		<result column="downloadfileSum" property="downloadfileSum" jdbcType="INTEGER" />
+		<result column="firstBlood" property="firstBlood" jdbcType="DATE" />
+		<result column="head" property="head" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="at" type="com.casic.flatform.model.ATModel">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="groupid" property="groupid" jdbcType="VARCHAR" />
+		<result column="receiverid" property="receiverid" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		msg_id, msg_sender, msg_receiver, send_time, receiver_time, is_read, msg, msg_type, is_delete
+	</sql>
+	
+	<!-- 获得树形结构的所有单位 -->
+	<select id="queryAllOrgTree"  resultMap="TreeModel">
+		SELECT * FROM PF_FILE_NODE t
+	</select>
+	
+	<!-- 分页获得文件信息-->
+<!-- 	<select id="queryFilePage" resultMap="FileModel"> -->
+<!-- 	select * from (select a1.*,rownum rn from ( -->
+<!-- 	select pfn.fileName, pf.* from pf_file pf LEFT JOIN pf_file_node pfn on pf.FILE_ID = pfn.FILE_ID where  -->
+<!-- 		 pf.FILE_ID in ( -->
+<!-- 		<foreach collection="fileList" item="file_id" index="index" separator=","> -->
+<!-- 			#{file_id} -->
+<!-- 		</foreach> -->
+<!-- 		) ) a1 where rownum <![CDATA[ <= ]]>#{rows}) where rn<![CDATA[ >= ]]> #{start} -->
+<!-- 	</select> -->
+	
+	<!-- 分页查询时获得文件总数 -->
+<!-- 	<select id="queryFilePageCount" resultType="int"> -->
+<!-- 		select count(1) from pf_file pf -->
+<!-- 		where 1=1 -->
+<!-- 			<if test="fileName != null and fileName != '' "> -->
+<!-- 				and pf.file_name like '%' || #{fileName} || '%' -->
+<!-- 			</if>	 -->
+<!-- 	</select> -->
+	
+	<!-- 获得所有私聊消息 -->
+	<select id="findRuPrivateMsg" resultMap="PrivateMsgModel">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM pf_hi_private_msg
+	</select>
+	
+	<!-- 移动私聊消息到历史表 -->
+	<insert id="movePrivateMsg" parameterType="map">
+		INSERT into pf_hi_private_msg SELECT * from pf_hi_private_msg where 1 = 1
+		<if test="msgSender == null or msgReceiver == null or endPage == null">
+			and is_read = '1'
+		</if>	
+		<if test="msgSender != null and msgReceiver != null and endPage != null">
+			and is_read <![CDATA[<>]]> '1' 
+			and msg_sender = #{msgSender} and msg_receiver = #{msgReceiver} 
+			ORDER BY send_time asc 
+		</if>
+	</insert>
+	
+	<!-- 删除已经移动到历史表中的私聊信息 -->
+	<delete id="removeRuPrivateMsg" parameterType="map">
+		DELETE from pf_hi_private_msg WHERE 1 = 1
+		<if test="msgSender == null or msgReceiver == null or endPage == null">
+			and is_read = '1'
+		</if>	
+		<if test="msgSender != null and msgReceiver != null and endPage != null">
+			and msg_id in (SELECT t.msg_id FROM (select msg_id from pf_hi_private_msg 
+			where is_read <![CDATA[<>]]> '1' 
+			and msg_sender = #{msgSender} and msg_receiver = #{msgReceiver} 
+			ORDER BY send_time asc 
+			) t )
+		</if>
+	</delete>
+	
+	<!-- 查询获得ru表中未读消息大于10的私聊对象组(使用is_read字段存储未读的总数) -->
+	<select id="findRuPrivateRedundant" parameterType="int" resultMap="PrivateMsgModel">
+	<![CDATA[
+		select msg_sender, msg_receiver, count(*) as is_read from pf_hi_private_msg 
+		where is_read <> '1' GROUP BY msg_sender, msg_receiver having COUNT(*) > #{count}
+	]]>
+	</select>
+	
+	<!-- 移动当天讨论组中的已读消息到历史表中 -->
+	<insert id="moveGroupMsg">
+		INSERT into pf_hi_group_msg 
+		SELECT
+			gm.msg_id,gm.msg_sender,gm.msg_receiver,gm.send_time,gm.msg,gm.msg_type,gm.msg_path,gm.is_delete,gm.is_important
+		FROM
+			pf_ru_group_msg gm
+		LEFT JOIN pf_user_group_ref ref ON gm.msg_receiver = ref.group_id
+		GROUP BY 
+			gm.msg_id,gm.msg_sender,gm.msg_receiver,gm.send_time,gm.msg,gm.msg_type,gm.msg_path,gm.is_delete,gm.is_important
+		HAVING gm.send_time &lt;= MIN(ref.end_time)
+	</insert>
+	
+	<!-- 移除当天表中的已读消息 -->
+	<delete id="removeGroupMsg">
+		DELETE FROM pf_hi_group_msg
+		WHERE msg_id IN (
+			SELECT t.msg_id
+			FROM (
+			SELECT
+				gm.msg_id, gm.send_time
+			FROM
+				pf_hi_group_msg gm
+			LEFT JOIN pf_user_group_ref ref ON gm.msg_receiver = ref.group_id
+			GROUP BY gm.msg_id, gm.send_time
+			HAVING gm.send_time &gt;= MIN(ref.end_time)) t
+		)
+	</delete>
+	
+	<!-- 查询未读消息超过10条的讨论组 -->
+	<select id="findRuGroupRedundant" parameterType="int" resultMap="GroupMsgModel">
+		SELECT msg_receiver, count(*) as msg
+		FROM pf_hi_group_msg
+		GROUP BY msg_receiver
+		HAVING COUNT(*) &gt; #{count}
+	</select>
+	
+	<!-- 移动讨论组中超过10条的未读消息到历史表中 -->
+	<insert id="moveGroupMsgMore10" parameterType="map">
+		INSERT into pf_hi_group_msg 
+		SELECT
+			gm.*
+		FROM
+			pf_hi_group_msg gm
+		WHERE gm.msg_receiver = #{msgReceiver}
+		ORDER BY gm.send_time ASC
+	</insert>
+	
+	<!-- 移除讨论组中超过10条的未读消息 -->
+	<delete id="removeGroupMsgMore10" parameterType="map">
+		DELETE FROM pf_hi_group_msg where msg_id in (
+			SELECT t.* 
+			FROM (
+				SELECT gm.msg_id
+				FROM pf_hi_group_msg gm
+				WHERE gm.msg_receiver = #{msgReceiver}
+				ORDER BY gm.send_time ASC ) t 
+		)
+	</delete>
+	
+	<!-- 查询讨论组ru消息 -->
+	<select id="groupRuMsg" resultMap="GroupMsgModel">
+		SELECT * FROM  ( SELECT A.*,ROWNUM RN  FROM (
+		SELECT rsm.*, sus.fullname as senderName,sus.head FROM pf_hi_group_msg rsm LEFT JOIN sys_user sus ON rsm.msg_sender = sus.userId
+		WHERE rsm.msg_receiver = #{systemId} ORDER BY rsm.send_time DESC 
+		)A  WHERE ROWNUM <![CDATA[ <= ]]> #{row} ) WHERE RN <![CDATA[ >= ]]> #{start}
+	</select>
+	
+	<!-- 查询讨论组ru消息 -->
+	<select id="queryAllHisGroupMsg" resultMap="GroupMsgModel">
+		SELECT * FROM  pf_hi_group_msg hgm
+		WHERE hgm.msg_receiver = #{groupId} ORDER BY hgm.send_time DESC 
+		
+	</select>
+	
+	<!-- 查询私聊ru消息 -->
+	<select id="privateRuMsg" resultMap="PrivateMsgModel">
+		select A.* from (
+		SELECT rpm.*, su.fullname AS senderName,su.head, rownum rn FROM pf_hi_private_msg rpm LEFT JOIN sys_user su ON rpm.msg_sender = su.userId
+		WHERE (rpm.msg_sender = #{userId} AND rpm.msg_receiver = #{chatId})
+		OR (rpm.msg_sender = #{chatId} AND rpm.msg_receiver = #{userId}) ORDER BY rpm.send_time DESC 
+		)A where RN <![CDATA[ >= ]]> #{start} and rownum <![CDATA[ <= ]]>#{row}
+	</select>
+	
+	<!-- 更新系统信息已读\未读标识 -->
+	<update id="updateSysMsgFlag" parameterType="com.casic.flatform.model.SystemNotificationModel">
+		UPDATE pf_system_notification SET is_read = '0' where notification_id = #{notificationId,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 更新用户最后读取讨论组消息时间 -->
+	<update id="updateEndTime">
+		UPDATE pf_user_group_ref ref
+		SET ref.end_time = (
+			SELECT MAX(msg.send_time)
+			FROM pf_hi_group_msg msg
+			WHERE msg.msg_id = #{msgId}
+		)
+		WHERE ref.group_id = #{groupId} AND ref.user_id = #{userId}
+	</update>
+	
+	<!-- 更新全部私聊消息为已读 -->
+	<update id="updateIsRead" parameterType="String">
+		UPDATE pf_hi_private_msg SET is_read = '1' ,receiver_time = sysdate
+		WHERE msg_sender = #{chatId} AND msg_receiver = #{userId} AND is_read <![CDATA[<>]]> '1'
+	</update>
+	
+	<!-- 获得最近联系人的未读消息组 -->
+	<select id="latelyNotRead" resultType="Map" parameterType="String">
+		<![CDATA[
+		SELECT t.id, t.count, lin.type 
+		from ((select pm.msg_sender as id, count(*) as count from pf_hi_private_msg pm 
+		   where pm.msg_receiver = #{userId} and pm.is_read <> '1' and pm.msg_sender <> #{userId}  GROUP BY pm.msg_sender) union ALL 
+		(select gm.msg_receiver as id, count(*) as count from pf_hi_group_msg gm 
+		   LEFT JOIN pf_user_group_ref gr on gm.msg_receiver = gr.group_id and gr.user_id = #{userId} where gm.send_time > gr.end_time and gm.msg_sender <> #{userId}  group by gm.msg_receiver)) t 
+		JOIN pf_lately_linkman lin on lin.link_id = t.id where lin.user_id = #{userId}
+		]]>
+	</select>
+	
+	<!--获得用户列表的未读消息 -->
+	<select id="userNotRead" resultType="Map">
+		<![CDATA[
+		SELECT pm.msg_sender as id, COUNT(*) as count FROM pf_hi_private_msg pm WHERE pm.msg_receiver = #{userId} 
+		AND ( pm.is_read IS NULL OR pm.is_read = '0') and pm.msg_sender <> #{userId} GROUP BY pm.msg_sender
+		]]>
+	</select>
+	
+	<!-- 获得讨论组的未读消息 -->
+	<select id="groupNotRead" resultType="Map">
+		<![CDATA[
+		SELECT gm.msg_receiver as id, COUNT(*) as count 
+		from pf_hi_group_msg gm 
+		LEFT JOIN pf_user_group_ref ref on ref.group_id = gm.msg_receiver and ref.user_id = #{userId} 
+		where gm.send_time > ref.end_time and gm.msg_sender <> #{userId} GROUP BY gm.msg_receiver
+		]]>
+	</select>
+	
+	<!-- 保存聊天文件到数据库 -->
+	<insert id="saveFile">
+		INSERT INTO pf_chat_file (file_id, file_name, file_type, file_ext, path, read_path, send_time, sender, receiver, chat_type, levels) 
+		VALUES (#{fileId,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{fileType,jdbcType=VARCHAR}, #{fileExt,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{readPath,jdbcType=VARCHAR}, sysdate, #{sender,jdbcType=VARCHAR}, #{receiver,jdbcType=VARCHAR}, #{chatType,jdbcType=VARCHAR}, #{levels,jdbcType=VARCHAR})
+	</insert>
+	
+	<!-- 上传网络工具 -->
+	<insert id="saveTools">
+		INSERT INTO pf_tools_file (file_id, file_name, path, read_path, send_time, sender, classification,file_falg, 
+		version, use, note, isApprove, downc, leves, approver, state, grade, isregister) 
+		VALUES (#{fileId,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{readPath,jdbcType=VARCHAR}, 
+		sysdate, #{sender,jdbcType=VARCHAR}, #{classification,jdbcType=VARCHAR}, #{fileFalg,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR},
+		 #{use,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{isApprove,jdbcType=VARCHAR}, #{downc,jdbcType=VARCHAR}, 
+		 #{leves,jdbcType=VARCHAR}, #{approver,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR},
+		 #{isregister,jdbcType=VARCHAR})
+	</insert>
+	
+	<!-- 保存聊天文件到数据库 -->
+	<insert id="saveSystemMsg">
+		INSERT INTO pf_system_notification (notification_id, sender, send_time, msg_content) 
+		VALUES (#{notification_id}, #{sender}, sysdate, #{msg_content})
+	</insert>
+	
+	<!-- 查询私聊历史消息 -->
+	<select id="privateHiMsg" resultMap="PrivateMsgModel">
+		select * from (select a1.*,rownum rn from (
+		SELECT rpm.*, su.fullname as senderName
+		from pf_hi_private_msg rpm
+		LEFT JOIN sys_user su ON rpm.msg_sender = su.userId
+		WHERE (msg_sender = #{userId} AND msg_receiver = #{chatId})
+		OR (msg_sender = #{chatId} AND msg_receiver = #{userId})
+		<if test="content != null">
+			AND msg LIKE '%' || #{content} || '%'
+		</if>
+		<if test="startDate != null">
+			<![CDATA[ AND send_time > #{startDate} ]]>
+		</if>
+		<if test="endDate != null">
+			<![CDATA[ AND send_time < #{endDate} ]]>
+		</if>
+		ORDER BY rpm.send_time DESC
+		) a1 where rownum <![CDATA[ <= ]]>#{row}) where rn<![CDATA[ >= ]]> #{start} 
+	</select>
+	
+	<!-- 查询私聊历史消息总数 -->
+	<select id="privateHiMsgCount" resultType="int">
+		SELECT COUNT(*) FROM pf_hi_private_msg
+		WHERE (msg_sender = #{userId} AND msg_receiver = #{chatId})
+		OR (msg_sender = #{chatId} AND msg_receiver = #{userId})
+		<if test="content != null">
+			AND msg LIKE '%' || #{content} || '%'
+		</if>
+		<if test="startDate != null">
+			<![CDATA[ AND send_time > #{startDate} ]]>
+		</if>
+		<if test="endDate != null">
+			<![CDATA[ AND send_time < #{endDate} ]]>
+		</if>
+	</select>
+	
+	<!-- 查询讨论组历史消息 -->
+	<select id="groupHiMsg" resultMap="GroupMsgModel">
+		select * from (select a1.*,rownum rn from (
+		SELECT hgm. * , su.fullname as senderName
+		FROM  pf_hi_group_msg hgm
+		LEFT JOIN sys_user su ON hgm.msg_sender = su.userId
+		WHERE msg_receiver = #{chatId}
+		<if test="content != null">
+			AND msg LIKE  '%' || #{content} || '%'
+		</if>
+		<if test="startDate != null">
+			<![CDATA[ AND send_time > #{startDate} ]]>
+		</if>
+		<if test="endDate != null">
+			<![CDATA[ AND send_time < #{endDate} ]]>
+		</if>
+		ORDER BY hgm.send_time DESC
+		) a1 where rownum <![CDATA[ <= ]]>#{row}) where rn<![CDATA[ >= ]]> #{start}
+	</select>
+	
+	<!-- 查询讨论组历史消息总数 -->
+	<select id="groupHiMsgCount"  resultType="int">
+		SELECT COUNT(*) AS row_count
+		FROM pf_hi_group_msg
+		WHERE msg_receiver = #{chatId}
+		<if test="content != null">
+			AND msg LIKE '%' || #{content} ||'%'
+		</if>
+		<if test="startDate != null">
+			<![CDATA[ AND send_time > #{startDate} ]]>
+		</if>
+		<if test="endDate != null">
+			<![CDATA[ AND send_time < #{endDate} ]]>
+		</if>
+	</select>
+	
+	<!-- 保存一条讨论组消息 -->
+	<insert id="saveGroupMsg">
+		INSERT INTO pf_hi_group_msg (msg_id, msg_sender, msg_receiver, send_time, msg, msg_type)
+		VALUES (#{msg_id}, #{msgSender}, #{msgRecrvier}, sysdate, #{msg}, #{msgType})
+	</insert>
+	
+	<!-- 保存一条私聊消息 -->
+	<insert id="savePrivateMsg">
+		INSERT INTO pf_ru_private_msg (msg_id, msg_sender, msg_receiver, send_time, msg, msg_type)
+		VALUES (#{msg_id}, #{msgSender}, #{msgRecrvier}, sysdate, #{msg}, #{msgType})
+	</insert>
+	
+	<!-- 分页查询系统通知 -->
+	<select id="querySystemNotification" resultMap="SystemNotificationModel">
+		select * from (select a1.*,rownum rn from (SELECT t.*
+		FROM pf_system_notification t
+		WHERE (t.is_delete is null or t.is_delete <![CDATA[<>]]> 1)
+		<if test="startTime != null">
+			AND t.send_time <![CDATA[>]]> #{startTime}
+		</if>	
+		<if test="endTime != null">
+			AND t.send_time <![CDATA[<]]> #{endTime}
+		</if>	
+		<if test="title != null">
+			AND msg_title LIKE '%' || #{title} || '%'
+		</if>	
+		<if test="isRead != null">
+			AND t.is_read = #{isRead}
+		</if>
+		ORDER BY send_time DESC
+		) a1 where rownum <![CDATA[ <= ]]>#{row}) where rn<![CDATA[ >= ]]> #{start}
+	</select>
+	
+	<!-- 查询系统消息总数 -->
+	<select id="querySystemNotificationCount" resultType="int">
+		SELECT count(1)
+		FROM pf_system_notification t
+		WHERE (t.is_delete is null or t.is_delete <![CDATA[<>]]> 1)
+		<if test="startTime != null">
+			AND t.send_time <![CDATA[>]]> #{startTime}
+		</if>	
+		<if test="endTime != null">
+			AND t.send_time <![CDATA[<]]> #{endTime}
+		</if>	
+		<if test="title != null">
+			AND msg_title LIKE '%'|| #{title} || '%'
+		</if>	
+		<if test="isRead != null">
+			AND t.is_read = #{isRead}
+		</if>
+		<if test="userId != null">
+			AND t.receiver = #{userId}
+		</if>
+	</select>
+	
+	<!-- 保存一条系统提示 -->
+	<insert id="saveSystemNotification">
+		INSERT INTO pf_system_notification (notification_id, sender, send_time, msg_title, msg_type, msg_content, is_read, receiver)
+		VALUES (#{id}, #{sender}, SYSDATE, #{title}, #{type}, #{content}, #{isRead}, #{receiver})
+	</insert>
+	
+	<!-- 更新聊天文件列表 -->
+	<update id="updateChatFile">
+		UPDATE pf_chat_file SET read_path = #{readPath}, update_time = SYSDATE, updator = #{updator} WHERE file_id = #{fileId}
+	</update>
+	
+	<!-- 更新工具 -->
+	<update id="updateTools">
+		UPDATE pf_tools_file SET 
+		file_name = #{fileName,jdbcType=VARCHAR}, path = #{path,jdbcType=VARCHAR}, read_path = #{readPath,jdbcType=VARCHAR},
+		send_time = sysdate, sender = #{sender,jdbcType=VARCHAR}, classification = #{classification,jdbcType=VARCHAR}, 
+		approval = #{approval,jdbcType=VARCHAR}, approver = #{approver,jdbcType=VARCHAR}, version = #{version,jdbcType=VARCHAR}, 
+		use = #{use,jdbcType=VARCHAR}, note = #{note,jdbcType=VARCHAR}, isApprove = '0', leves = #{leves,jdbcType=VARCHAR}, 
+		state = #{state,jdbcType=VARCHAR}, grade = ''
+		WHERE file_id = #{fileId}
+	</update>
+	
+	<!-- 通过文件id获得聊天文件信息 -->
+	<select id="queryFileById" resultType="String">
+		select path from pf_chat_file where file_id = #{fileId}
+	</select>
+	
+	<!-- 通过文件id获得聊天文件信息（组） -->
+	<select id="qgFlie" resultType="String">
+		select path from pf_user_group_file where file_id = #{fileId}
+	</select>
+	
+	<!-- 获得聊天文件信息 -->
+	<select id="queryFile" resultType="String">
+		select path from pf_chat_file where file_id = #{fileId}
+	</select>
+	
+	<!-- 分页查询私聊消息 -->
+	<select id="queryPrivateMsg" resultMap="PrivateMsgModel" parameterType="Map">
+		select * from (select a1.*,rownum rn from (select phpm.*, su1.fullname as senderName, su2.fullname as receiverName
+		from pf_hi_private_msg phpm left join sys_user su1 on phpm.msg_sender = su1.userId
+			left join sys_user su2 on phpm.msg_receiver = su2.userId
+		where 1=1 
+			<if test="msg != null and msg != '' ">
+				AND phpm.msg like '%' || #{msg} || '%'
+			</if>
+			<if test="endTime != null">
+				AND phpm.send_time <![CDATA[>]]> #{endTime}
+			</if>
+			<if test="startTime != null">
+				AND phpm.send_time <![CDATA[>]]> #{startTime}
+			</if>
+			<if test="sendUser != null and sendUser != '' ">
+				AND su1.fullname like '%'|| #{sendUser}|| '%'
+			</if>
+			<if test="receiverUser != null and receiverUser != '' ">
+				AND su2.fullname like '%'|| #{receiverUser}|| '%'
+			</if>
+		ORDER BY phpm.send_time DESC
+		) a1 where rownum <![CDATA[ <= ]]>#{rows}) where rn<![CDATA[ >= ]]> #{start}
+	</select>
+	
+	<!-- 分页查询时获得总数 -->
+	<select id="queryPrivateMsgCount" resultType="int">
+		select count(1)
+		from pf_hi_private_msg phpm left join sys_user su1 on phpm.msg_sender = su1.userId
+			left join sys_user su2 on phpm.msg_receiver = su2.userId
+		where 1=1 
+			<if test="msg != null and msg != '' ">
+				AND phpm.msg like '%' ||  #{msg} || '%'
+			</if>
+			<if test="endTime != null">
+				AND phpm.send_time <![CDATA[>]]> #{endTime}
+			</if>
+			<if test="startTime != null">
+				AND phpm.send_time <![CDATA[>]]> #{startTime}
+			</if>
+			<if test="sendUser != null and sendUser != '' ">
+				AND su1.fullname like '%' || #{sendUser} || '%'
+			</if>
+			<if test="receiverUser != null and receiverUser != '' ">
+				AND su2.fullname like '%' || #{receiverUser} || '%'
+			</if>
+	</select>
+	
+	<!-- 保存回复信息 -->
+	<insert id="addReMsg">
+		INSERT INTO pf_re_msg (reId, reMsg, rePerson, pid, msgReceiver) 
+		VALUES (#{reId,jdbcType=VARCHAR}, #{reMsg,jdbcType=VARCHAR}, #{rePerson,jdbcType=VARCHAR}, #{pid,jdbcType=INTEGER}, #{msgReceiver,jdbcType=INTEGER})
+	</insert>
+	
+	<!-- 获取回复信息 -->
+	<select id="queryReMsg" resultMap="ReModel">
+		SELECT * FROM  pf_re_msg order by retime asc
+	</select>
+
+	<!--查询私人信息总数-->
+	<select id="queryPrivateUserMessage" parameterType="com.casic.flatform.model.PrivateMsgModel" resultType="int">
+		  select count(*) from pf_hi_private_msg  where 1=1
+		  <if test="msgSender !=null and msgSender != ''">
+			  and msg_sender = #{msgSender}
+		  </if>
+		  <if test="msgReceiver != null and msgReceiver !=''">
+			  and msg_receiver = #{msgReceiver}
+		  </if>
+		  <if test="isRead != null and isRead != ''">
+			  and is_read = #{isRead}
+		  </if>
+	</select>
+	
+	<!-- 获取个人文件信息 -->
+	<select id="queryUList" resultMap="UserFileListModel">
+		SELECT * FROM  
+		(  
+		SELECT A.*, ROWNUM RN  
+		FROM (SELECT t.* FROM pf_chat_file t
+		WHERE t.file_id is not null
+		<if test="fileName != null and fileName != ''">
+			AND t.file_name like '%' || #{fileName} || '%'
+		</if>
+		<if test="sendUser != null and sendUser != ''">
+			AND t.sender = #{sendUser}
+		</if>
+		<if test="fileLevels != null and fileLevels != ''">
+			AND t.levels = #{fileLevels}
+		</if>
+		 order by t.send_time desc
+		) A  
+		WHERE ROWNUM <![CDATA[ <= ]]> #{row}  
+		)  
+		WHERE RN<![CDATA[ >= ]]> #{start}
+	</select>
+	
+	<!-- 获取个人文件数量 -->
+	<select id="queryUCount" resultType="int">
+		SELECT count(1)
+		FROM pf_chat_file t
+		WHERE t.file_id is not null
+		<if test="fileName != null and fileName != ''">
+			AND t.file_name like '%' || #{fileName} || '%'
+		</if>
+		<if test="sendUser != null and sendUser != ''">
+			AND t.sender = #{sendUser}
+		</if>
+		<if test="fileLevels != null and fileLevels != ''">
+			AND t.levels = #{fileLevels}
+		</if>
+		 order by t.send_time desc
+	</select>
+	
+	
+<!-- 		<id column="file_id" property="fileId" jdbcType="VARCHAR" /> -->
+<!-- 		<result column="file_name" property="fileName" jdbcType="VARCHAR" /> -->
+<!-- 		<result column="file_type" property="fileType" jdbcType="VARCHAR" /> -->
+<!-- 		<result column="file_ext" property="fileExt" jdbcType="VARCHAR" /> -->
+<!-- 		<result column="sizes" property="sizes" jdbcType="INTEGER" /> -->
+<!-- 		<result column="path" property="path" jdbcType="VARCHAR" /> -->
+<!-- 		<result column="read_path" property="readPath" jdbcType="VARCHAR" /> -->
+<!-- 		<result column="create_time" property="createTime" /> -->
+<!-- 		<result column="creator" property="creator" jdbcType="INTEGER" /> -->
+<!-- 		<result column="creatorName" property="creatorName" jdbcType="INTEGER" /> -->
+<!-- 		<result column="update_time" property="updateTime" jdbcType="DATE" /> -->
+<!-- 		<result column="updator" property="updator" jdbcType="VARCHAR" /> -->
+<!-- 		<result column="updatorName" property="updatorName" jdbcType="VARCHAR" /> -->
+<!-- 		<result column="group_id" property="groupId" jdbcType="VARCHAR" /> -->
+<!-- 		<result column="levels" property="levels" jdbcType="VARCHAR" /> -->
+	<!-- 获取个人文件信息 -->
+	<select id="queryGList" resultMap="GroupFileModel">
+		SELECT * FROM  
+		(  
+		SELECT A.*, ROWNUM RN  
+		FROM (SELECT t.* FROM pf_user_group_file t
+		WHERE t.file_id is not null
+		<if test="fileName != null and fileName != ''">
+			AND t.file_name like '%' || #{fileName} || '%'
+		</if>
+		<if test="sendUser != null and sendUser != ''">
+			AND t.creator = #{sendUser}
+		</if>
+		<if test="fileLevels != null and fileLevels != ''">
+			AND t.levels = #{fileLevels}
+		</if>
+		 order by t.create_time desc
+		) A  
+		WHERE ROWNUM <![CDATA[ <= ]]> #{row}  
+		)  
+		WHERE RN<![CDATA[ >= ]]> #{start}
+	</select>
+	
+	<!-- 获取个人文件数量 -->
+	<select id="queryGCount" resultType="int">
+		SELECT count(1)
+		FROM pf_user_group_file t
+		WHERE t.file_id is not null
+		<if test="fileName != null and fileName != ''">
+			AND t.file_name like '%' || #{fileName} || '%'
+		</if>
+		<if test="sendUser != null and sendUser != ''">
+			AND t.creator = #{sendUser}
+		</if>
+		<if test="fileLevels != null and fileLevels != ''">
+			AND t.levels = #{fileLevels}
+		</if>
+		 order by t.create_time desc
+	</select>
+
+	<!-- 根据ID，获取所有人聊天数量 -->
+	<select id="queryMsgCount" resultMap="msgout" parameterType="string">
+		select t.msg_receiver AS content,count(*) as num from PF_HI_PRIVATE_MSG t where t.msg_sender = #{sender,jdbcType=VARCHAR} group by  t.msg_receiver
+	</select>
+	<!-- 根据ID，获取交换文件数量 -->
+	<select id="queryMsgFileCount" resultType="int" parameterType="string">
+		select count(*) from PF_CHAT_FILE t where t.sender = #{sender,jdbcType=VARCHAR}  and t.receiver = #{receiver,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 根据ID，两个人的聊天内容 -->
+	<select id="queryMsgContent" resultMap="Content" parameterType="string">
+		select t.msg_type,t.msg,t.send_time from PF_HI_PRIVATE_MSG t where
+		t.msg_sender =  #{sender,jdbcType=VARCHAR}  and
+		t.msg_receiver = #{receiver,jdbcType=VARCHAR}
+	</select>
+
+	<!--个人-个人研讨（发言次数）-->
+	<!--个人-群研讨（发言次数）-->
+	<!--创建研讨组-->
+	<!--个人上传文件-->
+	<!--个人下载文件-->
+	<!--n 个人数 total 总数-->
+	<!--select-->
+	<!--sum(case  when u.msg_sender = '10000025190000' then 1 else 0 end) n,-->
+	<!--sum(case  when u.msg_id is not null then 1 else 0 end) total-->
+	<!--from PF_HI_PRIVATE_MSG u union all select-->
+	<!--sum(case  when p.msg_sender = '10000025190000' then 1 else 0 end) n,-->
+	<!--sum(case  when p.msg_id is not null then 1 else 0 end) total-->
+	<!--from pf_hi_group_msg p union all select-->
+	<!--sum(case  when o.creator = '10000025190000' then 1 else 0 end) n,-->
+	<!--sum(case  when o.group_id is not null then 1 else 0 end) total-->
+	<!--from pf_user_group o union all select-->
+	<!--sum(case  when (l.creater = '10000025190000' and l.content like '%下载%') then 1 else 0 end) n,-->
+	<!--sum(case  when l.content like '%下载%' then 1 else 0 end) total-->
+	<!--from PF_LOG l union all select-->
+	<!--sum(case  when (s.creater = '10000025190000' and s.content like '%上传%') then 1 else 0 end) n,-->
+	<!--sum(case  when s.content like '%上传%' then 1 else 0 end) total-->
+	<!--from PF_LOG s-->
+	<select id="getReportData" resultMap="reportdata" parameterType="String">
+		select a.*, b.*,c.*,d.*,e.*,f.*,g.*,h.*,i.*,j.*,k.*,m.*
+		from (select count(*) as personalDiscuss from PF_HI_PRIVATE_MSG a where a.msg_sender = #{userid,jdbcType=VARCHAR})a,
+			 (select count(*) as personalDiscussSum from PF_HI_PRIVATE_MSG )b,
+			 (select count(*) as groupDiscuss from pf_hi_group_msg c where c.msg_sender = #{userid,jdbcType=VARCHAR})c,
+			 (select count(*) as groupDiscussSum from pf_hi_group_msg g)d,
+			 (select count(*) as creatDiscuss from pf_user_group e where e.creator =#{userid,jdbcType=VARCHAR})e,
+			 (select count(*) as creatDiscussSum from pf_user_group g)f,
+			 (select count(*) as uploadfile from PF_LOG s where s.creater = #{userid,jdbcType=VARCHAR} and s.content like '%上传%')g,
+			 (select count(*) as uploadfileSum from PF_LOG s where s.content like '%上传%')h,
+			 (select count(*) as downloadfile from PF_LOG l where l.creater = #{userid,jdbcType=VARCHAR} and l.content like '%下载%')i,
+			 (select count(*) as downloadfileSum from PF_LOG l where l.content like '%下载%')j,
+			 (select min(m.create_time) as firstBlood from PF_LOG m where m.creater = #{userid,jdbcType=VARCHAR})m,
+			 (select t.head from SYS_USER t where t.userid = #{userid,jdbcType=VARCHAR})k
+	</select>
+	
+	<!-- 获取被@人员 -->
+	<select id="getAtUser" resultMap="at">
+		select * from pf_at t where t.groupid = #{groupId,jdbcType=VARCHAR} and t.receiverid = #{userId,jdbcType=VARCHAR} 
+	</select>
+	
+	<!-- 插入被@人员 -->
+	<insert id="addAtUser">
+		INSERT INTO pf_at (id, groupid, receiverid) 
+		VALUES (#{id,jdbcType=VARCHAR}, #{groupid,jdbcType=VARCHAR}, #{receiverid,jdbcType=INTEGER})
+	</insert>
+	
+	<!-- 删除被@人员 -->
+	<delete id="delAtUser" parameterType="map">
+		DELETE FROM pf_at t where t.groupid = #{groupId,jdbcType=VARCHAR} and t.receiverid = #{userId,jdbcType=VARCHAR} 
+	</delete>
+	
+	<!-- 获取最近聊天历史消息(群组) -->
+	<select id="queryGroupHisMsgs" resultMap="GroupMsgModel">
+		SELECT * FROM  ( SELECT A.*,ROWNUM RN  FROM (
+		SELECT rsm.*, sus.fullname as senderName,sus.head FROM pf_hi_group_msg rsm LEFT JOIN sys_user sus ON rsm.msg_sender = sus.userId
+		WHERE rsm.msg_receiver = #{chatUserId} ORDER BY rsm.send_time DESC 
+		)A  WHERE ROWNUM <![CDATA[ <= ]]> #{row} ) WHERE RN <![CDATA[ >= ]]> #{start}
+	</select>
+	
+	<!-- 获取最近聊天历史消息数量(群组) -->
+	<select  id="queryGroupHisMsgsCount" resultType="int">
+		SELECT count(1) 
+		FROM pf_hi_group_msg rsm LEFT JOIN sys_user sus ON rsm.msg_sender = sus.userId
+		WHERE rsm.msg_receiver = #{chatUserId} ORDER BY rsm.send_time DESC 
+	</select>
+	
+	<!-- 获取最近聊天历史消息(私聊) -->
+	<select id="queryPrivateHisMsgs" resultMap="PrivateMsgModel">
+		SELECT * FROM  ( SELECT A.*,ROWNUM RN  FROM (
+		SELECT rsm.*, sus.fullname as senderName,sus.head FROM pf_hi_private_msg rsm LEFT JOIN sys_user sus ON rsm.msg_sender = sus.userId
+		WHERE rsm.msg_receiver = #{chatUserId} ORDER BY rsm.send_time DESC 
+		)A  WHERE ROWNUM <![CDATA[ <= ]]> #{row} ) WHERE RN <![CDATA[ >= ]]> #{start}
+	</select>
+	
+	<!-- 获取最近聊天历史消息数量(私聊) -->
+	<select  id="queryPrivateHisMsgsCount" resultType="int">
+		SELECT count(1) 
+		FROM pf_hi_private_msg rsm LEFT JOIN sys_user sus ON rsm.msg_sender = sus.userId
+		WHERE rsm.msg_receiver = #{chatUserId} ORDER BY rsm.send_time DESC 
+	</select>
+</mapper>

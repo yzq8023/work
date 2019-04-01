@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.casic.flatform.mapper.GroupMapper">
+	<resultMap id="UserModel" type="com.casic.flatform.model.UserModel">
+		<id column="userId" property="userId" jdbcType="VARCHAR" />
+		<result column="fullname" property="fullname" jdbcType="VARCHAR" />
+		<result column="account" property="account" jdbcType="VARCHAR" />
+	<!--<result column="password" property="password" jdbcType="VARCHAR" /> -->
+		<result column="isExpired" property="isExpired" jdbcType="INTEGER" />
+		<result column="isLock" property="isLock" jdbcType="INTEGER" />
+		<result column="createtime" property="createtime" jdbcType="DATE" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="roomid" property="roomid" jdbcType="VARCHAR" />
+		<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="VARCHAR" />
+		<result column="picture" property="picture" jdbcType="INTEGER" />
+		<result column="FROMTYPE" property="fromType" jdbcType="INTEGER" />
+		<result column="orgId" property="orgId" jdbcType="VARCHAR" />
+		<result column="orgSn" property="orgSn" jdbcType="VARCHAR" />
+		<result column="shortAccount" property="shortAccount" jdbcType="VARCHAR" />
+		<result column="isonline" property="isonline" jdbcType="VARCHAR" />
+		<result column="head" property="head" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="GroupInfoModel" type="com.casic.flatform.model.GroupInfoModel">
+		<id column="group_id" property="groupId" jdbcType="VARCHAR" />
+		<result column="group_name" property="groupName" jdbcType="VARCHAR" />
+		<result column="group_describe" property="groupDescribe" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" />
+		<result column="creator" property="creator" jdbcType="VARCHAR" />
+		<result column="creatorName" property="creatorName" jdbcType="VARCHAR" />
+		<result column="isdelete" property="isdelete" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="DATE" />
+		<result column="updator" property="updator" jdbcType="VARCHAR" />
+		<result column="people_count" property="peopleCount" jdbcType="INTEGER" />
+		<result column="isclose" property="isclose" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="GroupFileModel" type="com.casic.flatform.model.GroupFileModel">
+		<id column="file_id" property="fileId" jdbcType="VARCHAR" />
+		<result column="file_name" property="fileName" jdbcType="VARCHAR" />
+		<result column="file_type" property="fileType" jdbcType="VARCHAR" />
+		<result column="file_ext" property="fileExt" jdbcType="VARCHAR" />
+		<result column="sizes" property="sizes" jdbcType="INTEGER" />
+		<result column="path" property="path" jdbcType="VARCHAR" />
+		<result column="read_path" property="readPath" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" />
+		<result column="creator" property="creator" jdbcType="INTEGER" />
+		<result column="creatorName" property="creatorName" jdbcType="INTEGER" />
+		<result column="update_time" property="updateTime" jdbcType="DATE" />
+		<result column="updator" property="updator" jdbcType="VARCHAR" />
+		<result column="updatorName" property="updatorName" jdbcType="VARCHAR" />
+		<result column="group_id" property="groupId" jdbcType="VARCHAR" />
+		<result column="levels" property="levels" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="GroupMsgModel" type="com.casic.flatform.model.GroupMsgModel">
+		<id column="msg_id" property="msgId" jdbcType="VARCHAR" />
+		<result column="msg_sender" property="msgSender" jdbcType="VARCHAR" />
+		<result column="msg_receiver" property="msgReceiver" jdbcType="VARCHAR" />
+		<result column="send_time" property="sendTime" jdbcType="VARCHAR" />
+		<result column="msg" property="msg" jdbcType="INTEGER" />
+		<result column="msg_type" property="msgType" jdbcType="VARCHAR" />
+		<result column="msg_path" property="senderName" jdbcType="VARCHAR" />
+		<result column="is_delete" property="isDelete" />
+		<result column="is_important" property="isImportant" jdbcType="INTEGER" />
+		<result column="levels" property="levels" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="GroupUserRefModel" type="com.casic.flatform.model.GroupUserRefModel">
+		<result column="user_id" property="userId" jdbcType="VARCHAR" />
+		<result column="group_id" property="groupId" jdbcType="VARCHAR" />
+		<result column="enter_time" property="enterTime" jdbcType="DATE" />
+		<result column="end_time" property="endTime" jdbcType="DATE" />
+		<result column="creator" property="creator" jdbcType="VARCHAR" />
+		<result column="role" property="role" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="GroupModel" type="com.casic.flatform.model.GroupModel">
+		<result column="group_id" property="groupId" jdbcType="VARCHAR" />
+		<result column="group_name" property="groupName" jdbcType="VARCHAR" />
+		<result column="group_describe" property="groupDescribe" jdbcType="VARCHAR" />
+		<result column="isdelete" property="isdelete" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="DATE" />
+		<result column="creator" property="creator" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="DATE" />
+		<result column="updator" property="updator" jdbcType="VARCHAR" />
+		<result column="pname" property="pname" jdbcType="VARCHAR" />
+		<result column="isclose" property="isclose" jdbcType="VARCHAR" />
+		<result column="levels" property="levels" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="DateOut" type="com.casic.flatform.model.StatisticsModel">
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="num" property="num" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<!-- 获得讨论组成员 -->
+	<select id="queryGroupUser" resultMap="UserModel">
+		SELECT su.*, so.orgName as orgName FROM sys_user su JOIN pf_user_group_ref ugr ON su.userId = ugr.user_id
+		LEFT JOIN sys_org so ON so.orgId = su.orgId
+		WHERE ugr.group_id = #{groupId} and su.endFlag != '1' order by su.picture asc
+	</select>
+	
+	<!-- 获得重要信息 -->
+	<select id="queryImportantInfo" resultMap="GroupMsgModel">
+		SELECT * FROM pf_hi_group_msg where is_important = '1' and msg_receiver = #{groupId,jdbcType=VARCHAR} order by send_time desc
+	</select>
+	
+	<!-- 导出讨论组聊天信息 -->
+	<select id="queryGInfo" resultMap="GroupMsgModel">
+		SELECT * FROM pf_hi_group_msg where msg_receiver = #{groupId,jdbcType=VARCHAR}
+	</select>
+	
+<!-- 	PF_HI_GROUP_MSG -->
+
+	<!-- 获得讨论组 -->
+	<select id="queryGroup" resultMap="GroupModel">
+		SELECT * FROM pf_user_group
+	</select>
+	
+	<!-- 获得讨论组 -->
+	<select id="queryGroupInfoById" resultMap="GroupModel">
+		SELECT * FROM pf_user_group where group_id = #{receiver,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 获得讨论组信息 -->
+	<select id="queryGroupInfo" resultMap="GroupInfoModel">
+		SELECT gro.*, su.fullname as creatorName
+		FROM pf_user_group gro LEFT JOIN sys_user su ON gro.creator = su.userId WHERE group_id = #{groupId}
+	</select>
+	
+	<!-- 获得讨论组文件 -->
+	<select id="queryGroupFile" resultMap="GroupFileModel">
+		select A.* from (SELECT gf.*, su.fullname as creatorName ,rownum rn
+		FROM pf_user_group_file gf LEFT JOIN sys_user su ON gf.creator = su.userId 
+		WHERE gf.group_id = #{groupId} 
+		<if test='fileName != null and fileName!=""'>
+			and gf.file_name like '%' || #{fileName} || '%'
+		</if>
+		ORDER BY create_time DESC)A where RN <![CDATA[ >= ]]> #{start} and rownum <![CDATA[ <= ]]>#{end}
+	</select>
+	
+	<!-- 获得讨论组文件总数 -->
+	<select id="queryGroupFileCount" parameterType="String" resultType="int">
+		SELECT count(*)
+		FROM pf_user_group_file gf 
+		WHERE gf.group_id = #{groupId} 
+		<if test="fileName != null">
+			and gf.file_name like '%' || #{fileName} || '%'
+		</if>
+	</select>
+	
+	<!-- 保存讨论组文件 -->
+	<insert id="saveGroupFile">
+		INSERT INTO pf_user_group_file (file_id, file_name, file_type, file_ext, sizes, path, read_path, create_time, creator, update_time, updator, group_id,levels) 
+		VALUES (#{fileId,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{fileType,jdbcType=VARCHAR}, #{fileExt,jdbcType=VARCHAR}, #{sizes,jdbcType=INTEGER}, #{path,jdbcType=VARCHAR}, #{readPath,jdbcType=VARCHAR}, sysdate, #{creator,jdbcType=VARCHAR}, sysdate, #{updator,jdbcType=VARCHAR}, #{groupId,jdbcType=VARCHAR},#{levels,jdbcType=VARCHAR})
+	</insert>
+	
+	<!-- 新增讨论组 -->
+	<insert id="saveGroupInfo">
+		INSERT INTO pf_user_group (group_id, group_name, group_describe, isdelete, create_time, creator, update_time, updator, pname, scop, ispublic,levels,isclose)
+		VALUES (#{groupId,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR}, #{groupDescribe,jdbcType=VARCHAR}, #{isdelete,jdbcType=VARCHAR},  sysdate, #{creator,jdbcType=INTEGER}, sysdate, #{updator,jdbcType=VARCHAR}, #{pname,jdbcType=VARCHAR}, #{scop,jdbcType=VARCHAR}, #{ispublic,jdbcType=VARCHAR},#{levels,jdbcType=VARCHAR},#{isclose,jdbcType=VARCHAR})
+	</insert>
+	
+	<!-- 新增讨论组成员 -->
+	<insert id="saveGroupUser">
+		INSERT INTO pf_user_group_ref (user_id, group_id, enter_time, end_time, creator, role) VALUES 
+			(#{userId,jdbcType=VARCHAR}, #{groupId,jdbcType=VARCHAR}, sysdate, sysdate, #{creator,jdbcType=VARCHAR}, #{role,jdbcType=VARCHAR})
+	</insert>
+	
+	<!-- 删除讨论组成员 -->
+	<delete id="deleteGroupUser">
+		DELETE FROM pf_user_group_ref WHERE group_id = #{groupId} AND  user_id = #{userId}
+	</delete>
+	
+	<!-- 更新讨论组信息 -->
+	<update id="updateGroupInfo" parameterType="com.casic.flatform.model.GroupInfoModel">
+		UPDATE pf_user_group SET group_name = #{groupName}, group_describe = #{groupDescribe}, update_time = SYSDATE, updator = #{updator}
+		WHERE group_id = #{groupId}
+	</update>
+	
+	<!-- 添加为重要信息 -->
+	<update id="updateImportantFlag" parameterType="String">
+		UPDATE pf_hi_group_msg SET is_important = '1' where msg = #{meg,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 删除讨论组所有成员 -->
+	<delete id="deleteGroupAllUser" parameterType="String">
+		DELETE FROM pf_user_group_ref WHERE group_id = #{groupId}
+	</delete>
+	
+	<!-- 退出群组 -->
+	<delete id="outGroup" parameterType="String">
+		DELETE FROM pf_user_group_ref WHERE user_id = #{userId} AND group_id = #{groupId}
+	</delete>
+	
+	<!-- 删除讨论组文件 -->
+	<delete id="deleteGroupFile" parameterType="String">
+		DELETE FROM pf_user_group_file WHERE group_id = #{groupId} AND file_id = #{fileId}
+	</delete>
+	
+	<!-- 移除重要信息标记 -->
+	<update id="removeImportantInfo" parameterType="String">
+		UPDATE pf_hi_group_msg SET is_important = '0' where msg_id = #{msgId,jdbcType=VARCHAR} and msg like '%' || #{msg,jdbcType=VARCHAR} || '%'
+	</update>
+	
+	<!-- 逻辑删除讨论组 -->
+	<update id="deleteGroup" parameterType="String">
+		UPDATE pf_user_group SET isdelete = '1', update_time = sysdate, updator = #{updator,jdbcType=VARCHAR}
+		WHERE group_id = #{groupId}
+	</update>
+	
+	<!-- 删除讨论组的最近联系人列表 -->
+	<delete id="deleteGroupLatelyLinkman" parameterType="String">
+		DELETE FROM pf_lately_linkman WHERE link_id = #{groupId}
+	</delete>
+	
+	<!-- 通过文件id获得讨论组文件信息 -->
+	<select id="queryGroupFileById" resultMap="GroupFileModel" parameterType="String">
+		select * from pf_user_group_file where file_id = #{fileId}
+	</select>
+	
+	<!-- 更新聊天文件列表 -->
+	<update id="updateGroupFile" parameterType="String">
+		UPDATE pf_user_group_file SET read_path = #{readPath,jdbcType=VARCHAR}, update_time = sysdate, updator = #{updator,jdbcType=VARCHAR} WHERE file_id = #{fileId,jdbcType=VARCHAR}
+	</update>
+	
+	<!-- 获得所有讨论组 -->
+	<select id="queryAllGroup" resultMap="GroupInfoModel" parameterType="com.casic.flatform.model.GroupInfoModel">
+	<![CDATA[
+		select * from pf_user_group where isdelete <> '1'
+	]]>
+	</select>
+	
+	<!-- 分页获得讨论组-->
+	<select id="queryGroupPage" resultMap="GroupInfoModel">
+	select * from (select a1.*,rownum rn from (
+			  select pug.group_id,pug.GROUP_NAME,pug.GROUP_DESCRIBE, pug.CREATE_TIME,pug.CREATOR,pug.UPDATOR,pug.UPDATE_TIME,su.fullname as creatorName,
+          	  count(pugr.user_id) as people_count
+          	  from pf_user_group pug
+		      left join pf_user_group_ref pugr on pugr.group_id = pug.group_id
+		      left join  sys_user su  on pug.creator = su.userId
+			where 1=1 and pug.isdelete = '0'
+			<if test="groupName != null and groupName != '' ">
+				AND pug.group_name like '%' || #{groupName} || '%'
+			</if>	
+			<if test="startTime != null">
+				AND pug.create_time <![CDATA[>]]> #{startTime}
+			</if>	
+			<if test="endTime != null">
+				AND pug.create_time <![CDATA[<]]> #{endTime}
+			</if>	
+			<if test="isDelete != null and isDelete != '' ">
+				AND pug.isdelete = #{isDelete}
+			</if>	
+			group by pug.group_id ,su.fullname,pug.GROUP_NAME,pug.GROUP_DESCRIBE,pug.CREATE_TIME,pug.CREATOR,pug.UPDATOR,pug.UPDATE_TIME
+			order by pug.create_time desc
+			) a1 where rownum <![CDATA[ <= ]]>#{rows}) where rn<![CDATA[ >= ]]> #{start}
+	</select>
+	
+	<!-- 分页查询时获得总数 -->
+	<select id="queryGroupPageCount" resultType="int">
+		select count(1) from pf_user_group pug
+		where 1=1
+			<if test="groupName != null and groupName != '' ">
+				and pug.group_name like '%' || #{groupName} || '%'
+			</if>	
+			<if test="startTime != null">
+				AND pug.create_time <![CDATA[>]]> #{startTime}
+			</if>	
+			<if test="endTime != null">
+				AND pug.create_time <![CDATA[<]]> #{endTime}
+			</if>	
+			<if test="isDelete != null and isDelete != '' ">
+				AND pug.isdelete = #{isDelete}
+			</if>	
+	</select>
+	
+	<!-- 关闭讨论组  -->
+	<update id="closedGroup" parameterType="String">
+		UPDATE pf_user_group SET isclose = '1' where group_id = #{groupId,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 查询讨论组 -->
+	<select id="queryGroupByUserAndGroupName" parameterType="Map"  resultType="Map">
+		select gro.*, refs.enter_time ,u.userId
+        from pf_user_group gro JOIN pf_user_group_ref refs on gro.group_id = refs.group_id
+        left join sys_user u on refs.user_id = u.userid
+        where gro.isdelete <![CDATA[<>]]> '1' and refs.user_id = #{userId}
+        and gro.group_name like '%' || #{groupName} || '%'
+        order by gro.create_time desc
+	</select>
+
+	<!-- 获取讨论组密级 忠-->
+	<select id="queryGroupLevelsByGroupId" parameterType="String"  resultType="String">
+		select t.levels from pf_user_group t where group_id = #{groupid,jdbcType=VARCHAR}
+	</select>
+
+	<!--根据人员ID，查找最佳讨论组（消息最多）-->
+	<select id="queryGroupMsgByUserId" parameterType="String"  resultMap="DateOut">
+		select g.msg_receiver as content,count(*) as num from PF_USER_GROUP_REF t,pf_hi_group_msg g where t.user_id = #{userid,jdbcType=VARCHAR} and g.msg_receiver = t.group_id group by g.msg_receiver,g.msg_receiver order by num asc
+	</select>
+
+	<!-- 获得讨论组文件 -->
+	<select id="queryGroupFilenum" resultType="int">
+		select count(*) from PF_USER_GROUP_FILE t where t.group_id = #{groupid,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 全部群组消息 -->
+	<select id="groupMsgsList" resultMap="GroupMsgModel">
+		SELECT * FROM  
+		(  
+		SELECT A.*, ROWNUM RN  
+		FROM (SELECT t.* FROM pf_hi_group_msg t 
+		WHERE t.msg not like '%' || 'img-msg-div' || '%' and t.msg not like '%' || 'msg-office-div' || '%'
+		<if test="msgName != null and msgName != ''">
+			AND t.msg like '%' || #{msgName} || '%'
+		</if>        
+		<if test="sendUser != null and sendUser != ''">
+			AND t.msg_sender = #{sendUser}
+		</if>
+		<if test="msgLevels != null and msgLevels != ''">
+			AND t.levels = #{msgLevels}
+		</if>
+		 order by t.send_time desc
+		) A  
+		WHERE ROWNUM <![CDATA[ <= ]]> #{row}  
+		)  
+		WHERE RN<![CDATA[ >= ]]> #{start}
+	</select>
+	
+	<!-- 获取群组消息数量 -->
+	<select id="groupMsgsListCount" resultType="int">
+		SELECT count(1)
+		FROM pf_hi_group_msg t
+		WHERE t.msg_id is not null
+		<if test="msgName != null and msgName != ''">
+			AND t.msg like '%' || #{msgName} || '%'
+		</if>        
+		<if test="sendUser != null and sendUser != ''">
+			AND t.msg_sender = #{sendUser}
+		</if>
+		<if test="msgLevels != null and msgLevels != ''">
+			AND t.levels = #{msgLevels}
+		</if>
+		 order by t.send_time desc
+	</select>
+</mapper>
