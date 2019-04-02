@@ -1,67 +1,87 @@
 package com.github.hollykunge.security.auth.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.util.Date;
+import javax.persistence.*;
 
-@Table(name = "auth_client_service")
+@Table(name = "AUTH_CLIENT_SERVICE")
 public class ClientService {
     @Id
-    private Integer id;
+    @Column(name = "ID")
+    private Long id;
 
-    @Column(name = "service_id")
+    @Column(name = "SERVICE_ID")
     private String serviceId;
 
-    @Column(name = "client_id")
+    @Column(name = "CLIENT_ID")
     private String clientId;
 
+    @Column(name = "DESCRIPTION")
     private String description;
 
-    @Column(name = "crt_time")
+    @Column(name = "CRT_TIME")
     private Date crtTime;
 
-    @Column(name = "crt_user")
+    @Column(name = "CRT_USER")
     private String crtUser;
 
-    @Column(name = "crt_name")
+    @Column(name = "CRT_NAME")
     private String crtName;
 
-    @Column(name = "crt_host")
+    @Column(name = "CRT_HOST")
     private String crtHost;
 
+    @Column(name = "UPD_TIME")
+    private Date updTime;
+
+    @Column(name = "UPD_USER")
+    private String updUser;
+
+    @Column(name = "UPD_NAME")
+    private String updName;
+
+    @Column(name = "UPD_HOST")
+    private String updHost;
+
+    @Column(name = "ATTR1")
     private String attr1;
 
+    @Column(name = "ATTR2")
     private String attr2;
 
+    @Column(name = "ATTR3")
     private String attr3;
 
+    @Column(name = "ATTR4")
     private String attr4;
 
+    @Column(name = "ATTR5")
     private String attr5;
 
+    @Column(name = "ATTR6")
     private String attr6;
 
+    @Column(name = "ATTR7")
     private String attr7;
 
+    @Column(name = "ATTR8")
     private String attr8;
 
     /**
-     * @return id
+     * @return ID
      */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * @param id
      */
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
     /**
-     * @return service_id
+     * @return SERVICE_ID
      */
     public String getServiceId() {
         return serviceId;
@@ -75,7 +95,7 @@ public class ClientService {
     }
 
     /**
-     * @return client_id
+     * @return CLIENT_ID
      */
     public String getClientId() {
         return clientId;
@@ -89,7 +109,7 @@ public class ClientService {
     }
 
     /**
-     * @return description
+     * @return DESCRIPTION
      */
     public String getDescription() {
         return description;
@@ -103,7 +123,7 @@ public class ClientService {
     }
 
     /**
-     * @return crt_time
+     * @return CRT_TIME
      */
     public Date getCrtTime() {
         return crtTime;
@@ -117,7 +137,7 @@ public class ClientService {
     }
 
     /**
-     * @return crt_user
+     * @return CRT_USER
      */
     public String getCrtUser() {
         return crtUser;
@@ -131,7 +151,7 @@ public class ClientService {
     }
 
     /**
-     * @return crt_name
+     * @return CRT_NAME
      */
     public String getCrtName() {
         return crtName;
@@ -145,7 +165,7 @@ public class ClientService {
     }
 
     /**
-     * @return crt_host
+     * @return CRT_HOST
      */
     public String getCrtHost() {
         return crtHost;
@@ -159,7 +179,63 @@ public class ClientService {
     }
 
     /**
-     * @return attr1
+     * @return UPD_TIME
+     */
+    public Date getUpdTime() {
+        return updTime;
+    }
+
+    /**
+     * @param updTime
+     */
+    public void setUpdTime(Date updTime) {
+        this.updTime = updTime;
+    }
+
+    /**
+     * @return UPD_USER
+     */
+    public String getUpdUser() {
+        return updUser;
+    }
+
+    /**
+     * @param updUser
+     */
+    public void setUpdUser(String updUser) {
+        this.updUser = updUser;
+    }
+
+    /**
+     * @return UPD_NAME
+     */
+    public String getUpdName() {
+        return updName;
+    }
+
+    /**
+     * @param updName
+     */
+    public void setUpdName(String updName) {
+        this.updName = updName;
+    }
+
+    /**
+     * @return UPD_HOST
+     */
+    public String getUpdHost() {
+        return updHost;
+    }
+
+    /**
+     * @param updHost
+     */
+    public void setUpdHost(String updHost) {
+        this.updHost = updHost;
+    }
+
+    /**
+     * @return ATTR1
      */
     public String getAttr1() {
         return attr1;
@@ -173,7 +249,7 @@ public class ClientService {
     }
 
     /**
-     * @return attr2
+     * @return ATTR2
      */
     public String getAttr2() {
         return attr2;
@@ -187,7 +263,7 @@ public class ClientService {
     }
 
     /**
-     * @return attr3
+     * @return ATTR3
      */
     public String getAttr3() {
         return attr3;
@@ -201,7 +277,7 @@ public class ClientService {
     }
 
     /**
-     * @return attr4
+     * @return ATTR4
      */
     public String getAttr4() {
         return attr4;
@@ -215,7 +291,7 @@ public class ClientService {
     }
 
     /**
-     * @return attr5
+     * @return ATTR5
      */
     public String getAttr5() {
         return attr5;
@@ -229,7 +305,7 @@ public class ClientService {
     }
 
     /**
-     * @return attr6
+     * @return ATTR6
      */
     public String getAttr6() {
         return attr6;
@@ -243,7 +319,7 @@ public class ClientService {
     }
 
     /**
-     * @return attr7
+     * @return ATTR7
      */
     public String getAttr7() {
         return attr7;
@@ -257,7 +333,7 @@ public class ClientService {
     }
 
     /**
-     * @return attr8
+     * @return ATTR8
      */
     public String getAttr8() {
         return attr8;
